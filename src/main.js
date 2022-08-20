@@ -11,11 +11,13 @@ import App from './App'
 import store from './store'
 import router from './router'
 import directive from './directive' // directive
+import BootstrapIcon from '@dvuckovic/vue3-bootstrap-icons';
 
-
+import CKEditor from '@ckeditor/ckeditor5-vue';
 // 注册指令
 import plugins from './plugins' // plugins
 import { download } from '@/utils/request'
+import jquery from 'jquery'
 
 // svg图标
 import 'virtual:svg-icons-register'
@@ -54,6 +56,8 @@ app.config.globalProperties.addDateRange = addDateRange
 app.config.globalProperties.selectDictLabel = selectDictLabel
 app.config.globalProperties.selectDictLabels = selectDictLabels
 
+// app.config.globalProperties.$baseUrl= "http://localhost/dev-api"
+app.provide("$baseUrl","http://localhost/dev-api")
 // 全局组件挂载
 app.component('DictTag', DictTag)
 app.component('Pagination', Pagination)
@@ -62,14 +66,22 @@ app.component('FileUpload', FileUpload)
 app.component('ImageUpload', ImageUpload)
 app.component('ImagePreview', ImagePreview)
 app.component('RightToolbar', RightToolbar)
+app.component('BootstrapIcon', BootstrapIcon);
 
+
+app.use(CKEditor )
 app.use(router)
 app.use(store)
 app.use(plugins)
 app.use(elementIcons)
 app.component('svg-icon', SvgIcon)
 
+
 directive(app)
+
+// //引入jquery
+// const $ = require(jquery);
+// window.$ = $;
 
 // 使用element-plus 并且设置全局的大小
 app.use(ElementPlus, {
