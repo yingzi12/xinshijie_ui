@@ -38,8 +38,12 @@
             <el-option label="其他" value="4" />
           </el-select>
         </el-form-item>
-        <el-form-item label="简介" prop="description">
-          <el-input rows="20" v-model="ruleForm.description" type="textarea" />
+
+        <el-form-item label="简介" prop="intro">
+          <el-input rows="2" v-model="ruleForm.intro" type="textarea" />
+        </el-form-item>
+        <el-form-item label="描述" prop="description">
+          <el-input rows="10" v-model="ruleForm.description" type="textarea" />
         </el-form-item>
         <el-form-item>
           <el-button type="primary" @click="submitForm(ruleFormRef)">Create</el-button>
@@ -68,16 +72,19 @@ const data = reactive({
   ruleForm: {
   },
   rules: {
-    name: [{ required: true, message: 'Please input Activity name', trigger: 'blur' },
-      { min: 3, max: 5, message: 'Length should be 3 to 5', trigger: 'blur' }
+    name: [{ required: true, message: '请输入世界名字', trigger: 'blur' },
+      { min: 3, max: 80, message: 'Length should be 3 to 80', trigger: 'blur' }
     ],
     types: [{
       required: true,
-      message: 'Please select Activity zone',
+      message: '请选择世界类型',
       trigger: 'change',
     }
     ],
-    description: [ { required: true, message: 'Please input activity form', trigger: 'blur' }]
+    description: [ { required: true, message: '请输入世界描述', trigger: 'blur' },
+      { min: 10, max: 255, message: 'Length should be 10 to 255', trigger: 'blur' }],
+    intro: [ { required: true, message: '请输入世界简介', trigger: 'blur' },
+      { min: 10, max: 1000, message: 'Length should be 5 to 1000', trigger: 'blur' }]
   }
 });
 

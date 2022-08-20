@@ -9,8 +9,16 @@ export function listElement(query) {
   })
 }
 
+// // 查询元素详细
+// export function getElement(id) {
+//   return request({
+//     url: '/wiki/element/getInfo/' + id,
+//     method: 'get'
+//   })
+// }
+
 // 查询元素详细
-export function getElement(id) {
+export function getElementDetails(id) {
   return request({
     url: '/wiki/element/getInfo/' + id,
     method: 'get'

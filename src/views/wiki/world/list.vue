@@ -29,6 +29,7 @@
               </el-table-column>
               <el-table-column label="名称" prop="name" />
               <el-table-column label="类型" prop="types" />
+              <el-table-column label="简介" prop="intro" />
               <el-table-column label="创建人" prop="createName" />
               <el-table-column label="更新时间" prop="updateTime" sortable />
               <el-table-column align="right">
@@ -59,7 +60,7 @@ interface World {
   id: number
   name: string
   types: string
-  desc: string
+  intro: string
 }
 
 const data = reactive({

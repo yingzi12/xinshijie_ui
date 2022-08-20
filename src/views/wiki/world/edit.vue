@@ -37,11 +37,11 @@
             <el-option label="其他" value="3" key="3"/>
           </el-select>
         </el-form-item>
-        <el-form-item label="简 介" prop="description">
-          <el-input v-model="ruleForm.description" type="textarea" :placeholder="world.description"/>
+        <el-form-item label="简 介" prop="intro">
+          <el-input v-model="ruleForm.intro" type="textarea" :placeholder="world.intro"/>
         </el-form-item>
-        <el-form-item label="说 明" prop="intro">
-          <el-input v-model="ruleForm.intro" type="textarea"  :placeholder="world.intro"/>
+        <el-form-item label="描 述" prop="description">
+          <el-input v-model="ruleForm.description" type="textarea"  :placeholder="world.intro"/>
         </el-form-item>
         <el-form-item>
           <el-button type="primary" @click="submitForm(ruleFormRef)">Create</el-button>
@@ -79,9 +79,9 @@ const data = reactive({
       trigger: 'change',
     }
     ],
-    description: [ { required: true, message: '请输入世界简介', trigger: 'blur' },
+    description: [ { required: true, message: '请输入世界描述', trigger: 'blur' },
       { min: 10, max: 255, message: 'Length should be 10 to 255', trigger: 'blur' }],
-    intro: [ { required: true, message: '请输入世界说明', trigger: 'blur' },
+    intro: [ { required: true, message: '请输入世界简介', trigger: 'blur' },
       { min: 10, max: 1000, message: 'Length should be 5 to 1000', trigger: 'blur' }]
   }
 });
@@ -176,11 +176,4 @@ getWorld2(world.value.id);
   border-color: var(--el-color-primary);
 }
 
-.el-icon.avatar-uploader-icon {
-  font-size: 28px;
-  color: #8c939d;
-  width: 178px;
-  height: 178px;
-  text-align: center;
-}
 </style>

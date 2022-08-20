@@ -54,21 +54,8 @@
     <!--    简介区-->
     <div>
       <el-tabs v-model="worldActive" class="demo-tabs" @tab-click="handleClick">
-        <el-tab-pane label="简介" name="instro">
-          <div>
-            <span>Consistent with real life: in line with the process and logic of real
-          life, and comply with languages and habits that the users are used to;</span>
-            Consistent within interface: all elements should be consistent, such
-            <span> as: design style, icons and texts, position of elements, etc.
-          Consistent with real life: in line with the process and logic of real
-          life, and comply with languages and habits that the users are used to;</span>
-            <span> Consistent within interface: all elements should be consistent, such
-          as: design style, icons and texts, position of elements, etc.
-          Consistent with real life: in line with the process and logic of real</span>
-            <span>life, and comply with languages and habits that the users are used to;
-          Consistent within interface: all elements should be consistent, such</span>
-            <span> as: design style, icons and texts, position of elements, etc.</span>
-          </div>
+        <el-tab-pane label="描述" name="description">
+          <div v-html="world.description"></div>
         </el-tab-pane>
         <el-tab-pane label="元素" name="element">Config</el-tab-pane>
         <el-tab-pane label="造物主" name="message">
@@ -187,7 +174,7 @@ function getAllWorldManage(id:number) {
 }
 
 
-const worldActive = ref('instro')
+const worldActive = ref('description')
 
 const commentActive = ref('allComm')
 
