@@ -22,7 +22,7 @@
           <el-main>
             <h1>世界列表</h1>
             <el-table :data="filterTableData" style="width: 100%">
-              <el-table-column label="序号" >
+              <el-table-column label="序号" width="50px" >
                 <template #default="scope">
                    {{scope.$index+1}}
                 </template>
@@ -36,13 +36,9 @@
                   <el-input v-model="name" size="small" placeholder="Type to search" />
                 </template>
                 <template #default="scope">
-                  <el-button size="small" @click="handleSee(scope.row.id)" >{{ scope.row.id }}查看</el-button>
+                  <el-button size="small" @click="handleSee(scope.row.id)" >查看</el-button>
                   <el-button size="small" @click="handleEdit(scope.$index, scope.row)">Edit</el-button>
-                  <el-button
-                      size="small"
-                      type="danger"
-                      @click="handleDelete(scope.$index, scope.row)"
-                  >Delete</el-button>
+                  <el-button size="small" type="danger" @click="handleDelete(scope.$index, scope.row)">Delete</el-button>
                 </template>
               </el-table-column>
             </el-table>

@@ -18,44 +18,43 @@
           <el-col :span="16">
             <div>
               <div>
-                <h1 style="margin: 2px">测试</h1>
+                <h1 style="margin: 2px">{{ world.name }}</h1>
               </div>
-              <div style="margin-top: 5px">
+              <div style="margin-top: 5px" v-if="world.tags != null ">
                 <el-space wrap>
-                  <div v-for="i in 6" :key="i">
-                    <el-tag size="small" type="success">Tag 2</el-tag>
+                  <div v-for="tag in world.tags.split(';')" :key="i">
+                    <el-tag size="small" type="success">{{tag}}</el-tag>
                   </div>
                 </el-space>
               </div>
-              <div style="margin-top: 5px">
-                <span style="font-size:10px;color: #525457">更新时间:2020-11-11 11:22:43</span><el-tag style="font-size:10px;">银河舰队</el-tag>
+              <div style="margin-top: 5px" v-if="world.updateNewElementId != null">
+                <span style="font-size:10px;color: #525457">更新时间:<time>{{ world.updateNewElementTime }}</time></span><el-tag style="font-size:10px;">{{ world.updateNewElement }}</el-tag>
               </div>
               <div style="margin-top: 2px">
-                <p style="margin-top: 5px">2020年，画满了2本手绘本，用完了3管白颜料，数不清设计了多少稿。来到新年之交，将一年的作品整理打包，才发现，每一G文件都是这一年熬过的夜，加过的班；每一份飞机稿，都是这一年打过的小怪，升过的级。发布你的2020年度作品合</p>
+                <p style="margin-top: 5px">{{ world.intro }}</p>
               </div>
               <div style="margin-top: 2px;color:#A3A6AD">
-                <span><BootstrapIcon icon="chat-dots" size="1x" flip-v />20</span>
-                <span><BootstrapIcon icon="pencil-square" size="1x" flip-v />20</span>
-                <span><BootstrapIcon icon="hand-thumbs-up" size="1x" flip-v />10</span>
-                <span><BootstrapIcon icon="hand-thumbs-down" size="1x" flip-v />20</span>
+                <span><BootstrapIcon icon="chat-dots" size="1x" flip-v />{{world.countComment}}</span>
+                <span><BootstrapIcon icon="pencil-square" size="1x" flip-v />{{world.countEdit}}</span>
+                <span><BootstrapIcon icon="hand-thumbs-up" size="1x" flip-v />{{world.countLike}}</span>
+                <span><BootstrapIcon icon="eye" size="1x" flip-v />{{world.countSee}}</span>
               </div>
               <div style="margin-top: 2px">
-                <el-button type="primary">Primary</el-button>
-                <el-button type="primary">Primary</el-button>
-                <el-button type="primary">Primary</el-button>
-                <el-button type="primary">Primary</el-button>
+                <el-button type="primary">关注</el-button>
+                <el-button type="primary">点赞</el-button>
               </div>
             </div>
           </el-col>
-          <el-col :span="4">
+          <el-col :span="4" >
+            <el-button type="primary" style="float:right;">举报</el-button>
           </el-col>
         </el-row>
       </div>
     </div>
     <!--    简介区-->
     <div>
-      <el-tabs v-model="activeName" class="demo-tabs" @tab-click="handleClick">
-        <el-tab-pane label="简介" name="first">
+      <el-tabs v-model="worldActive" class="demo-tabs" @tab-click="handleClick">
+        <el-tab-pane label="简介" name="instro">
           <div>
             <span>Consistent with real life: in line with the process and logic of real
           life, and comply with languages and habits that the users are used to;</span>
@@ -71,12 +70,13 @@
             <span> as: design style, icons and texts, position of elements, etc.</span>
           </div>
         </el-tab-pane>
-        <el-tab-pane label="元素" name="second">Config</el-tab-pane>
-        <el-tab-pane label="造物主" name="third">
-          <el-table :data="tableData" stripe style="width: 100%">
-            <el-table-column prop="date" label="Date" width="180" />
-            <el-table-column prop="name" label="Name" width="180" />
-            <el-table-column prop="address" label="Address" />
+        <el-tab-pane label="元素" name="element">Config</el-tab-pane>
+        <el-tab-pane label="造物主" name="message">
+          <el-table :data="manageList" stripe style="width: 100%">
+            <el-table-column prop="createTime" label="创建时间" width="180" />
+            <el-table-column prop="userName" label="用户名" width="180" />
+            <el-table-column prop="credit" label="贡献值" width="180"/>
+            <el-table-column prop="ranks" label="等级" />
           </el-table>
         </el-tab-pane>
       </el-tabs>
@@ -98,7 +98,6 @@
               :rows="2"
               type="textarea"
               placeholder="Please input"
-              disabled
           />
             <el-button type="primary" @click="onSubmit">发布评论</el-button>
           </el-form>
@@ -107,9 +106,9 @@
     </div>
     <!--    已经发布的的评论-->
     <div>
-      <el-tabs v-model="activeName"  >
-        <el-tab-pane label="全部评论" name="first">
-          <div v-for="n in 3">
+      <el-tabs v-model="commentActive"  >
+        <el-tab-pane label="全部评论" name="allComm">
+          <div v-for="comment in commentList">
             <el-row>
               <el-col :span="2">
                 <div  class="center">
@@ -119,13 +118,13 @@
               </el-col>
               <el-col :span="22">
                 <div >
-                  <h3 style="font-weight:bold;">widnws</h3>
+                  <h3 style="font-weight:bold;">{{ comment.createName }}</h3>
                 </div>
                 <div>
-                  <p>在一步步完善作品细节、完成展示的过程中真的收获很多。最后希望大家喜欢我的作品，欢迎交流！</p>
+                  <p>{{ comment.comment }}</p>
                 </div>
                 <div style="color:#A3A6AD">
-                  <span>2022-11-11 11:11:23</span>
+                  <span>{{ comment.createTime }}</span>
                   <span><BootstrapIcon icon="chat-dots" size="1x" flip-v />20 </span>
                   <span><BootstrapIcon icon="hand-thumbs-up" size="1x" flip-v />10</span>
                   <span><BootstrapIcon icon="hand-thumbs-down" size="1x" flip-v />20</span>
@@ -148,15 +147,49 @@ import { ref } from 'vue'
 //接受参数
 import { useRoute }  from "vue-router";  // 引用vue-router
 import type { TabsPaneContext } from 'element-plus'
-import useUserStore from '@/store/modules/user'
-
+import {  getWorld } from "@/api/wiki/world";
+import {  getWorldComment } from "@/api/wiki/comment";
+import {  getWorldManage } from "@/api/wiki/manage";
 
 // 接收url里的参数
 const route = useRoute();
 console.log(route.query.id,"参数");
-const id = route.query.id
-console.log("世界id="+id);
-const activeName = ref('first')
+//世界信息
+const world=ref({})
+//评论信息
+const commentList=ref([])
+//
+const manageList=ref([])
+
+world.value.id = route.query.id;
+console.log("世界id="+world.value.id);
+
+/** 查询世界详细 */
+function getWorld2(id:number) {
+  getWorld(id).then(response => {
+    console.log("查询世界详细:"+JSON.stringify(response))
+    world.value = response.data
+  });
+}
+//评论信息
+function getAllWorldComment(id:number) {
+  getWorldComment(id).then(response => {
+    console.log("查询世界详细:"+JSON.stringify(response))
+    commentList.value = response.rows
+  });
+}
+//小心
+function getAllWorldManage(id:number) {
+  getWorldManage(id).then(response => {
+    console.log("查询世界详细:"+JSON.stringify(response))
+    manageList.value = response.rows
+  });
+}
+
+
+const worldActive = ref('instro')
+
+const commentActive = ref('allComm')
 
 const handleClick = (tab: TabsPaneContext, event: Event) => {
   console.log(tab, event)
@@ -166,37 +199,13 @@ const onSubmit = () => {
 }
 const url =
     'https://fuss10.elemecdn.com/e/5d/4a731a90594a4af544c0c25941171jpeg.jpeg'
-//管理员
-const tableData = [
-  {
-    date: '2016-05-03',
-    name: 'Tom',
-    address: 'No. 189, Grove St, Los Angeles',
-  },
-  {
-    date: '2016-05-02',
-    name: 'Tom',
-    address: 'No. 189, Grove St, Los Angeles',
-  },
-  {
-    date: '2016-05-04',
-    name: 'Tom',
-    address: 'No. 189, Grove St, Los Angeles',
-  },
-  {
-    date: '2016-05-01',
-    name: 'Tom',
-    address: 'No. 189, Grove St, Los Angeles',
-  },
-]
-const name= useUserStore().name
-const token= useUserStore().token
-
-console.log(name)
-console.log(token)
 
 const textarea = ref('')
+getWorld2(world.value.id);
+getAllWorldComment(world.value.id)
+getAllWorldManage(world.value.id)
 
+// 获取当前用户名
 </script>
 
 <style scoped>

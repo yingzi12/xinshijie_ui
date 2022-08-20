@@ -1,4 +1,5 @@
 <template>
+  <div style="margin:0 auto; width:1248px;">
   <el-menu
       :default-active="activeIndex"
       class="el-menu-demo"
@@ -21,6 +22,8 @@
     <el-menu-item index="3" disabled>Info</el-menu-item>
     <el-menu-item index="4">Orders</el-menu-item>
   </el-menu>
+  </div>
+  <el-divider  style="margin:0px"/>
 </template>
 
 <script setup>

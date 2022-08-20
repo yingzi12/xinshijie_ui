@@ -1,28 +1,26 @@
 <template>
   <div class="app-container">
-    <div style="margin:5px">
+    <div>
       <carousel-index></carousel-index>
     </div>
-    <div  style="margin:5px">
+    <div>
       <liebiao-index></liebiao-index>
     </div>
-    <div  style="margin:5px">
+    <div>
       <space-index></space-index>
     </div>
-    <div  style="margin:5px">
+    <div>
       <space-index></space-index>
     </div>
   </div>
 </template>
 
-<script setup name="wiki">
+<script setup name="World">
 import LiebiaoIndex from './home/Liebiao'
 import CarouselIndex from './home/Carousel'
 import SpaceIndex from './home/Space'
-
 </script>
 
 <style scoped>
-.app-container{ margin:0 auto; width:1250px;}
 
 </style>

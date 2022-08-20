@@ -10,6 +10,14 @@ export function listComment(query) {
 }
 
 // 查询世界评论详细
+export function getWorldComment(id) {
+  return request({
+    url: '/wiki/comment/getWorldComment/' + id,
+    method: 'get'
+  })
+}
+
+// 查询世界评论详细
 export function getComment(id) {
   return request({
     url: '/wiki/comment/getInfo/' + id,

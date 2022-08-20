@@ -12,12 +12,11 @@ import store from './store'
 import router from './router'
 import directive from './directive' // directive
 import BootstrapIcon from '@dvuckovic/vue3-bootstrap-icons';
-
 import CKEditor from '@ckeditor/ckeditor5-vue';
+
 // 注册指令
 import plugins from './plugins' // plugins
 import { download } from '@/utils/request'
-import jquery from 'jquery'
 
 // svg图标
 import 'virtual:svg-icons-register'
@@ -76,12 +75,7 @@ app.use(plugins)
 app.use(elementIcons)
 app.component('svg-icon', SvgIcon)
 
-
 directive(app)
-
-// //引入jquery
-// const $ = require(jquery);
-// window.$ = $;
 
 // 使用element-plus 并且设置全局的大小
 app.use(ElementPlus, {

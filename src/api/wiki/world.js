@@ -42,4 +42,3 @@ export function delWorld(id) {
     method: 'delete'
   })
 }
-

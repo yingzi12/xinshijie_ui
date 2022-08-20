@@ -65,9 +65,7 @@
           <el-row >
             <el-col :span="19">
               <div class="biaoti">
-                <BootstrapIcon icon="pencil-square" size="1x" flip-v />
-                <span v-if="domain.isEdit == 0">小标题</span>
-                <el-input  style="width:100px" v-if="domain.isEdit == 1"  size="small" v-model="domain.title" placeholder="小标题" />
+                <BootstrapIcon icon="pencil-square" size="1x" flip-v /><span>小标题</span>
               </div>
             </el-col>
             <el-col :span="5">
@@ -75,7 +73,6 @@
                 <el-button v-if="domain.status == 0" @click="submitForm(formRef)"><BootstrapIcon icon="save" size="1x" flip-v />保存</el-button>
                 <el-button v-if="domain.status == 0" @click.prevent="removeDomain(domain)"><BootstrapIcon icon="trash" size="1x" flip-v />删除</el-button>
                 <el-button v-if="domain.status == 1" ><BootstrapIcon icon="lock" size="1x" flip-v />锁定</el-button>
-                <el-button v-if="domain.status == 2" ><BootstrapIcon icon="pencil-square" size="1x" flip-v />编辑</el-button>
               </div>
             </el-col>
           </el-row>
@@ -125,26 +122,22 @@ const dynamicValidateForm = reactive<{
       key: 1,
       value: '666',
       title: "小标题1",
-      status: 2,
-      isEdit: 0
+      status: 0
     },{
       key: 2,
       value: '777',
       title: "小标题2",
-      status: 2,
-      isEdit: 0
+      status: 1
     },{
       key: 3,
       value: '888',
       title: "小标题3",
-      status: 1,
-      isEdit: 0
+      status: 2
     },{
       key: 4,
       value: '999',
       title: "小标题4",
-      status: 0,
-      isEdit: 1
+      status: 3
     },
   ],
   email: '',
@@ -155,7 +148,6 @@ interface DomainItem {
   value: string
   title: string
   status: number
-  isEdit: number
 }
 
 const removeDomain = (item: DomainItem) => {
@@ -168,10 +160,7 @@ const removeDomain = (item: DomainItem) => {
 const addDomain = () => {
   dynamicValidateForm.domains.push({
     key: Date.now(),
-    status:0,
-    title: '',
     value: '',
-    isEdit: 1,
   })
 }
 
@@ -270,10 +259,4 @@ const data = [
   text-align: center;
   font-size: 18px;
 }
-.center {
-  display: flex;
-  justify-content: center;
-  align-items: center;
-}
-
 </style>

@@ -61,30 +61,27 @@
       }"
       >
         <el-form :inline="true" :model="dynamicValidateForm" class="demo-form-inline">
-        <div style="background-color: #cccccc">
+      <div style="background-color: #cccccc">
           <el-row >
             <el-col :span="19">
               <div class="biaoti">
-                <BootstrapIcon icon="pencil-square" size="1x" flip-v />
-                <span v-if="domain.isEdit == 0">小标题</span>
-                <el-input  style="width:100px" v-if="domain.isEdit == 1"  size="small" v-model="domain.title" placeholder="小标题" />
+                <BootstrapIcon icon="pencil-square" size="1x" flip-v /><span>小标题</span>  <el-input  size="small" v-model="domain.title" placeholder="Please input" />
               </div>
             </el-col>
             <el-col :span="5">
               <div class="center">
-                <el-button v-if="domain.status == 0" @click="submitForm(formRef)"><BootstrapIcon icon="save" size="1x" flip-v />保存</el-button>
-                <el-button v-if="domain.status == 0" @click.prevent="removeDomain(domain)"><BootstrapIcon icon="trash" size="1x" flip-v />删除</el-button>
-                <el-button v-if="domain.status == 1" ><BootstrapIcon icon="lock" size="1x" flip-v />锁定</el-button>
-                <el-button v-if="domain.status == 2" ><BootstrapIcon icon="pencil-square" size="1x" flip-v />编辑</el-button>
+                <el-button @click="submitForm(formRef)"><BootstrapIcon icon="save" size="1x" flip-v />保存</el-button>
+                <el-button  @click.prevent="removeDomain(domain)"><BootstrapIcon icon="trash" size="1x" flip-v />删除</el-button>
+                <!--            <BootstrapIcon icon="plus-circle" size="1x" flip-v />新增-->
+                <!--            <BootstrapIcon icon="lock" size="1x" flip-v />锁定-->
               </div>
             </el-col>
           </el-row>
         </div>
         <div>
-              <ckeditor :editor="editor" v-model="domain.value" :config="editorConfig"></ckeditor>
+          <ckeditor :editor="editor" v-model="domain.value" :config="editorConfig"></ckeditor>
         </div>
         </el-form>
-
       </div>
     </div>
     <!--功能-->
@@ -99,6 +96,7 @@ import { reactive, ref } from 'vue'
 import {FormInstance} from "element-plus";
 import ClassicEditor from '@ckeditor/ckeditor5-build-classic';
 
+const editorData = '<p>Content of the editor.</p>'
 const editorConfig = {}
 const editor = ClassicEditor
 //基本信息
@@ -123,28 +121,8 @@ const dynamicValidateForm = reactive<{
   domains: [
     {
       key: 1,
-      value: '666',
-      title: "小标题1",
-      status: 2,
-      isEdit: 0
-    },{
-      key: 2,
-      value: '777',
-      title: "小标题2",
-      status: 2,
-      isEdit: 0
-    },{
-      key: 3,
-      value: '888',
-      title: "小标题3",
-      status: 1,
-      isEdit: 0
-    },{
-      key: 4,
-      value: '999',
-      title: "小标题4",
-      status: 0,
-      isEdit: 1
+      title:'',
+      value: '这是一个测试',
     },
   ],
   email: '',
@@ -152,10 +130,8 @@ const dynamicValidateForm = reactive<{
 
 interface DomainItem {
   key: number
-  value: string
   title: string
-  status: number
-  isEdit: number
+  value: string
 }
 
 const removeDomain = (item: DomainItem) => {
@@ -168,10 +144,8 @@ const removeDomain = (item: DomainItem) => {
 const addDomain = () => {
   dynamicValidateForm.domains.push({
     key: Date.now(),
-    status:0,
-    title: '',
+    title: '小标题',
     value: '',
-    isEdit: 1,
   })
 }
 
@@ -270,10 +244,4 @@ const data = [
   text-align: center;
   font-size: 18px;
 }
-.center {
-  display: flex;
-  justify-content: center;
-  align-items: center;
-}
-
 </style>
