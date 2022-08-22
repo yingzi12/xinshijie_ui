@@ -17,28 +17,3 @@ export function getWorld(id) {
   })
 }
 
-// 新增世界
-export function addWorld(data) {
-  return request({
-    url: '/wiki/world/add',
-    method: 'post',
-    data: data
-  })
-}
-
-// 修改世界
-export function updateWorld(data) {
-  return request({
-    url: '/wiki/world/edit',
-    method: 'put',
-    data: data
-  })
-}
-
-// 删除世界
-export function delWorld(id) {
-  return request({
-    url: '/wiki/world/remove/' + id,
-    method: 'delete'
-  })
-}

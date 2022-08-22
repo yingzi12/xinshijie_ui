@@ -149,6 +149,176 @@ export const constantRoutes = [
     ]
   },
   {
+    path: '/world',
+    component: LayoutWiki,
+    hidden: true,
+    children:[
+      {
+        path: 'index',
+        component: () => import('@/views/wiki/world/index'),
+        name: 'World',
+        meta: { title: '个人中心', icon: 'world' }
+      } ,
+      {
+        path: 'list',
+        component: () => import('@/views/wiki/world/list'),
+        name: 'OrderWorld',
+        meta: { title: '个人中心', icon: 'world' }
+      },
+      {
+        path: 'details',
+        component: () => import('@/views/wiki/world/details'),
+        name: 'Details',
+        meta: { title: '个人中心', icon: 'world' }
+      },
+      {
+        path: 'world',
+        component: () => import('@/views/wiki/world/world'),
+        name: 'World',
+        meta: { title: '个人中心', icon: 'world' }
+      },
+      {
+        path: 'add',
+        component: () => import('@/views/wiki/world/addWorld'),
+        name: 'AddWorld',
+        meta: { title: '个人中心', icon: 'world' }
+      }
+    ]
+  },
+  {
+    path: '/admin',
+    component: LayoutWiki,
+    hidden: true,
+    children: [
+      {
+        path: 'index',
+        component: () => import('@/views/wiki/admin/index'),
+        name: 'index',
+        meta: { title: '关注', icon: 'wiki' }
+      },
+      {
+        path: 'world',
+        component: () => import('@/views/wiki/admin/world'),
+        name: 'world',
+        meta: { title: '世界', icon: 'wiki' }
+      },
+      {
+        path: 'worldElement',
+        component: () => import('@/views/wiki/admin/worldElement'),
+        name: 'worldElement',
+        meta: { title: '世界', icon: 'wiki' }
+      },
+      {
+        path: 'worldInfo',
+        component: () => import('@/views/wiki/admin/worldInfo'),
+        name: 'worldInfo',
+        meta: { title: '世界', icon: 'wiki' }
+      },
+      {
+        path: 'worldMessage',
+        component: () => import('@/views/wiki/admin/worldMessage'),
+        name: 'worldMessage',
+        meta: { title: '世界', icon: 'wiki' }
+      },
+      {
+        path: 'comment',
+        component: () => import('@/views/wiki/admin/comment'),
+        name: 'comment',
+        meta: { title: '评论', icon: 'wiki' }
+      },
+      {
+        path: 'audit',
+        component: () => import('@/views/wiki/admin/audit'),
+        name: 'audit',
+        meta: { title: '审核', icon: 'wiki' }
+      },
+      {
+        path: 'element',
+        component: () => import('@/views/wiki/admin/element'),
+        name: 'element',
+        meta: { title: '审核', icon: 'wiki' }
+      },
+      {
+        path: 'worldElemnetAudit',
+        component: () => import('@/views/wiki/admin/worldElemnetAudit'),
+        name: 'worldElemnetAudit',
+        meta: { title: '元素审核', icon: 'wiki' }
+      },
+      {
+        path: 'diff',
+        component: () => import('@/views/wiki/admin/diff'),
+        name: 'diff',
+        meta: { title: '内容比对', icon: 'wiki' }
+      },
+      {
+        path: 'diff2',
+        component: () => import('@/views/wiki/admin/diff2'),
+        name: 'diff2',
+        meta: { title: '内容比对', icon: 'wiki' }
+      }
+      ,
+      {
+        path: 'auditElementPreview',
+        component: () => import('@/views/wiki/admin/auditElementPreview'),
+        name: 'auditElementPreview',
+        meta: { title: '元素内容审核', icon: 'wiki' }
+      }
+    ]
+
+  }
+    ,
+  {
+    path: '/users',
+    component: LayoutWiki,
+    hidden: true,
+    children:[
+      {
+        path: 'index',
+        component: () => import('@/views/wiki/user/index'),
+        name: 'Users',
+        meta: { title: '个人中心', icon: 'user' }
+      },{
+        path: 'edit',
+        component: () => import('@/views/wiki/user/edit'),
+        name: 'edit',
+        meta: { title: '个人中心', icon: 'user' }
+      },{
+        path: 'info',
+        component: () => import('@/views/wiki/user/info'),
+        name: 'info',
+        meta: { title: '个人中心', icon: 'user' }
+      },{
+        path: 'message',
+        component: () => import('@/views/wiki/user/message'),
+        name: 'message',
+        meta: { title: '个人中心', icon: 'user' }
+      },{
+        path: 'attention',
+        component: () => import('@/views/wiki/user/attention'),
+        name: 'attention',
+        meta: { title: '个人中心', icon: 'user' }
+      }
+      ]
+  },
+  {
+    path: '/comment',
+    component: LayoutWiki,
+    hidden: true,
+    children: [
+      {
+        path: 'index',
+        component: () => import('@/views/wiki/comment/index'),
+        name: 'World',
+        meta: {title: '个人中心', icon: '讨论'}
+      }
+    ]
+  },
+  {
+    path: "/:pathMatch(.*)*",
+    component: () => import('@/views/error/404'),
+    hidden: true
+  },
+  {
     path: '/401',
     component: () => import('@/views/error/401'),
     hidden: true

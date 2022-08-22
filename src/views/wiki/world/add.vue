@@ -46,8 +46,8 @@
           <el-input rows="10" v-model="ruleForm.description" type="textarea" />
         </el-form-item>
         <el-form-item>
-          <el-button type="primary" @click="submitForm(ruleFormRef)">Create</el-button>
-          <el-button @click="resetForm(ruleFormRef)">Reset</el-button>
+          <el-button type="primary" @click="submitForm(ruleFormRef)">创建</el-button>
+          <el-button @click="resetForm(ruleFormRef)">重置</el-button>
         </el-form-item>
       </el-form>
     </div>
@@ -59,7 +59,7 @@ import {reactive, ref, toRefs} from 'vue'
 import type { FormInstance, FormRules } from 'element-plus'
 import { ElMessage } from 'element-plus'
 import { Plus } from '@element-plus/icons-vue'
-import { addWorld} from "@/api/wiki/world";
+import { addWorld} from "@/api/admin/world";
 import { useRouter} from "vue-router";
 const router = useRouter()
 
@@ -73,7 +73,7 @@ const data = reactive({
   },
   rules: {
     name: [{ required: true, message: '请输入世界名字', trigger: 'blur' },
-      { min: 3, max: 80, message: 'Length should be 3 to 80', trigger: 'blur' }
+      { min: 1, max: 80, message: 'Length should be 1 to 80', trigger: 'blur' }
     ],
     types: [{
       required: true,
@@ -81,10 +81,11 @@ const data = reactive({
       trigger: 'change',
     }
     ],
-    description: [ { required: true, message: '请输入世界描述', trigger: 'blur' },
-      { min: 10, max: 255, message: 'Length should be 10 to 255', trigger: 'blur' }],
     intro: [ { required: true, message: '请输入世界简介', trigger: 'blur' },
-      { min: 10, max: 1000, message: 'Length should be 5 to 1000', trigger: 'blur' }]
+      { min: 10, max: 255, message: 'Length should be 5 to 255', trigger: 'blur' }],
+    description: [ { required: true, message: '请输入世界描述', trigger: 'blur' },
+      { min: 10, max: 1000, message: 'Length should be 10 to 1000', trigger: 'blur' }],
+
   }
 });
 
