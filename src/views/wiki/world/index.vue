@@ -16,9 +16,9 @@
 </template>
 
 <script setup name="World">
-import LiebiaoIndex from '../home/Liebiao'
-import CarouselIndex from '../home/Carousel'
-import SpaceIndex from '../home/Space'
+import LiebiaoIndex from './home/Liebiao'
+import CarouselIndex from './home/Carousel'
+import SpaceIndex from './home/Space'
 </script>
 
 <style scoped>

@@ -1,21 +1,36 @@
 <template>
   <div class="app-container">
     <!--  世界名称-->
-    <div style="background-color: #E5EAF3">
+    <div style="background-color:#8c939d;height: 30px">
         <h2  class="center2">名称</h2>
     </div>
     <!--  分类管理 -->
-    <div>
-      <div style="background-color: #E5EAF3">
+    <div >
+      <div style="background-color: #E5EAF3;height: 25px">
         <BootstrapIcon icon="card-list" size="1x" flip-v /><span>分类管理</span>
       </div>
-      <div>
-        show checkbox: <el-tree-select
+      <div style="height: 55px">
+        <div>
+        分类: <el-tree-select
+            ref="treeRef"
             v-model="value"
-            :data="data"
+            :data="dataStree"
             multiple
+            collapse-tags
             :render-after-expand="false"
+            @change="show"
             show-checkbox />
+        </div>
+        <div>
+        已选择: <el-tag
+          v-for="tag in dynamicTags"
+          :key="tag"
+          class="mx-1"
+          :disable-transitions="false">
+        {{ tag }}
+        </el-tag>
+
+        </div>
       </div>
     </div>
     <!--  基本信息 -->
@@ -24,12 +39,12 @@
         <BootstrapIcon icon="card-checklist" size="1x" flip-v /><span>基本信息</span>
       </div>
       <div>
-        <el-form :model="formBasic" label-width="120px">
+        <el-form :model="element" label-width="120px">
           <el-form-item label="名称">
-            <el-input v-model="formBasic.name" />
+            <el-input v-model="element.title" />
           </el-form-item>
-          <el-form-item label="Activity form">
-            <el-input v-model="formBasic.desc" type="textarea" />
+          <el-form-item label="简介">
+            <el-input v-model="element.intro" type="textarea" />
           </el-form-item>
         </el-form>
       </div>
@@ -60,81 +75,112 @@
         trigger: 'blur',
       }"
       >
-        <el-form :inline="true" :model="dynamicValidateForm" class="demo-form-inline">
+     <el-form            ref="ruleFormRef"
+                         :inline="true" :model="dynamicValidateForm" class="demo-form-inline">
       <div style="background-color: #cccccc">
           <el-row >
             <el-col :span="19">
               <div class="biaoti">
-                <BootstrapIcon icon="pencil-square" size="1x" flip-v /><span>小标题</span>  <el-input  size="small" v-model="domain.title" placeholder="Please input" />
+                <BootstrapIcon icon="pencil-square" size="1x" flip-v />
+                 <span v-if="domain.isEdit = 0">小标题</span>
+                <el-input  style="width:100px" v-if="domain.isEdit = 1"  size="small" v-model="domain.title" placeholder="小标题" />
               </div>
             </el-col>
             <el-col :span="5">
               <div class="center">
-                <el-button @click="submitForm(formRef)"><BootstrapIcon icon="save" size="1x" flip-v />保存</el-button>
-                <el-button  @click.prevent="removeDomain(domain)"><BootstrapIcon icon="trash" size="1x" flip-v />删除</el-button>
-                <!--            <BootstrapIcon icon="plus-circle" size="1x" flip-v />新增-->
-                <!--            <BootstrapIcon icon="lock" size="1x" flip-v />锁定-->
+<!--                <el-button v-if="domain.status == 0" @click="submitForm(ruleFormRef,domain)"><BootstrapIcon icon="save" size="1x" flip-v />保存</el-button>-->
+                <el-button v-if="domain.status == 0" @click.prevent="removeDomain(domain)"><BootstrapIcon icon="trash" size="1x" flip-v />删除</el-button>
+                <el-button v-if="domain.status == 1" ><BootstrapIcon icon="lock" size="1x" flip-v />锁定</el-button>
+                <el-button v-if="domain.status == 2" ><BootstrapIcon icon="pencil-square" size="1x" flip-v />编辑</el-button>
               </div>
             </el-col>
           </el-row>
         </div>
         <div>
-          <ckeditor :editor="editor" v-model="domain.value" :config="editorConfig"></ckeditor>
+          <ckeditor :editor="editor" v-model="domain.content" :config="editorConfig"></ckeditor>
         </div>
         </el-form>
       </div>
     </div>
     <!--功能-->
-    <div>
-      <el-button>预览</el-button>
+    <div class="center" style="height: 80px;">
+      <el-button @click="submit()">预览</el-button>
     </div>
   </div>
 </template>
 
 <script  lang="ts" setup>
 import { reactive, ref } from 'vue'
-import {FormInstance} from "element-plus";
+import {ElTree, FormInstance,ElInput} from "element-plus";
 import ClassicEditor from '@ckeditor/ckeditor5-build-classic';
+import { getTree} from "@/api/wiki/category";
+import { addElement} from "@/api/wiki/element";
+import {useRoute, useRouter} from "vue-router";
 
-const editorData = '<p>Content of the editor.</p>'
+// 接收url里的参数
+const route = useRoute();
+const router = useRouter()
+
+console.log(route.query.wid,"参数");
+const wid = route.query.wid
+console.log("世界id="+wid);
 const editorConfig = {}
 const editor = ClassicEditor
-//基本信息
-const formBasic = reactive({
-  name: '',
-  region: '',
-  date1: '',
-  date2: '',
-  delivery: false,
-  type: [],
-  resource: '',
-  desc: '',
-})
 
+// 分类模板
+const value = ref()
 
+const dataStree = ref([])
+//分类标签
+const dynamicTags = ref([])
+//分类选择
+const treeRef = ref<InstanceType<typeof ElTree>>()
+//基础信息
+const element = ref<InstanceType<Element>>({})
+element.value.wid=wid;
+//原始的选中的value
+const sleValue=ref({})
 //章节模块
-const formRef = ref<FormInstance>()
+const ruleFormRef = ref<FormInstance>()
 const dynamicValidateForm = reactive<{
-  domains: DomainItem[]
+  domains: Content[]
   email: string
 }>({
   domains: [
     {
       key: 1,
-      title:'',
-      value: '这是一个测试',
+      title:'标题',
+      status: 0,
+      isEdit: 0,
+      content: '',
     },
   ],
   email: '',
 })
 
-interface DomainItem {
+interface Content {
   key: number
   title: string
-  value: string
+  status: number,
+  isEdit: number,
+  content: string,
+}
+//基本信息
+interface Element {
+  wid:String,
+  title:string,
+  intro:String,
+  softtype: number,
+  categoryList:[],
+  contentList:[]
+}
+interface Tree {
+  id: number
+  label: string
+  children?: Tree[]
 }
 
-const removeDomain = (item: DomainItem) => {
+const removeDomain = (item: Content) => {
   const index = dynamicValidateForm.domains.indexOf(item)
   if (index !== -1) {
     dynamicValidateForm.domains.splice(index, 1)
@@ -145,96 +191,57 @@ const addDomain = () => {
   dynamicValidateForm.domains.push({
     key: Date.now(),
     title: '小标题',
-    value: '',
+    status: 0,
+    isEdit: 1,
+    content: '',
   })
 }
-
-const submitForm = (formEl: FormInstance | undefined) => {
-  if (!formEl) return
-  formEl.validate((valid) => {
-    if (valid) {
-      console.log('submit!')
-    } else {
-      console.log('error submit!')
-      return false
-    }
-  })
+function submit(){
+  element.value.contentList=dynamicValidateForm.domains;
+  addElement(element.value).then(response => {
+    console.log("添加成功")
+    router.push("/element/preview?id="+response.data.id)
+  });
+}
+//单个章节保存
+// const submitForm = (formEl: FormInstance | undefined,item: Content) => {
+//   console.log("参数:"+JSON.stringify(dynamicValidateForm.domains))
+//   console.log("参数:"+JSON.stringify(item))
+//   if (!formEl) return
+//   formEl.validate((valid) => {
+//     if (valid) {
+//       console.log('submit!')
+//     } else {
+//       console.log('error submit!')
+//       return false
+//     }
+//   })
+// }
+/** 查询世界列表 */
+function getList() {
+  getTree(wid).then(response => {
+    dataStree.value = response.data
+  });
 }
 
-// 分类模板
-const value = ref()
-const valueStrictly = ref()
+function  show(val){
+//let that = this ,将this保存在that中，再在函数中使用that均可
+  dynamicTags.value=value.value
+  console.log("选中的对象value1"+value.value)
+  console.log("选中的对象label"+JSON.stringify(treeRef.value))
 
-const data = [
-  {
-    value: '1',
-    label: 'Level one 1',
-    children: [
-      {
-        value: '1-1',
-        label: 'Level two 1-1',
-        children: [
-          {
-            value: '1-1-1',
-            label: 'Level three 1-1-1',
-          },
-        ],
-      },
-    ],
-  },
-  {
-    value: '2',
-    label: 'Level one 2',
-    children: [
-      {
-        value: '2-1',
-        label: 'Level two 2-1',
-        children: [
-          {
-            value: '2-1-1',
-            label: 'Level three 2-1-1',
-          },
-        ],
-      },
-      {
-        value: '2-2',
-        label: 'Level two 2-2',
-        children: [
-          {
-            value: '2-2-1',
-            label: 'Level three 2-2-1',
-          },
-        ],
-      },
-    ],
-  },
-  {
-    value: '3',
-    label: 'Level one 3',
-    children: [
-      {
-        value: '3-1',
-        label: 'Level two 3-1',
-        children: [
-          {
-            value: '3-1-1',
-            label: 'Level three 3-1-1',
-          },
-        ],
-      },
-      {
-        value: '3-2',
-        label: 'Level two 3-2',
-        children: [
-          {
-            value: '3-2-1',
-            label: 'Level three 3-2-1',
-          },
-        ],
-      },
-    ],
-  },
-]
+  sleValue.value=new Array();
+  dynamicTags.value=new Array();
+  for(let i=0;i<=value.value.length-1;i++){
+    dynamicTags.value[i]=value.value[i].split('$$')[1]
+    sleValue.value[i]=value.value[i].split('$$')[0]
+  }
+  element.value.categoryList=sleValue;
+  console.log("选中的对象value2"+value.value)
+  console.log("选中的对象sleValue2"+sleValue.value)
+  console.log("选中的对象element:"+JSON.stringify(element.value))
+}
+getList()
 </script>
 
 <style scoped>
@@ -244,4 +251,10 @@ const data = [
   text-align: center;
   font-size: 18px;
 }
+.center {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
 </style>
