@@ -1,17 +1,8 @@
 import request from '@/utils/request'
 
-//
-export function listManage(query) {
-  return request({
-    url: '/wiki/manage/list',
-    method: 'get',
-    params: query
-  })
-}
-
 export function getWorldManage(id) {
   return request({
-    url: '/wiki/manage/getWorldManage/' + id,
+    url: '/admin/manage/getWorldManage?wid=' + id,
     method: 'get'
   })
 }
@@ -19,7 +10,7 @@ export function getWorldManage(id) {
 //
 export function getManage(id) {
   return request({
-    url: '/wiki/manage/getInfo/' + id,
+    url: '/admin/manage/getInfo/' + id,
     method: 'get'
   })
 }
@@ -27,7 +18,7 @@ export function getManage(id) {
 //
 export function addManage(data) {
   return request({
-    url: '/wiki/manage/add',
+    url: '/admin/manage/add',
     method: 'post',
     data: data
   })
@@ -36,16 +27,16 @@ export function addManage(data) {
 //
 export function updateManage(data) {
   return request({
-    url: '/wiki/manage/edit',
+    url: '/admin/manage/edit',
     method: 'put',
     data: data
   })
 }
 
 //Manage
-export function delManage(id) {
+export function delManage(id,wid) {
   return request({
-    url: '/wiki/manage/remove/' + id,
+    url: '/admin/manage/remove?id=' + id+'&wid='+wid,
     method: 'delete'
   })
 }
