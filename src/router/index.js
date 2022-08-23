@@ -107,11 +107,6 @@ export const constantRoutes = [
         component: () => import('@/views/wiki/world/list'),
         name: 'ListWorld',
         meta: { title: '世界列表', icon: 'world' }
-      } ,{
-        path: 'edit',
-        component: () => import('@/views/wiki/world/edit'),
-        name: 'Test',
-        meta: { title: '个人中心', icon: 'world' }
       }
     ]
   },
@@ -149,43 +144,6 @@ export const constantRoutes = [
     ]
   },
   {
-    path: '/world',
-    component: LayoutWiki,
-    hidden: true,
-    children:[
-      {
-        path: 'index',
-        component: () => import('@/views/wiki/world/index'),
-        name: 'World',
-        meta: { title: '个人中心', icon: 'world' }
-      } ,
-      {
-        path: 'list',
-        component: () => import('@/views/wiki/world/list'),
-        name: 'OrderWorld',
-        meta: { title: '个人中心', icon: 'world' }
-      },
-      {
-        path: 'details',
-        component: () => import('@/views/wiki/world/details'),
-        name: 'Details',
-        meta: { title: '个人中心', icon: 'world' }
-      },
-      {
-        path: 'world',
-        component: () => import('@/views/wiki/world/world'),
-        name: 'World',
-        meta: { title: '个人中心', icon: 'world' }
-      },
-      {
-        path: 'add',
-        component: () => import('@/views/wiki/world/addWorld'),
-        name: 'AddWorld',
-        meta: { title: '个人中心', icon: 'world' }
-      }
-    ]
-  },
-  {
     path: '/admin',
     component: LayoutWiki,
     hidden: true,
@@ -215,8 +173,14 @@ export const constantRoutes = [
         meta: { title: '世界', icon: 'wiki' }
       },
       {
-        path: 'worldMessage',
-        component: () => import('@/views/wiki/admin/worldMessage'),
+        path: 'worldEdit',
+        component: () => import('@/views/wiki/admin/worldEdit'),
+        name: 'WorldEdit',
+        meta: { title: '世界', icon: 'wiki' }
+      },
+      {
+        path: 'worldManage',
+        component: () => import('@/views/wiki/admin/worldManage'),
         name: 'worldMessage',
         meta: { title: '世界', icon: 'wiki' }
       },

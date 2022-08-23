@@ -88,7 +88,6 @@ const data = reactive({
       { min: 10, max: 255, message: 'Length should be 10 to 255', trigger: 'blur' }],
     description: [ { required: true, message: '请输入世界描述', trigger: 'blur' },
       { min: 10, max: 1000, message: 'Length should be 10 to 1000', trigger: 'blur' }],
-
   }
 });
 
@@ -127,20 +126,6 @@ const submitForm = async (formEl: FormInstance | undefined) => {
     }
   });
   console.log("查询世界详细formEl:"+JSON.stringify(formEl))
-  // if (!formEl) return
-  // await formEl.validate((valid, fields) => {
-  //   console.log("查询世界详细valid:"+JSON.stringify(formEl))
-  //   console.log("查询世界详细fields:"+JSON.stringify(fields))
-  //   if (valid) {
-  //     console.log('submit!')
-  //     updateWorld(form.value).then(() => {
-  //       console.log("修改成功")
-  //       router.push("/world/list")
-  //     })
-  //   } else {
-  //     console.log('error submit!', fields)
-  //   }
-  // })
 }
 
 const resetForm = (formEl: FormInstance | undefined) => {
@@ -148,10 +133,6 @@ const resetForm = (formEl: FormInstance | undefined) => {
   formEl.resetFields()
 }
 
-const options = Array.from({ length: 10000 }).map((_, idx) => ({
-  value: `${idx + 1}`,
-  label: `${idx + 1}`,
-}))
 
 //上传图片
 const imageUrl = ref('')

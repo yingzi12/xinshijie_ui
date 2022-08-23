@@ -192,12 +192,6 @@ import { Menu as IconMenu, Message, Setting } from '@element-plus/icons-vue'
 const fits = ['世界', '粉丝', '关注']
 const activeIndex = ref('1')
 
-// const item = {
-//   date: '2016-05-02',
-//   name: 'Tom',
-//   address: 'No. 189, Grove St, Los Angeles',
-// }
-// const tableData = ref(Array.from({ length: 20 }).fill(item))
 
 const router = useRouter()
 const {  appContext : { config: { globalProperties } }  } = getCurrentInstance();
@@ -246,7 +240,7 @@ function handleDelete ( row){
 }
 
 function handleSee(row){
-  router.push("/world/details?id="+row.id);
+  router.push("/admin/worldInfo?id="+row.id);
 }
 /** 选择条数  */
 function handleSelectionChange(selection) {

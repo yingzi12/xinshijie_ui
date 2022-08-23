@@ -116,32 +116,54 @@
             </el-col>
           </el-row>
         </div>
-        <!--        表格-->
         <div>
           <el-scrollbar>
-            <el-table :data="tableData">
-              <el-table-column label="序号" >
+            <el-table v-loading="loading" :data="worldList">
+              <el-table-column label="序号" width="50px" >
                 <template #default="scope">
-                  {{scope.$index+1}}
+                  {{scope.$index+1+(queryParams.pageNum-1)*10}}
                 </template>
               </el-table-column>
-              <el-table-column prop="date" label="Date" width="140" />
-              <el-table-column prop="name" label="Name" width="120" />
-              <el-table-column prop="address" label="Address" />
-              <el-table-column fixed="right" label="Operations" width="220">
-                <template #default>
-                  <el-button link type="primary" size="small" @click="handleClick"
-                  >Detail</el-button
-                  >
-                  <el-button link type="primary" size="small">Edit</el-button>
+              <el-table-column label="名称" align="center" key="name" prop="name"  />
+              <el-table-column label="类型" align="center" key="typeName" prop="typeName" :show-overflow-tooltip="true" />
+              <el-table-column label="简介" align="center" key="intro" prop="intro"  :show-overflow-tooltip="true" />
+              <el-table-column label="创建人" align="center" key="createName" prop="createName"  :show-overflow-tooltip="true" />
+              <el-table-column label="更新时间" align="center" prop="updateTime"  width="160">
+                <template #default="scope">
+                  <span>{{scope.row.updateTime}}</span>
+                </template>
+              </el-table-column>
+              <el-table-column label="操作" align="center" width="150" class-name="small-padding fixed-width">
+                <template #default="scope">
+<!--                  <el-tooltip content="详情" placement="top" >-->
+<!--                    <el-button-->
+<!--                        type="text"-->
+<!--                        icon="View"-->
+<!--                        @click="handleSee(scope.row)"-->
+<!--                    ></el-button>-->
+<!--                  </el-tooltip>-->
+                  <el-tooltip content="取消" placement="top" >
+                    <el-button
+                        type="text"
+                        icon="Delete"
+                        @click="handleDelete(scope.row)"
+                    ></el-button>
+                  </el-tooltip>
                 </template>
               </el-table-column>
             </el-table>
+
           </el-scrollbar>
         </div>
         <!--        分页-->
         <div style="float:right; ">
-          <el-pagination  layout="prev, pager, next" :total="50" />
+          <pagination
+              v-show="total > 0"
+              :total="total"
+              v-model:page="queryParams.pageNum"
+              v-model:limit="queryParams.pageSize"
+              @pagination="getList"
+          />
         </div>
       </el-main>
     </el-container>
@@ -149,19 +171,83 @@
 </template>
 
 <script lang="ts" setup>
-import { ref } from 'vue'
+import { getCurrentInstance, reactive, ref, toRefs} from 'vue'
+import { listMange ,delManage,addManage } from "@/api/admin/manage";
+import { useRouter} from "vue-router";
 import { Menu as IconMenu, Message, Setting } from '@element-plus/icons-vue'
-import { getInfo } from "@/api/wiki/world";
-
 const fits = ['世界', '粉丝', '关注']
 const activeIndex = ref('1')
 
-const item = {
-  date: '2016-05-02',
-  name: 'Tom',
-  address: 'No. 189, Grove St, Los Angeles',
+
+const router = useRouter()
+const {  appContext : { config: { globalProperties } }  } = getCurrentInstance();
+const {  proxy  } = getCurrentInstance();
+class World {
+  id: number
+  name: string
+  types: string
+  intro: string
+  createTime:string
 }
-const tableData = ref(Array.from({ length: 20 }).fill(item))
+
+const loading = ref(true);
+const worldList = ref([]);
+const total = ref(0);
+const data = reactive({
+  form: {},
+  queryParams: {
+    pageNum: 1,
+    pageSize: 10,
+    name: undefined,
+    types: undefined,
+  },
+  rules: {
+    // userName: [{ required: true, message: "用户名称不能为空", trigger: "blur" }, { min: 2, max: 20, message: "用户名称长度必须介于 2 和 20 之间", trigger: "blur" }],
+  }
+});
+const worldTypes=reactive([{id:0,name:"科学"},{id:1,name:"武侠"},{id:2,name:"仙侠"},{id:3,name:"魔幻"},{id:4,name:"奇幻"},{id:5,name:"其他"}])
+const { queryParams, form, rules } = toRefs(data);
+const dateRange = ref([]);
+const ids = ref([]);
+const single = ref(true);
+const multiple = ref(true);
+const search = ref('')
+function handleDelete ( row){
+  const worldId = row.id ;
+  globalProperties.$modal.confirm('是否确认取消管理员名称为"' + row.userName + '"的权限？').then(function () {
+    return delManage(worldId);
+  }).then(() => {
+    getList();
+    globalProperties.$modal.msgSuccess("删除成功");
+  }).catch(() => {});
+}
+
+/** 新增按钮操作 */
+function handleAdd() {
+
+};
+/** 提交按钮 */
+function submitForm() {
+  proxy.$refs["userRef"].validate(valid => {
+    if (valid) {
+        addManage(form.value).then(response => {
+          proxy.$modal.msgSuccess("新增成功");
+          open.value = false;
+          getList();
+        });
+    }
+  });
+};
+
+/** 查询管理员列表 */
+function getList() {
+  listMange(globalProperties.addDateRange(queryParams.value, dateRange.value)).then(response => {
+    loading.value = false;
+    worldList.value = response.rows;
+    total.value = response.total;
+  });
+}
+getList();
 </script>
 
 <style scoped>

@@ -114,26 +114,50 @@
         </div>
         <!--        表格-->
         <div>
-          <div>
+          <div style="background-color: #E5EAF3;height: 30px;margin: 0px;padding: 0px">
             <h1>编辑世界</h1>
           </div>
           <div>
-            <el-form :model="form" label-width="120px">
-              <el-form-item label="Activity name">
-                <el-input v-model="form.name" />
+            <el-form
+                ref="worldRef"
+                :model="form"
+                :rules="rules"
+                label-width="120px"
+                class="demo-ruleForm"
+                :size="formSize"
+                status-icon
+            >
+              <el-form-item label="图 片" prop="name">
+              <el-upload
+                  class="avatar-uploader"
+                  action="https://run.mocky.io/v3/9d059bf9-4660-45f2-925d-ce80ad6c4d15"
+                  :show-file-list="false"
+                  :on-success="handleAvatarSuccess"
+                  :before-upload="beforeAvatarUpload">
+                <img style="width: 105px; height: 128px;" v-if="form.imgUrl" :src="form.imgUrl" class="avatar" />
+                <el-icon v-else class="avatar-uploader-icon"><Plus /></el-icon>
+              </el-upload>
               </el-form-item>
-              <el-form-item label="Activity zone">
-                <el-select v-model="form.region" placeholder="please select your zone">
-                  <el-option label="Zone one" value="shanghai" />
-                  <el-option label="Zone two" value="beijing" />
+              <el-form-item label="名 称" prop="name">
+                <el-input v-model="form.name" placeholder="请输入世界名称" maxlength="30"   />
+              </el-form-item>
+              <el-form-item label="类 型" prop="types">
+                <el-select v-model="form.types" placeholder="请选择世界类型">
+                  <el-option label="科幻" value="0" key="0"/>
+                  <el-option label="魔法" value="1" key="1"/>
+                  <el-option label="修真" value="2" key="2"/>
+                  <el-option label="其他" value="3" key="3"/>
                 </el-select>
               </el-form-item>
-              <el-form-item label="Activity form">
-                <el-input v-model="form.desc" type="textarea" />
+              <el-form-item label="简 介" prop="intro">
+                <el-input v-model="form.intro" type="textarea" placeholder="请选择世界简介"/>
+              </el-form-item>
+              <el-form-item label="描 述" prop="description">
+                <el-input v-model="form.description" type="textarea"  placeholder="请输入世界说明"/>
               </el-form-item>
               <el-form-item>
-                <el-button type="primary" @click="onSubmit">Create</el-button>
-                <el-button>Cancel</el-button>
+                <el-button type="primary" @click="submitForm(ruleFormRef)">修改</el-button>
+                <el-button @click="reset()">返回</el-button>
               </el-form-item>
             </el-form>
           </div>
@@ -144,33 +168,108 @@
 </template>
 
 <script lang="ts" setup>
-import {reactive, ref} from 'vue'
+import {getCurrentInstance, reactive, ref, toRefs} from 'vue'
 import { Menu as IconMenu, Message, Setting } from '@element-plus/icons-vue'
+import { useRoute }  from "vue-router";  // 引用vue-router
+import { useRouter} from "vue-router";
+import {  updateWorld } from "@/api/admin/world";
+import {  getWorld } from "@/api/wiki/world";
+import {ElMessage, FormInstance, UploadProps} from "element-plus";
+const {  appContext : { config: { globalProperties } }  } = getCurrentInstance();
+const {  proxy  } = getCurrentInstance();
+
 const fits = ['世界', '粉丝', '关注']
+const router = useRouter()
+
+const formSize = ref('default')
+const ruleFormRef = ref<FormInstance>()
 const activeIndex = ref('1')
 
-const item = {
-  date: '2016-05-02',
-  name: 'Tom',
-  address: 'No. 189, Grove St, Los Angeles',
-}
-const tableData = ref(Array.from({ length: 20 }).fill(item))
 
-// do not use same name with ref
-const form = reactive({
-  name: '',
-  region: '',
-  date1: '',
-  date2: '',
-  delivery: false,
-  type: [],
-  resource: '',
-  desc: '',
-})
+const data = reactive({
+  form: {
+  },
+  rules: {
+    name: [{ required: true, message: '请输入世界名字', trigger: 'blur' },
+      { min: 1, max: 80, message: 'Length should be 1 to 80', trigger: 'blur' }
+    ],
+    types: [{
+      required: true,
+      message: '请选择世界类型',
+      trigger: 'change',
+    }
+    ],
+    intro: [ { required: true, message: '请输入世界简介', trigger: 'blur' },
+      { min: 10, max: 255, message: 'Length should be 10 to 255', trigger: 'blur' }],
+    description: [ { required: true, message: '请输入世界描述', trigger: 'blur' },
+      { min: 10, max: 1000, message: 'Length should be 10 to 1000', trigger: 'blur' }],
+  }
+});
 
-const onSubmit = () => {
-  console.log('submit!')
+const {  form, rules } = toRefs(data);
+
+//世界信息
+const world=ref({})
+
+// 接收url里的参数
+const route = useRoute();
+world.value.id = route.query.id;
+console.log("世界id="+world.value.id);
+//上传图片
+// const imageUrl = ref('')
+/** 查询世界详细 */
+function handleUpdate(id:number) {
+  getWorld(id).then(response => {
+    console.log("查询世界详细:"+JSON.stringify(response))
+    form.value = response.data;
+    form.value.types=response.data.typeName
+    form.value.imgUrl='https://fuss10.elemecdn.com/e/5d/4a731a90594a4af544c0c25941171jpeg.jpeg'
+    console.log("查询世界详细:"+JSON.stringify(world.value))
+  });
 }
+
+const submitForm = async (formEl: FormInstance | undefined) => {
+  proxy.$refs["worldRef"].validate(valid => {
+    console.log("查询世界详细worldRef valid:"+JSON.stringify(valid))
+    if (valid) {
+      if (form.value.id != undefined) {
+        updateWorld(form.value).then(response => {
+          globalProperties.$modal.msgSuccess("修改成功");
+          router.push("/world/list");
+        });
+      }else {
+        globalProperties.$modal.msgError("非法操作");
+      }
+    }
+  });
+  console.log("查询世界详细formEl:"+JSON.stringify(formEl))
+}
+
+const reset = () => {
+  router.push("/admin/worldInfo?id="+world.value.id);
+}
+
+
+
+const handleAvatarSuccess: UploadProps['onSuccess'] = (
+    response,
+    uploadFile
+) => {
+  form.value.imgUrl = URL.createObjectURL(uploadFile.raw!)
+}
+
+const beforeAvatarUpload: UploadProps['beforeUpload'] = (rawFile) => {
+  if (rawFile.type !== 'image/jpeg') {
+    ElMessage.error('Avatar picture must be JPG format!')
+    return false
+  } else if (rawFile.size / 1024 / 1024 > 2) {
+    ElMessage.error('Avatar picture size can not exceed 2MB!')
+    return false
+  }
+  return true
+}
+
+handleUpdate(world.value.id);
 </script>
 
 <style scoped>

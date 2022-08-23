@@ -129,7 +129,7 @@
   </div>
 </template>
 
-<script lang="ts" setup name="Details">
+<script lang="ts" setup >
 import { ref } from 'vue'
 //接受参数
 import { useRoute }  from "vue-router";  // 引用vue-router
