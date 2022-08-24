@@ -83,14 +83,14 @@
         <!--        多选-->
         <div style="padding: 10px">
           <el-space wrap>
-              <el-button text type="primary"> 简介 </el-button>
-              <el-button text> 造物主列表 </el-button>
-              <el-button text> 元素列表 </el-button>
-              <el-button text> 元素分类 </el-button>
-              <el-button text> 元素审核 </el-button>
-              <el-button text> 居民管理 </el-button>
-              <el-button text> 评论管理 </el-button>
-              <el-button text> 讨论管理 </el-button>
+            <el-button text type="primary"> <router-link :to="{path:'/admin/worldInfo', query: {wid:wid}}">简介</router-link></el-button>
+            <el-button text>  <router-link :to="{path:'/admin/worldManage', query: {wid:wid}}">造物主列表</router-link></el-button>
+            <el-button text>  <router-link :to="{path:'/admin/worldElement', query: {wid:wid}}">元素列表</router-link></el-button>
+            <el-button text>  <router-link :to="{path:'/admin/worldCategory', query: {wid:wid}}">分类管理</router-link></el-button>
+            <el-button text>  <router-link :to="{path:'/admin/worldAudit', query: {wid:wid}}">元素审核</router-link></el-button>
+            <el-button text>  <router-link :to="{path:'/admin/worldRedident', query: {wid:wid}}">居民管理</router-link></el-button>
+            <el-button text>  <router-link :to="{path:'/admin/worldCommnet', query: {wid:wid}}">评论管理</router-link></el-button>
+            <el-button text>  <router-link :to="{path:'/admin/worldDiscuss', query: {wid:wid}}">讨论管理</router-link></el-button>
           </el-space>
         </div>
         <!--   内容区-->
@@ -152,18 +152,18 @@ import {  getWorld } from "@/api/wiki/world";
 import { useRoute }  from "vue-router";  // 引用vue-router
 import { useRouter} from "vue-router";
 const router = useRouter()
-
-const activeIndex = ref('1')
-const fits = ['世界', '粉丝', '关注']
-
 // 接收url里的参数
 const route = useRoute();
 console.log(route.query.id,"参数");
 //世界信息
 const world=ref({})
-
-world.value.id = route.query.id;
+const wid = ref(null);
+wid.value = route.query.wid;
+world.value.id = route.query.wid;
 console.log("世界id="+world.value.id);
+
+const activeIndex = ref('1')
+const fits = ['世界', '粉丝', '关注']
 //编辑世界
 function handleEdit(){
   router.push("/admin/worldEdit?id="+world.value.id);
@@ -175,6 +175,34 @@ function getWorld2(id:number) {
     world.value = response.data
   });
 
+}
+
+function jumpPage(page:number){
+  switch(page) {
+    case 0:
+      router.push("/admin/worldInfo?wid="+wid.value);
+      break;
+    case 2:
+      router.push("/admin/worldManage?id="+wid.value);
+      break;
+    case 3:
+      router.push("/admin/worldElement?id="+wid.value);
+      break;
+    case 4:
+      router.push("/admin/worldCategory?id="+wid.value);
+      break;
+    case 5:
+      router.push("/admin/worldRedident?id="+wid.value);
+      break;
+    case 6:
+      router.push("/admin/worldCommnet?id="+wid.value);
+      break;
+    case 7:
+      router.push("/admin/worldDiscuss?id="+wid.value);
+      break;
+    default:
+      router.push("/admin/worldInfo?id="+wid.value);
+  }
 }
 const url =
     'https://fuss10.elemecdn.com/e/5d/4a731a90594a4af544c0c25941171jpeg.jpeg'

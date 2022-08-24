@@ -104,14 +104,14 @@
     </div>
     <!--功能-->
     <div class="center" style="height: 80px;">
-      <el-button @click="submit()">预览</el-button>
+      <el-button @click="submit()">保存并预览</el-button>
     </div>
   </div>
 </template>
 
 <script  lang="ts" setup>
-import { reactive, ref } from 'vue'
-import {ElTree, FormInstance,ElInput} from "element-plus";
+import {getCurrentInstance, reactive, ref} from 'vue'
+import {ElTree, FormInstance, ElInput, ElMessage} from "element-plus";
 import ClassicEditor from '@ckeditor/ckeditor5-build-classic';
 import { getTree} from "@/api/wiki/category";
 import { addElement} from "@/api/wiki/element";
@@ -126,7 +126,8 @@ const wid = route.query.wid
 console.log("世界id="+wid);
 const editorConfig = {}
 const editor = ClassicEditor
-
+const {  appContext : { config: { globalProperties } }  } = getCurrentInstance();
+const {  proxy  } = getCurrentInstance();
 // 分类模板
 const value = ref()
 
@@ -197,11 +198,34 @@ const addDomain = () => {
   })
 }
 function submit(){
+  var ok=true;
   element.value.contentList=dynamicValidateForm.domains;
-  addElement(element.value).then(response => {
-    console.log("添加成功")
-    router.push("/element/preview?id="+response.data.id)
-  });
+  if(!element.value.title ){
+    ok=false;
+    ElMessage.error('名称不能为空!')
+  }
+  if(!element.value.intro ){
+    ok=false;
+    ElMessage.error('简介不能为空!')
+  }
+  if(!(element.value.title.length >1 && element.value.title.length < 100)){
+    ok=false;
+    ElMessage.error('名称长度不能超过100!')
+  }
+  console.log("简介长度:"+element.value.intro.length)
+  console.log("简介长度:"+element.value.intro.length>10)
+  console.log("简介长度:"+element.value.intro.length <300)
+
+  if(!(element.value.intro.length>10 && element.value.intro.length <300)){
+    ok=false;
+    ElMessage.error('简介长度不能小于10超过100!')
+  }
+  if(ok) {
+    addElement(element.value).then(response => {
+      console.log("添加成功")
+      router.push("/element/preview?wid="+ response.data.wid+"&eid=" + response.data.id)
+    });
+  }
 }
 //单个章节保存
 // const submitForm = (formEl: FormInstance | undefined,item: Content) => {

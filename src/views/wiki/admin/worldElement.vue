@@ -98,40 +98,27 @@
         <!--        多选-->
         <div style="padding: 10px">
           <el-space wrap>
-            <el-button text> 简介</el-button>
-            <el-button text> 造物主列表</el-button>
-            <el-button text type="primary"> 元素列表</el-button>
-            <el-button text> 元素分类</el-button>
-            <el-button text> 元素审核</el-button>
-            <el-button text> 居民管理</el-button>
-            <el-button text> 评论管理</el-button>
-            <el-button text> 讨论管理</el-button>
+            <el-button text > <router-link :to="{path:'/admin/worldInfo', query: {wid:wid}}">简介</router-link></el-button>
+            <el-button text>  <router-link :to="{path:'/admin/worldManage', query: {wid:wid}}">造物主列表</router-link></el-button>
+            <el-button text type="primary">  <router-link :to="{path:'/admin/worldElement', query: {wid:wid}}">元素列表</router-link></el-button>
+            <el-button text>  <router-link :to="{path:'/admin/worldCategory', query: {wid:wid}}">分类管理</router-link></el-button>
+            <el-button text>  <router-link :to="{path:'/admin/worldAudit', query: {wid:wid}}">元素审核</router-link></el-button>
+            <el-button text>  <router-link :to="{path:'/admin/worldRedident', query: {wid:wid}}">居民管理</router-link></el-button>
+            <el-button text>  <router-link :to="{path:'/admin/worldCommnet', query: {wid:wid}}">评论管理</router-link></el-button>
+            <el-button text>  <router-link :to="{path:'/admin/worldDiscuss', query: {wid:wid}}">讨论管理</router-link></el-button>
           </el-space>
         </div>
         <!--        统计-->
         <div style="background-color:#b0c4de;margin: auto;padding: 10px">
           <el-row>
             <el-col :span="20">
-              <el-tree-select v-model="value" :data="worldTypeList" check-strictly :render-after-expand="false"/>
+              <el-tree-select v-model="value" :data="dataStree" check-strictly :render-after-expand="false"/>
               <el-input v-model="input3" placeholder="Please input" class="input-with-select" style="width: 250px"/>
               <el-button :icon="Search" circle/>
             </el-col>
             <el-col :span="4" style="text-align: right;">
               <div style="text-align: right; font-size: 12px" class="toolbar">
                 <el-button text @click="dialogFormVisible = true">创建元素</el-button>
-                <el-dropdown>
-                  <el-icon style="margin-right: 8px; margin-top: 1px">
-                    <setting/>
-                  </el-icon>
-                  <template #dropdown>
-                    <el-dropdown-menu>
-                      <el-dropdown-item>View</el-dropdown-item>
-                      <el-dropdown-item>Add</el-dropdown-item>
-                      <el-dropdown-item>Delete</el-dropdown-item>
-                    </el-dropdown-menu>
-                  </template>
-                </el-dropdown>
-                <span>Tom</span>
               </div>
             </el-col>
           </el-row>
@@ -145,7 +132,7 @@
                   {{ scope.$index + 1 + (queryParams.pageNum - 1) * 10 }}
                 </template>
               </el-table-column>
-              <el-table-column label="名称" align="center" key="name" prop="name"/>
+              <el-table-column label="名称" align="center" key="title" prop="title"/>
               <el-table-column label="类型" align="center" key="typeName" prop="typeName" :show-overflow-tooltip="true"/>
               <el-table-column label="简介" align="center" key="intro" prop="intro" :show-overflow-tooltip="true"/>
               <el-table-column label="创建人" align="center" key="createName" prop="createName"
@@ -200,14 +187,11 @@
               :total="total"
               v-model:page="queryParams.pageNum"
               v-model:limit="queryParams.pageSize"
-              @pagination="getList"
-          />
+              @pagination="getList"/>
         </div>
       </el-main>
     </el-container>
   </el-container>
-
-
     <el-dialog v-model="dialogFormVisible" title="Shipping address">
       <el-form :model="form">
         <el-form-item label="Promotion name" :label-width="formLabelWidth">
@@ -232,15 +216,19 @@
 
 <script lang="ts" setup>
 import { getCurrentInstance, reactive, ref, toRefs} from 'vue'
-import { listElementWorld as listElement,delElement } from "@/api/admin/element";
+import {  listElement,delElement } from "@/api/admin/element";
 import { getTree} from "@/api/wiki/category";
-import { useRouter} from "vue-router";
+import {useRoute, useRouter} from "vue-router";
 import { Menu as IconMenu, Message, Setting } from '@element-plus/icons-vue'
 const fits = ['世界', '粉丝', '关注']
 const activeIndex = ref('1')
 
-
+// 接收url里的参数
+const route = useRoute();
 const router = useRouter()
+const wid = ref(null);
+wid.value = route.query.wid;
+console.log("世界id="+wid.value);
 const {  appContext : { config: { globalProperties } }  } = getCurrentInstance();
 const {  proxy  } = getCurrentInstance();
 class World {
@@ -262,12 +250,12 @@ const data = reactive({
     pageSize: 10,
     name: undefined,
     types: undefined,
+    wid:wid.value
   },
   rules: {
     // userName: [{ required: true, message: "用户名称不能为空", trigger: "blur" }, { min: 2, max: 20, message: "用户名称长度必须介于 2 和 20 之间", trigger: "blur" }],
   }
 });
-const worldTypes=reactive([{id:0,name:"科学"},{id:1,name:"武侠"},{id:2,name:"仙侠"},{id:3,name:"魔幻"},{id:4,name:"奇幻"},{id:5,name:"其他"}])
 const { queryParams, form, rules } = toRefs(data);
 const dateRange = ref([]);
 const ids = ref([]);
@@ -278,9 +266,8 @@ function handleUpdate (row)  {
   router.push("/world/edit?id="+row.id);
 }
 function handleDelete ( row){
-  const worldId = row.id ;
-  globalProperties.$modal.confirm('是否确认删除世界名称为"' + row.name + '"的数据？').then(function () {
-    return delElement(worldId);
+  globalProperties.$modal.confirm('是否确认删除世界名称为"' + row.title + '"的数据？').then(function () {
+    return delElement(row.wid,row.id);
   }).then(() => {
     getList();
     globalProperties.$modal.msgSuccess("删除成功");
@@ -288,7 +275,7 @@ function handleDelete ( row){
 }
 
 function handleSee(row){
-  router.push("/admin/worldInfo?id="+row.id);
+  router.push("/element/preview?eid="+row.id);
 }
 /** 选择条数  */
 function handleSelectionChange(selection) {
@@ -314,93 +301,21 @@ function getList() {
   });
 }
 /** 查询分类列表 */
-function getList() {
+function getCategoryTree() {
   getTree(wid.value).then(response => {
     dataStree.value = response.data
   });
 }
+getCategoryTree();
 getList();
 
 
 const value = ref()
 
-const worldTypeList = [
-  {
-    value: '1',
-    label: 'Level one 1',
-    children: [
-      {
-        value: '1-1',
-        label: 'Level two 1-1',
-        children: [
-          {
-            value: '1-1-1',
-            label: 'Level three 1-1-1',
-          },
-        ],
-      },
-    ],
-  },
-  {
-    value: '2',
-    label: 'Level one 2',
-    children: [
-      {
-        value: '2-1',
-        label: 'Level two 2-1',
-        children: [
-          {
-            value: '2-1-1',
-            label: 'Level three 2-1-1',
-          },
-        ],
-      },
-      {
-        value: '2-2',
-        label: 'Level two 2-2',
-        children: [
-          {
-            value: '2-2-1',
-            label: 'Level three 2-2-1',
-          },
-        ],
-      },
-    ],
-  },
-  {
-    value: '3',
-    label: 'Level one 3',
-    children: [
-      {
-        value: '3-1',
-        label: 'Level two 3-1',
-        children: [
-          {
-            value: '3-1-1',
-            label: 'Level three 3-1-1',
-          },
-        ],
-      },
-      {
-        value: '3-2',
-        label: 'Level two 3-2',
-        children: [
-          {
-            value: '3-2-1',
-            label: 'Level three 3-2-1',
-          },
-        ],
-      },
-    ],
-  },
-]
-
 import {Search} from '@element-plus/icons-vue'
 
 const input3 = ref('')
 const dialogFormVisible = ref(false)
-
-
 
 function newElement(wid: number) {
   console.log('submit!')

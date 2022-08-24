@@ -39,7 +39,9 @@
 <script lang="ts" setup>
 import { reactive, ref, toRefs} from 'vue'
 import type Node from 'element-plus/es/components/tree/src/model/node'
-import { addCategory,getTree,updateCategory,delCategory} from "@/api/wiki/category";
+import { addCategory,updateCategory,delCategory} from "@/api/admin/category";
+import {getTree} from "@/api/wiki/category";
+
 import {useRoute} from "vue-router";
 import {FormInstance} from "element-plus";
 
@@ -185,8 +187,28 @@ function submitForm(formEl: FormInstance | undefined) {   //
           getList();
         })
       }
+  reset();
 }
+/** 重置新增的表单以及其他数据  */
+function reset() {
+  // if (menuRef.value != undefined) {
+  //   menuRef.value.setCheckedKeys([]);
+  // }
+  // menuExpand.value = false;
+  // menuNodeAll.value = false;
+  // deptExpand.value = true;
+  // deptNodeAll.value = false;
+  form.value = {
+    label: undefined,
+    tier: undefined,
+    id: undefined,
+    code: undefined,
+    pid: undefined,
+    pcode: undefined
 
+  };
+  // proxy.resetForm("roleRef");
+}
 /** 查询世界列表 */
 function getList() {
   getTree(wid).then(response => {

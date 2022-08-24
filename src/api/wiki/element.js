@@ -18,9 +18,9 @@ export function listElement(query) {
 // }
 
 // 查询元素详细
-export function getElementDetails(id) {
+export function getElementDetails(wid,eid) {
   return request({
-    url: '/wiki/element/getInfo/' + id,
+    url: '/wiki/element/getInfo?wid=' + wid+'&eid='+eid,
     method: 'get'
   })
 }

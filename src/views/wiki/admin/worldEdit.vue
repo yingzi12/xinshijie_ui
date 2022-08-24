@@ -180,11 +180,13 @@ const {  proxy  } = getCurrentInstance();
 
 const fits = ['世界', '粉丝', '关注']
 const router = useRouter()
-
+// 接收url里的参数
+const route = useRoute();
+const wid = ref(null);
+wid.value = route.query.wid;
 const formSize = ref('default')
 const ruleFormRef = ref<FormInstance>()
 const activeIndex = ref('1')
-
 
 const data = reactive({
   form: {
@@ -211,9 +213,8 @@ const {  form, rules } = toRefs(data);
 //世界信息
 const world=ref({})
 
-// 接收url里的参数
-const route = useRoute();
-world.value.id = route.query.id;
+
+world.value.id = wid.value
 console.log("世界id="+world.value.id);
 //上传图片
 // const imageUrl = ref('')

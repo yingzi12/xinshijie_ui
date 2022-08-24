@@ -19,7 +19,7 @@ export function getCategory(id) {
 
 export function getTree(wid) {
   return request({
-    url: '/wiki/category/getTree/' + wid,
+    url: '/wiki/category/getTree?wid=' + wid,
     method: 'get'
   })
 }

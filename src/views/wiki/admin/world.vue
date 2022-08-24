@@ -240,7 +240,7 @@ function handleDelete ( row){
 }
 
 function handleSee(row){
-  router.push("/admin/worldInfo?id="+row.id);
+  router.push("/admin/worldInfo?wid="+row.id);
 }
 /** 选择条数  */
 function handleSelectionChange(selection) {

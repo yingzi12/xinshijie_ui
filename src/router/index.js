@@ -185,6 +185,12 @@ export const constantRoutes = [
         meta: { title: '世界', icon: 'wiki' }
       },
       {
+        path: 'worldCategory',
+        component: () => import('@/views/wiki/admin/worldCategory'),
+        name: 'WorldCategory',
+        meta: { title: '世界', icon: 'wiki' }
+      },
+      {
         path: 'comment',
         component: () => import('@/views/wiki/admin/comment'),
         name: 'comment',

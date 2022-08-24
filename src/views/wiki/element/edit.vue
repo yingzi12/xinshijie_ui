@@ -9,13 +9,28 @@
       <div style="background-color: #E5EAF3">
         <BootstrapIcon icon="card-list" size="1x" flip-v /><span>分类管理</span>
       </div>
-      <div>
-        show checkbox: <el-tree-select
+      <div style="height: 55px">
+        <div>
+          分类: <el-tree-select
+            ref="treeRef"
             v-model="value"
-            :data="data"
+            :data="dataStree"
             multiple
+            collapse-tags
             :render-after-expand="false"
+            @change="show"
             show-checkbox />
+        </div>
+        <div>
+          已选择: <el-tag
+            v-for="tag in dynamicTags"
+            :key="tag"
+            class="mx-1"
+            :disable-transitions="false">
+          {{ tag }}
+        </el-tag>
+
+        </div>
       </div>
     </div>
     <!--  基本信息 -->
@@ -96,8 +111,24 @@
 
 <script  lang="ts" setup>
 import { reactive, ref } from 'vue'
-import {FormInstance} from "element-plus";
+import {ElTree, FormInstance} from "element-plus";
 import ClassicEditor from '@ckeditor/ckeditor5-build-classic';
+import {  getElementDetails } from "@/api/wiki/element";
+import {  updatePush } from "@/api/admin/element";
+import { getTree} from "@/api/wiki/category";
+
+//接受参数
+import { useRoute ,useRouter}  from "vue-router";  // 引用vue-router
+const router = useRouter()
+// 接收url里的参数
+const route = useRoute();
+//世界信息
+const eid = ref(null);
+const wid = ref(null);
+eid.value = route.query.eid;
+wid.value = route.query.wid;
+console.log("元素id="+eid.value);
+console.log("世界id="+wid.value);
 
 const editorConfig = {}
 const editor = ClassicEditor
@@ -187,80 +218,40 @@ const submitForm = (formEl: FormInstance | undefined) => {
   })
 }
 
-// 分类模板
-const value = ref()
-const valueStrictly = ref()
+const dataStree = ref([])
+//分类标签
+const dynamicTags = ref([])
+//分类选择
+const treeRef = ref<InstanceType<typeof ElTree>>()
+//基础信息
+const element = ref<InstanceType<Element>>({})
+//原始的选中的value
+const sleValue=ref({})
+/** 查询世界列表 */
+function getList() {
+  getTree(wid.value).then(response => {
+    dataStree.value = response.data
+  });
+}
 
-const data = [
-  {
-    value: '1',
-    label: 'Level one 1',
-    children: [
-      {
-        value: '1-1',
-        label: 'Level two 1-1',
-        children: [
-          {
-            value: '1-1-1',
-            label: 'Level three 1-1-1',
-          },
-        ],
-      },
-    ],
-  },
-  {
-    value: '2',
-    label: 'Level one 2',
-    children: [
-      {
-        value: '2-1',
-        label: 'Level two 2-1',
-        children: [
-          {
-            value: '2-1-1',
-            label: 'Level three 2-1-1',
-          },
-        ],
-      },
-      {
-        value: '2-2',
-        label: 'Level two 2-2',
-        children: [
-          {
-            value: '2-2-1',
-            label: 'Level three 2-2-1',
-          },
-        ],
-      },
-    ],
-  },
-  {
-    value: '3',
-    label: 'Level one 3',
-    children: [
-      {
-        value: '3-1',
-        label: 'Level two 3-1',
-        children: [
-          {
-            value: '3-1-1',
-            label: 'Level three 3-1-1',
-          },
-        ],
-      },
-      {
-        value: '3-2',
-        label: 'Level two 3-2',
-        children: [
-          {
-            value: '3-2-1',
-            label: 'Level three 3-2-1',
-          },
-        ],
-      },
-    ],
-  },
-]
+function  show(val){
+//let that = this ,将this保存在that中，再在函数中使用that均可
+  dynamicTags.value=value.value
+  console.log("选中的对象value1"+value.value)
+  console.log("选中的对象label"+JSON.stringify(treeRef.value))
+
+  sleValue.value=new Array();
+  dynamicTags.value=new Array();
+  for(let i=0;i<=value.value.length-1;i++){
+    dynamicTags.value[i]=value.value[i].split('$$')[1]
+    sleValue.value[i]=value.value[i].split('$$')[0]
+  }
+  element.value.categoryList=sleValue;
+  console.log("选中的对象value2"+value.value)
+  console.log("选中的对象sleValue2"+sleValue.value)
+  console.log("选中的对象element:"+JSON.stringify(element.value))
+}
+getList()
 </script>
 
 <style scoped>

@@ -3,24 +3,16 @@ import request from '@/utils/request'
 // 查询元素列表
 export function listElement(query) {
   return request({
-    url: '/wiki/element/list',
+    url: '/admin/element/listElementWorld',
     method: 'get',
     params: query
   })
 }
 
-// // 查询元素详细
-// export function getElement(id) {
-//   return request({
-//     url: '/wiki/element/getInfo/' + id,
-//     method: 'get'
-//   })
-// }
-
 // 查询元素详细
-export function getElementDetails(id) {
+export function getElementDetails(wid,eid) {
   return request({
-    url: '/wiki/element/getInfo/' + id,
+    url: '/wiki/element/getInfo?wid=' + wid+'&eid='+eid,
     method: 'get'
   })
 }
@@ -28,7 +20,7 @@ export function getElementDetails(id) {
 // 新增元素
 export function addElement(data) {
   return request({
-    url: '/wiki/element/add',
+    url: '/admin/element/add',
     method: 'post',
     data: data
   })
@@ -37,16 +29,23 @@ export function addElement(data) {
 // 修改元素
 export function updateElement(data) {
   return request({
-    url: '/wiki/element/edit',
+    url: '/admin/element/edit',
     method: 'put',
     data: data
   })
 }
-
-// 删除元素
-export function delElement(id) {
+//发布元素
+export function updatePush(data) {
   return request({
-    url: '/wiki/element/remove/' + id,
+    url: '/admin/element/updatePush',
+    method: 'put',
+    data: data
+  })
+}
+// 删除元素
+export function delElement(wid,eid) {
+  return request({
+    url: '/admin/element/remove?wid=' + wid+'&eid='+eid,
     method: 'delete'
   })
 }
