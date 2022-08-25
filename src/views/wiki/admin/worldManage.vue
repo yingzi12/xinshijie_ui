@@ -164,9 +164,10 @@
 
 <script lang="ts" setup>
 import { getCurrentInstance, reactive, ref, toRefs} from 'vue'
-import { getWorldManage ,delManage,addManage } from "@/api/admin/manage";
 import {useRoute, useRouter} from "vue-router";
 import { Menu as IconMenu,CirclePlus, Message, Setting } from '@element-plus/icons-vue'
+import { getWorldManage ,delManage,addManage } from "@/api/admin/manage";
+
 const fits = ['世界', '粉丝', '关注']
 const activeIndex = ref('1')
 

@@ -77,25 +77,31 @@
               @select="handleSelect"
               style="margin:0px;pardding:0px"
           >
-            <el-menu-item index="1">关注的世界</el-menu-item>
-<!--            <el-menu-item index="2">关注的故事</el-menu-item>-->
+            <el-menu-item index="1">帝国崛起</el-menu-item>
           </el-menu>
         </div>
         <!--        多选-->
         <div style="padding: 10px">
           <el-space wrap>
-            <div v-for="i in 9" :key="i">
-              <el-button text> Text{{i}} </el-button>
-            </div>
+            <el-button text > <router-link :to="{path:'/admin/worldInfo', query: {wid:wid}}">简介</router-link></el-button>
+            <el-button text>  <router-link :to="{path:'/admin/worldManage', query: {wid:wid}}">造物主列表</router-link></el-button>
+            <el-button text>  <router-link :to="{path:'/admin/worldElement', query: {wid:wid}}">元素列表</router-link></el-button>
+            <el-button text>  <router-link :to="{path:'/admin/worldCategory', query: {wid:wid}}">分类管理</router-link></el-button>
+            <el-button text  type="primary">  <router-link :to="{path:'/admin/worldAudit', query: {wid:wid}}">元素审核</router-link></el-button>
+            <el-button text>  <router-link :to="{path:'/admin/worldRedident', query: {wid:wid}}">居民管理</router-link></el-button>
+            <el-button text>  <router-link :to="{path:'/admin/worldCommnet', query: {wid:wid}}">评论管理</router-link></el-button>
+            <el-button text>  <router-link :to="{path:'/admin/worldDiscuss', query: {wid:wid}}">讨论管理</router-link></el-button>
           </el-space>
         </div>
         <!--        统计-->
         <div style="background-color:#b0c4de;margin: auto;padding: 10px">
           <el-row>
-            <el-col  :span="4">
-              合计(65)
+            <el-col  :span="20">
+              <el-tree-select v-model="value" :data="data" check-strictly :render-after-expand="false"/>
+              <el-input v-model="input3" placeholder="Please input" class="input-with-select" style="width: 250px"/>
+              <el-button :icon="Search" circle />
             </el-col >
-            <el-col :span="20"  style="text-align: right;">
+            <el-col :span="4"  style="text-align: right;">
               <div style="text-align: right; font-size: 12px" class="toolbar">
                 <el-dropdown>
                   <el-icon style="margin-right: 8px; margin-top: 1px"><setting/></el-icon>
@@ -146,7 +152,13 @@
 
 <script lang="ts" setup>
 import { ref } from 'vue'
-import { Menu as IconMenu, Message, Setting } from '@element-plus/icons-vue'
+import {useRoute, useRouter} from "vue-router";
+import { Menu as IconMenu,CirclePlus, Message, Setting } from '@element-plus/icons-vue'
+// 接收url里的参数
+const route = useRoute();
+console.log(route.query.wid,"参数");
+const wid = ref(null);
+wid.value = route.query.wid;
 const fits = ['世界', '粉丝', '关注']
 const activeIndex = ref('1')
 
@@ -156,6 +168,85 @@ const item = {
   address: 'No. 189, Grove St, Los Angeles',
 }
 const tableData = ref(Array.from({ length: 20 }).fill(item))
+
+
+const value = ref()
+
+const data = [
+  {
+    value: '1',
+    label: 'Level one 1',
+    children: [
+      {
+        value: '1-1',
+        label: 'Level two 1-1',
+        children: [
+          {
+            value: '1-1-1',
+            label: 'Level three 1-1-1',
+          },
+        ],
+      },
+    ],
+  },
+  {
+    value: '2',
+    label: 'Level one 2',
+    children: [
+      {
+        value: '2-1',
+        label: 'Level two 2-1',
+        children: [
+          {
+            value: '2-1-1',
+            label: 'Level three 2-1-1',
+          },
+        ],
+      },
+      {
+        value: '2-2',
+        label: 'Level two 2-2',
+        children: [
+          {
+            value: '2-2-1',
+            label: 'Level three 2-2-1',
+          },
+        ],
+      },
+    ],
+  },
+  {
+    value: '3',
+    label: 'Level one 3',
+    children: [
+      {
+        value: '3-1',
+        label: 'Level two 3-1',
+        children: [
+          {
+            value: '3-1-1',
+            label: 'Level three 3-1-1',
+          },
+        ],
+      },
+      {
+        value: '3-2',
+        label: 'Level two 3-2',
+        children: [
+          {
+            value: '3-2-1',
+            label: 'Level three 3-2-1',
+          },
+        ],
+      },
+    ],
+  },
+]
+
+import { Search } from '@element-plus/icons-vue'
+import {useRoute} from "vue-router";
+const input3 = ref('')
+
 </script>
 
 <style scoped>

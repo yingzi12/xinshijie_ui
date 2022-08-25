@@ -17,7 +17,6 @@ export function getCategory(id) {
   })
 }
 
-
 // 新增元素分类
 export function addCategory(data) {
   return request({

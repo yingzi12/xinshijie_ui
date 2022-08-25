@@ -83,7 +83,6 @@ export const constantRoutes = [
   {
     path: '/world',
     component: LayoutWiki,
-    // component: () => import('@/views/wiki/world/index'),
     hidden: true,
     children: [
       {
@@ -97,6 +96,16 @@ export const constantRoutes = [
         component: () => import('@/views/wiki/world/details'),
         name: 'Details',
         meta: { title: '世界详细', icon: 'world' }
+      },{
+        path: 'comment',
+        component: () => import('@/views/wiki/world/comment'),
+        name: 'Comment',
+        meta: { title: '评论', icon: 'world' }
+      },{
+        path: 'disscuss',
+        component: () => import('@/views/wiki/world/disscuss'),
+        name: 'disscuss',
+        meta: { title: '讨论', icon: 'world' }
       },{
         path: 'add',
         component: () => import('@/views/wiki/world/add'),
@@ -219,10 +228,28 @@ export const constantRoutes = [
         meta: { title: '审核', icon: 'wiki' }
       },
       {
-        path: 'worldElemnetAudit',
-        component: () => import('@/views/wiki/admin/worldElemnetAudit'),
-        name: 'worldElemnetAudit',
+        path: 'worldAudit',
+        component: () => import('@/views/wiki/admin/worldAudit'),
+        name: 'worldAudit',
         meta: { title: '元素审核', icon: 'wiki' }
+      },
+      {
+        path: 'worldRedident',
+        component: () => import('@/views/wiki/admin/worldRedident'),
+        name: 'worldRedident',
+        meta: { title: '居民管理', icon: 'wiki' }
+      },
+      {
+        path: 'worldCommnet',
+        component: () => import('@/views/wiki/admin/worldCommnet'),
+        name: 'worldCommnet',
+        meta: { title: '评论管理', icon: 'wiki' }
+      },
+      {
+        path: 'worldDiscuss',
+        component: () => import('@/views/wiki/admin/worldDiscuss'),
+        name: 'worldDiscuss',
+        meta: { title: '讨论管理', icon: 'wiki' }
       },
       {
         path: 'diff',

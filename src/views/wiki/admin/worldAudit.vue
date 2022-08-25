@@ -152,7 +152,13 @@
 
 <script lang="ts" setup>
 import { ref } from 'vue'
-import { Menu as IconMenu, Message, Setting } from '@element-plus/icons-vue'
+import {useRoute, useRouter} from "vue-router";
+import { Menu as IconMenu,CirclePlus, Message, Setting } from '@element-plus/icons-vue'
+// 接收url里的参数
+const route = useRoute();
+console.log(route.query.wid,"参数");
+const wid = ref(null);
+wid.value = route.query.wid;
 const fits = ['世界', '粉丝', '关注']
 const activeIndex = ref('1')
 
@@ -238,6 +244,7 @@ const data = [
 ]
 
 import { Search } from '@element-plus/icons-vue'
+import {useRoute} from "vue-router";
 const input3 = ref('')
 
 </script>

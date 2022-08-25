@@ -40,7 +40,11 @@
           <el-row >
             <el-col :span="19">
               <div class="biaoti">
-                <BootstrapIcon icon="caret-down-fill" size="1x" flip-v /><span>{{domain.title  }}<el-tag v-if="domain.isUpdate == 1">(已被修改)</el-tag></span>
+                <BootstrapIcon icon="caret-down-fill" size="1x" flip-v /><span>{{domain.title  }}
+                <el-tag v-if="domain.isUpdate == 1"  type="warning">(已被修改)</el-tag>
+                <el-tag v-if="domain.isDelete == 1"  type="danger">(已被删除)</el-tag>
+                <el-tag v-if="domain.isNew == 1"  type="success">(新增)</el-tag>
+              </span>
               </div>
             </el-col>
             <el-col :span="5">
@@ -91,6 +95,7 @@ const worldBasic = reactive({
   types: ["历史","科幻","魔法"],
   resource: '',
   desc: '',
+  updateConetext: '修改理由',
 })
 
 
@@ -106,7 +111,9 @@ const dynamicValidateForm = reactive<{
       value: '这里是内容模块,这里是内容模块,这里是内容模块',
       cid: 1,
       diff: '',
-      isUpdate: 0
+      isUpdate: 0,
+      isDelete: 0,
+      isNew:0,
     },
     {
       key: 1,
@@ -137,7 +144,9 @@ const dynamicValidateForm = reactive<{
 +确认afda缺
 
 `,
-      isUpdate: 1
+      isUpdate: 1,
+      isDelete: 0,
+      isNew:0,
     },
     {
       key: 1,
@@ -145,7 +154,19 @@ const dynamicValidateForm = reactive<{
       value: '这里是内容模块,这里是内容模块,这里是内容模块',
       cid: 1,
       diff: '',
-      isUpdate: 0
+      isUpdate: 0,
+      isDelete: 1,
+      isNew:0,
+    },
+    {
+      key: 1,
+      title:'小标题',
+      value: '这里是内容模块,这里是内容模块,这里是内容模块',
+      cid: 1,
+      diff: '',
+      isUpdate: 0,
+      isDelete: 0,
+      isNew:1,
     },
   ]
 })
@@ -159,7 +180,11 @@ interface DomainItem {
   //被修改的内容
   diff:  String
   //是否已被修改
-  isUpdate:number
+  isUpdate:number,
+  //是否被删除
+  isDelete:number,
+  //是否是新增
+  isNew:number,
 }
 
 // 内容比对
