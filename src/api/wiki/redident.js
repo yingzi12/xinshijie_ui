@@ -16,29 +16,3 @@ export function getRedident(id) {
     method: 'get'
   })
 }
-
-// 新增居民数
-export function addRedident(data) {
-  return request({
-    url: '/wiki/redident/add',
-    method: 'post',
-    data: data
-  })
-}
-
-// 修改居民数
-export function updateRedident(data) {
-  return request({
-    url: '/wiki/redident/edit',
-    method: 'put',
-    data: data
-  })
-}
-
-// 删除居民数
-export function delRedident(id) {
-  return request({
-    url: '/wiki/redident/remove/' + id,
-    method: 'delete'
-  })
-}

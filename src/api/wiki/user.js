@@ -16,29 +16,3 @@ export function getUser(id) {
     method: 'get'
   })
 }
-
-// 新增用户
-export function addUser(data) {
-  return request({
-    url: '/wiki/user/add',
-    method: 'post',
-    data: data
-  })
-}
-
-// 修改用户
-export function updateUser(data) {
-  return request({
-    url: '/wiki/user/edit',
-    method: 'put',
-    data: data
-  })
-}
-
-// 删除用户
-export function delUser(id) {
-  return request({
-    url: '/wiki/user/remove/' + id,
-    method: 'delete'
-  })
-}

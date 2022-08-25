@@ -23,29 +23,3 @@ export function getTree(wid) {
     method: 'get'
   })
 }
-
-// 新增元素分类
-export function addCategory(data) {
-  return request({
-    url: '/wiki/category/add',
-    method: 'post',
-    data: data
-  })
-}
-
-// 修改元素分类
-export function updateCategory(data) {
-  return request({
-    url: '/wiki/category/edit',
-    method: 'put',
-    data: data
-  })
-}
-
-// 删除元素分类
-export function delCategory(id) {
-  return request({
-    url: '/wiki/category/remove/' + id,
-    method: 'delete'
-  })
-}

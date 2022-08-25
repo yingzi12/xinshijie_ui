@@ -24,29 +24,3 @@ export function getElementDetails(wid,eid) {
     method: 'get'
   })
 }
-
-// 新增元素
-export function addElement(data) {
-  return request({
-    url: '/wiki/element/add',
-    method: 'post',
-    data: data
-  })
-}
-
-// 修改元素
-export function updateElement(data) {
-  return request({
-    url: '/wiki/element/edit',
-    method: 'put',
-    data: data
-  })
-}
-
-// 删除元素
-export function delElement(id) {
-  return request({
-    url: '/wiki/element/remove/' + id,
-    method: 'delete'
-  })
-}
