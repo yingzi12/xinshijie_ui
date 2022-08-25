@@ -13,7 +13,7 @@
         <div>
           分类: <el-tree-select
             ref="treeRef"
-            v-model="value"
+            v-model="categoryList"
             :data="dataStree"
             multiple
             collapse-tags
@@ -39,12 +39,12 @@
         <BootstrapIcon icon="card-checklist" size="1x" flip-v /><span>基本信息</span>
       </div>
       <div>
-        <el-form :model="formBasic" label-width="120px">
+        <el-form :model="element" label-width="120px">
           <el-form-item label="名称">
-            <el-input v-model="formBasic.name" />
+            <el-input v-model="element.title" />
           </el-form-item>
           <el-form-item label="Activity form">
-            <el-input v-model="formBasic.desc" type="textarea" />
+            <el-input v-model="element.intro" type="textarea" />
           </el-form-item>
         </el-form>
       </div>
@@ -65,56 +65,58 @@
           </el-col>
         </el-row>
       </div>
-      <div v-for="(domain, index) in dynamicValidateForm.domains"
-            :key="domain.key"
-            :label="'Domain' + index"
-            :prop="'domains.' + index + '.value'"
+      <div v-for="(content, index) in element.contentList"
+            :key="content.key"
+            :label="'Content' + index"
+            :prop="'content.' + index + '.value'"
             :rules="{
         required: true,
         message: 'domain can not be null',
         trigger: 'blur',
       }"
       >
-        <el-form :inline="true" :model="dynamicValidateForm" class="demo-form-inline">
+        <el-form :inline="true"  class="demo-form-inline">
         <div style="background-color: #cccccc">
           <el-row >
             <el-col :span="19">
               <div class="biaoti">
                 <BootstrapIcon icon="pencil-square" size="1x" flip-v />
-                <span v-if="domain.isEdit == 0">小标题</span>
-                <el-input  style="width:100px" v-if="domain.isEdit == 1"  size="small" v-model="domain.title" placeholder="小标题" />
+                <span v-if="content.isEdit == 0">{{ content.title }}</span>
+                <el-input  style="width:100px" v-if="content.isEdit == 1"  size="small" v-model="content.title" placeholder="小标题" />
               </div>
             </el-col>
             <el-col :span="5">
               <div class="center">
-                <el-button v-if="domain.status == 0" @click="submitForm(formRef)"><BootstrapIcon icon="save" size="1x" flip-v />保存</el-button>
-                <el-button v-if="domain.status == 0" @click.prevent="removeDomain(domain)"><BootstrapIcon icon="trash" size="1x" flip-v />删除</el-button>
-                <el-button v-if="domain.status == 1" ><BootstrapIcon icon="lock" size="1x" flip-v />锁定</el-button>
-                <el-button v-if="domain.status == 2" ><BootstrapIcon icon="pencil-square" size="1x" flip-v />编辑</el-button>
+<!--                <el-button v-if="content.isEdit == 1" @click="submitForm(formRef)"><BootstrapIcon icon="save" size="1x" flip-v />保存</el-button>-->
+                <el-button v-if="content.isEdit == 1" @click="handEditClean(content)"><BootstrapIcon icon="save" size="1x" flip-v />退出编辑</el-button>
+                <el-button v-if="content.isEdit == 0" @click="handEdit(content)"><BootstrapIcon icon="pencil-square" size="1x" flip-v  />编辑</el-button>
+                <el-button v-if="content.isEdit == 0" @click.prevent="removeDomain(content)"><BootstrapIcon icon="trash" size="1x" flip-v />删除</el-button>
+                <el-button v-if="content.status == 2" ><BootstrapIcon icon="lock" size="1x" flip-v />锁定</el-button>
               </div>
             </el-col>
           </el-row>
         </div>
         <div>
-              <ckeditor :editor="editor" v-model="domain.value" :config="editorConfig"></ckeditor>
+              <ckeditor :editor="editor" v-model="content.content" :config="editorConfig"></ckeditor>
         </div>
         </el-form>
 
       </div>
     </div>
     <!--功能-->
-    <div>
-      <el-button>预览</el-button>
-    </div>
+      <div class="center" style="height: 80px;">
+        <el-button @click="submit()">保存并预览</el-button>
+        <el-button @click="submitClear()">取消</el-button>
+      </div>
   </div>
 </template>
 
 <script  lang="ts" setup>
 import { reactive, ref } from 'vue'
-import {ElTree, FormInstance} from "element-plus";
+import {ElMessage, ElTree, FormInstance} from "element-plus";
 import ClassicEditor from '@ckeditor/ckeditor5-build-classic';
 import {  getElementDetails } from "@/api/wiki/element";
-import {  updatePush } from "@/api/admin/element";
+import {  updateElement } from "@/api/admin/element";
 import { getTree} from "@/api/wiki/category";
 
 //接受参数
@@ -130,82 +132,66 @@ wid.value = route.query.wid;
 console.log("元素id="+eid.value);
 console.log("世界id="+wid.value);
 
-const editorConfig = {}
-const editor = ClassicEditor
 //基本信息
-const formBasic = reactive({
-  name: '',
-  region: '',
-  date1: '',
-  date2: '',
-  delivery: false,
-  type: [],
-  resource: '',
-  desc: '',
-})
+interface Element {
+  id:number,
+  wid:String,
+  title:string,
+  intro:String,
+  softtype: number,
+  categoryList:[],
+  contentList:[],
+  contentIdList:[],
+}
 
-
-//章节模块
-const formRef = ref<FormInstance>()
-const dynamicValidateForm = reactive<{
-  domains: DomainItem[]
-  email: string
-}>({
-  domains: [
-    {
-      key: 1,
-      value: '666',
-      title: "小标题1",
-      status: 2,
-      isEdit: 0
-    },{
-      key: 2,
-      value: '777',
-      title: "小标题2",
-      status: 2,
-      isEdit: 0
-    },{
-      key: 3,
-      value: '888',
-      title: "小标题3",
-      status: 1,
-      isEdit: 0
-    },{
-      key: 4,
-      value: '999',
-      title: "小标题4",
-      status: 0,
-      isEdit: 1
-    },
-  ],
-  email: '',
-})
-
-interface DomainItem {
+interface Content {
+  id:number
   key: number
-  value: string
   title: string
   status: number
   isEdit: number
+  content: string
+  isNew: number
 }
 
-const removeDomain = (item: DomainItem) => {
-  const index = dynamicValidateForm.domains.indexOf(item)
+const editorConfig = {}
+const editor = ClassicEditor
+
+//章节模块
+const formRef = ref<FormInstance>()
+
+const removeDomain = (item: Content) => {
+  if(item.id != null){
+    element.value.contentIdList.push(item.id)
+  }
+  console.log("删除："+JSON.stringify(item))
+  const index = element.value.contentList.indexOf(item)
+  console.log("删除index："+index)
   if (index !== -1) {
-    dynamicValidateForm.domains.splice(index, 1)
+    element.value.contentList.splice(index, 1)
   }
 }
 
 const addDomain = () => {
-  dynamicValidateForm.domains.push({
+  element.value.contentList.push({
+    id:null,
     key: Date.now(),
     status:0,
     title: '',
     value: '',
     isEdit: 1,
+    isNew:1
   })
 }
 
+const handEdit = (content: Content) => {
+  content.isNew=1;
+  content.isEdit=1;
+}
+const handEditClean = (content: Content) => {
+  content.isNew=1;
+  content.isEdit=0;
+}
 const submitForm = (formEl: FormInstance | undefined) => {
   if (!formEl) return
   formEl.validate((valid) => {
@@ -217,6 +203,8 @@ const submitForm = (formEl: FormInstance | undefined) => {
     }
   })
 }
+// 分类模板
+const categoryList = ref([])
 
 const dataStree = ref([])
 //分类标签
@@ -227,30 +215,90 @@ const treeRef = ref<InstanceType<typeof ElTree>>()
 const element = ref<InstanceType<Element>>({})
 //原始的选中的value
 const sleValue=ref({})
+
+
+
 /** 查询世界列表 */
 function getList() {
   getTree(wid.value).then(response => {
     dataStree.value = response.data
+    console.log("树:"+JSON.stringify( dataStree.value))
   });
 }
 
 function  show(val){
 //let that = this ,将this保存在that中，再在函数中使用that均可
-  dynamicTags.value=value.value
-  console.log("选中的对象value1"+value.value)
-  console.log("选中的对象label"+JSON.stringify(treeRef.value))
+  dynamicTags.value=categoryList.value
+  console.log("选中的对象value1"+categoryList.value)
+  console.log("选中的对象treeRef"+JSON.stringify(treeRef.value))
 
   sleValue.value=new Array();
   dynamicTags.value=new Array();
-  for(let i=0;i<=value.value.length-1;i++){
-    dynamicTags.value[i]=value.value[i].split('$$')[1]
-    sleValue.value[i]=value.value[i].split('$$')[0]
+  for(let i=0;i<=categoryList.value.length-1;i++){
+    dynamicTags.value[i]=categoryList.value[i].split('$$')[1]
+    sleValue.value[i]=categoryList.value[i].split('$$')[0]
   }
   element.value.categoryList=sleValue;
-  console.log("选中的对象value2"+value.value)
+  console.log("选中的对象value2"+categoryList.value)
   console.log("选中的对象sleValue2"+sleValue.value)
   console.log("选中的对象element:"+JSON.stringify(element.value))
 }
+// const treeRef = ref<InstanceType<typeof ElTree>>()
+
+/** 查询世界详细 */
+function getElement(wid:number,eid:number) {
+  getElementDetails(wid,eid).then(response => {
+    console.log("查询世界详细:"+JSON.stringify(response))
+    element.value = response.data
+    element.value.contentIdList=[];
+    categoryList.value=[];
+    dynamicTags.value=[];
+    sleValue.value=[];
+    for(var i=0;i<element.value.categoryList.length;i++){
+      categoryList.value[i]=element.value.categoryList[i].value
+      dynamicTags.value[i]=element.value.categoryList[i].label
+      sleValue.value[i]=element.value.categoryList[i].id
+    }
+    element.value.categoryList=sleValue
+    console.log("打印查询到的categoryList"+JSON.stringify(categoryList))
+  });
+}
+
+function submit(){
+  var ok=true;
+  if(!element.value.title ){
+    ok=false;
+    ElMessage.error('名称不能为空!')
+  }
+  if(!element.value.intro ){
+    ok=false;
+    ElMessage.error('简介不能为空!')
+  }
+  if(!(element.value.title.length >1 && element.value.title.length < 100)){
+    ok=false;
+    ElMessage.error('名称长度不能超过100!')
+  }
+  console.log("简介长度:"+element.value.intro.length)
+  console.log("简介长度:"+element.value.intro.length>10)
+  console.log("简介长度:"+element.value.intro.length <300)
+
+  if(!(element.value.intro.length>10 && element.value.intro.length <300)){
+    ok=false;
+    ElMessage.error('简介长度不能小于10超过100!')
+  }
+  console.log("添加："+JSON.stringify(element.value))
+  if(ok) {
+    updateElement(element.value).then(response => {
+      console.log("添加成功")
+      router.push("/element/preview?wid="+ wid.value+"&eid=" + eid.value)
+    });
+  }
+}
+
+function submitClear(){
+  router.push("/element/preview?wid="+ wid.value+"&eid=" + eid.value)
+}
+getElement(wid.value,eid.value);
 getList()
 </script>
 

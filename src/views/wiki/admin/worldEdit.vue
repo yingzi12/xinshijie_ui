@@ -143,10 +143,12 @@
               </el-form-item>
               <el-form-item label="类 型" prop="types">
                 <el-select v-model="form.types" placeholder="请选择世界类型">
-                  <el-option label="科幻" value="0" key="0"/>
-                  <el-option label="魔法" value="1" key="1"/>
-                  <el-option label="修真" value="2" key="2"/>
-                  <el-option label="其他" value="3" key="3"/>
+                  <el-option
+                      v-for="item in categoryList"
+                      :key="item.value"
+                      :label="item.label"
+                      :value="item.value"
+                  />
                 </el-select>
               </el-form-item>
               <el-form-item label="简 介" prop="intro">
@@ -187,7 +189,20 @@ wid.value = route.query.wid;
 const formSize = ref('default')
 const ruleFormRef = ref<FormInstance>()
 const activeIndex = ref('1')
-
+const categoryList = [
+  {
+    value: 0,
+    label: '科幻',
+  },
+  {
+    value: 1,
+    label: '魔法',
+  },
+  {
+    value: 2,
+    label: '其他',
+  }
+]
 const data = reactive({
   form: {
   },

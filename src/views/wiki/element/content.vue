@@ -87,7 +87,7 @@
     <el-divider />
       <!--功能-->
       <div class="center" style="height: 80px;">
-        <el-button @click="submit()">发布</el-button>
+        <el-button @click="submit()">评论</el-button>
         <el-button @click="submit()">编辑</el-button>
       </div>
     </div>

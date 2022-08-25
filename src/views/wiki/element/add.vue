@@ -13,7 +13,7 @@
         <div>
         分类: <el-tree-select
             ref="treeRef"
-            v-model="value"
+            v-model="categoryList"
             :data="dataStree"
             multiple
             collapse-tags
@@ -129,7 +129,7 @@ const editor = ClassicEditor
 const {  appContext : { config: { globalProperties } }  } = getCurrentInstance();
 const {  proxy  } = getCurrentInstance();
 // 分类模板
-const value = ref()
+const categoryList = ref()
 
 const dataStree = ref([])
 //分类标签
@@ -250,18 +250,18 @@ function getList() {
 
 function  show(val){
 //let that = this ,将this保存在that中，再在函数中使用that均可
-  dynamicTags.value=value.value
-  console.log("选中的对象value1"+value.value)
+  dynamicTags.value=categoryList.value
+  console.log("选中的对象value1"+categoryList.value)
   console.log("选中的对象label"+JSON.stringify(treeRef.value))
 
   sleValue.value=new Array();
   dynamicTags.value=new Array();
-  for(let i=0;i<=value.value.length-1;i++){
-    dynamicTags.value[i]=value.value[i].split('$$')[1]
-    sleValue.value[i]=value.value[i].split('$$')[0]
+  for(let i=0;i<=categoryList.value.length-1;i++){
+    dynamicTags.value[i]=categoryList.value[i].split('$$')[1]
+    sleValue.value[i]=categoryList.value[i].split('$$')[0]
   }
   element.value.categoryList=sleValue;
-  console.log("选中的对象value2"+value.value)
+  console.log("选中的对象value2"+categoryList.value)
   console.log("选中的对象sleValue2"+sleValue.value)
   console.log("选中的对象element:"+JSON.stringify(element.value))
 }

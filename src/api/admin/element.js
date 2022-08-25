@@ -35,11 +35,10 @@ export function updateElement(data) {
   })
 }
 //发布元素
-export function updatePush(data) {
+export function updatePush(wid,eid) {
   return request({
-    url: '/admin/element/updatePush',
-    method: 'put',
-    data: data
+    url: '/admin/element/updatePush?wid=' + wid+'&eid='+eid,
+    method: 'get',
   })
 }
 // 删除元素

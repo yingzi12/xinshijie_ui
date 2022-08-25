@@ -103,6 +103,11 @@ export const constantRoutes = [
         name: 'AddWorld',
         meta: { title: '创造世界', icon: 'world' }
       },{
+        path: 'edit',
+        component: () => import('@/views/wiki/world/edit'),
+        name: 'editWorld',
+        meta: { title: '创造世界', icon: 'world' }
+      },{
         path: 'list',
         component: () => import('@/views/wiki/world/list'),
         name: 'ListWorld',
@@ -139,6 +144,11 @@ export const constantRoutes = [
         path: 'list',
         component: () => import('@/views/wiki/element/list'),
         name: 'OrderElement',
+        meta: { title: '元素列表', icon: 'element' }
+      },{
+        path: 'test',
+        component: () => import('@/views/wiki/element/test'),
+        name: 'test',
         meta: { title: '元素列表', icon: 'element' }
       }
     ]
