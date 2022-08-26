@@ -44,8 +44,7 @@
             align="center"
             label-class-name="my-label"
             class-name="my-content"
-            width="150px"
-        >kooriookami</el-descriptions-item>
+            width="150px">kooriookami</el-descriptions-item>
         <el-descriptions-item label="Telephone" label-align="right" align="center">18100000000</el-descriptions-item>
         <el-descriptions-item label="Place" label-align="right" align="center">Suzhou</el-descriptions-item>
         <el-descriptions-item label="Remarks" label-align="right" align="center">

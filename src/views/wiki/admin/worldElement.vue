@@ -107,7 +107,7 @@
         <!--        表格-->
         <div>
           <el-scrollbar>
-            <el-table v-loading="loading" :data="worldList" @selection-change="handleSelectionChange">
+            <el-table v-loading="loading" :data="elementList" >
               <el-table-column label="序号" width="50px">
                 <template #default="scope">
                   {{ scope.$index + 1 + (queryParams.pageNum - 1) * 10 }}
@@ -118,16 +118,6 @@
               <el-table-column label="简介" align="center" key="intro" prop="intro" :show-overflow-tooltip="true"/>
               <el-table-column label="创建人" align="center" key="createName" prop="createName"
                                :show-overflow-tooltip="true"/>
-              <!--              <el-table-column label="状态" align="center" key="status" >-->
-              <!--                <template #default="scope">-->
-              <!--                  <el-switch-->
-              <!--                      v-model="scope.row.status"-->
-              <!--                      active-value="0"-->
-              <!--                      inactive-value="1"-->
-              <!--                      @change="handleStatusChange(scope.row)"-->
-              <!--                  ></el-switch>-->
-              <!--                </template>-->
-              <!--              </el-table-column>-->
               <el-table-column label="更新时间" align="center" prop="updateTime" width="160">
                 <template #default="scope">
                   <span>{{ scope.row.updateTime }}</span>
@@ -222,7 +212,7 @@ class World {
 //分类选项
 const dataStree = ref([])
 const loading = ref(true);
-const worldList = ref([]);
+const elementList = ref([]);
 const total = ref(0);
 const data = reactive({
   form: {},
@@ -269,7 +259,7 @@ function findType(typeId:number) {
   queryParams.value.wid=wid.value;
   listElement(globalProperties.addDateRange(queryParams.value, dateRange.value)).then(response => {
     loading.value = false;
-    worldList.value = response.rows;
+    elementList.value = response.rows;
     total.value = response.total;
   });
 }

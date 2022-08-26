@@ -93,17 +93,7 @@
             </el-col >
             <el-col :span="20"  style="text-align: right;">
               <div style="text-align: right; font-size: 12px" class="toolbar">
-                <el-dropdown>
-                  <el-icon style="margin-right: 8px; margin-top: 1px"><setting/></el-icon>
-                  <template #dropdown>
-                    <el-dropdown-menu>
-                      <el-dropdown-item>View</el-dropdown-item>
-                      <el-dropdown-item>Add</el-dropdown-item>
-                      <el-dropdown-item>Delete</el-dropdown-item>
-                    </el-dropdown-menu>
-                  </template>
-                </el-dropdown>
-                <span>Tom</span>
+                <el-button>历史</el-button>
               </div>
             </el-col>
           </el-row>
@@ -147,6 +137,8 @@
 <script lang="ts" setup>
 import { ref } from 'vue'
 import { Menu as IconMenu, Message, Setting } from '@element-plus/icons-vue'
+import {useRouter} from "vue-router";
+const router = useRouter()
 const fits = ['世界', '粉丝', '关注']
 const activeIndex = ref('1')
 
@@ -163,6 +155,11 @@ const item = {
   intro: 'No. 189, Grove St, Los Angeles，No. 189, Grove St, Los Angeles，No. 189, Grove St, Los Angeles',
 }
 const tableData = ref(Array.from({ length: 20 }).fill(item))
+
+//查看修改记录
+function handleClick(){
+  router.push("/admin/draftPreview");
+}
 </script>
 
 <style scoped>

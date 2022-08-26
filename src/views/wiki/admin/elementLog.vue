@@ -32,7 +32,7 @@
             </div>
           </el-card>
         </div>
-        <!--        功能栏-->
+        <!--        功栏栏-->
         <div style="margin-top: 10px">
           <el-scrollbar>
             <el-menu   :router="true"   :collapse="isCollapse"
@@ -73,16 +73,15 @@
               @select="handleSelect"
               style="margin:0px;pardding:0px"
           >
-            <el-menu-item index="1">关注的世界</el-menu-item>
-<!--            <el-menu-item index="2">关注的故事</el-menu-item>-->
+            <el-menu-item index="1">元素草稿历史</el-menu-item>
+            <!--            <el-menu-item index="2">关注的故事</el-menu-item>-->
           </el-menu>
         </div>
-        <!--        分类选择-->
+        <!--        多选-->
         <div style="padding: 10px">
           <el-space wrap>
-            <el-button text @click="findType(null)">全部</el-button>
-            <div v-for="types in worldTypes" :key="i">
-              <el-button text @click="findType(types.id)">{{types.name }} </el-button>
+            <div v-for="i in 9" :key="i">
+              <el-button text> Text{{i}} </el-button>
             </div>
           </el-space>
         </div>
@@ -94,17 +93,7 @@
             </el-col >
             <el-col :span="20"  style="text-align: right;">
               <div style="text-align: right; font-size: 12px" class="toolbar">
-                <el-dropdown>
-                  <el-icon style="margin-right: 8px; margin-top: 1px"><setting/></el-icon>
-                  <template #dropdown>
-                    <el-dropdown-menu>
-                      <el-dropdown-item>View</el-dropdown-item>
-                      <el-dropdown-item>Add</el-dropdown-item>
-                      <el-dropdown-item>Delete</el-dropdown-item>
-                    </el-dropdown-menu>
-                  </template>
-                </el-dropdown>
-                <span>Tom</span>
+                <el-button>返回</el-button>
               </div>
             </el-col>
           </el-row>
@@ -112,22 +101,26 @@
         <!--        表格-->
         <div>
           <el-scrollbar>
-            <el-table :data="tableData">
-              <el-table-column label="序号" width="50"  >
+            <el-table :data="tableData" >
+              <el-table-column label="序号"  width="50">
                 <template #default="scope">
                   {{scope.$index+1}}
                 </template>
               </el-table-column>
-              <el-table-column prop="name" label="名称"  />
-              <el-table-column prop="typesName" label="类别" />
-              <el-table-column prop="rank" label="贡献等级" />
-              <el-table-column prop="intro" label="简介" />
-              <el-table-column prop="updateTime" label="更新时间" />
-              <el-table-column prop="updateElement" label="更新元素" />
-              <el-table-column prop="createTime" label="关注时间" />
+              <el-table-column prop="wname" label="世界名称"  />
+              <el-table-column prop="title" label="名称"  />
+              <el-table-column prop="typesName" label="分类" :show-overflow-tooltip="true"/>
+              <el-table-column prop="intro" label="简介" :show-overflow-tooltip="true" width="120"/>
+              <el-table-column prop="createTime" label="创建时间" :show-overflow-tooltip="true" />
+              <el-table-column prop="status" label="状态" />
+              <el-table-column prop="updateType" label="修改原因" />
+              <el-table-column prop="updateContent" label="修改说明" />
+              <el-table-column prop="audit" label="审核" />
+              <el-table-column prop="auditContent" label="审核说明" :show-overflow-tooltip="true" />
               <el-table-column fixed="right" label="Operations" width="220">
                 <template #default>
-                  <el-button link type="primary" size="small" @click="handleClick">取消关注</el-button>
+                  <el-button link type="primary" size="small" @click="handleClick">查看</el-button>
+                  <el-button link type="primary" size="small">取消</el-button>
                 </template>
               </el-table-column>
             </el-table>
@@ -143,23 +136,33 @@
 </template>
 
 <script lang="ts" setup>
-import {reactive, ref} from 'vue'
+import { ref } from 'vue'
 import { Menu as IconMenu, Message, Setting } from '@element-plus/icons-vue'
+import {useRouter} from "vue-router";
+const router = useRouter()
 const fits = ['世界', '粉丝', '关注']
 const activeIndex = ref('1')
-const worldTypes=reactive([{id:0,name:"科学"},{id:1,name:"武侠"},{id:2,name:"仙侠"},{id:3,name:"魔幻"},{id:4,name:"奇幻"},{id:5,name:"其他"}])
 
 const item = {
-  id: '2016-05-02',
-  name: 'Tom',
-  rank:111,
-  typesName:"科幻",
-  intro:"这是一个简介，肯定太长了。肯定太长了",
-  createTime:"2016-05-02 11:32:11",
-  updateTime:"2016-05-02 11:32:11",
-  updateElement:"世界树",
+  id:1,
+  wname: '中国崛起',
+  title: '世界树',
+  typesName: '植物,神器,创世记',
+  createName: 'Tom',
+  status: '待审核',
+  createTime: '2016-05-02',
+  updateType: '内容删除',
+  updateContent: '这个内容有一点多余',
+  audit:"审核",
+  auditContent:"这是一个审核说明，内容会很长内容会很长",
+  intro: 'No. 189, Grove St, Los Angeles，No. 189, Grove St, Los Angeles，No. 189, Grove St, Los Angeles',
 }
 const tableData = ref(Array.from({ length: 20 }).fill(item))
+
+//查看修改记录
+function handleClick(){
+  router.push("/admin/draftPreview");
+}
 </script>
 
 <style scoped>

@@ -169,6 +169,11 @@ export const constantRoutes = [
         component: () => import('@/views/wiki/element/test'),
         name: 'test',
         meta: { title: '元素列表', icon: 'element' }
+      },{
+        path: 'details',
+        component: () => import('@/views/wiki/element/details'),
+        name: 'details',
+        meta: { title: '元素详细', icon: 'element' }
       }
     ]
   },
@@ -241,7 +246,13 @@ export const constantRoutes = [
         path: 'element',
         component: () => import('@/views/wiki/admin/element'),
         name: 'element',
-        meta: { title: '审核', icon: 'wiki' }
+        meta: { title: '元素草稿', icon: 'wiki' }
+      },
+      {
+        path: 'elementLog',
+        component: () => import('@/views/wiki/admin/elementLog'),
+        name: 'elementLog',
+        meta: { title: '元素草稿历史记录', icon: 'wiki' }
       },
       {
         path: 'worldAudit',
@@ -281,11 +292,48 @@ export const constantRoutes = [
       }
       ,
       {
-        path: 'auditElementPreview',
-        component: () => import('@/views/wiki/admin/auditElementPreview'),
+        path: 'diffPreview',
+        component: () => import('@/views/wiki/admin/diffPreview'),
         name: 'auditElementPreview',
-        meta: { title: '元素内容审核', icon: 'wiki' }
+        meta: { title: '元素修改差异记录', icon: 'wiki' }
+      },
+      {
+        path: 'draftPreview',
+        component: () => import('@/views/wiki/admin/draftPreview'),
+        name: 'draftPreview',
+        meta: { title: '元素修改差异', icon: 'wiki' }
+      },
+      {
+        path: 'draftDiffView',
+        component: () => import('@/views/wiki/admin/draftDiffView'),
+        name: 'draftDiffView',
+        meta: { title: '元素修改差异', icon: 'wiki' }
+      },
+      {
+        path: 'elementAdd',
+        component: () => import('@/views/wiki/admin/elementAdd'),
+        name: 'elementAdd',
+        meta: { title: '管理员添加元素', icon: 'wiki' }
+      },
+      {
+        path: 'elementEdit',
+        component: () => import('@/views/wiki/admin/elementEdit'),
+        name: 'elementEdit',
+        meta: { title: '管理员修改元素', icon: 'wiki' }
+      },
+      {
+        path: 'elementPreview',
+        component: () => import('@/views/wiki/admin/elementPreview'),
+        name: 'elementPreview',
+        meta: { title: '管理员查看元素', icon: 'wiki' }
+      },
+      {
+        path: 'elementContent',
+        component: () => import('@/views/wiki/admin/elementContent'),
+        name: 'elementContent',
+        meta: { title: '管理员查看元素', icon: 'wiki' }
       }
+
     ]
 
   }
