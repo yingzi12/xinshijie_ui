@@ -105,7 +105,17 @@ export const constantRoutes = [
         path: 'disscuss',
         component: () => import('@/views/wiki/world/disscuss'),
         name: 'disscuss',
-        meta: { title: '讨论', icon: 'world' }
+        meta: { title: '讨论主题详细', icon: 'world' }
+      },{
+        path: 'disscussList',
+        component: () => import('@/views/wiki/world/disscussList'),
+        name: 'disscussList',
+        meta: { title: '讨论主题列表', icon: 'world' }
+      },{
+        path: 'disscussReply',
+        component: () => import('@/views/wiki/world/disscussReply'),
+        name: 'disscussReply',
+        meta: { title: '讨论主题回复列表', icon: 'world' }
       },{
         path: 'add',
         component: () => import('@/views/wiki/world/add'),
@@ -216,6 +226,12 @@ export const constantRoutes = [
         meta: { title: '评论', icon: 'wiki' }
       },
       {
+        path: 'disscuss',
+        component: () => import('@/views/wiki/admin/disscuss'),
+        name: 'disscuss',
+        meta: { title: '讨论', icon: 'wiki' }
+      },
+      {
         path: 'audit',
         component: () => import('@/views/wiki/admin/audit'),
         name: 'audit',
@@ -240,9 +256,9 @@ export const constantRoutes = [
         meta: { title: '居民管理', icon: 'wiki' }
       },
       {
-        path: 'worldCommnet',
-        component: () => import('@/views/wiki/admin/worldCommnet'),
-        name: 'worldCommnet',
+        path: 'worldComment',
+        component: () => import('@/views/wiki/admin/worldComment'),
+        name: 'worldComment',
         meta: { title: '评论管理', icon: 'wiki' }
       },
       {

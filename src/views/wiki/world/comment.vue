@@ -59,7 +59,7 @@
               <el-divider />
             </div>
             <div class="center">
-              <el-button type="danger">更多</el-button>
+              <el-pagination layout="prev, pager, next" :total="1000" />
             </div>
           </el-tab-pane>
         </el-tabs>

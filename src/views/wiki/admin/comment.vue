@@ -35,32 +35,28 @@
         <!--        分类-->
         <div style="margin-top: 10px">
           <el-scrollbar>
-            <el-menu :default-openeds="['1', '3']">
-              <el-sub-menu index="1">
-                <template #title>
-                  <el-icon><message /></el-icon>我的关注
-                </template>
-              </el-sub-menu>
-              <el-sub-menu index="2">
-                <template #title>
-                  <el-icon><icon-menu /></el-icon>世界管理
-                </template>
-              </el-sub-menu>
-              <el-sub-menu index="3">
-                <template #title>
-                  <el-icon><setting /></el-icon>元素草稿
-                </template>
-              </el-sub-menu>
-              <el-sub-menu index="4">
-                <template #title>
-                  <el-icon><setting /></el-icon>我的评论
-                </template>
-              </el-sub-menu>
-              <el-sub-menu index="5">
-                <template #title>
-                  <el-icon><setting /></el-icon>我的信息
-                </template>
-              </el-sub-menu>
+            <el-menu   :router="true"   :collapse="isCollapse"
+                       default-active="2">
+              <el-menu-item index="/admin/index">
+                <el-icon><icon-menu /></el-icon>
+                <template #title>我的关注</template>
+              </el-menu-item>
+              <el-menu-item index="/admin/world">
+                <el-icon><icon-menu /></el-icon>
+                <template #title>世界管理</template>
+              </el-menu-item>
+              <el-menu-item index="/admin/element">
+                <el-icon><icon-menu /></el-icon>
+                <template #title>元素草稿</template>
+              </el-menu-item>
+              <el-menu-item index="/admin/disscuss">
+                <el-icon><icon-menu /></el-icon>
+                <template #title>我的评论</template>
+              </el-menu-item>
+              <el-menu-item index="/admin/message">
+                <el-icon><icon-menu /></el-icon>
+                <template #title>我的信息</template>
+              </el-menu-item>
             </el-menu>
           </el-scrollbar>
         </div>
@@ -77,25 +73,43 @@
               @select="handleSelect"
               style="margin:0px;pardding:0px"
           >
-            <el-menu-item index="1">关注的世界</el-menu-item>
-            <!--            <el-menu-item index="2">关注的故事</el-menu-item>-->
+            <el-menu-item index="1">我的评论</el-menu-item>
           </el-menu>
         </div>
         <!--        多选-->
         <div style="padding: 10px">
           <el-space wrap>
-            <div v-for="i in 9" :key="i">
-              <el-button text> Text{{i}} </el-button>
-            </div>
+            <el-button text > <router-link :to="{path:'/admin/worldInfo', query: {wid:wid}}">简介</router-link></el-button>
+            <el-button text>  <router-link :to="{path:'/admin/worldManage', query: {wid:wid}}">造物主列表</router-link></el-button>
+            <el-button text>  <router-link :to="{path:'/admin/worldElement', query: {wid:wid}}">元素列表</router-link></el-button>
+            <el-button text>  <router-link :to="{path:'/admin/worldCategory', query: {wid:wid}}">分类管理</router-link></el-button>
+            <el-button text  type="primary">  <router-link :to="{path:'/admin/worldAudit', query: {wid:wid}}">元素审核</router-link></el-button>
+            <el-button text>  <router-link :to="{path:'/admin/worldRedident', query: {wid:wid}}">居民管理</router-link></el-button>
+            <el-button text>  <router-link :to="{path:'/admin/worldComment', query: {wid:wid}}">评论管理</router-link></el-button>
+            <el-button text>  <router-link :to="{path:'/admin/worldDiscuss', query: {wid:wid}}">讨论管理</router-link></el-button>
           </el-space>
         </div>
         <!--        统计-->
         <div style="background-color:#b0c4de;margin: auto;padding: 10px">
           <el-row>
-            <el-col  :span="4">
-              合计(65)
+            <el-col  :span="20">
+              <el-select v-model="value" placeholder="类型">
+                <el-option
+                    v-for="item in options"
+                    :key="item.value"
+                    :label="item.label"
+                    :value="item.value"
+                    :disabled="item.disabled"
+                />
+              </el-select>
+              <el-select placeholder="处理状态">
+                <el-option label="已处理" value="已处理"/>
+                <el-option label="讨论中" value="讨论中"/>
+              </el-select>
+              <el-input v-model="input3" placeholder="Please input" class="input-with-select" style="width: 250px"/>
+              <el-button :icon="Search" circle />
             </el-col >
-            <el-col :span="20"  style="text-align: right;">
+            <el-col :span="4"  style="text-align: right;">
               <div style="text-align: right; font-size: 12px" class="toolbar">
                 <el-dropdown>
                   <el-icon style="margin-right: 8px; margin-top: 1px"><setting/></el-icon>
@@ -121,15 +135,15 @@
                   {{scope.$index+1}}
                 </template>
               </el-table-column>
-              <el-table-column prop="date" label="Date" width="140" />
-              <el-table-column prop="name" label="Name" width="120" />
-              <el-table-column prop="address" label="Address" />
+              <el-table-column prop="date" label="创建时间" width="140" />
+              <el-table-column prop="name" label="创建人" width="120" />
+              <el-table-column prop="title" label="评论内容" />
+              <el-table-column prop="ename" label="元素名称" />
+              <el-table-column prop="types" label="讨论类型" />
               <el-table-column fixed="right" label="Operations" width="220">
                 <template #default>
-                  <el-button link type="primary" size="small" @click="handleClick"
-                  >Detail</el-button
-                  >
-                  <el-button link type="primary" size="small">Edit</el-button>
+                  <el-button link type="primary" size="small" @click="dialogFormVisible = true">查看</el-button>
+                  <el-button link type="primary" size="small">删除</el-button>
                 </template>
               </el-table-column>
             </el-table>
@@ -140,22 +154,111 @@
           <el-pagination  layout="prev, pager, next" :total="50" />
         </div>
       </el-main>
+
+<!--      审核弹出框-->
+      <el-dialog v-model="dialogFormVisible" title="评论详细">
+        <el-row>
+          <el-col :span="2">
+            <div  class="center">
+              <!--              头像-->
+              <el-avatar :size="50" :src="comment.circleUrl" />
+            </div>
+          </el-col>
+          <el-col :span="22">
+            <div >
+              <h3 style="font-weight:bold;">{{ comment.createName }}</h3>
+            </div>
+            <div v-html="comment.comment">
+            </div>
+            <div style="color:#A3A6AD">
+              <span>{{ comment.createTime }}</span>
+              <span><BootstrapIcon icon="chat-dots" size="1x" flip-v />20 </span>
+              <span><BootstrapIcon icon="hand-thumbs-up" size="1x" flip-v />10</span>
+              <span><BootstrapIcon icon="hand-thumbs-down" size="1x" flip-v />20</span>
+            </div>
+          </el-col>
+        </el-row>
+        <template #footer>
+      <span class="dialog-footer">
+        <el-button @click="dialogFormVisible = false">取消</el-button>
+        <el-button type="primary" @click="dialogFormVisible = false">删除</el-button>
+      </span>
+        </template>
+      </el-dialog>
+
     </el-container>
   </el-container>
 </template>
 
 <script lang="ts" setup>
-import { ref } from 'vue'
-import { Menu as IconMenu, Message, Setting } from '@element-plus/icons-vue'
+import {reactive, ref} from 'vue'
+import {useRoute, useRouter} from "vue-router";
+import { Menu as IconMenu,CirclePlus, Message, Setting } from '@element-plus/icons-vue'
+import { Search } from '@element-plus/icons-vue'
+
+// 接收url里的参数
+const route = useRoute();
+console.log(route.query.wid,"参数");
+const wid = ref(null);
+wid.value = route.query.wid;
+//弹出框内容
+const comment = {
+  circleUrl:'',
+  date: '2020-05-02',
+  createName: 'Tom',
+  comment: 'No. 189, Grove St, Los Angeles',
+  createTime:"2020-05-02 11:23:09",
+}
+//个人消息
 const fits = ['世界', '粉丝', '关注']
 const activeIndex = ref('1')
 
+//表格内容
 const item = {
   date: '2016-05-02',
   name: 'Tom',
-  address: 'No. 189, Grove St, Los Angeles',
+  title: 'No. 189, Grove St, Los Angeles',
+  ename:'世界数',
+  types:'内容讨论',
 }
 const tableData = ref(Array.from({ length: 20 }).fill(item))
+
+//多选框
+const value = ref('')
+const options = [
+  {
+    value: 'Option1',
+    label: 'Option1',
+  },
+  {
+    value: 'Option2',
+    label: 'Option2',
+    disabled: true,
+  },
+  {
+    value: 'Option3',
+    label: 'Option3',
+  },
+  {
+    value: 'Option4',
+    label: 'Option4',
+  },
+  {
+    value: 'Option5',
+    label: 'Option5',
+  },
+]
+//搜索框
+const input3 = ref('')
+
+//弹出框
+const dialogFormVisible = ref(false)
+const formLabelWidth = '140px'
+
+const form = reactive({
+  name: '',
+  region: ''
+})
 </script>
 
 <style scoped>

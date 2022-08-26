@@ -32,35 +32,31 @@
             </div>
           </el-card>
         </div>
-        <!--        分类-->
+        <!--        功栏栏-->
         <div style="margin-top: 10px">
           <el-scrollbar>
-            <el-menu :default-openeds="['1', '3']">
-              <el-sub-menu index="1">
-                <template #title>
-                  <el-icon><message /></el-icon>我的关注
-                </template>
-              </el-sub-menu>
-              <el-sub-menu index="2">
-                <template #title>
-                  <el-icon><icon-menu /></el-icon>世界管理
-                </template>
-              </el-sub-menu>
-              <el-sub-menu index="3">
-                <template #title>
-                  <el-icon><setting /></el-icon>元素草稿
-                </template>
-              </el-sub-menu>
-              <el-sub-menu index="4">
-                <template #title>
-                  <el-icon><setting /></el-icon>我的评论
-                </template>
-              </el-sub-menu>
-              <el-sub-menu index="5">
-                <template #title>
-                  <el-icon><setting /></el-icon>我的信息
-                </template>
-              </el-sub-menu>
+            <el-menu   :router="true"   :collapse="isCollapse"
+                       default-active="2">
+              <el-menu-item index="/admin/index">
+                <el-icon><icon-menu /></el-icon>
+                <template #title>我的关注</template>
+              </el-menu-item>
+              <el-menu-item index="/admin/world">
+                <el-icon><icon-menu /></el-icon>
+                <template #title>世界管理</template>
+              </el-menu-item>
+              <el-menu-item index="/admin/element">
+                <el-icon><icon-menu /></el-icon>
+                <template #title>元素草稿</template>
+              </el-menu-item>
+              <el-menu-item index="/admin/disscuss">
+                <el-icon><icon-menu /></el-icon>
+                <template #title>我的评论</template>
+              </el-menu-item>
+              <el-menu-item index="/admin/message">
+                <el-icon><icon-menu /></el-icon>
+                <template #title>我的信息</template>
+              </el-menu-item>
             </el-menu>
           </el-scrollbar>
         </div>

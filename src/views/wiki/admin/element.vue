@@ -32,35 +32,31 @@
             </div>
           </el-card>
         </div>
-        <!--        分类-->
+        <!--        功栏栏-->
         <div style="margin-top: 10px">
           <el-scrollbar>
-            <el-menu :default-openeds="['1', '3']">
-              <el-sub-menu index="1">
-                <template #title>
-                  <el-icon><message /></el-icon>我的关注
-                </template>
-              </el-sub-menu>
-              <el-sub-menu index="2">
-                <template #title>
-                  <el-icon><icon-menu /></el-icon>世界管理
-                </template>
-              </el-sub-menu>
-              <el-sub-menu index="3">
-                <template #title>
-                  <el-icon><setting /></el-icon>元素草稿
-                </template>
-              </el-sub-menu>
-              <el-sub-menu index="4">
-                <template #title>
-                  <el-icon><setting /></el-icon>我的评论
-                </template>
-              </el-sub-menu>
-              <el-sub-menu index="5">
-                <template #title>
-                  <el-icon><setting /></el-icon>我的信息
-                </template>
-              </el-sub-menu>
+            <el-menu   :router="true"   :collapse="isCollapse"
+                       default-active="2">
+              <el-menu-item index="/admin/index">
+                <el-icon><icon-menu /></el-icon>
+                <template #title>我的关注</template>
+              </el-menu-item>
+              <el-menu-item index="/admin/world">
+                <el-icon><icon-menu /></el-icon>
+                <template #title>世界管理</template>
+              </el-menu-item>
+              <el-menu-item index="/admin/element">
+                <el-icon><icon-menu /></el-icon>
+                <template #title>元素草稿</template>
+              </el-menu-item>
+              <el-menu-item index="/admin/disscuss">
+                <el-icon><icon-menu /></el-icon>
+                <template #title>我的评论</template>
+              </el-menu-item>
+              <el-menu-item index="/admin/message">
+                <el-icon><icon-menu /></el-icon>
+                <template #title>我的信息</template>
+              </el-menu-item>
             </el-menu>
           </el-scrollbar>
         </div>
@@ -77,7 +73,7 @@
               @select="handleSelect"
               style="margin:0px;pardding:0px"
           >
-            <el-menu-item index="1">关注的世界</el-menu-item>
+            <el-menu-item index="1">元素草稿</el-menu-item>
             <!--            <el-menu-item index="2">关注的故事</el-menu-item>-->
           </el-menu>
         </div>
@@ -115,21 +111,25 @@
         <!--        表格-->
         <div>
           <el-scrollbar>
-            <el-table :data="tableData">
-              <el-table-column label="序号" >
+            <el-table :data="tableData" >
+              <el-table-column label="序号"  width="50">
                 <template #default="scope">
                   {{scope.$index+1}}
                 </template>
               </el-table-column>
-              <el-table-column prop="date" label="Date" width="140" />
-              <el-table-column prop="name" label="Name" width="120" />
-              <el-table-column prop="address" label="Address" />
+              <el-table-column prop="wname" label="世界名称"  />
+              <el-table-column prop="title" label="名称"  />
+              <el-table-column prop="typesName" label="分类" :show-overflow-tooltip="true"/>
+              <el-table-column prop="intro" label="简介" :show-overflow-tooltip="true" width="120"/>
+              <el-table-column prop="createTime" label="创建时间" :show-overflow-tooltip="true" />
+<!--              <el-table-column prop="createName" label="创建人" />-->
+              <el-table-column prop="status" label="状态" />
+              <el-table-column prop="updateType" label="修改原因" />
+              <el-table-column prop="updateContent" label="修改说明" />
               <el-table-column fixed="right" label="Operations" width="220">
                 <template #default>
-                  <el-button link type="primary" size="small" @click="handleClick"
-                  >Detail</el-button
-                  >
-                  <el-button link type="primary" size="small">Edit</el-button>
+                  <el-button link type="primary" size="small" @click="handleClick">查看</el-button>
+                  <el-button link type="primary" size="small">取消</el-button>
                 </template>
               </el-table-column>
             </el-table>
@@ -151,9 +151,16 @@ const fits = ['世界', '粉丝', '关注']
 const activeIndex = ref('1')
 
 const item = {
-  date: '2016-05-02',
-  name: 'Tom',
-  address: 'No. 189, Grove St, Los Angeles',
+  id:1,
+  wname: '中国崛起',
+  title: '世界树',
+  typesName: '植物,神器,创世记',
+  createName: 'Tom',
+  status: '待审核',
+  createTime: '2016-05-02',
+  updateType: '内容删除',
+  updateContent: '这个内容有一点多余',
+  intro: 'No. 189, Grove St, Los Angeles，No. 189, Grove St, Los Angeles，No. 189, Grove St, Los Angeles',
 }
 const tableData = ref(Array.from({ length: 20 }).fill(item))
 </script>

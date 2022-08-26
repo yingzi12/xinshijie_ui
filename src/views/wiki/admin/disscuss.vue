@@ -32,7 +32,7 @@
             </div>
           </el-card>
         </div>
-        <!--        功能栏-->
+        <!--        功栏栏-->
         <div style="margin-top: 10px">
           <el-scrollbar>
             <el-menu   :router="true"   :collapse="isCollapse"
@@ -73,25 +73,30 @@
               @select="handleSelect"
               style="margin:0px;pardding:0px"
           >
-            <el-menu-item index="1">关注的世界</el-menu-item>
-<!--            <el-menu-item index="2">关注的故事</el-menu-item>-->
+            <el-menu-item index="1">我的评论</el-menu-item>
           </el-menu>
-        </div>
-        <!--        多选-->
-        <div style="padding: 10px">
-          <el-space wrap>
-            <div v-for="i in 9" :key="i">
-              <el-button text> Text{{i}} </el-button>
-            </div>
-          </el-space>
         </div>
         <!--        统计-->
         <div style="background-color:#b0c4de;margin: auto;padding: 10px">
           <el-row>
-            <el-col  :span="4">
-              合计(65)
+            <el-col  :span="20">
+              <el-select v-model="value" placeholder="类型">
+                <el-option
+                    v-for="item in options"
+                    :key="item.value"
+                    :label="item.label"
+                    :value="item.value"
+                    :disabled="item.disabled"
+                />
+              </el-select>
+              <el-select placeholder="处理状态">
+                <el-option label="已处理" value="已处理"/>
+                <el-option label="讨论中" value="讨论中"/>
+              </el-select>
+              <el-input v-model="input3" placeholder="Please input" class="input-with-select" style="width: 250px"/>
+              <el-button :icon="Search" circle />
             </el-col >
-            <el-col :span="20"  style="text-align: right;">
+            <el-col :span="4"  style="text-align: right;">
               <div style="text-align: right; font-size: 12px" class="toolbar">
                 <el-dropdown>
                   <el-icon style="margin-right: 8px; margin-top: 1px"><setting/></el-icon>
@@ -112,20 +117,23 @@
         <div>
           <el-scrollbar>
             <el-table :data="tableData">
-              <el-table-column label="序号" >
+              <el-table-column label="序号" width="50">
                 <template #default="scope">
                   {{scope.$index+1}}
                 </template>
               </el-table-column>
-              <el-table-column prop="date" label="Date" width="140" />
-              <el-table-column prop="name" label="Name" width="120" />
-              <el-table-column prop="address" label="Address" />
+              <el-table-column prop="wname" label="世界名称" width="140" />
+              <el-table-column prop="etitle" label="元素名称" width="120" />
+              <el-table-column prop="title" label="讨论主题"   :show-overflow-tooltip="true"/>
+              <el-table-column prop="types" label="讨论类型"  />
+              <el-table-column prop="content" label="讨论内容"  :show-overflow-tooltip="true" />
+              <el-table-column prop="createTime" label="创建时间"  :show-overflow-tooltip="true" />
+              <el-table-column prop="status" label="状态" />
+              <el-table-column prop="audit" label="审核结果" :show-overflow-tooltip="true"/>
               <el-table-column fixed="right" label="Operations" width="220">
                 <template #default>
-                  <el-button link type="primary" size="small" @click="handleClick"
-                  >Detail</el-button
-                  >
-                  <el-button link type="primary" size="small">Edit</el-button>
+                  <el-button link type="primary" size="small" @click="handleClick">查看</el-button>
+                  <el-button link type="primary" size="small" @click="dialogFormVisible = true">关闭</el-button>
                 </template>
               </el-table-column>
             </el-table>
@@ -136,22 +144,98 @@
           <el-pagination  layout="prev, pager, next" :total="50" />
         </div>
       </el-main>
+
+<!--      审核弹出框-->
+      <el-dialog v-model="dialogFormVisible" title="审核">
+        <el-form :model="form">
+          <el-form-item label="Zones" :label-width="formLabelWidth">
+            <el-select v-model="form.region" placeholder="Please select a zone">
+              <el-option label="Zone No.1" value="shanghai" />
+              <el-option label="Zone No.2" value="beijing" />
+            </el-select>
+          </el-form-item>
+          <el-form-item label="说明" :label-width="formLabelWidth">
+            <el-input v-model="form.name" autocomplete="off" />
+          </el-form-item>
+        </el-form>
+        <template #footer>
+      <span class="dialog-footer">
+        <el-button @click="dialogFormVisible = false">取消</el-button>
+        <el-button type="primary" @click="dialogFormVisible = false">确认</el-button>
+      </span>
+        </template>
+      </el-dialog>
+
     </el-container>
   </el-container>
 </template>
 
 <script lang="ts" setup>
-import { ref } from 'vue'
-import { Menu as IconMenu, Message, Setting } from '@element-plus/icons-vue'
+import {reactive, ref} from 'vue'
+import {useRoute, useRouter} from "vue-router";
+import { Menu as IconMenu,CirclePlus, Message, Setting } from '@element-plus/icons-vue'
+import { Search } from '@element-plus/icons-vue'
+
+// 接收url里的参数
+const route = useRoute();
+console.log(route.query.wid,"参数");
+const wid = ref(null);
+wid.value = route.query.wid;
+//个人消息
 const fits = ['世界', '粉丝', '关注']
 const activeIndex = ref('1')
 
+//表格内容
 const item = {
-  date: '2016-05-02',
-  name: 'Tom',
-  address: 'No. 189, Grove St, Los Angeles',
+  wname: '战国崛起',
+  etitle: '世界树',
+  title: 'No. 189, Grove St, Los Angeles',
+  ename:'世界数',
+  createName: 'Tom',
+  createTime: '2016-05-02',
+  types:"内容修改",
+  status:"进行中",
+  content:'内容讨论,内容讨论内容讨论内容讨论内容讨论内容讨论内容讨论,内容讨论',
+  audit:"允许，说的很不错，可以进行"
 }
 const tableData = ref(Array.from({ length: 20 }).fill(item))
+
+//多选框
+const value = ref('')
+const options = [
+  {
+    value: 'Option1',
+    label: 'Option1',
+  },
+  {
+    value: 'Option2',
+    label: 'Option2',
+    disabled: true,
+  },
+  {
+    value: 'Option3',
+    label: 'Option3',
+  },
+  {
+    value: 'Option4',
+    label: 'Option4',
+  },
+  {
+    value: 'Option5',
+    label: 'Option5',
+  },
+]
+//搜索框
+const input3 = ref('')
+
+//弹出框
+const dialogFormVisible = ref(false)
+const formLabelWidth = '140px'
+
+const form = reactive({
+  name: '',
+  region: ''
+})
 </script>
 
 <style scoped>

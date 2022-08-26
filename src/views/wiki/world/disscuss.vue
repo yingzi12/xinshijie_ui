@@ -8,35 +8,58 @@
     </div>
     <div>
       <!--    评论区-->
-      <div>
-        <el-divider />
-        <el-row>
-          <el-col :span="2" class="center">
+      <div style="margin-top: 20px">
+        <!--    评论区-->
+        <div>
+          <el-row>
+            <el-col :span="2" class="center">
+              <el-row>
+                <el-col><el-avatar :size="50" :src="circleUrl" /></el-col>
+                <el-col><span class="demonstration">{{disscuss.createName}}</span></el-col>
+              </el-row>
+            </el-col>
+            <el-col :span="22">
+              <div><el-tag>#{{disscuss.elementName}}#</el-tag></div>
+              <div>
+                <span style="font-weight:bold;font-size:15px;">{{ disscuss.title }}</span>
+                <el-tag>{{ disscuss.typesName }}</el-tag>
+                <el-tag>{{ disscuss.status }}</el-tag>
+              </div>
+              <div>
+                <p>{{disscuss.comment}}</p>
+              </div>
+              <div style="color:#A3A6AD">
+                <span>{{ disscuss.createTime }}</span>
+                <span><BootstrapIcon @click="dialogFormVisible = true" icon="chat-dots" size="1x" flip-v />20 </span>
+                <span><BootstrapIcon icon="hand-thumbs-up" size="1x" flip-v />10</span>
+                <span><BootstrapIcon icon="hand-thumbs-down" size="1x" flip-v />20</span>
+              </div>
+            </el-col>
+          </el-row>
+        </div>
+        <div>
+          <el-form :model="form" label-width="120px">
             <el-row>
-              <el-col><el-avatar :size="50" :src="circleUrl" /></el-col>
-              <el-col><span class="demonstration">未登录</span></el-col>
+              <el-col :span="20" class="center">
+                <el-input
+                    v-model="textarea"
+                    :rows="2"
+                    type="textarea"
+                    placeholder="Please input"
+                />
+              </el-col>
+              <el-col :span="4" class="center">
+                <el-button type="primary" @click="onSubmit">发布评论</el-button>
+              </el-col>
             </el-row>
-          </el-col>
-          <el-col :span="22">
-            <el-radio-group v-model="radio">
-              <el-radio :label="3">Option A</el-radio>
-              <el-radio :label="6">Option B</el-radio>
-              <el-radio :label="9">Option C</el-radio>
-            </el-radio-group>
-            <el-form :model="form" label-width="120px">
-              <el-input
-                  v-model="textarea"
-                  :rows="2"
-                  type="textarea"
-                  placeholder="Please input"
-              />
-              <el-button type="primary" @click="onSubmit">发布评论</el-button>
-            </el-form>
-          </el-col>
-        </el-row>
-      </div>
+          </el-form>
+        </div>
       <!--    已经发布的的评论-->
       <div>
+        <div style="background-color: #009926">
+            <p>已经处理，同意该意见，关闭讨论</p>
+          <p>2022-11-11 02:23:01</p>
+        </div>
         <el-tabs v-model="commentActive"  >
           <el-tab-pane label="全部评论" name="allComm">
             <div v-for="comment in commentList">
@@ -78,13 +101,13 @@
               <el-divider />
             </div>
             <div class="center">
-              <el-button type="danger">更多</el-button>
+              <el-pagination layout="prev, pager, next" :total="1000" />
             </div>
           </el-tab-pane>
         </el-tabs>
       </div>
     </div>
-    <el-dialog v-model="dialogFormVisible" title="Shipping address">
+      <el-dialog v-model="dialogFormVisible" title="Shipping address">
       <el-form :model="form">
         <el-form-item label="Promotion name" :label-width="formLabelWidth">
           <el-input v-model="form.name" autocomplete="off" />
@@ -103,6 +126,7 @@
       </span>
       </template>
     </el-dialog>
+    </div>
   </div>
 </template>
 
@@ -121,6 +145,20 @@ const form = reactive({
 const radio = ref(3)
 //评论列表
 const commentActive = ref('allComm')
+
+const disscuss ={
+  id: 1,
+  circleUrl: '',
+  elementName:"世界树",
+  date: '2020-05-02',
+  createName: 'Tom',
+  status: "已处理",
+  isEdit:0,
+  typesName: "其他",
+  title: '标题，比什么都重要',
+  comment: 'No. 189, Grove St, Los Angeles',
+  createTime: "2020-05-02 11:23:09",
+}
 const commentList =[ {
   id:1,
   circleUrl:'',
@@ -249,4 +287,9 @@ const onAddItem = () => {
 </script>
 
 <style scoped>
+.center {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
 </style>
