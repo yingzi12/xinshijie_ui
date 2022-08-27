@@ -368,6 +368,11 @@ export const constantRoutes = [
         component: () => import('@/views/wiki/user/attention'),
         name: 'attention',
         meta: { title: '个人中心', icon: 'user' }
+      },{
+        path: 'userVatar',
+        component: () => import('@/views/wiki/user/userVatar'),
+        name: 'userVatar',
+        meta: { title: '上次头像', icon: 'user' }
       }
       ]
   },

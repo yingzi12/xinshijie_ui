@@ -14,18 +14,19 @@
           :size="formSize"
           status-icon
       >
-        <el-tag >图 片:</el-tag>
-        <el-upload
-            class="avatar-uploader"
-            :action="uploadImgUrl"
-            name="file"
-            :show-file-list="false"
-            :on-success="handleAvatarSuccess"
-            :before-upload="beforeAvatarUpload"
-        >
-          <img v-if="imageUrl" :src="imageUrl" class="avatar" />
-          <el-icon v-else class="avatar-uploader-icon"><Plus /></el-icon>
-        </el-upload>
+        <el-form-item label="照 片" prop="name">
+          <el-upload
+              class="avatar-uploader"
+              :action="uploadImgUrl"
+              name="file"
+              :show-file-list="false"
+              :on-success="handleAvatarSuccess"
+              :before-upload="beforeAvatarUpload"
+          >
+            <img v-if="imageUrl" :src="imageUrl" class="avatar" />
+            <el-icon v-else class="avatar-uploader-icon"><Plus /></el-icon>
+          </el-upload>
+        </el-form-item>
         <el-form-item label="名 称" prop="name">
           <el-input v-model="ruleForm.name" style="width: 100px"/>
         </el-form-item>
@@ -59,8 +60,10 @@ import {reactive, ref, toRefs} from 'vue'
 import type { FormInstance, FormRules } from 'element-plus'
 import { ElMessage } from 'element-plus'
 import { Plus } from '@element-plus/icons-vue'
-import { addWorld} from "@/api/admin/world";
+import { addWorld,updateImageUrl} from "@/api/admin/world";
 import { useRouter} from "vue-router";
+import { getCurrentInstance ,inject} from "vue";
+
 const router = useRouter()
 
 import type { UploadProps } from 'element-plus'
@@ -97,6 +100,7 @@ const submitForm = async (formEl: FormInstance | undefined) => {
   await formEl.validate((valid, fields) => {
     if (valid) {
       console.log('submit!')
+      ruleForm.value.imgUrl=imageUrlPath.value
       addWorld(ruleForm.value).then(() => {
         console.log("添加成功")
         router.push("/world/list")
@@ -118,10 +122,11 @@ const options = Array.from({ length: 10000 }).map((_, idx) => ({
 }))
 
 
-import { getCurrentInstance ,inject} from "vue";
 const baseUrl = inject("$baseUrl")
 
 const imageUrl = ref('')
+const imageUrlPath = ref('')
+
 const uploadImgUrl = ref(baseUrl + "/common/upload"); // 上传的图片服务器地址
 
 const handleAvatarSuccess: UploadProps['onSuccess'] = (
@@ -129,6 +134,11 @@ const handleAvatarSuccess: UploadProps['onSuccess'] = (
     uploadFile
 ) => {
   imageUrl.value = URL.createObjectURL(uploadFile.raw!)
+  imageUrlPath.value=uploadFile.response.fileName
+  console.log("照片：" + JSON.stringify(uploadFile))
+  // let formData = new FormData();
+  // console.log("照片：" +  JSON.stringify(uploadFile))
+  // formData.append("imageUrl", uploadFile);
 }
 
 const beforeAvatarUpload: UploadProps['beforeUpload'] = (rawFile) => {

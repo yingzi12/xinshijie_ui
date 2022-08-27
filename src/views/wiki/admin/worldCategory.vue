@@ -169,7 +169,6 @@ const route = useRoute();
 console.log(route.query.wid,"参数");
 const wid = ref(null);
 wid.value = route.query.wid;
-// const wid = route.query.wid
 console.log("世界id="+wid.value);
 //世界信息
 const world=ref({})
@@ -250,7 +249,7 @@ const append = ( data: Tree) => {
     childlen=data.children.length
   }
   var cateCode=data.code*100+10+childlen
-  const newChild = { id: 0,code:cateCode, label:'',  pcode:data.code,pid:data.id,tier:data.tier+1,wid:data.wid,children: [],isUpdate:false }
+  const newChild = { id: 0,code:cateCode, label:'',  pcode:data.code,pid:data.id,tier:data.tier+1,wid:wid.value,children: [],isUpdate:false }
   if (!data.children) {
     data.children = []
   }
@@ -273,7 +272,7 @@ const disForm=(dis:boolean)=>{
   title.value="添加分类"
   dialogFormVisible.value=dis
   var cateCode=dataSource.value.length+10;
-  const newTree = { id: 0, code:cateCode,label: '', pid:0,pcode:0,tier:0,wid:wid,children: [],isUpdate:false }
+  const newTree = { id: 0, code:cateCode,label: '', pid:0,pcode:0,tier:0,wid:wid.value,children: [],isUpdate:false }
   form.value=newTree
   console.log("from 添加分类 "+JSON.stringify(form.value))
 }

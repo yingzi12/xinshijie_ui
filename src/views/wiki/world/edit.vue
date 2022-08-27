@@ -14,18 +14,19 @@
           :size="formSize"
           status-icon
       >
-        <el-tag>图片：</el-tag>
-        <el-upload
-            class="avatar-uploader"
-            action="https://run.mocky.io/v3/9d059bf9-4660-45f2-925d-ce80ad6c4d15"
-            :show-file-list="false"
-            :on-success="handleAvatarSuccess"
-            :before-upload="beforeAvatarUpload"
-        >
-          <img v-if="imageUrl" :src="imageUrl" class="avatar" />
-          <el-icon v-else class="avatar-uploader-icon"><Plus /></el-icon>
-        </el-upload>
-
+        <el-form-item label="照 片" prop="name">
+          <el-upload
+              class="avatar-uploader"
+              :action="uploadImgUrl"
+              name="file"
+              :show-file-list="false"
+              :on-success="handleAvatarSuccess"
+              :before-upload="beforeAvatarUpload"
+          >
+            <img v-if="imageUrl" :src="imageUrl" class="avatar" />
+            <el-icon v-else class="avatar-uploader-icon"><Plus /></el-icon>
+          </el-upload>
+        </el-form-item>
         <el-form-item label="名 称" prop="name">
           <el-input v-model="form.name" placeholder="请输入世界名称" maxlength="30"   />
         </el-form-item>
@@ -55,7 +56,7 @@
 </template>
 
 <script lang="ts" setup>
-import {getCurrentInstance, reactive, ref, toRefs} from 'vue'
+import {getCurrentInstance, inject, reactive, ref, toRefs} from 'vue'
 import type { FormInstance, FormRules ,UploadProps } from 'element-plus'
 import { ElMessage } from 'element-plus'
 import { Plus } from '@element-plus/icons-vue'
@@ -122,8 +123,10 @@ function handleUpdate(id:number) {
     console.log("查询世界详细:"+JSON.stringify(response))
     form.value = response.data;
      typeValue.value=response.data.types
+    imageUrl.value=baseUrl+response.data.imgUrl;
     console.log("查询世界详细:response.data.types"+JSON.stringify(response.data.types))
     console.log("查询世界详细:"+JSON.stringify(world.value))
+    console.log("查询世界图片:"+JSON.stringify(imageUrl.value))
   });
 }
 
@@ -152,6 +155,8 @@ const resetForm = (formEl: FormInstance | undefined) => {
 
 //上传图片
 const imageUrl = ref('')
+const baseUrl = inject("$baseUrl")
+const uploadImgUrl = ref(baseUrl + "/common/upload"); // 上传的图片服务器地址
 
 const handleAvatarSuccess: UploadProps['onSuccess'] = (
     response,

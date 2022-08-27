@@ -20,9 +20,10 @@
               <div>
                 <h1 style="margin: 2px">{{ world.name }}</h1>
               </div>
-              <div style="margin-top: 5px" v-if="world.tags != null ">
+              <div style="margin-top: 5px" >
                 <el-space wrap>
-                  <div v-for="tag in world.tags.split(';')" :key="i">
+                  <el-tag size="small" type="success">{{ world.typeName }}</el-tag>
+                  <div v-if="world.tags != null "  v-for="tag in world.tags.split(';')" :key="i">
                     <el-tag size="small" type="success">{{tag}}</el-tag>
                   </div>
                 </el-space>

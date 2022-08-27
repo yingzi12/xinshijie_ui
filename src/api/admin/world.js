@@ -42,3 +42,11 @@ export function delWorld(id) {
     method: 'delete'
   })
 }
+//上传文件
+export function updateImageUrl(data) {
+  return request({
+    url: '/admin/world/imageUrl',
+    method: 'post',
+    data: data
+  })
+}
