@@ -97,7 +97,7 @@
           </el-row>
         </div>
         <div>
-          <ckeditor :editor="editor" v-model="domain.content" :config="editorConfig"></ckeditor>
+          <ckeditor :editor="editor" v-model="domain.content" :config="editorConfig" @ready="onReady"></ckeditor>
         </div>
         </el-form>
       </div>
@@ -114,7 +114,7 @@ import {getCurrentInstance, reactive, ref} from 'vue'
 import {ElTree, FormInstance, ElInput, ElMessage} from "element-plus";
 import ClassicEditor from '@ckeditor/ckeditor5-build-classic';
 import { getTree} from "@/api/wiki/category";
-import { addElement} from "@/api/wiki/element";
+import { addElement} from "@/api/admin/element";
 import {useRoute, useRouter} from "vue-router";
 
 // 接收url里的参数
@@ -252,6 +252,12 @@ function  show(val){
   console.log("选中的对象element:"+JSON.stringify(element.value))
 }
 getList()
+
+// function onReady(){
+//   editor.plugins.get("FileRepository").createUploadAdapter= loader =>{
+//     return
+//   }
+// }
 </script>
 
 <style scoped>

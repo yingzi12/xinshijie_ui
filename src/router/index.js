@@ -131,6 +131,11 @@ export const constantRoutes = [
         component: () => import('@/views/wiki/world/list'),
         name: 'ListWorld',
         meta: { title: '世界列表', icon: 'world' }
+      },{
+        path: 'test',
+        component: () => import('@/views/wiki/world/test'),
+        name: 'test',
+        meta: { title: '世界列表', icon: 'world' }
       }
     ]
   },
@@ -168,6 +173,11 @@ export const constantRoutes = [
         path: 'test',
         component: () => import('@/views/wiki/element/test'),
         name: 'test',
+        meta: { title: '元素列表', icon: 'element' }
+      },{
+        path: 'addElement',
+        component: () => import('@/views/wiki/element/addElement'),
+        name: 'addElement',
         meta: { title: '元素列表', icon: 'element' }
       },{
         path: 'details',

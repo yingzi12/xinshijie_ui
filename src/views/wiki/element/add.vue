@@ -110,11 +110,11 @@
 </template>
 
 <script  lang="ts" setup>
-import {getCurrentInstance, reactive, ref} from 'vue'
+import {getCurrentInstance, inject, reactive, ref} from 'vue'
 import {ElTree, FormInstance, ElInput, ElMessage} from "element-plus";
-import ClassicEditor from '@ckeditor/ckeditor5-build-classic';
+import  Editor  from 'ckeditor5-custom-build/build/ckeditor';
 import { getTree} from "@/api/wiki/category";
-import { addElement} from "@/api/wiki/element";
+import { addElement} from "@/api/admin/element";
 import {useRoute, useRouter} from "vue-router";
 
 // 接收url里的参数
@@ -124,8 +124,16 @@ const router = useRouter()
 console.log(route.query.wid,"参数");
 const wid = route.query.wid
 console.log("世界id="+wid);
-const editorConfig = {}
-const editor = ClassicEditor
+const editor = Editor
+const baseUrl = inject("$baseUrl")
+const uploadImgUrl = ref(baseUrl + "/common/uploadEditFile"); // 上传的图片服务器地址
+const editorConfig ={
+  language:"zh-cn",
+  simpleUpload: {
+    // The URL the images are uploaded to.
+    uploadUrl: uploadImgUrl.value,
+  },
+}
 const {  appContext : { config: { globalProperties } }  } = getCurrentInstance();
 const {  proxy  } = getCurrentInstance();
 // 分类模板

@@ -112,9 +112,10 @@
 </template>
 
 <script  lang="ts" setup>
-import { reactive, ref } from 'vue'
+import {inject, reactive, ref} from 'vue'
 import {ElMessage, ElTree, FormInstance} from "element-plus";
-import ClassicEditor from '@ckeditor/ckeditor5-build-classic';
+// import ClassicEditor from '@ckeditor/ckeditor5-build-classic';
+import  Editor  from 'ckeditor5-custom-build/build/ckeditor';
 import {  getElementDetails } from "@/api/wiki/element";
 import {  updateElement } from "@/api/admin/element";
 import { getTree} from "@/api/wiki/category";
@@ -154,8 +155,16 @@ interface Content {
   isNew: number
 }
 
-const editorConfig = {}
-const editor = ClassicEditor
+const editor = Editor
+const baseUrl = inject("$baseUrl")
+const uploadImgUrl = ref(baseUrl + "/common/uploadEditFile"); // 上传的图片服务器地址
+const editorConfig ={
+  language:"zh-cn",
+  simpleUpload: {
+    // The URL the images are uploaded to.
+    uploadUrl: uploadImgUrl.value,
+  },
+}
 
 //章节模块
 const formRef = ref<FormInstance>()

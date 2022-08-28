@@ -114,7 +114,7 @@ const world=ref({})
 
 // 接收url里的参数
 const route = useRoute();
-world.value.id = route.query.id;
+world.value.id = route.query.wid;
 console.log("世界id="+world.value.id);
 
 /** 查询世界详细 */
@@ -135,6 +135,7 @@ const submitForm = async (formEl: FormInstance | undefined) => {
     console.log("查询世界详细worldRef valid:"+JSON.stringify(valid))
     if (valid) {
       if (form.value.id != undefined) {
+        form.value.imgUrl=imageUrlPath.value
         updateWorld(form.value).then(response => {
           globalProperties.$modal.msgSuccess("修改成功");
           router.push("/world/list");
@@ -157,12 +158,14 @@ const resetForm = (formEl: FormInstance | undefined) => {
 const imageUrl = ref('')
 const baseUrl = inject("$baseUrl")
 const uploadImgUrl = ref(baseUrl + "/common/upload"); // 上传的图片服务器地址
+const imageUrlPath = ref('')
 
 const handleAvatarSuccess: UploadProps['onSuccess'] = (
     response,
     uploadFile
 ) => {
   imageUrl.value = URL.createObjectURL(uploadFile.raw!)
+  imageUrlPath.value=uploadFile.response.fileName
 }
 
 const beforeAvatarUpload: UploadProps['beforeUpload'] = (rawFile) => {

@@ -67,7 +67,6 @@ app.component('ImagePreview', ImagePreview)
 app.component('RightToolbar', RightToolbar)
 app.component('BootstrapIcon', BootstrapIcon);
 
-
 app.use(CKEditor )
 app.use(router)
 app.use(store)

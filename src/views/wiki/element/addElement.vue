@@ -79,7 +79,13 @@
           </el-row>
         </div>
         <div>
-          <ckeditor :editor="editor" v-model="domain.value" :config="editorConfig"></ckeditor>
+          <ckeditor  :editor="editor" v-model="domain.value"
+                     :config="editorConfig"></ckeditor>
+<!--          <editor-->
+<!--              :init="{-->
+<!--        plugins: 'lists link image table code help wordcount'-->
+<!--      }"-->
+<!--          />-->
         </div>
         </el-form>
       </div>
@@ -92,13 +98,23 @@
 </template>
 
 <script  lang="ts" setup>
-import { reactive, ref } from 'vue'
+import {inject, reactive, ref} from 'vue'
 import {FormInstance} from "element-plus";
-import ClassicEditor from '@ckeditor/ckeditor5-build-classic';
+// import ClassicEditor from '@ckeditor/ckeditor5-build-classic';
+import  Editor  from 'ckeditor5-custom-build/build/ckeditor';
 
-const editorData = '<p>Content of the editor.</p>'
-const editorConfig = {}
-const editor = ClassicEditor
+const baseUrl = inject("$baseUrl")
+const uploadImgUrl = ref(baseUrl + "/common/uploadEditFile"); // 上传的图片服务器地址
+const editor = Editor;
+// const editor = ClassicEditor
+const editorConfig ={
+  language:"zh-cn",
+  simpleUpload: {
+    // The URL the images are uploaded to.
+    uploadUrl: uploadImgUrl.value,
+  },
+}
+//
 //基本信息
 const formBasic = reactive({
   name: '',
@@ -235,6 +251,7 @@ const data = [
     ],
   },
 ]
+
 </script>
 
 <style scoped>

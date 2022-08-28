@@ -1,84 +1,27 @@
 <template>
-  <el-select v-model="value" class="m-2" placeholder="Select" size="large">
-    <el-option
-        v-for="item in options"
-        :key="item.value"
-        :label="item.label"
-        :value="item.value"
-    />
-  </el-select>
-  <el-select v-model="value" class="m-2" placeholder="Select">
-    <el-option
-        v-for="item in options"
-        :key="item.value"
-        :label="item.label"
-        :value="item.value"
-    />
-  </el-select>
-  <el-select v-model="value" class="m-2" placeholder="Select" size="small">
-    <el-option
-        v-for="item in options"
-        :key="item.value"
-        :label="item.label"
-        :value="item.value"
-    />
-  </el-select>
-  <el-select v-model="typeValue"  placeholder="请选择世界类型">
-    <el-option
-        v-for="item in categoryList"
-        :key="item.value"
-        :label="item.label"
-        :value="item.value"
-    />
-  </el-select>
+  <div>
+    <ckeditor  :editor="editor"  :config="editorConfig"></ckeditor>
+  </div>
 </template>
 
-<script lang="ts" setup>
-import { ref } from 'vue'
+<script type="ts" setup>
+import  Editor from 'ckeditor5-custom-build/build/ckeditor';
+import {inject, ref} from "vue";
+const editor =   Editor;
+const baseUrl = inject("$baseUrl")
 
-const value = ref('')
-value.value='3'
-const options = [
-      {
-        value: '1',
-        label: 'Option1',
-      },
-      {
-        value: '2',
-        label: 'Option2',
-      },
-      {
-        value: '3',
-        label: 'Option3',
-      },
-      {
-        value: '4',
-        label: 'Option4',
-      },
-      {
-        value: '5',
-        label: 'Option5',
-      },
-    ]
+const imageUrl = ref('')
+const imageUrlPath = ref('')
 
-const typeValue = ref('')
-const categoryList = [
-  {
-    value: '0',
-    label: 'Option0',
+const uploadImgUrl = ref(baseUrl + "/common/uploadEditFile"); // 上传的图片服务器地址
+const editorConfig ={
+  language:"zh-cn",
+  simpleUpload: {
+    // The URL the images are uploaded to.
+    uploadUrl: uploadImgUrl.value,
   },
-  {
-    value: '1',
-    label: 'Option1',
-  },
-  {
-    value: '2',
-    label: 'Option2',
-  }
-]
-typeValue.value='2'
+}
 </script>
 
-<style scoped>
-
+<style>
 </style>

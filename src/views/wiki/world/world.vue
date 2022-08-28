@@ -145,7 +145,9 @@
 </template>
 
 <script lang="ts" setup>
-import { listWorld, getWorld, delWorld, addWorld, updateWorld } from "@/api/wiki/world";
+import { listWorld, getWorld,} from "@/api/wiki/world";
+import {  delWorld, addWorld, updateWorld } from "@/api/admin/world";
+
 import {getCurrentInstance, reactive, ref, toRefs} from "vue";
 const { proxy } = getCurrentInstance();
 

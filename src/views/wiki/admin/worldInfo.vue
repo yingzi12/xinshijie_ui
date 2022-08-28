@@ -94,7 +94,7 @@
           <div  style="margin: 15px">
             <el-row>
               <el-col :span="4" class="center">
-                <el-image  style="width: 105px; height: 128px;  display: block;margin: 0 auto;" :src="url" :fit="fit" />
+                <el-image  style="width: 105px; height: 128px;  display: block;margin: 0 auto;" :src="imageUrl" :fit="fit" />
               </el-col>
               <el-col :span="12">
                 <div>
@@ -138,7 +138,7 @@
 </template>
 
 <script lang="ts" setup>
-import { ref } from 'vue'
+import {inject, ref} from 'vue'
 import {Flag, Edit,Menu as IconMenu, Message, Setting} from '@element-plus/icons-vue'
 
 
@@ -157,51 +157,24 @@ const wid = ref(null);
 wid.value = route.query.wid;
 world.value.id = route.query.wid;
 console.log("世界id="+world.value.id);
-
+const baseUrl = inject("$baseUrl")
+const imageUrl=ref('')
 const activeIndex = ref('1')
 const fits = ['世界', '粉丝', '关注']
 //编辑世界
 function handleEdit(){
-  router.push("/admin/worldEdit?id="+world.value.id);
+  router.push("/admin/worldEdit?wid="+world.value.id);
 }
 /** 查询世界详细 */
 function getWorld2(id:number) {
   getWorld(id).then(response => {
     console.log("查询世界详细:"+JSON.stringify(response))
     world.value = response.data
+    imageUrl.value=baseUrl+response.data.imgUrl;
+
   });
 
 }
-
-function jumpPage(page:number){
-  switch(page) {
-    case 0:
-      router.push("/admin/worldInfo?wid="+wid.value);
-      break;
-    case 2:
-      router.push("/admin/worldManage?id="+wid.value);
-      break;
-    case 3:
-      router.push("/admin/worldElement?id="+wid.value);
-      break;
-    case 4:
-      router.push("/admin/worldCategory?id="+wid.value);
-      break;
-    case 5:
-      router.push("/admin/worldRedident?id="+wid.value);
-      break;
-    case 6:
-      router.push("/admin/worldComment?id="+wid.value);
-      break;
-    case 7:
-      router.push("/admin/worldDiscuss?id="+wid.value);
-      break;
-    default:
-      router.push("/admin/worldInfo?id="+wid.value);
-  }
-}
-const url =
-    'https://fuss10.elemecdn.com/e/5d/4a731a90594a4af544c0c25941171jpeg.jpeg'
 
 function format(percentage){
   return percentage === 100 ? '100' : `7000/10000`;

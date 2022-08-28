@@ -171,13 +171,14 @@
 </template>
 
 <script lang="ts" setup>
-import { getCurrentInstance, reactive, ref, toRefs} from 'vue'
+import {getCurrentInstance, inject, reactive, ref, toRefs} from 'vue'
 import { listMangeWorld as listWorld,delWorld } from "@/api/admin/world";
 import { useRouter} from "vue-router";
 import { Menu as IconMenu, Message, Setting } from '@element-plus/icons-vue'
 const fits = ['世界', '粉丝', '关注']
 const activeIndex = ref('1')
-
+const baseUrl = inject("$baseUrl")
+const imageUrl=ref('')
 
 const router = useRouter()
 const {  appContext : { config: { globalProperties } }  } = getCurrentInstance();
@@ -213,7 +214,7 @@ const single = ref(true);
 const multiple = ref(true);
 const search = ref('')
 function handleUpdate (row)  {
-  router.push("/world/edit?id="+row.id);
+  router.push("/admin/worldEdit?wid="+row.id);
 }
 function handleDelete ( row){
   const worldId = row.id ;

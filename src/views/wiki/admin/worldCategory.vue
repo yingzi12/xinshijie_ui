@@ -135,7 +135,7 @@
 <script lang="ts" setup>
 import { getCurrentInstance, reactive, ref, toRefs} from 'vue'
 import type Node from 'element-plus/es/components/tree/src/model/node'
-import { addCategory,updateCategory,delCategory} from "@/api/admin/category";
+import { addCategory,updateCategory} from "@/api/admin/category";
 import { getTree} from "@/api/wiki/category";
 import {useRoute,useRouter} from "vue-router";
 import {FormInstance} from "element-plus";
@@ -216,14 +216,14 @@ const renderContent = (
               },
               '添加子类'
           ),
-          h(
-              'a',
-              {
-                style: 'margin-left: 8px;  ',
-                onClick: () => remove(node, data),
-              },
-              '删除分类'
-          ),
+          // h(
+          //     'a',
+          //     {
+          //       style: 'margin-left: 8px;  ',
+          //       onClick: () => remove(node, data),
+          //     },
+          //     '删除分类'
+          // ),
           h(
               'b',
               {

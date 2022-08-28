@@ -123,16 +123,18 @@
                 :size="formSize"
                 status-icon
             >
-              <el-form-item label="图 片" prop="name">
-              <el-upload
-                  class="avatar-uploader"
-                  action="https://run.mocky.io/v3/9d059bf9-4660-45f2-925d-ce80ad6c4d15"
-                  :show-file-list="false"
-                  :on-success="handleAvatarSuccess"
-                  :before-upload="beforeAvatarUpload">
-                <img style="width: 105px; height: 128px;" v-if="form.imgUrl" :src="form.imgUrl" class="avatar" />
-                <el-icon v-else class="avatar-uploader-icon"><Plus /></el-icon>
-              </el-upload>
+              <el-form-item label="照 片" prop="name">
+                <el-upload
+                    class="avatar-uploader"
+                    :action="uploadImgUrl"
+                    name="file"
+                    :show-file-list="false"
+                    :on-success="handleAvatarSuccess"
+                    :before-upload="beforeAvatarUpload"
+                >
+                  <img v-if="imageUrl" :src="imageUrl" class="avatar" />
+                  <el-icon v-else class="avatar-uploader-icon"><Plus /></el-icon>
+                </el-upload>
               </el-form-item>
               <el-form-item label="名 称" prop="name">
                 <el-input v-model="form.name" placeholder="请输入世界名称" maxlength="30"   />
@@ -166,7 +168,7 @@
 </template>
 
 <script lang="ts" setup>
-import {getCurrentInstance, reactive, ref, toRefs} from 'vue'
+import {getCurrentInstance, inject, reactive, ref, toRefs} from 'vue'
 import { Menu as IconMenu, Message, Setting } from '@element-plus/icons-vue'
 import { useRoute }  from "vue-router";  // 引用vue-router
 import { useRouter} from "vue-router";
@@ -181,7 +183,16 @@ const router = useRouter()
 // 接收url里的参数
 const route = useRoute();
 const wid = ref(null);
+
+//世界信息
+const world=ref({})
+world.value.id = wid.value
+console.log("世界id="+world.value.id);
 wid.value = route.query.wid;
+const baseUrl = inject("$baseUrl")
+const imageUrl=ref('')
+const uploadImgUrl = ref(baseUrl + "/common/upload"); // 上传的图片服务器地址
+const imageUrlPath = ref('')
 const formSize = ref('default')
 const ruleFormRef = ref<FormInstance>()
 const activeIndex = ref('1')
@@ -218,24 +229,18 @@ const data = reactive({
       { min: 10, max: 1000, message: 'Length should be 10 to 1000', trigger: 'blur' }],
   }
 });
-
 const {  form, rules } = toRefs(data);
 
-//世界信息
-const world=ref({})
 
-
-world.value.id = wid.value
-console.log("世界id="+world.value.id);
 //上传图片
 // const imageUrl = ref('')
 /** 查询世界详细 */
-function handleUpdate(id:number) {
+function handleWorld(id:number) {
   getWorld(id).then(response => {
     console.log("查询世界详细:"+JSON.stringify(response))
     form.value = response.data;
-    form.value.types=response.data.typeName
-    form.value.imgUrl='https://fuss10.elemecdn.com/e/5d/4a731a90594a4af544c0c25941171jpeg.jpeg'
+    imageUrl.value=baseUrl+response.data.imgUrl;
+    // form.value.imgUrl='https://fuss10.elemecdn.com/e/5d/4a731a90594a4af544c0c25941171jpeg.jpeg'
     console.log("查询世界详细:"+JSON.stringify(world.value))
   });
 }
@@ -245,6 +250,7 @@ const submitForm = async (formEl: FormInstance | undefined) => {
     console.log("查询世界详细worldRef valid:"+JSON.stringify(valid))
     if (valid) {
       if (form.value.id != undefined) {
+        form.value.imgUrl=imageUrlPath.value
         updateWorld(form.value).then(response => {
           globalProperties.$modal.msgSuccess("修改成功");
           router.push("/world/list");
@@ -267,7 +273,8 @@ const handleAvatarSuccess: UploadProps['onSuccess'] = (
     response,
     uploadFile
 ) => {
-  form.value.imgUrl = URL.createObjectURL(uploadFile.raw!)
+  imageUrl.value = URL.createObjectURL(uploadFile.raw!)
+  imageUrlPath.value=uploadFile.response.fileName
 }
 
 const beforeAvatarUpload: UploadProps['beforeUpload'] = (rawFile) => {
@@ -281,7 +288,7 @@ const beforeAvatarUpload: UploadProps['beforeUpload'] = (rawFile) => {
   return true
 }
 
-handleUpdate(world.value.id);
+handleWorld(wid.value);
 </script>
 
 <style scoped>
@@ -325,5 +332,10 @@ handleUpdate(world.value.id);
   color: var(--el-text-color-secondary);
   font-size: 9px;
   margin-bottom: 0px;
+}
+.avatar-uploader .avatar {
+  width: 178px;
+  height: 178px;
+  display: block;
 }
 </style>

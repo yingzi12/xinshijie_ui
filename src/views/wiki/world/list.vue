@@ -123,7 +123,7 @@ const single = ref(true);
 const multiple = ref(true);
 const search = ref('')
 function handleUpdate (row)  {
-  router.push("/world/edit?id="+row.id);
+  router.push("/world/edit?wid="+row.id);
 }
 function handleDelete ( row){
   const worldId = row.id ;
@@ -136,7 +136,7 @@ function handleDelete ( row){
 }
 
 function handleSee(row){
-  router.push("/world/details?id="+row.id);
+  router.push("/world/details?wid="+row.id);
 }
 /** 选择条数  */
 function handleSelectionChange(selection) {

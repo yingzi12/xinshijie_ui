@@ -13,7 +13,7 @@
       <div  style="margin: 15px">
         <el-row>
           <el-col :span="4" class="center">
-            <el-image  style="width: 150px; height: 200px;  display: block;margin: 0 auto;" :src="url" :fit="fit" />
+            <el-image  style="width: 150px; height: 200px;  display: block;margin: 0 auto;" :src="imageUrl" :fit="fit" />
           </el-col>
           <el-col :span="16">
             <div>
@@ -131,7 +131,7 @@
 </template>
 
 <script lang="ts" setup >
-import { ref } from 'vue'
+import {inject, ref} from 'vue'
 //接受参数
 import { useRoute }  from "vue-router";  // 引用vue-router
 import type { TabsPaneContext } from 'element-plus'
@@ -149,14 +149,17 @@ const commentList=ref([])
 //
 const manageList=ref([])
 
-world.value.id = route.query.id;
+world.value.id = route.query.wid;
 console.log("世界id="+world.value.id);
+const baseUrl = inject("$baseUrl")
+const imageUrl=ref('')
 
 /** 查询世界详细 */
 function getWorld2(id:number) {
   getWorld(id).then(response => {
     console.log("查询世界详细:"+JSON.stringify(response))
     world.value = response.data
+    imageUrl.value=baseUrl+response.data.imgUrl;
   });
 }
 //评论信息
