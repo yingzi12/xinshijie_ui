@@ -2,7 +2,7 @@
   <div class="app-container">
     <!--  世界名称-->
     <div style="background-color:#8c939d;height: 30px">
-        <h2  class="center2">名称</h2>
+        <h2  class="center2">{{ wname }}</h2>
     </div>
     <!--  分类管理 -->
     <div >
@@ -115,6 +115,7 @@ import {ElTree, FormInstance, ElInput, ElMessage} from "element-plus";
 import  Editor  from 'ckeditor5-custom-build/build/ckeditor';
 import { getTree} from "@/api/wiki/category";
 import { addElement} from "@/api/admin/element";
+import { getWorld} from "@/api/wiki/world";
 import {useRoute, useRouter} from "vue-router";
 
 // 接收url里的参数
@@ -122,7 +123,8 @@ const route = useRoute();
 const router = useRouter()
 
 console.log(route.query.wid,"参数");
-const wid = route.query.wid
+const wid = ref(null);
+wid.value = route.query.wid;
 console.log("世界id="+wid);
 const editor = Editor
 const baseUrl = inject("$baseUrl")
@@ -249,9 +251,17 @@ function submit(){
 //     }
 //   })
 // }
+const wname=ref('')
+/** 查询世界详细 */
+function handWorld() {
+  getWorld(wid.value).then(response => {
+    console.log("查询世界详细:"+JSON.stringify(response))
+    wname.value = response.data.name
+  });
+}
 /** 查询世界列表 */
 function getList() {
-  getTree(wid).then(response => {
+  getTree(wid.value).then(response => {
     dataStree.value = response.data
   });
 }
@@ -274,6 +284,7 @@ function  show(val){
   console.log("选中的对象element:"+JSON.stringify(element.value))
 }
 getList()
+handWorld();
 </script>
 
 <style scoped>

@@ -123,15 +123,20 @@
                   {{scope.$index+1}}
                 </template>
               </el-table-column>
-              <el-table-column prop="date" label="Date" width="140" />
-              <el-table-column prop="name" label="Name" width="120" />
-              <el-table-column prop="address" label="Address" />
+              <el-table-column prop="title" label="元素名称" width="140" />
+              <el-table-column prop="wname" label="世界名称" width="120" />
+              <el-table-column prop="status" label="状态" />
+              <el-table-column prop="createTime" label="修改时间" />
+              <el-table-column prop="updateType" label="修改原因" />
+              <el-table-column prop="updateContent" label="修改说明" />
+              <el-table-column prop="createName" label="修改人" />
               <el-table-column fixed="right" label="Operations" width="220">
+                <template  #header>
+                  <el-button text>查看历史记录</el-button>
+                </template>
                 <template #default>
-                  <el-button link type="primary" size="small" @click="handleClick"
-                  >Detail</el-button
-                  >
-                  <el-button link type="primary" size="small">Edit</el-button>
+                  <el-button link type="primary" size="small" @click="handleClick">查看</el-button>
+                  <el-button link type="primary" size="small" @click="dialogFormVisible = true">审核</el-button>
                 </template>
               </el-table-column>
             </el-table>
@@ -142,6 +147,27 @@
           <el-pagination  layout="prev, pager, next" :total="50" />
         </div>
       </el-main>
+
+      <!--      审核弹出框-->
+      <el-dialog v-model="dialogFormVisible" title="审核">
+        <el-form :model="form">
+          <el-form-item label="Zones" :label-width="formLabelWidth">
+            <el-select v-model="form.region" placeholder="Please select a zone">
+              <el-option label="Zone No.1" value="shanghai" />
+              <el-option label="Zone No.2" value="beijing" />
+            </el-select>
+          </el-form-item>
+          <el-form-item label="说明" :label-width="formLabelWidth">
+            <el-input v-model="form.name" autocomplete="off" />
+          </el-form-item>
+        </el-form>
+        <template #footer>
+      <span class="dialog-footer">
+        <el-button @click="dialogFormVisible = false">取消</el-button>
+        <el-button type="primary" @click="dialogFormVisible = false">确认</el-button>
+      </span>
+        </template>
+      </el-dialog>
     </el-container>
   </el-container>
 </template>
@@ -157,11 +183,20 @@ const wid = ref(null);
 wid.value = route.query.wid;
 const fits = ['世界', '粉丝', '关注']
 const activeIndex = ref('1')
+//弹出框
+const dialogFormVisible = ref(false)
+const formLabelWidth = '140px'
 
 const item = {
-  date: '2016-05-02',
-  name: 'Tom',
-  address: 'No. 189, Grove St, Los Angeles',
+  createTime: '2016-05-02 11:23:32',
+  createName: 'tome jacke',
+  title: '元素标题',
+  eid: 1,
+  id: 1,
+  wname:"极兔世界",
+  wid:1,
+  updateType: '修改内容',
+  updateContent: 'No. 189, Grove St, Los Angeles',
 }
 const tableData = ref(Array.from({ length: 20 }).fill(item))
 

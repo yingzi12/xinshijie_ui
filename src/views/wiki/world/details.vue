@@ -131,7 +131,7 @@
 </template>
 
 <script lang="ts" setup >
-import {inject, ref} from 'vue'
+import {inject, reactive, ref} from 'vue'
 //接受参数
 import { useRoute }  from "vue-router";  // 引用vue-router
 import type { TabsPaneContext } from 'element-plus'
@@ -155,7 +155,7 @@ const baseUrl = inject("$baseUrl")
 const imageUrl=ref('')
 
 /** 查询世界详细 */
-function getWorld2(id:number) {
+function handWorld(id:number) {
   getWorld(id).then(response => {
     console.log("查询世界详细:"+JSON.stringify(response))
     world.value = response.data
@@ -192,7 +192,7 @@ const url =
     'https://fuss10.elemecdn.com/e/5d/4a731a90594a4af544c0c25941171jpeg.jpeg'
 
 const textarea = ref('')
-getWorld2(world.value.id);
+handWorld(world.value.id);
 getAllWorldComment(world.value.id)
 getAllWorldManage(world.value.id)
 

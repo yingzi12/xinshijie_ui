@@ -6,18 +6,24 @@
         <el-breadcrumb-item>世界列表</el-breadcrumb-item>
       </el-breadcrumb>
     </div>
-    <div>
-      <div class="common-layout">
-        <el-container>
-          <el-aside width="200px">
-            <el-card class="box-card">
-              <template #header>
-                <div class="card-header">
-                  <span>分类</span>
-                </div>
-              </template>
-              <div v-for="o in 4" :key="o" class="text item">{{ '类型 ' + o }}</div>
-            </el-card>
+    <div style="background-color: #97a8be">
+      <div >
+        <el-container >
+          <el-aside width="180px">
+            <h3 class="mb-2">分类</h3>
+            <el-menu
+                  default-active="-1"
+                  class="el-menu-vertical-demo"
+              >
+              <el-menu-item index="-1" @click="handFind(null)">
+                <el-icon><icon-menu /></el-icon>
+                <span>全部</span>
+              </el-menu-item>
+              <el-menu-item  v-for="types in worldTypes" index="2" :index="types.id" @click="handFind(types.id)">
+                  <el-icon><icon-menu /></el-icon>
+                  <span>{{types.name }}</span>
+                </el-menu-item>
+              </el-menu>
           </el-aside>
           <el-main>
             <h1>世界列表</h1>
@@ -31,22 +37,15 @@
               <el-table-column label="类型" align="center" key="typeName" prop="typeName" :show-overflow-tooltip="true" />
               <el-table-column label="简介" align="center" key="intro" prop="intro"  :show-overflow-tooltip="true" />
               <el-table-column label="创建人" align="center" key="createName" prop="createName"  :show-overflow-tooltip="true" />
-<!--              <el-table-column label="状态" align="center" key="status" >-->
-<!--                <template #default="scope">-->
-<!--                  <el-switch-->
-<!--                      v-model="scope.row.status"-->
-<!--                      active-value="0"-->
-<!--                      inactive-value="1"-->
-<!--                      @change="handleStatusChange(scope.row)"-->
-<!--                  ></el-switch>-->
-<!--                </template>-->
-<!--              </el-table-column>-->
               <el-table-column label="更新时间" align="center" prop="updateTime"  width="160">
                 <template #default="scope">
                   <span>{{scope.row.updateTime}}</span>
                 </template>
               </el-table-column>
               <el-table-column label="操作" align="center" width="150" class-name="small-padding fixed-width">
+                <template #header>
+                  <el-input v-model="wname" size="small" placeholder="请输入世界名称" @change="handFind(wtypes)"/>
+                </template>
                 <template #default="scope">
                   <el-tooltip content="详情" placement="top" >
                     <el-button
@@ -101,7 +100,9 @@ class World {
   intro: string
   createTime:string
 }
-
+const worldTypes=reactive([{id:0,name:"科学"},{id:1,name:"武侠"},{id:2,name:"仙侠"},{id:3,name:"魔幻"},{id:4,name:"奇幻"},{id:5,name:"其他"}])
+const wname=ref('');
+const wtypes=ref(null);
 const loading = ref(true);
 const worldList = ref([]);
 const total = ref(0);
@@ -110,7 +111,8 @@ const data = reactive({
   queryParams: {
     pageNum: 1,
     pageSize: 10,
-    name: undefined
+    name: undefined,
+    types:undefined,
   },
   rules: {
     // userName: [{ required: true, message: "用户名称不能为空", trigger: "blur" }, { min: 2, max: 20, message: "用户名称长度必须介于 2 和 20 之间", trigger: "blur" }],
@@ -134,7 +136,25 @@ function handleDelete ( row){
     globalProperties.$modal.msgSuccess("删除成功");
   }).catch(() => {});
 }
-
+function handFind(types:number){
+  if(types != null && types != '' && types != undefined) {
+    wtypes.value = types;
+  }else{
+    wtypes.value = null;
+  }
+  queryParams.value.types = wtypes.value;
+  if(wname.value != null && wname.value != '' && wname.value != undefined) {
+    queryParams.value.name=wname.value;
+  }else{
+    queryParams.value.name=null;
+  }
+  listWorld(globalProperties.addDateRange(queryParams.value, dateRange.value)).then(response => {
+    loading.value = false;
+    worldList.value = response.rows;
+    total.value = response.total;
+  });
+}
+//查看详细
 function handleSee(row){
   router.push("/world/details?wid="+row.id);
 }

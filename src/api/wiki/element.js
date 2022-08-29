@@ -24,3 +24,12 @@ export function getElementDetails(wid,eid) {
     method: 'get'
   })
 }
+
+// 新增元素
+export function diff(data) {
+  return request({
+    url: '/admin/diff/test',
+    method: 'post',
+    data: data
+  })
+}
