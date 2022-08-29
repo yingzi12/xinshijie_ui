@@ -97,7 +97,7 @@
           </el-row>
         </div>
         <div>
-              <ckeditor :editor="editor" v-model="content.content" :config="editorConfig"></ckeditor>
+              <ckeditor    :editorDisabled="true" @input="onEditorInput(content)" :editor="editor" v-model="content.content" :config="editorConfig"></ckeditor>
         </div>
         </el-form>
 
@@ -152,7 +152,7 @@ interface Content {
   title: string
   status: number
   isEdit: number
-  content: string
+  content: string,
   isNew: number
 }
 
@@ -172,6 +172,7 @@ const formRef = ref<FormInstance>()
 
 const removeDomain = (item: Content) => {
   if(item.id != null){
+    item.status=4
     element.value.contentIdList.push(item.id)
   }
   console.log("删除："+JSON.stringify(item))
@@ -186,21 +187,30 @@ const addDomain = () => {
   element.value.contentList.push({
     id:null,
     key: Date.now(),
-    status:0,
+    status:1,
     title: '',
     value: '',
-    isEdit: 1,
+    isEdit: 0,
     isNew:1
   })
 }
-
-const handEdit = (content: Content) => {
-  content.isNew=1;
+function onEditorInput(content: Content){
   content.isEdit=1;
+  //只有正常状态下会改变
+  if(content.status=0) {
+    content.status = 3
+  }
+  console.log('onEditorInput!')
+}
+const handEdit = (content: Content) => {
+  content.isEdit=1;
+  // content.isNew=1;
+  // content.isEdit=1;
 }
 const handEditClean = (content: Content) => {
-  content.isNew=1;
   content.isEdit=0;
+  // content.isNew=1;
+  // content.isEdit=0;
 }
 const submitForm = (formEl: FormInstance | undefined) => {
   if (!formEl) return

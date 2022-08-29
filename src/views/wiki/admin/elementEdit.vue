@@ -97,7 +97,8 @@
           </el-row>
         </div>
         <div>
-              <ckeditor :editor="editor" v-model="content.content" :config="editorConfig"></ckeditor>
+              <ckeditor
+                                        :editor="editor" v-model="content.content" :config="editorConfig"></ckeditor>
         </div>
         </el-form>
 
