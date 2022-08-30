@@ -253,9 +253,15 @@ export const constantRoutes = [
         meta: { title: '审核', icon: 'wiki' }
       },
       {
-        path: 'element',
-        component: () => import('@/views/wiki/admin/element'),
-        name: 'element',
+        path: 'draft',
+        component: () => import('@/views/wiki/admin/draft'),
+        name: 'draft',
+        meta: { title: '元素草稿', icon: 'wiki' }
+      },
+      {
+        path: 'draftEdit',
+        component: () => import('@/views/wiki/admin/draftEdit'),
+        name: 'draftEdit',
         meta: { title: '元素草稿', icon: 'wiki' }
       },
       {

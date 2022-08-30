@@ -1,5 +1,5 @@
 <template>
-  <el-container class="layout-container-demo" >
+  <el-container class="layout-container-demo">
     <!--    侧边栏-->
     <el-aside width="250px" style="margin: 10px">
       <div>
@@ -7,22 +7,22 @@
         <div class="center" style="margin-bottom: 10px;text-align: center;">
           <el-card :body-style="{ padding: '0px' }">
             <!--  头像-->
-            <el-avatar :size="50" :src="circleUrl" />
+            <el-avatar :size="50" :src="circleUrl"/>
             <div>
               <h3 style="margin:10px;margin-bottom: 10px;font-size:14px;">Yumnumkl</h3>
               <p style="margin: 0px;padding: 0px;font-size:10px;">id:111111</p>
-              <div class="bottom" >
+              <div class="bottom">
                 <p style="margin: 0px;padding: 0px;font-size:10px;line-height:120%;">这是一个签名,表达自己的想法用的,没什么实际的意义</p>
                 <div class="demo-count">
-                  <div  class="block">
+                  <div class="block">
                     <span class="demonstration">4</span>
                     <span class="demonstration">世界</span>
                   </div>
-                  <div  class="block">
+                  <div class="block">
                     <span class="demonstration">4440000</span>
                     <span class="demonstration">粉丝</span>
                   </div>
-                  <div  class="block">
+                  <div class="block">
                     <span class="demonstration">433</span>
                     <span class="demonstration">关注</span>
                   </div>
@@ -32,7 +32,7 @@
             </div>
           </el-card>
         </div>
-        <!--        功能栏-->
+        <!--        功栏栏-->
         <div style="margin-top: 10px">
           <el-scrollbar>
             <el-menu   :router="true"   :collapse="isCollapse"
@@ -73,27 +73,20 @@
               @select="handleSelect"
               style="margin:0px;pardding:0px"
           >
-            <el-menu-item index="1">世界管理</el-menu-item>
+            <el-menu-item index="1">草稿管理</el-menu-item>
           </el-menu>
-        </div>
-        <!--        多选-->
-        <div style="padding: 10px">
-          <el-space wrap>
-            <el-button text @click="findType(null)">全部</el-button>
-            <div v-for="types in worldTypes" :key="i">
-              <el-button text @click="findType(types.id)">{{types.name }} </el-button>
-            </div>
-          </el-space>
         </div>
         <!--        统计-->
         <div style="background-color:#b0c4de;margin: auto;padding: 10px">
           <el-row>
-            <el-col  :span="4">
-              合计({{ total }})
-            </el-col >
-            <el-col :span="20"  style="text-align: right;">
+            <el-col :span="20">
+<!--              <el-tree-select v-model="value" :data="dataStree" check-strictly :render-after-expand="false"/>-->
+              <el-input v-model="input3" placeholder="Please input" class="input-with-select" style="width: 250px"/>
+              <el-button :icon="Search" circle/>
+            </el-col>
+            <el-col :span="4" style="text-align: right;">
               <div style="text-align: right; font-size: 12px" class="toolbar">
-                <span>创建世界</span>
+                <el-button text @click="handleSeeLog">历史记录</el-button>
               </div>
             </el-col>
           </el-row>
@@ -101,48 +94,40 @@
         <!--        表格-->
         <div>
           <el-scrollbar>
-            <el-table v-loading="loading" :data="worldList" @selection-change="handleSelectionChange">
-              <el-table-column label="序号" width="50px" >
+            <el-table v-loading="loading" :data="elementList" >
+              <el-table-column label="序号" width="50px">
                 <template #default="scope">
-                  {{scope.$index+1+(queryParams.pageNum-1)*10}}
+                  {{ scope.$index + 1 + (queryParams.pageNum - 1) * 10 }}
                 </template>
               </el-table-column>
-              <el-table-column label="名称" align="center" key="name" prop="name"  />
-              <el-table-column label="类型" align="center" key="typeName" prop="typeName" :show-overflow-tooltip="true" />
-              <el-table-column label="简介" align="center" key="intro" prop="intro"  :show-overflow-tooltip="true" />
-              <el-table-column label="创建人" align="center" key="createName" prop="createName"  :show-overflow-tooltip="true" />
-              <!--              <el-table-column label="状态" align="center" key="status" >-->
-              <!--                <template #default="scope">-->
-              <!--                  <el-switch-->
-              <!--                      v-model="scope.row.status"-->
-              <!--                      active-value="0"-->
-              <!--                      inactive-value="1"-->
-              <!--                      @change="handleStatusChange(scope.row)"-->
-              <!--                  ></el-switch>-->
-              <!--                </template>-->
-              <!--              </el-table-column>-->
-              <el-table-column label="更新时间" align="center" prop="updateTime"  width="160">
+              <el-table-column label="名称" align="center" key="title" prop="title"/>
+              <el-table-column label="世界" align="center" key="wanme" prop="wanme"/>
+              <el-table-column label="类型" align="center" key="typeName" prop="typeName" :show-overflow-tooltip="true"/>
+              <el-table-column label="简介" align="center" key="intro" prop="intro" :show-overflow-tooltip="true"/>
+              <el-table-column label="创建人" align="center" key="createName" prop="createName"
+                               :show-overflow-tooltip="true"/>
+              <el-table-column label="更新时间" align="center" prop="updateTime" width="160">
                 <template #default="scope">
-                  <span>{{scope.row.updateTime}}</span>
+                  <span>{{ scope.row.updateTime }}</span>
                 </template>
               </el-table-column>
               <el-table-column label="操作" align="center" width="150" class-name="small-padding fixed-width">
                 <template #default="scope">
-                  <el-tooltip content="详情" placement="top" >
+                  <el-tooltip content="详情" placement="top">
                     <el-button
                         type="text"
                         icon="View"
                         @click="handleSee(scope.row)"
                     ></el-button>
                   </el-tooltip>
-                  <el-tooltip content="修改" placement="top" >
+                  <el-tooltip content="修改" placement="top">
                     <el-button
                         type="text"
                         icon="Edit"
                         @click="handleUpdate(scope.row)"
                     ></el-button>
                   </el-tooltip>
-                  <el-tooltip content="删除" placement="top" >
+                  <el-tooltip content="删除" placement="top">
                     <el-button
                         type="text"
                         icon="Delete"
@@ -152,7 +137,6 @@
                 </template>
               </el-table-column>
             </el-table>
-
           </el-scrollbar>
         </div>
         <!--        分页-->
@@ -162,8 +146,7 @@
               :total="total"
               v-model:page="queryParams.pageNum"
               v-model:limit="queryParams.pageSize"
-              @pagination="getList"
-          />
+              @pagination="getList"/>
         </div>
       </el-main>
     </el-container>
@@ -171,16 +154,20 @@
 </template>
 
 <script lang="ts" setup>
-import {getCurrentInstance, inject, reactive, ref, toRefs} from 'vue'
-import { listMangeWorld as listWorld,delWorld } from "@/api/admin/world";
-import { useRouter} from "vue-router";
-import { Menu as IconMenu, Message, Setting } from '@element-plus/icons-vue'
+import { getCurrentInstance, reactive, ref, toRefs} from 'vue'
+import {  listDraft,delDraft } from "@/api/admin/draftElement";
+// import { getTree} from "@/api/wiki/category";
+import {useRoute, useRouter} from "vue-router";
+import { Menu as IconMenu, Search,Message, Setting } from '@element-plus/icons-vue'
 const fits = ['世界', '粉丝', '关注']
 const activeIndex = ref('1')
-const baseUrl = inject("$baseUrl")
-const imageUrl=ref('')
 
+// 接收url里的参数
+const route = useRoute();
 const router = useRouter()
+// const wid = ref(null);
+// wid.value = route.query.wid;
+// console.log("世界id="+wid.value);
 const {  appContext : { config: { globalProperties } }  } = getCurrentInstance();
 const {  proxy  } = getCurrentInstance();
 class World {
@@ -190,9 +177,10 @@ class World {
   intro: string
   createTime:string
 }
-
+//分类选项
+// const dataStree = ref([])
 const loading = ref(true);
-const worldList = ref([]);
+const elementList = ref([]);
 const total = ref(0);
 const data = reactive({
   form: {},
@@ -201,12 +189,12 @@ const data = reactive({
     pageSize: 10,
     name: undefined,
     types: undefined,
+    // wid:wid.value
   },
   rules: {
     // userName: [{ required: true, message: "用户名称不能为空", trigger: "blur" }, { min: 2, max: 20, message: "用户名称长度必须介于 2 和 20 之间", trigger: "blur" }],
   }
 });
-const worldTypes=reactive([{id:0,name:"科学"},{id:1,name:"武侠"},{id:2,name:"仙侠"},{id:3,name:"魔幻"},{id:4,name:"奇幻"},{id:5,name:"其他"}])
 const { queryParams, form, rules } = toRefs(data);
 const dateRange = ref([]);
 const ids = ref([]);
@@ -214,12 +202,11 @@ const single = ref(true);
 const multiple = ref(true);
 const search = ref('')
 function handleUpdate (row)  {
-  router.push("/admin/worldEdit?wid="+row.id);
+  router.push("/world/edit?id="+row.id);
 }
 function handleDelete ( row){
-  const worldId = row.id ;
-  globalProperties.$modal.confirm('是否确认删除世界名称为"' + row.name + '"的数据？').then(function () {
-    return delWorld(worldId);
+  globalProperties.$modal.confirm('是否确认删除世界名称为"' + row.title + '"的数据？').then(function () {
+    return delDraft(row.id);
   }).then(() => {
     getList();
     globalProperties.$modal.msgSuccess("删除成功");
@@ -227,32 +214,40 @@ function handleDelete ( row){
 }
 
 function handleSee(row){
-  router.push("/admin/worldInfo?wid="+row.id);
+  router.push("/admin/draftPreview?wid="+row.wid+"&deid="+row.id);
 }
-/** 选择条数  */
-function handleSelectionChange(selection) {
-  ids.value = selection.map(item => item.userId);
-  single.value = selection.length != 1;
-  multiple.value = !selection.length;
-};
 /**根据分类查询世界*/
 function findType(typeId:number) {
-  queryParams.value.types=typeId;
-  listWorld(globalProperties.addDateRange(queryParams.value, dateRange.value)).then(response => {
+  // queryParams.value.wid=wid.value;
+  listDraft(globalProperties.addDateRange(queryParams.value, dateRange.value)).then(response => {
     loading.value = false;
-    worldList.value = response.rows;
+    elementList.value = response.rows;
     total.value = response.total;
   });
 }
-/** 查询世界列表 */
+/** 查询元素列表 */
 function getList() {
-  listWorld(globalProperties.addDateRange(queryParams.value, dateRange.value)).then(response => {
+  listDraft(globalProperties.addDateRange(queryParams.value, dateRange.value)).then(response => {
     loading.value = false;
-    worldList.value = response.rows;
+    elementList.value = response.rows;
     total.value = response.total;
   });
 }
+/** 查询分类列表 */
+// function getCategoryTree() {
+//   getTree(wid.value).then(response => {
+//     dataStree.value = response.data
+//   });
+// }
+// getCategoryTree();
 getList();
+
+
+const value = ref()
+
+const input3 = ref('')
+const dialogFormVisible = ref(false)
+
 </script>
 
 <style scoped>
@@ -260,12 +255,15 @@ getList();
   color: var(--el-text-color-primary);
   background: var(--el-color-primary-light-8);
 }
+
 .layout-container-demo .el-menu {
   border-right: none;
 }
+
 .layout-container-demo .el-main {
   padding: 0;
 }
+
 .layout-container-demo .toolbar {
   display: inline-flex;
   align-items: center;
@@ -273,6 +271,7 @@ getList();
   height: 100%;
   right: 20px;
 }
+
 .center {
   display: flex;
   justify-content: center;
@@ -288,9 +287,11 @@ getList();
   box-sizing: border-box;
   vertical-align: top;
 }
+
 .demo-count .block:last-child {
   border-right: none;
 }
+
 .demo-count .demonstration {
   display: block;
   color: var(--el-text-color-secondary);

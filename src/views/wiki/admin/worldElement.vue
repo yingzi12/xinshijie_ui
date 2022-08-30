@@ -45,7 +45,7 @@
                 <el-icon><icon-menu /></el-icon>
                 <template #title>世界管理</template>
               </el-menu-item>
-              <el-menu-item index="/admin/element">
+              <el-menu-item index="/admin/draft">
                 <el-icon><icon-menu /></el-icon>
                 <template #title>元素草稿</template>
               </el-menu-item>
@@ -263,11 +263,11 @@ function findType(typeId:number) {
     total.value = response.total;
   });
 }
-/** 查询世界列表 */
+/** 查询元素列表 */
 function getList() {
   listElement(globalProperties.addDateRange(queryParams.value, dateRange.value)).then(response => {
     loading.value = false;
-    worldList.value = response.rows;
+    elementList.value = response.rows;
     total.value = response.total;
   });
 }

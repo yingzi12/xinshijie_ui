@@ -58,7 +58,7 @@
         <el-tab-pane label="描述" name="description">
           <div v-html="world.description"></div>
         </el-tab-pane>
-        <el-tab-pane label="元素" name="element">Config</el-tab-pane>
+        <el-tab-pane label="元素" name="element" @click="handElement()"><el-button @click="handElement()">更多</el-button></el-tab-pane>
         <el-tab-pane label="造物主" name="message">
           <el-table :data="manageList" stripe style="width: 100%">
             <el-table-column prop="createTime" label="创建时间" width="180" />
@@ -133,11 +133,12 @@
 <script lang="ts" setup >
 import {inject, reactive, ref} from 'vue'
 //接受参数
-import { useRoute }  from "vue-router";  // 引用vue-router
+import {useRoute, useRouter} from "vue-router";  // 引用vue-router
 import type { TabsPaneContext } from 'element-plus'
 import {  getWorld } from "@/api/wiki/world";
 import {  getWorldComment } from "@/api/wiki/comment";
 import {  getWorldManage } from "@/api/wiki/manage";
+const router = useRouter()
 
 // 接收url里的参数
 const route = useRoute();
@@ -154,6 +155,9 @@ console.log("世界id="+world.value.id);
 const baseUrl = inject("$baseUrl")
 const imageUrl=ref('')
 
+function handElement(){
+  router.push("/element/list?wid="+world.value.id);
+}
 /** 查询世界详细 */
 function handWorld(id:number) {
   getWorld(id).then(response => {

@@ -81,16 +81,16 @@
             <el-col :span="19">
               <div class="biaoti">
                 <BootstrapIcon icon="pencil-square" size="1x" flip-v />
-                <span v-if="content.isEdit == 0">{{ content.title }}</span>
-                <el-input  style="width:100px" v-if="content.isEdit == 1"  size="small" v-model="content.title" placeholder="小标题" />
+                <span v-if="content.isEdit != 1">{{ content.title }}</span>
+                <el-input  style="width:100px" v-if="content.isEdit == 1"  size="small" v-model="content.title"  />
               </div>
             </el-col>
             <el-col :span="5">
               <div class="center">
 <!--                <el-button v-if="content.isEdit == 1" @click="submitForm(formRef)"><BootstrapIcon icon="save" size="1x" flip-v />保存</el-button>-->
                 <el-button v-if="content.isEdit == 1" @click="handEditClean(content)"><BootstrapIcon icon="save" size="1x" flip-v />退出编辑</el-button>
-                <el-button v-if="content.isEdit == 0" @click="handEdit(content)"><BootstrapIcon icon="pencil-square" size="1x" flip-v  />编辑</el-button>
-                <el-button v-if="content.isEdit == 0" @click.prevent="removeDomain(content)"><BootstrapIcon icon="trash" size="1x" flip-v />删除</el-button>
+                <el-button v-if="content.isEdit != 1" @click="handEdit(content)"><BootstrapIcon icon="pencil-square" size="1x" flip-v  />编辑</el-button>
+                <el-button v-if="content.isEdit != 1" @click.prevent="removeDomain(content)"><BootstrapIcon icon="trash" size="1x" flip-v />删除</el-button>
                 <el-button v-if="content.status == 2" ><BootstrapIcon icon="lock" size="1x" flip-v />锁定</el-button>
               </div>
             </el-col>
@@ -116,8 +116,7 @@ import {inject, reactive, ref} from 'vue'
 import {ElMessage, ElTree, FormInstance} from "element-plus";
 // import ClassicEditor from '@ckeditor/ckeditor5-build-classic';
 import  Editor  from 'ckeditor5-custom-build/build/ckeditor';
-import {  getElementDetails } from "@/api/wiki/element";
-import {  updateElement } from "@/api/admin/element";
+import {  getDraftDetails,updateDraft } from "@/api/admin/draftElement";
 import { getTree} from "@/api/wiki/category";
 import { getWorld} from "@/api/wiki/world";
 
@@ -127,11 +126,11 @@ const router = useRouter()
 // 接收url里的参数
 const route = useRoute();
 //世界信息
-const eid = ref(null);
+const deid = ref(null);
 const wid = ref(null);
-eid.value = route.query.eid;
+deid.value = route.query.deid;
 wid.value = route.query.wid;
-console.log("元素id="+eid.value);
+console.log("deid="+deid.value);
 console.log("世界id="+wid.value);
 
 //基本信息
@@ -187,17 +186,17 @@ const addDomain = () => {
   element.value.contentList.push({
     id:null,
     key: Date.now(),
-    status:1,
-    title: '',
-    value: '',
+    status:1 ,
+    title: '标题',
+    content: '',
     isEdit: 0,
     isNew:1
   })
 }
 function onEditorInput(content: Content){
   content.isEdit=1;
-  //只有正常状态下会改变
-    content.status = 3
+  //出生了修改,需要更新
+  content.status = 3
   console.log('onEditorInput!')
 }
 const handEdit = (content: Content) => {
@@ -219,6 +218,7 @@ const submitForm = (formEl: FormInstance | undefined) => {
 }
 // 分类模板
 const categoryList = ref([])
+const world = ref({})
 
 const dataStree = ref([])
 //分类标签
@@ -230,12 +230,17 @@ const element = ref<InstanceType<Element>>({})
 //原始的选中的value
 const sleValue=ref({})
 
-
-
 /** 查询世界列表 */
 function getList() {
   getTree(wid.value).then(response => {
     dataStree.value = response.data
+    console.log("树:"+JSON.stringify( dataStree.value))
+  });
+}
+/** 查询世界列表 */
+function handWorld() {
+  getWorld(wid.value).then(response => {
+    world.value = response.data
     console.log("树:"+JSON.stringify( dataStree.value))
   });
 }
@@ -260,8 +265,8 @@ function  show(val){
 // const treeRef = ref<InstanceType<typeof ElTree>>()
 
 /** 查询世界详细 */
-function getElement(wid:number,eid:number) {
-  getElementDetails(wid,eid).then(response => {
+function getElement(wid:number,deid:number) {
+  getDraftDetails(wid,deid).then(response => {
     console.log("查询世界详细:"+JSON.stringify(response))
     element.value = response.data
     element.value.contentIdList=[];
@@ -275,6 +280,7 @@ function getElement(wid:number,eid:number) {
     }
     element.value.categoryList=sleValue
     console.log("打印查询到的categoryList"+JSON.stringify(categoryList))
+    console.log("打印查询到的element"+JSON.stringify(element))
   });
 }
 
@@ -302,17 +308,18 @@ function submit(){
   }
   console.log("添加："+JSON.stringify(element.value))
   if(ok) {
-    updateElement(element.value).then(response => {
+    element.value.wname=world.value.name
+    updateDraft(element.value).then(response => {
       console.log("添加成功")
-      router.push("/admin/draftPreview?wid="+ response.data.wid+"&deid=" + response.data.id)
+      router.push("/admin/draftPreview?wid="+ wid.value+"&deid=" + deid.value)
     });
   }
 }
 
 function submitClear(){
-  router.push("/element/preview?wid="+ wid.value+"&eid=" + eid.value)
+  router.push("/admin/draftPreview?wid="+ wid.value+"&deid=" + deid.value)
 }
-getElement(wid.value,eid.value);
+getElement(wid.value,deid.value);
 getList()
 </script>
 

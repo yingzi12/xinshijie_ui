@@ -1,32 +1,35 @@
 <template>
-  <div class="app-container">
+  <div class="app-container" >
+    <div>
+      <el-breadcrumb separator="/">
+        <el-breadcrumb-item :to="{ path: '/' }">homepage</el-breadcrumb-item>
+        <el-breadcrumb-item
+        ><a href="/public">promotion management</a></el-breadcrumb-item
+        >
+        <el-breadcrumb-item>promotion list</el-breadcrumb-item>
+        <el-breadcrumb-item>promotion detail</el-breadcrumb-item>
+      </el-breadcrumb>
+    </div>
+    <div style="border-style:solid;">
     <!--  世界名称-->
     <div >
-        <h1>{{ worldBasic.name }}</h1>
-        分类: <el-tag v-for="type in worldBasic.types">
-        {{type}}
+        <h1>{{ element.title }}</h1>
+      <span>更新时间:</span><el-tag>{{element.updateTime}}</el-tag>
+        <span>分类:</span> <el-tag v-for="category in element.categoryList">
+        {{category.label}}
       </el-tag>
     </div>
     <el-divider />
     <!--  基本信息 -->
-    <div>
-        <p>{{worldBasic.basic}}</p>
+    <div style="margin-bottom: 20px">
+      <div v-html="element.intro"> </div>
     </div>
-    <el-divider />
+<!--    内容简介-->
+    <div>
+  </div>
     <!-- 元素内容 -->
     <div>
-      <div style="background-color: #E5EAF3">
-        <el-row >
-          <el-col :span="21">
-            <div class="biaoti">
-              <BootstrapIcon icon="file-richtext-fill" size="1x" flip-v /><span>元素内容</span>
-            </div>
-          </el-col>
-          <el-col :span="3">
-          </el-col>
-        </el-row>
-      </div>
-      <div v-for="(domain, index) in dynamicValidateForm.domains"
+      <div v-for="(domain, index) in element.contentList"
             :key="domain.key"
             :label="'Domain' + index"
             :prop="'domains.' + index + '.value'"
@@ -35,164 +38,101 @@
         message: 'domain can not be null',
         trigger: 'blur',
       }"
+           style="margin-bottom: 20px"
       >
-        <div style="background-color: #cccccc">
+        <div style="background-color: #cccccc;height:50px ;margin-bottom:10px">
           <el-row >
             <el-col :span="19">
               <div class="biaoti">
-                <BootstrapIcon icon="caret-down-fill" size="1x" flip-v /><span>{{domain.title  }}
-<!--                <el-tag v-if="domain.isUpdate == 1"  type="warning">(已被修改)</el-tag>-->
-<!--                <el-tag v-if="domain.isDelete == 1"  type="danger">(已被删除)</el-tag>-->
-<!--                <el-tag v-if="domain.isNew == 1"  type="success">(新增)</el-tag>-->
-              </span>
+               <h3><BootstrapIcon icon="caret-down-fill" size="1x" flip-v /><span>{{domain.title  }}</span></h3>
               </div>
             </el-col>
             <el-col :span="5">
-<!--                <el-button v-if="domain.isUpdate == 1" @click="openDiff(domain.diff)">查看差异</el-button>-->
             </el-col>
           </el-row>
         </div>
         <div>
-          {{domain.value  }}
+          <div v-html="domain.content"> </div>
         </div>
       </div>
     </div>
-    <!--功能-->
     <el-divider />
-
-    <div>
-      <div style="background-color: #009926">
-        <h2>内容错误</h2>
-        <p>这里面有个错误，这个应该是1999年，并增加新的内容，增加时间参数</p>
-      </div>
-      <div>
-      <el-button @click="handleClick">查看差异</el-button>
-      <el-button @click="handleSee">返回</el-button>
+      <!--功能-->
+      <div class="center" style="height: 80px;">
+        <el-button @click="submitPush()">发布</el-button>
+        <el-button @click="handDiff()">查看差异</el-button>
+        <el-button @click="submitEdit()">继续编辑</el-button>
+        <el-button @click="handClean()">退出</el-button>
       </div>
     </div>
+
   </div>
 </template>
 
 <script  lang="ts" setup>
 import { reactive, ref } from 'vue'
 import {FormInstance} from "element-plus";
-import {useRouter} from "vue-router";
+import {  getDraftDetails ,updatePush} from "@/api/admin/draftElement";
+//接受参数
+import { useRoute ,useRouter}  from "vue-router";  // 引用vue-router
 const router = useRouter()
-//基本信息
-const worldBasic = reactive({
-  name: '这是一个名称',
-  basic:'这是对简介,简介,接你这是对简介,简介,接你这是对简介,简介,接你这是对简介,简介,接你这是对简介,简介,接你',
-  region: '',
-  date1: '',
-  date2: '',
-  delivery: false,
-  types: ["历史","科幻","魔法"],
-  resource: '',
-  desc: '',
-  updateConetext: '修改理由',
-})
+// 接收url里的参数
+const route = useRoute();
+//世界信息
+const deid = ref(null);
+const wid = ref(null);
+deid.value = route.query.deid;
+wid.value = route.query.wid;
+console.log("元素deid="+deid.value);
+console.log("世界id="+wid.value);
 
 
-//章节模块
-const formRef = ref<FormInstance>()
-const dynamicValidateForm = reactive<{
-  domains: DomainItem[]
-}>({
-  domains: [
-    {
-      key: 1,
-      title:'小标题',
-      value: '这里是内容模块,这里是内容模块,这里是内容模块',
-      cid: 1,
-      diff: '',
-      isUpdate: 0,
-      isDelete: 0,
-      isNew:0,
-    },
-    {
-      key: 1,
-      title:'小标题',
-      value: '这里是内容模块,这里是内容模块,这里是内容模块',
-      cid: 1,
-      diff: `
---- n1.txt
-+++ n2.txt
-@@ -0,0 +0,0 @@
- asdfaf
- 文件金拉夫亲
-@@ -3,4 +3,6 @@
--额契若金兰 就落款日期李会计连接器
--全家人8剪力墙软件
--   贰仟家人去楼空人就
--就;确认;林俊杰j;j
-+额契若金兰 就落款日期李会计连接器客户还客户了可
-+全家人8剪力墙软件 req
-+   贰仟家人空人就
-+erw elj j ljwerj l
-+ejrlqr lqkr
-+ljkqewrq rljk qreq
-
- 二级区离开两节课;就 讲日;
-@@ -9,1 +11,1 @@
--确认缺
-+确认afda缺
-
-`,
-      isUpdate: 1,
-      isDelete: 0,
-      isNew:0,
-    },
-    {
-      key: 1,
-      title:'小标题',
-      value: '这里是内容模块,这里是内容模块,这里是内容模块',
-      cid: 1,
-      diff: '',
-      isUpdate: 0,
-      isDelete: 1,
-      isNew:0,
-    },
-    {
-      key: 1,
-      title:'小标题',
-      value: '这里是内容模块,这里是内容模块,这里是内容模块',
-      cid: 1,
-      diff: '',
-      isUpdate: 0,
-      isDelete: 0,
-      isNew:1,
-    },
-  ]
-})
-
+const element=ref({})
+/** 查询世界详细 */
+function getDraft(wid:number,deid:number) {
+  getDraftDetails(wid,deid).then(response => {
+    console.log("查询世界详细:"+JSON.stringify(response))
+    element.value = response.data
+  });
+}
+function submitPush(){
+  updatePush(wid,deid).then(response => {
+    console.log("发布成功")
+    router.push("/element/content?wid="+ wid.value+"&deid=" +deid.value)
+  });
+}
+function submitEdit(){
+  router.push("/admin/draftEdit?wid="+ wid.value+"&deid=" +deid.value)
+}
+function handDiff(){
+  router.push("/admin/diffPreview?wid="+ wid.value+"&deid=" +deid.value)
+}
+function handClean(){
+  router.push("/admin/draft")
+}
 interface DomainItem {
   key: number
-  //内容id
-  cid: number
   title: string
   value: string
-  //被修改的内容
-  diff:  String
-  //是否已被修改
-  isUpdate:number,
-  //是否被删除
-  isDelete:number,
-  //是否是新增
-  isNew:number,
 }
 
-
-//查看修改记录
-function handleClick(){
-  router.push("/admin/draftDiffView");
-}
-function handleSee(){
-  router.push("/admin/element");
-}
+getDraft(wid.value,deid.value);
 </script>
 
 <style scoped>
 .center2 {
+  top: 50%;
+  width: 100%;
+  text-align: center;
+  font-size: 18px;
+}
+.my-label {
+  background: var(--el-color-success-light-9);
+}
+.my-content {
+  background: var(--el-color-danger-light-9);
+}
+.center {
   top: 50%;
   width: 100%;
   text-align: center;

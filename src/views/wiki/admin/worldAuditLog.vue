@@ -45,7 +45,7 @@
                 <el-icon><icon-menu /></el-icon>
                 <template #title>世界管理</template>
               </el-menu-item>
-              <el-menu-item index="/admin/element">
+              <el-menu-item index="/admin/draft">
                 <el-icon><icon-menu /></el-icon>
                 <template #title>元素草稿</template>
               </el-menu-item>
@@ -157,6 +157,8 @@
 import { ref } from 'vue'
 import {useRoute, useRouter} from "vue-router";
 import { Menu as IconMenu,CirclePlus, Message, Setting } from '@element-plus/icons-vue'
+import { listDraft } from "@/api/admin/draftElement";
+
 // 接收url里的参数
 const route = useRoute();
 console.log(route.query.wid,"参数");

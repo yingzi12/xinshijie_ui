@@ -45,7 +45,7 @@
                 <el-icon><icon-menu /></el-icon>
                 <template #title>世界管理</template>
               </el-menu-item>
-              <el-menu-item index="/admin/element">
+              <el-menu-item index="/admin/draft">
                 <el-icon><icon-menu /></el-icon>
                 <template #title>元素草稿</template>
               </el-menu-item>
@@ -93,9 +93,9 @@
         <div style="background-color:#b0c4de;margin: auto;padding: 10px">
           <el-row>
             <el-col  :span="20">
-              <el-tree-select v-model="value" :data="data" check-strictly :render-after-expand="false"/>
+              <el-tree-select v-model="value" :data="dataStree" check-strictly :render-after-expand="false"/>
               <el-input v-model="input3" placeholder="Please input" class="input-with-select" style="width: 250px"/>
-              <el-button :icon="Search" circle />
+              <el-button :icon="Search" circle/>
             </el-col >
             <el-col :span="4"  style="text-align: right;">
               <div style="text-align: right; font-size: 12px" class="toolbar">
@@ -117,18 +117,17 @@
         <!--        表格-->
         <div>
           <el-scrollbar>
-            <el-table :data="tableData">
+            <el-table :data="draftList">
               <el-table-column label="序号" >
                 <template #default="scope">
                   {{scope.$index+1}}
                 </template>
               </el-table-column>
               <el-table-column prop="title" label="元素名称" width="140" />
-              <el-table-column prop="wname" label="世界名称" width="120" />
               <el-table-column prop="status" label="状态" />
               <el-table-column prop="createTime" label="修改时间" />
-              <el-table-column prop="updateType" label="修改原因" />
-              <el-table-column prop="updateContent" label="修改说明" />
+              <el-table-column prop="causeNumber" label="修改原因" />
+              <el-table-column prop="causeContent" label="修改说明" />
               <el-table-column prop="createName" label="修改人" />
               <el-table-column fixed="right" label="Operations" width="220">
                 <template  #header>
@@ -144,7 +143,12 @@
         </div>
         <!--        分页-->
         <div style="float:right; ">
-          <el-pagination  layout="prev, pager, next" :total="50" />
+          <pagination
+              v-show="total > 0"
+              :total="total"
+              v-model:page="queryParams.pageNum"
+              v-model:limit="queryParams.pageSize"
+              @pagination="getList"/>
         </div>
       </el-main>
 
@@ -173,9 +177,12 @@
 </template>
 
 <script lang="ts" setup>
-import { ref } from 'vue'
+import {getCurrentInstance, reactive, ref, toRefs} from 'vue'
 import {useRoute, useRouter} from "vue-router";
 import { Menu as IconMenu,CirclePlus, Message, Setting } from '@element-plus/icons-vue'
+import { listDraft } from "@/api/admin/draftElement";
+import { getTree} from "@/api/wiki/category";
+
 // 接收url里的参数
 const route = useRoute();
 console.log(route.query.wid,"参数");
@@ -187,96 +194,59 @@ const activeIndex = ref('1')
 const dialogFormVisible = ref(false)
 const formLabelWidth = '140px'
 
-const item = {
-  createTime: '2016-05-02 11:23:32',
-  createName: 'tome jacke',
-  title: '元素标题',
-  eid: 1,
-  id: 1,
-  wname:"极兔世界",
-  wid:1,
-  updateType: '修改内容',
-  updateContent: 'No. 189, Grove St, Los Angeles',
-}
-const tableData = ref(Array.from({ length: 20 }).fill(item))
-
-
-const value = ref()
-
-const data = [
-  {
-    value: '1',
-    label: 'Level one 1',
-    children: [
-      {
-        value: '1-1',
-        label: 'Level two 1-1',
-        children: [
-          {
-            value: '1-1-1',
-            label: 'Level three 1-1-1',
-          },
-        ],
-      },
-    ],
-  },
-  {
-    value: '2',
-    label: 'Level one 2',
-    children: [
-      {
-        value: '2-1',
-        label: 'Level two 2-1',
-        children: [
-          {
-            value: '2-1-1',
-            label: 'Level three 2-1-1',
-          },
-        ],
-      },
-      {
-        value: '2-2',
-        label: 'Level two 2-2',
-        children: [
-          {
-            value: '2-2-1',
-            label: 'Level three 2-2-1',
-          },
-        ],
-      },
-    ],
-  },
-  {
-    value: '3',
-    label: 'Level one 3',
-    children: [
-      {
-        value: '3-1',
-        label: 'Level two 3-1',
-        children: [
-          {
-            value: '3-1-1',
-            label: 'Level three 3-1-1',
-          },
-        ],
-      },
-      {
-        value: '3-2',
-        label: 'Level two 3-2',
-        children: [
-          {
-            value: '3-2-1',
-            label: 'Level three 3-2-1',
-          },
-        ],
-      },
-    ],
-  },
-]
-
+//搜索框
 import { Search } from '@element-plus/icons-vue'
 const input3 = ref('')
 
+const {  appContext : { config: { globalProperties } }  } = getCurrentInstance();
+const {  proxy  } = getCurrentInstance();
+//分页
+const dateRange = ref([]);
+//分类选项
+const dataStree = ref([])
+const loading = ref(true);
+const draftList = ref([]);
+const total = ref(0);
+const data = reactive({
+  form: {},
+  queryParams: {
+    pageNum: 1,
+    pageSize: 10,
+    name: undefined,
+    types: undefined,
+    wid:wid.value
+  },
+  rules: {
+    // userName: [{ required: true, message: "用户名称不能为空", trigger: "blur" }, { min: 2, max: 20, message: "用户名称长度必须介于 2 和 20 之间", trigger: "blur" }],
+  }
+});
+const { queryParams, form, rules } = toRefs(data);
+
+/**根据分类查询世界*/
+function findType(typeId:number) {
+  queryParams.value.wid=wid.value;
+  listDraft(globalProperties.addDateRange(queryParams.value, dateRange.value)).then(response => {
+    loading.value = false;
+    draftList.value = response.rows;
+    total.value = response.total;
+  });
+}
+/** 查询世界列表 */
+function getList() {
+  listDraft(globalProperties.addDateRange(queryParams.value, dateRange.value)).then(response => {
+    loading.value = false;
+    draftList.value = response.rows;
+    total.value = response.total;
+  });
+}
+/** 查询分类列表 */
+function getCategoryTree() {
+  getTree(wid.value).then(response => {
+    dataStree.value = response.data
+  });
+}
+getCategoryTree();
+getList();
 </script>
 
 <style scoped>

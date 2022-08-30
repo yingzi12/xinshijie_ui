@@ -45,7 +45,7 @@
                 <el-icon><icon-menu /></el-icon>
                 <template #title>世界管理</template>
               </el-menu-item>
-              <el-menu-item index="/admin/element">
+              <el-menu-item index="/admin/draft">
                 <el-icon><icon-menu /></el-icon>
                 <template #title>元素草稿</template>
               </el-menu-item>

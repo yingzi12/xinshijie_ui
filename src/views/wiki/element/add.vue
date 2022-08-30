@@ -201,7 +201,7 @@ const removeDomain = (item: Content) => {
 const addDomain = () => {
   dynamicValidateForm.domains.push({
     key: Date.now(),
-    title: '小标题',
+    title: '标题',
     status: 0,
     isEdit: 1,
     content: '',
@@ -233,7 +233,11 @@ function submit(){
   if(ok) {
     addElement(element.value).then(response => {
       console.log("添加成功")
-      router.push("/element/preview?wid="+ response.data.wid+"&eid=" + response.data.id)
+      // if(response.data.types==0){
+      //   router.push("/element/preview?wid="+ response.data.wid+"&eid=" + response.data.id)
+      // }else{
+        router.push("/admin/draftPreview?wid="+ response.data.wid+"&deid=" + response.data.id)
+      // }
     });
   }
 }
