@@ -27,7 +27,7 @@
           </el-aside>
           <el-main>
             <h1>世界列表</h1>
-            <el-table v-loading="loading" :data="worldList" @selection-change="handleSelectionChange">
+            <el-table v-loading="loading" :data="worldList" >
                             <el-table-column label="序号" width="50px" >
                               <template #default="scope">
                                  {{scope.$index+1+(queryParams.pageNum-1)*10}}
@@ -158,12 +158,6 @@ function handFind(types:number){
 function handleSee(row){
   router.push("/world/details?wid="+row.id);
 }
-/** 选择条数  */
-function handleSelectionChange(selection) {
-  ids.value = selection.map(item => item.userId);
-  single.value = selection.length != 1;
-  multiple.value = !selection.length;
-};
 /** 查询世界列表 */
 function getList() {
   listWorld(globalProperties.addDateRange(queryParams.value, dateRange.value)).then(response => {

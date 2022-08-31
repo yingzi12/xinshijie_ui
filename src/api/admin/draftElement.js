@@ -55,3 +55,20 @@ export function delDraft(wid,eid) {
     method: 'delete'
   })
 }
+
+// 查询元素列表
+export function listAudit(query) {
+  return request({
+    url: '/admin/draftElement/listAudit',
+    method: 'get',
+    params: query
+  })
+}
+
+// 查询元素详细
+export function getDraftDetailsAdmin(wid,eid) {
+  return request({
+    url: '/admin/draftElement/getInfoAdmin?wid=' + wid+'&eid='+eid,
+    method: 'get'
+  })
+}

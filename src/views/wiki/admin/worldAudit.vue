@@ -133,9 +133,10 @@
                 <template  #header>
                   <el-button text>查看历史记录</el-button>
                 </template>
-                <template #default>
-                  <el-button link type="primary" size="small" @click="handleClick">查看</el-button>
-                  <el-button link type="primary" size="small" @click="dialogFormVisible = true">审核</el-button>
+                <template #default="scope">
+                  <el-button link type="primary" size="small" @click="handleSee(scope.row)">详细</el-button>
+                  <el-button link type="primary" size="small" @click="handleDiff(scope.row)">差异</el-button>
+                  <el-button link type="primary" size="small" @click="handleAudit(scope.row)">审核</el-button>
                 </template>
               </el-table-column>
             </el-table>
@@ -180,8 +181,9 @@
 import {getCurrentInstance, reactive, ref, toRefs} from 'vue'
 import {useRoute, useRouter} from "vue-router";
 import { Menu as IconMenu,CirclePlus, Message, Setting } from '@element-plus/icons-vue'
-import { listDraft } from "@/api/admin/draftElement";
+import { listAudit } from "@/api/admin/draftElement";
 import { getTree} from "@/api/wiki/category";
+const router = useRouter()
 
 // 接收url里的参数
 const route = useRoute();
@@ -212,9 +214,10 @@ const data = reactive({
   queryParams: {
     pageNum: 1,
     pageSize: 10,
+    auditStatus:0,
     name: undefined,
     types: undefined,
-    wid:wid.value
+    wid:wid.value,
   },
   rules: {
     // userName: [{ required: true, message: "用户名称不能为空", trigger: "blur" }, { min: 2, max: 20, message: "用户名称长度必须介于 2 和 20 之间", trigger: "blur" }],
@@ -225,7 +228,7 @@ const { queryParams, form, rules } = toRefs(data);
 /**根据分类查询世界*/
 function findType(typeId:number) {
   queryParams.value.wid=wid.value;
-  listDraft(globalProperties.addDateRange(queryParams.value, dateRange.value)).then(response => {
+  listAudit(globalProperties.addDateRange(queryParams.value, dateRange.value)).then(response => {
     loading.value = false;
     draftList.value = response.rows;
     total.value = response.total;
@@ -233,7 +236,7 @@ function findType(typeId:number) {
 }
 /** 查询世界列表 */
 function getList() {
-  listDraft(globalProperties.addDateRange(queryParams.value, dateRange.value)).then(response => {
+  listAudit(globalProperties.addDateRange(queryParams.value, dateRange.value)).then(response => {
     loading.value = false;
     draftList.value = response.rows;
     total.value = response.total;
@@ -244,6 +247,15 @@ function getCategoryTree() {
   getTree(wid.value).then(response => {
     dataStree.value = response.data
   });
+}
+function handleAudit(row){
+  dialogFormVisible.value=true;
+}
+function handleSee(row){
+  router.push("/admin/draftPreview?wid="+row.wid+"&deid="+row.id);
+}
+function handleDiff(row){
+  router.push("/admin/diffPreview?wid="+row.wid+"&deid="+row.id);
 }
 getCategoryTree();
 getList();

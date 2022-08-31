@@ -9,29 +9,26 @@
 
 <script setup name="LayoutWiki">
 import useTagsViewStore from '@/store/modules/tagsView'
+// import useAppStore from '@/store/modules/app'
+import useUserStore from '@/store/modules/user'
+// import useSettingsStore from '@/store/modules/settings'
+
+// const appStore = useAppStore()
+const userStore = useUserStore()
+// const settingsStore = useSettingsStore()
 import WikiHead from './head'
+
 import WikiFooter from './footer'
 
 import { useWindowSize } from '@vueuse/core'
-import defaultSettings from '@/settings'
-
 import useAppStore from '@/store/modules/app'
 import useSettingsStore from '@/store/modules/settings'
+import {ElMessageBox} from "element-plus";
 
 const settingsStore = useSettingsStore()
 const theme = computed(() => settingsStore.theme);
-const sideTheme = computed(() => settingsStore.sideTheme);
 const sidebar = computed(() => useAppStore().sidebar);
 const device = computed(() => useAppStore().device);
-const needTagsView = computed(() => settingsStore.tagsView);
-const fixedHeader = computed(() => settingsStore.fixedHeader);
-
-const classObj = computed(() => ({
-  hideSidebar: !sidebar.value.opened,
-  openSidebar: sidebar.value.opened,
-  withoutAnimation: sidebar.value.withoutAnimation,
-  mobile: device.value === 'mobile'
-}))
 
 const { width, height } = useWindowSize();
 const WIDTH = 992; // refer to Bootstrap's responsive design
@@ -48,21 +45,27 @@ watchEffect(() => {
   }
 })
 
-function handleClickOutside() {
-  useAppStore().closeSideBar({ withoutAnimation: false })
-}
-
 const settingRef = ref(null);
-function setLayout() {
-  settingRef.value.openSetting();
-}
-
 const tagsViewStore = useTagsViewStore()
 const route = useRoute()
 tagsViewStore.addCachedView(route)
-const cachedViews = computed(() => {
-  return tagsViewStore.cachedViews
-})
+
+function logout() {
+  ElMessageBox.confirm('确定注销并退出系统吗？', '提示', {
+    confirmButtonText: '确定',
+    cancelButtonText: '取消',
+    type: 'warning'
+  }).then(() => {
+    userStore.logOut().then(() => {
+      location.href = '/index';
+    })
+  }).catch(() => { });
+}
+
+const emits = defineEmits(['setLayout'])
+function setLayout() {
+  emits('setLayout');
+}
 </script>
 
 <style scoped>

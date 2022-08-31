@@ -93,9 +93,9 @@
         <div style="background-color:#b0c4de;margin: auto;padding: 10px">
           <el-row>
             <el-col  :span="20">
-              <el-tree-select v-model="value" :data="data" check-strictly :render-after-expand="false"/>
+              <el-tree-select v-model="value" :data="dataStree" check-strictly :render-after-expand="false"/>
               <el-input v-model="input3" placeholder="Please input" class="input-with-select" style="width: 250px"/>
-              <el-button :icon="Search" circle />
+              <el-button :icon="Search" circle/>
             </el-col >
             <el-col :span="4"  style="text-align: right;">
               <div style="text-align: right; font-size: 12px" class="toolbar">
@@ -117,28 +117,26 @@
         <!--        表格-->
         <div>
           <el-scrollbar>
-            <el-table :data="tableData">
+            <el-table :data="draftList">
               <el-table-column label="序号" >
                 <template #default="scope">
                   {{scope.$index+1}}
                 </template>
               </el-table-column>
               <el-table-column prop="title" label="元素名称" width="140" />
-              <el-table-column prop="wname" label="世界名称" width="120" />
-              <el-table-column prop="address" label="状态" />
-              <el-table-column prop="address" label="修改时间" />
-              <el-table-column prop="address" label="修改原因" />
-              <el-table-column prop="address" label="修改人" />
-              <el-table-column prop="auditName" label="审核人" />
-              <el-table-column prop="auditTime" label="审核时间" />
-              <el-table-column prop="auditStatus" label="审核状态" />
-              <el-table-column prop="auditContent" label="审核说明" />
+              <el-table-column prop="status" label="状态" />
+              <el-table-column prop="createTime" label="修改时间" />
+              <el-table-column prop="causeNumber" label="修改原因" />
+              <el-table-column prop="causeContent" label="修改说明" />
+              <el-table-column prop="createName" label="修改人" />
               <el-table-column fixed="right" label="Operations" width="220">
                 <template  #header>
-                  <el-button text>返回</el-button>
+                  <el-button text>查看历史记录</el-button>
                 </template>
-                <template #default>
-                  <el-button link type="primary" size="small" @click="handleClick">查看</el-button>
+                <template #default="scope">
+                  <el-button link type="primary" size="small" @click="handleSee(scope.row)">详细</el-button>
+                  <el-button link type="primary" size="small" @click="handleDiff(scope.row)">差异</el-button>
+                  <el-button link type="primary" size="small" @click="handleAudit(scope.row)">审核</el-button>
                 </template>
               </el-table-column>
             </el-table>
@@ -146,17 +144,47 @@
         </div>
         <!--        分页-->
         <div style="float:right; ">
-          <el-pagination  layout="prev, pager, next" :total="50" />
+          <pagination
+              v-show="total > 0"
+              :total="total"
+              v-model:page="queryParams.pageNum"
+              v-model:limit="queryParams.pageSize"
+              @pagination="getList"/>
         </div>
       </el-main>
+
+      <!--      审核弹出框-->
+      <el-dialog v-model="dialogFormVisible" title="审核">
+        <el-form :model="form">
+          <el-form-item label="Zones" :label-width="formLabelWidth">
+            <el-select v-model="form.region" placeholder="Please select a zone">
+              <el-option label="Zone No.1" value="shanghai" />
+              <el-option label="Zone No.2" value="beijing" />
+            </el-select>
+          </el-form-item>
+          <el-form-item label="说明" :label-width="formLabelWidth">
+            <el-input v-model="form.name" autocomplete="off" />
+          </el-form-item>
+        </el-form>
+        <template #footer>
+      <span class="dialog-footer">
+        <el-button @click="dialogFormVisible = false">取消</el-button>
+        <el-button type="primary" @click="dialogFormVisible = false">确认</el-button>
+      </span>
+        </template>
+      </el-dialog>
     </el-container>
   </el-container>
 </template>
 
 <script lang="ts" setup>
-import { ref } from 'vue'
+import {getCurrentInstance, reactive, ref, toRefs} from 'vue'
 import {useRoute, useRouter} from "vue-router";
 import { Menu as IconMenu,CirclePlus, Message, Setting } from '@element-plus/icons-vue'
+import { listDraft } from "@/api/admin/draftElement";
+import { getTree} from "@/api/wiki/category";
+const router = useRouter()
+
 // 接收url里的参数
 const route = useRoute();
 console.log(route.query.wid,"参数");
@@ -164,101 +192,73 @@ const wid = ref(null);
 wid.value = route.query.wid;
 const fits = ['世界', '粉丝', '关注']
 const activeIndex = ref('1')
+//弹出框
+const dialogFormVisible = ref(false)
+const formLabelWidth = '140px'
 
-const item = {
-  createTime: '2016-05-02 11:23:32',
-  createName: 'tome jacke',
-  title: '元素标题',
-  eid: 1,
-  id: 1,
-  wname:"极兔世界",
-  wid:1,
-  updateType: '修改内容',
-  auditStatus:"审核成功",
-  auditName:"admin",
-  auditTime:"2016-05-02 11:23:32",
-  auditContent:"允许修改,这个修改是对,给予支持的",
-  updateContent: 'No. 189, Grove St, Los Angeles',
-}
-const tableData = ref(Array.from({ length: 20 }).fill(item))
-
-
-const value = ref()
-
-const data = [
-  {
-    value: '1',
-    label: 'Level one 1',
-    children: [
-      {
-        value: '1-1',
-        label: 'Level two 1-1',
-        children: [
-          {
-            value: '1-1-1',
-            label: 'Level three 1-1-1',
-          },
-        ],
-      },
-    ],
-  },
-  {
-    value: '2',
-    label: 'Level one 2',
-    children: [
-      {
-        value: '2-1',
-        label: 'Level two 2-1',
-        children: [
-          {
-            value: '2-1-1',
-            label: 'Level three 2-1-1',
-          },
-        ],
-      },
-      {
-        value: '2-2',
-        label: 'Level two 2-2',
-        children: [
-          {
-            value: '2-2-1',
-            label: 'Level three 2-2-1',
-          },
-        ],
-      },
-    ],
-  },
-  {
-    value: '3',
-    label: 'Level one 3',
-    children: [
-      {
-        value: '3-1',
-        label: 'Level two 3-1',
-        children: [
-          {
-            value: '3-1-1',
-            label: 'Level three 3-1-1',
-          },
-        ],
-      },
-      {
-        value: '3-2',
-        label: 'Level two 3-2',
-        children: [
-          {
-            value: '3-2-1',
-            label: 'Level three 3-2-1',
-          },
-        ],
-      },
-    ],
-  },
-]
-
+//搜索框
 import { Search } from '@element-plus/icons-vue'
 const input3 = ref('')
 
+const {  appContext : { config: { globalProperties } }  } = getCurrentInstance();
+const {  proxy  } = getCurrentInstance();
+//分页
+const dateRange = ref([]);
+//分类选项
+const dataStree = ref([])
+const loading = ref(true);
+const draftList = ref([]);
+const total = ref(0);
+const data = reactive({
+  form: {},
+  queryParams: {
+    pageNum: 1,
+    pageSize: 10,
+    auditStatus:0,
+    name: undefined,
+    types: undefined,
+    wid:wid.value,
+  },
+  rules: {
+    // userName: [{ required: true, message: "用户名称不能为空", trigger: "blur" }, { min: 2, max: 20, message: "用户名称长度必须介于 2 和 20 之间", trigger: "blur" }],
+  }
+});
+const { queryParams, form, rules } = toRefs(data);
+
+/**根据分类查询世界*/
+function findType(typeId:number) {
+  queryParams.value.wid=wid.value;
+  listDraft(globalProperties.addDateRange(queryParams.value, dateRange.value)).then(response => {
+    loading.value = false;
+    draftList.value = response.rows;
+    total.value = response.total;
+  });
+}
+/** 查询世界列表 */
+function getList() {
+  listDraft(globalProperties.addDateRange(queryParams.value, dateRange.value)).then(response => {
+    loading.value = false;
+    draftList.value = response.rows;
+    total.value = response.total;
+  });
+}
+/** 查询分类列表 */
+function getCategoryTree() {
+  getTree(wid.value).then(response => {
+    dataStree.value = response.data
+  });
+}
+function handleAudit(row){
+  dialogFormVisible.value=true;
+}
+function handleSee(row){
+  router.push("/admin/draftPreview?wid="+row.wid+"&deid="+row.id);
+}
+function handleDiff(row){
+  router.push("/admin/diffPreview?wid="+row.wid+"&deid="+row.id);
+}
+getCategoryTree();
+getList();
 </script>
 
 <style scoped>
