@@ -47,8 +47,13 @@ router.beforeEach((to, from, next) => {
       }
     }
   } else {
+    console.log("路径:"+to.path.split('/')[1])
+    console.log("路径:"+whiteList.indexOf('/world'))
+    var urlPath='/'+to.path.split('/')[1]
+    console.log("路径:"+urlPath)
+    console.log("路径:"+whiteList.indexOf(urlPath))
     // 没有token
-    if (whiteList.indexOf('/'+to.path.split('/')[1]) !== -1) {
+    if (whiteList.indexOf(urlPath) !== -1) {
       // 在免登录白名单，直接进入
       next()
     } else {
