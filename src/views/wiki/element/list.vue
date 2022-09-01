@@ -147,10 +147,7 @@ function handWorld() {
 /** 查询元素列表 */
 function getList() {
   queryParams.value.wid=wid.value;
-  // queryParams.value.title=title.value;
-  // queryParams.value.types=categoryValue.value;
   listElement(globalProperties.addDateRange(queryParams.value, dateRange.value)).then(response => {
-    // loading.value = false;
     elementList.value = response.rows;
     total.value = response.total;
   });

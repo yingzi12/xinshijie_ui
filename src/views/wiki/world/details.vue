@@ -4,10 +4,10 @@
     <div>
       <div>
         <el-breadcrumb separator="/">
-          <el-breadcrumb-item :to="{ path: '/' }">homepage</el-breadcrumb-item>
-          <el-breadcrumb-item><a href="/">promotion management</a></el-breadcrumb-item>
-          <el-breadcrumb-item>promotion list</el-breadcrumb-item>
-          <el-breadcrumb-item>promotion detail</el-breadcrumb-item>
+          <el-breadcrumb-item :to="{ path: '/' }">首页</el-breadcrumb-item>
+          <el-breadcrumb-item><a href="/world/list">世界树</a></el-breadcrumb-item>
+          <el-breadcrumb-item>{{world.name}}</el-breadcrumb-item>
+          <el-breadcrumb-item>详细</el-breadcrumb-item>
         </el-breadcrumb>
       </div>
       <div  style="margin: 15px">
@@ -58,7 +58,21 @@
         <el-tab-pane label="描述" name="description">
           <div v-html="world.description"></div>
         </el-tab-pane>
-        <el-tab-pane label="元素" name="element" @click="handElement()"><el-button @click="handElement()">更多</el-button></el-tab-pane>
+        <el-tab-pane label="元素" name="element" @click="handElement()">
+          <el-table :data="elementList" stripe style="width: 100%">
+            <el-table-column prop="title" label="元素名称" width="180" />
+            <el-table-column label="分类" width="180" >
+              <template #default="scope">
+                <el-tag v-for='idLabel in scope.row.idLabels.split(",")'>
+                  {{idLabel.split("$$")[1]}}
+                </el-tag>
+              </template>
+            </el-table-column>
+            <el-table-column prop="intro" label="简介" width="180"/>
+            <el-table-column prop="createTime" label="创建时间" />
+          </el-table>
+          <el-button @click="handElement()">更多</el-button>
+        </el-tab-pane>
         <el-tab-pane label="造物主" name="message">
           <el-table :data="manageList" stripe style="width: 100%">
             <el-table-column prop="createTime" label="创建时间" width="180" />
@@ -76,18 +90,13 @@
         <el-col :span="2" class="center">
           <el-row>
             <el-col><el-avatar :size="50" :src="circleUrl" /></el-col>
-            <el-col><span class="demonstration">未登录</span></el-col>
+            <el-col><span class="demonstration">{{username}}</span></el-col>
           </el-row>
         </el-col>
         <el-col :span="22">
-          <el-form :model="form" label-width="120px">
-          <el-input
-              v-model="textarea"
-              :rows="2"
-              type="textarea"
-              placeholder="Please input"
-          />
-            <el-button type="primary" @click="onSubmit">发布评论</el-button>
+          <el-form ref="refComment" :model="commentForm" :rules="rulesComment"  label-width="120px">
+            <el-input :disabled="disabled" v-model="commentForm.content" :rows="2" type="textarea" placeholder="请输入评论"/>
+            <el-button :disabled="disabled" type="primary" @click="onSubmit">发布评论</el-button>
           </el-form>
         </el-col>
       </el-row>
@@ -122,7 +131,7 @@
             <el-divider />
           </div>
           <div class="center">
-            <el-button type="danger">更多</el-button>
+            <el-button type="danger" @click="handleComment">更多</el-button>
           </div>
         </el-tab-pane>
       </el-tabs>
@@ -131,13 +140,19 @@
 </template>
 
 <script lang="ts" setup >
-import {inject, reactive, ref} from 'vue'
+import {getCurrentInstance, inject, reactive, ref, toRefs} from 'vue'
 //接受参数
 import {useRoute, useRouter} from "vue-router";  // 引用vue-router
 import type { TabsPaneContext } from 'element-plus'
 import {  getWorld } from "@/api/wiki/world";
-import {  getWorldComment } from "@/api/wiki/comment";
+import {  listComment } from "@/api/wiki/comment";
+import { addComment} from "@/api/admin/comment";
 import {  getWorldManage } from "@/api/wiki/manage";
+import { listElement } from "@/api/wiki/element";
+import useUserStore from '@/store/modules/user'
+import {ElMessage} from "element-plus";
+const {  appContext : { config: { globalProperties } }  } = getCurrentInstance();
+
 const router = useRouter()
 
 // 接收url里的参数
@@ -147,9 +162,26 @@ console.log(route.query.id,"参数");
 const world=ref({})
 //评论信息
 const commentList=ref([])
-//
+//管理员信息
 const manageList=ref([])
+//分页信息
+const dateRange = ref([]);
+//管理员信息
+const elementList = ref([]);
+//评论内容与通用分页查询条件
+const data = reactive({
+  commentForm: {},
+  queryParams: {
+    pageNum: 1,
+    pageSize: 10,
+    wid: undefined,
+  },
+  rules: {
+    content: [{ required: true, message: "评论不能为空", trigger: "blur" }],
+  }
+});
 
+const { queryParams, commentForm, rules } = toRefs(data);
 world.value.id = route.query.wid;
 console.log("世界id="+world.value.id);
 const baseUrl = inject("$baseUrl")
@@ -168,7 +200,7 @@ function handWorld(id:number) {
 }
 //评论信息
 function getAllWorldComment(id:number) {
-  getWorldComment(id).then(response => {
+  listComment(globalProperties.addDateRange(queryParams.value, dateRange.value)).then(response => {
     console.log("查询世界详细:"+JSON.stringify(response))
     commentList.value = response.rows
   });
@@ -189,18 +221,71 @@ const commentActive = ref('allComm')
 const handleClick = (tab: TabsPaneContext, event: Event) => {
   console.log(tab, event)
 }
-const onSubmit = () => {
-  console.log('submit!')
-}
-const url =
-    'https://fuss10.elemecdn.com/e/5d/4a731a90594a4af544c0c25941171jpeg.jpeg'
 
-const textarea = ref('')
 handWorld(world.value.id);
-getAllWorldComment(world.value.id)
 getAllWorldManage(world.value.id)
+//查询元素信息
 
-// 获取当前用户名
+
+/** 查询元素列表 */
+function getList() {
+  queryParams.value.wid=wid.value;
+  listElement(globalProperties.addDateRange(queryParams.value, dateRange.value)).then(response => {
+    elementList.value = response.rows;
+  });
+}
+
+//评论功能
+
+getAllWorldComment(world.value.id)
+
+//获取用户信息
+const userStore = useUserStore()
+const circleUrl=ref('')
+const disabled=ref(true)
+
+const username=ref('')
+console.log("userStore name:"+(userStore.name==''))
+
+const wid = ref(null);
+wid.value = route.query.wid;
+console.log("世界id="+wid.value);
+if(userStore.name==''){
+  username.value="未登录"
+  disabled.value=true;
+}else{
+  username.value=userStore.name;
+  circleUrl.value=userStore.avatar;
+  disabled.value=false;
+}
+
+
+
+function onSubmit(){
+  if(!commentForm.value.content){
+    ElMessage.error("评论不能为空")
+    return;
+  }
+  if(commentForm.value.content.size>20){
+    ElMessage.error("评论不了少于20字")
+    return;
+  }
+  if(wid.value == undefined){
+    ElMessage.error("缺少必要参数")
+    return;
+  }else{
+    commentForm.value.wid=wid.value
+  }
+  commentForm.value.wname=world.value.name
+  addComment(commentForm.value).then(response => {
+    ElMessage.info("评论成功")
+    console.log("评论成功")
+  })
+}
+
+function handleComment(){
+  router.push("/world/comment?wid="+world.value.id);
+}
 </script>
 
 <style scoped>

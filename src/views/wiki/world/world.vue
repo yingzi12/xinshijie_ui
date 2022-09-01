@@ -148,8 +148,21 @@
 import { listWorld, getWorld,} from "@/api/wiki/world";
 import {  delWorld, addWorld, updateWorld } from "@/api/admin/world";
 
-import {getCurrentInstance, reactive, ref, toRefs} from "vue";
-const { proxy } = getCurrentInstance();
+import useUserStore from '@/store/modules/user'
+import {useRoute} from "vue-router";
+import {getCurrentInstance, reactive, ref} from "vue";
+
+const {  appContext : { config: { globalProperties } }  } = getCurrentInstance();
+const {  proxy  } = getCurrentInstance();
+// 接收url里的参数
+const route = useRoute();
+//获取用户信息
+const userStore = useUserStore()
+const circleUrl=ref('')
+const disabled=ref(true)
+
+const username=ref('')
+console.log("userStore name:"+(userStore.name==''))
 
 // 遮罩层
 const loading= ref( true);
