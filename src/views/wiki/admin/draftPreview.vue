@@ -59,9 +59,9 @@
     <el-divider />
       <!--功能-->
       <div class="center" style="height: 80px;">
-        <el-button @click="submitPush()">发布</el-button>
-        <el-button @click="handDiff()">查看差异</el-button>
-        <el-button @click="submitEdit()">继续编辑</el-button>
+        <el-button v-if="element.status = 1 " @click="submitPush()">发布</el-button>
+        <el-button  @click="handDiff()">查看差异</el-button>
+        <el-button v-if="element.status = 1 " @click="submitEdit()">继续编辑</el-button>
         <el-button @click="handClean()">退出</el-button>
       </div>
     </div>
@@ -86,6 +86,13 @@ wid.value = route.query.wid;
 console.log("元素deid="+deid.value);
 console.log("世界id="+wid.value);
 
+const elementStatus = new Map([
+  [0, "正常"],
+  [1, "待发布"],
+  [2, "锁定"],
+  [3, "删除"]
+]);
+
 
 const element=ref({})
 /** 查询世界详细 */
@@ -96,7 +103,7 @@ function getDraft(wid:number,deid:number) {
   });
 }
 function submitPush(){
-  updatePush(wid,deid).then(response => {
+  updatePush(wid.value,deid.value).then(response => {
     console.log("发布成功")
     router.push("/element/content?wid="+ wid.value+"&deid=" +deid.value)
   });

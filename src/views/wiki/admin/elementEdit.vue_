@@ -97,25 +97,12 @@
           </el-row>
         </div>
         <div>
-              <ckeditor    :editorDisabled="true" @input="onEditorInput(content)" :editor="editor" v-model="content.content" :config="editorConfig"></ckeditor>
+              <ckeditor
+                                        :editor="editor" v-model="content.content" :config="editorConfig"></ckeditor>
         </div>
         </el-form>
 
       </div>
-    </div>
-<!--    修改原因-->
-    <div>
-      <el-radio-group v-model="radio">
-        <el-radio :label="3">添加内容</el-radio>
-        <el-radio :label="6">修改错误</el-radio>
-        <el-radio :label="9">其他</el-radio>
-      </el-radio-group>
-      <el-input
-          v-model="textarea2"
-          :autosize="{ minRows: 2, maxRows: 4 }"
-          type="textarea"
-          placeholder="修改原因"
-      />
     </div>
     <!--功能-->
       <div class="center" style="height: 80px;">
@@ -126,14 +113,12 @@
 </template>
 
 <script  lang="ts" setup>
-import {inject, reactive, ref} from 'vue'
+import { reactive, ref } from 'vue'
 import {ElMessage, ElTree, FormInstance} from "element-plus";
-// import ClassicEditor from '@ckeditor/ckeditor5-build-classic';
-import  Editor  from 'ckeditor5-custom-build/build/ckeditor';
+import ClassicEditor from '@ckeditor/ckeditor5-build-classic';
 import {  getElementDetails } from "@/api/wiki/element";
 import {  updateElement } from "@/api/admin/element";
 import { getTree} from "@/api/wiki/category";
-import { getWorld} from "@/api/wiki/world";
 
 //接受参数
 import { useRoute ,useRouter}  from "vue-router";  // 引用vue-router
@@ -166,27 +151,18 @@ interface Content {
   title: string
   status: number
   isEdit: number
-  content: string,
+  content: string
   isNew: number
 }
 
-const editor = Editor
-const baseUrl = inject("$baseUrl")
-const uploadImgUrl = ref(baseUrl + "/common/uploadEditFile"); // 上传的图片服务器地址
-const editorConfig ={
-  language:"zh-cn",
-  simpleUpload: {
-    // The URL the images are uploaded to.
-    uploadUrl: uploadImgUrl.value,
-  },
-}
+const editorConfig = {}
+const editor = ClassicEditor
 
 //章节模块
 const formRef = ref<FormInstance>()
 
 const removeDomain = (item: Content) => {
   if(item.id != null){
-    item.status=4
     element.value.contentIdList.push(item.id)
   }
   console.log("删除："+JSON.stringify(item))
@@ -201,23 +177,20 @@ const addDomain = () => {
   element.value.contentList.push({
     id:null,
     key: Date.now(),
-    status:1,
+    status:0,
     title: '',
     value: '',
-    isEdit: 0,
+    isEdit: 1,
     isNew:1
   })
 }
-function onEditorInput(content: Content){
-  content.isEdit=1;
-  //只有正常状态下会改变
-    content.status = 3
-  console.log('onEditorInput!')
-}
+
 const handEdit = (content: Content) => {
+  content.isNew=1;
   content.isEdit=1;
 }
 const handEditClean = (content: Content) => {
+  content.isNew=1;
   content.isEdit=0;
 }
 const submitForm = (formEl: FormInstance | undefined) => {
@@ -318,13 +291,13 @@ function submit(){
   if(ok) {
     updateElement(element.value).then(response => {
       console.log("添加成功")
-      router.push("/admin/draftPreview?wid="+ response.data.wid+"&deid=" + response.data.id)
+      router.push("/admin/elementPreview?wid="+ wid.value+"&eid=" + eid.value)
     });
   }
 }
 
 function submitClear(){
-  router.push("/element/preview?wid="+ wid.value+"&eid=" + eid.value)
+  router.push("/admin/elementPreview?wid="+ wid.value+"&eid=" + eid.value)
 }
 getElement(wid.value,eid.value);
 getList()

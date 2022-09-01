@@ -6,7 +6,7 @@
         <el-breadcrumb separator="/">
           <el-breadcrumb-item :to="{ path: '/' }">首页</el-breadcrumb-item>
           <el-breadcrumb-item><a href="/world/list">世界树</a></el-breadcrumb-item>
-          <el-breadcrumb-item>{{world.name}}</el-breadcrumb-item>
+          <el-breadcrumb-item :to="{ path: '/world/details', query: {wid:wid} }">{{world.name}}</el-breadcrumb-item>
           <el-breadcrumb-item>详细</el-breadcrumb-item>
         </el-breadcrumb>
       </div>
@@ -58,17 +58,17 @@
         <el-tab-pane label="描述" name="description">
           <div v-html="world.description"></div>
         </el-tab-pane>
-        <el-tab-pane label="元素" name="element" @click="handElement()">
+        <el-tab-pane label="元素" name="element">
           <el-table :data="elementList" stripe style="width: 100%">
             <el-table-column prop="title" label="元素名称" width="180" />
-            <el-table-column label="分类" width="180" >
+            <el-table-column label="分类" width="180"  :show-overflow-tooltip="true">
               <template #default="scope">
                 <el-tag v-for='idLabel in scope.row.idLabels.split(",")'>
                   {{idLabel.split("$$")[1]}}
                 </el-tag>
               </template>
             </el-table-column>
-            <el-table-column prop="intro" label="简介" width="180"/>
+            <el-table-column prop="intro" label="简介" width="250" :show-overflow-tooltip="true"/>
             <el-table-column prop="createTime" label="创建时间" />
           </el-table>
           <el-button @click="handElement()">更多</el-button>
@@ -95,7 +95,7 @@
         </el-col>
         <el-col :span="22">
           <el-form ref="refComment" :model="commentForm" :rules="rulesComment"  label-width="120px">
-            <el-input :disabled="disabled" v-model="commentForm.content" :rows="2" type="textarea" placeholder="请输入评论"/>
+            <el-input :disabled="disabled" v-model="commentForm.comment" :rows="2" type="textarea" placeholder="请输入评论"/>
             <el-button :disabled="disabled" type="primary" @click="onSubmit">发布评论</el-button>
           </el-form>
         </el-col>
@@ -177,7 +177,7 @@ const data = reactive({
     wid: undefined,
   },
   rules: {
-    content: [{ required: true, message: "评论不能为空", trigger: "blur" }],
+    comment: [{ required: true, message: "评论不能为空", trigger: "blur" }],
   }
 });
 
@@ -199,7 +199,8 @@ function handWorld(id:number) {
   });
 }
 //评论信息
-function getAllWorldComment(id:number) {
+function getAllWorldComment() {
+  queryParams.value.wid=wid.value;
   listComment(globalProperties.addDateRange(queryParams.value, dateRange.value)).then(response => {
     console.log("查询世界详细:"+JSON.stringify(response))
     commentList.value = response.rows
@@ -222,22 +223,13 @@ const handleClick = (tab: TabsPaneContext, event: Event) => {
   console.log(tab, event)
 }
 
-handWorld(world.value.id);
-getAllWorldManage(world.value.id)
-//查询元素信息
-
-
 /** 查询元素列表 */
-function getList() {
+function getElementList() {
   queryParams.value.wid=wid.value;
   listElement(globalProperties.addDateRange(queryParams.value, dateRange.value)).then(response => {
     elementList.value = response.rows;
   });
 }
-
-//评论功能
-
-getAllWorldComment(world.value.id)
 
 //获取用户信息
 const userStore = useUserStore()
@@ -259,14 +251,12 @@ if(userStore.name==''){
   disabled.value=false;
 }
 
-
-
 function onSubmit(){
-  if(!commentForm.value.content){
+  if(!commentForm.value.comment){
     ElMessage.error("评论不能为空")
     return;
   }
-  if(commentForm.value.content.size>20){
+  if(commentForm.value.comment.length<20){
     ElMessage.error("评论不了少于20字")
     return;
   }
@@ -277,15 +267,25 @@ function onSubmit(){
     commentForm.value.wid=wid.value
   }
   commentForm.value.wname=world.value.name
+  commentForm.value.circleUrl=userStore.avatar
   addComment(commentForm.value).then(response => {
-    ElMessage.info("评论成功")
+    ElMessage.success("评论成功")
     console.log("评论成功")
+    getAllWorldComment();
   })
 }
 
 function handleComment(){
   router.push("/world/comment?wid="+world.value.id);
 }
+
+//世界信息
+handWorld(world.value.id);
+//管理员信息
+getAllWorldManage(world.value.id)
+//评论功能
+getAllWorldComment()
+getElementList()
 </script>
 
 <style scoped>

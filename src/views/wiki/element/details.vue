@@ -59,8 +59,8 @@
     <el-divider />
       <!--功能-->
       <div class="center" style="height: 80px;">
-        <el-button @click="submitPush()">返回</el-button>
-        <el-button @click="submitEdit()">继续编辑</el-button>
+        <el-button @click="handleList()">返回</el-button>
+        <el-button @click="handleEdit()">编辑</el-button>
       </div>
     </div>
   </div>
@@ -93,13 +93,10 @@ function getElement(wid:number,eid:number) {
     element.value = response.data
   });
 }
-function submitPush(){
-  updatePush(wid,eid).then(response => {
-    console.log("发布成功")
-    router.push("/element/content?wid="+ wid.value+"&eid=" +eid.value)
-  });
+function handleList(){
+  router.push("/element/list?wid="+ wid.value+"&deid=" +eid.value)
 }
-function submitEdit(){
+function handleEdit(){
   router.push("/admin/draftEdit?wid="+ wid.value+"&deid=" +eid.value)
 }
 interface DomainItem {

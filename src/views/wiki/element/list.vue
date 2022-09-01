@@ -13,7 +13,7 @@
           </el-breadcrumb>
         </el-col>
         <el-col :span="3">
-          <el-button> <router-link :to="{path:'/element/add', query: {wid:wid}}">添加新元素</router-link></el-button>
+          <el-button @click="handleAdd"> 添加新元素</el-button>
         </el-col>
       </el-row>
     </div>
@@ -123,7 +123,10 @@ const title= ref();
 function handleSee(id:number,wid:number){
   router.push("/element/details?eid="+id+"&wid="+wid);
 }
-
+//添加新元素,需要登录权限
+function handleAdd(){
+  router.push("/admin/elementAdd?wid="+wid.value);
+}
 function handFind(){
   queryParams.value.wid=wid.value;
   queryParams.value.title=title.value;

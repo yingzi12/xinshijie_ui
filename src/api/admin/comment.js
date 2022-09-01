@@ -3,7 +3,7 @@ import request from '@/utils/request'
 // 查询世界评论列表
 export function listComment(query) {
   return request({
-    url: '/wiki/comment/list',
+    url: '/admin/comment/list',
     method: 'get',
     params: query
   })
@@ -12,7 +12,7 @@ export function listComment(query) {
 // 查询世界评论详细
 export function getWorldComment(id) {
   return request({
-    url: '/wiki/comment/getWorldComment/' + id,
+    url: '/admin/comment/getWorldComment/' + id,
     method: 'get'
   })
 }
@@ -20,7 +20,7 @@ export function getWorldComment(id) {
 // 查询世界评论详细
 export function getComment(id) {
   return request({
-    url: '/wiki/comment/getInfo/' + id,
+    url: '/admin/comment/getInfo/' + id,
     method: 'get'
   })
 }
@@ -28,7 +28,7 @@ export function getComment(id) {
 // 新增世界评论
 export function addComment(data) {
   return request({
-    url: '/wiki/comment/add',
+    url: '/admin/comment/add',
     method: 'post',
     data: data
   })
@@ -37,7 +37,7 @@ export function addComment(data) {
 // 修改世界评论
 export function updateComment(data) {
   return request({
-    url: '/wiki/comment/edit',
+    url: '/admin/comment/edit',
     method: 'put',
     data: data
   })
@@ -46,7 +46,7 @@ export function updateComment(data) {
 // 删除世界评论
 export function delComment(id) {
   return request({
-    url: '/wiki/comment/remove/' + id,
+    url: '/admin/comment/remove/' + id,
     method: 'delete'
   })
 }

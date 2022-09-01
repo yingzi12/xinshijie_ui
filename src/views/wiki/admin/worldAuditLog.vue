@@ -1,67 +1,6 @@
 <template>
   <el-container class="layout-container-demo" >
     <!--    侧边栏-->
-    <el-aside width="250px" style="margin: 10px">
-      <div>
-        <!--        个人信息-->
-        <div class="center" style="margin-bottom: 10px;text-align: center;">
-          <el-card :body-style="{ padding: '0px' }">
-            <!--  头像-->
-            <el-avatar :size="50" :src="circleUrl" />
-            <div>
-              <h3 style="margin:10px;margin-bottom: 10px;font-size:14px;">Yumnumkl</h3>
-              <p style="margin: 0px;padding: 0px;font-size:10px;">id:111111</p>
-              <div class="bottom" >
-                <p style="margin: 0px;padding: 0px;font-size:10px;line-height:120%;">这是一个签名,表达自己的想法用的,没什么实际的意义</p>
-                <div class="demo-count">
-                  <div  class="block">
-                    <span class="demonstration">4</span>
-                    <span class="demonstration">世界</span>
-                  </div>
-                  <div  class="block">
-                    <span class="demonstration">4440000</span>
-                    <span class="demonstration">粉丝</span>
-                  </div>
-                  <div  class="block">
-                    <span class="demonstration">433</span>
-                    <span class="demonstration">关注</span>
-                  </div>
-                </div>
-                <el-button text class="button">用户中心</el-button>
-              </div>
-            </div>
-          </el-card>
-        </div>
-        <!--        功栏栏-->
-        <div style="margin-top: 10px">
-          <el-scrollbar>
-            <el-menu   :router="true"
-                       default-active="2">
-              <el-menu-item index="/admin/index">
-                <el-icon><icon-menu /></el-icon>
-                <template #title>我的关注</template>
-              </el-menu-item>
-              <el-menu-item index="/admin/world">
-                <el-icon><icon-menu /></el-icon>
-                <template #title>世界管理</template>
-              </el-menu-item>
-              <el-menu-item index="/admin/draft">
-                <el-icon><icon-menu /></el-icon>
-                <template #title>元素草稿</template>
-              </el-menu-item>
-              <el-menu-item index="/admin/disscuss">
-                <el-icon><icon-menu /></el-icon>
-                <template #title>我的评论</template>
-              </el-menu-item>
-              <el-menu-item index="/admin/message">
-                <el-icon><icon-menu /></el-icon>
-                <template #title>我的信息</template>
-              </el-menu-item>
-            </el-menu>
-          </el-scrollbar>
-        </div>
-      </div>
-    </el-aside>
     <!--    表格-->
     <el-container style="margin: 10px">
       <!--       内容区-->
@@ -114,7 +53,11 @@
                 </template>
               </el-table-column>
               <el-table-column prop="title" label="元素名称" width="140" />
-              <el-table-column prop="status" label="状态" />
+              <el-table-column label="状态" align="center"  >
+                <template #default="scope">
+                  <span>{{elementStatus.get(scope.row.status)}}</span>
+                </template>
+              </el-table-column>
               <el-table-column prop="createTime" label="修改时间" />
               <el-table-column prop="causeNumber" label="修改原因" />
               <el-table-column prop="causeContent" label="修改说明" />
@@ -188,7 +131,12 @@ const activeIndex = ref('1')
 //弹出框
 const dialogFormVisible = ref(false)
 const formLabelWidth = '140px'
-
+const elementStatus = new Map([
+  [0, "正常"],
+  [1, "待发布"],
+  [2, "锁定"],
+  [3, "删除"]
+]);
 //搜索框
 import { Search } from '@element-plus/icons-vue'
 const input3 = ref('')

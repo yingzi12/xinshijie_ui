@@ -2,6 +2,8 @@ import { createWebHistory, createRouter } from 'vue-router'
 /* Layout */
 import Layout from '@/layout/system'
 import LayoutWiki from '@/layout/wiki'
+import LayoutAdmin from '@/layout/admin'
+import LayoutUser from '@/layout/user'
 
 /**
  * Note: 路由配置项
@@ -56,6 +58,19 @@ export const constantRoutes = [
   {
     path: '/wiki',
     component: LayoutWiki,
+    hidden: true,
+    children: [
+      {
+        path: 'index',
+        component: () => import('@/views/wiki/index'),
+        name: 'wiki',
+        meta: { title: '个人中心', icon: 'wiki' }
+      }
+    ]
+  },
+  {
+    path: '/wikiadmin',
+    component: LayoutAdmin,
     hidden: true,
     children: [
       {
@@ -189,7 +204,7 @@ export const constantRoutes = [
   },
   {
     path: '/admin',
-    component: LayoutWiki,
+    component: LayoutAdmin,
     hidden: true,
     children: [
       {
@@ -352,43 +367,27 @@ export const constantRoutes = [
 
     ]
 
-  }
-    ,
+  },
   {
     path: '/users',
-    component: LayoutWiki,
+    component: LayoutUser,
     hidden: true,
     children:[
       {
         path: 'index',
         component: () => import('@/views/wiki/user/index'),
         name: 'Users',
-        meta: { title: '个人中心', icon: 'user' }
+        meta: { title: '基础信息', icon: 'user' }
       },{
         path: 'edit',
         component: () => import('@/views/wiki/user/edit'),
         name: 'edit',
-        meta: { title: '个人中心', icon: 'user' }
+        meta: { title: '修改', icon: 'user' }
       },{
-        path: 'info',
-        component: () => import('@/views/wiki/user/info'),
-        name: 'info',
-        meta: { title: '个人中心', icon: 'user' }
-      },{
-        path: 'message',
-        component: () => import('@/views/wiki/user/message'),
-        name: 'message',
-        meta: { title: '个人中心', icon: 'user' }
-      },{
-        path: 'attention',
-        component: () => import('@/views/wiki/user/attention'),
-        name: 'attention',
-        meta: { title: '个人中心', icon: 'user' }
-      },{
-        path: 'userVatar',
-        component: () => import('@/views/wiki/user/userVatar'),
-        name: 'userVatar',
-        meta: { title: '上次头像', icon: 'user' }
+        path: 'password',
+        component: () => import('@/views/wiki/user/password'),
+        name: 'password',
+        meta: { title: '修改密码', icon: 'user' }
       }
       ]
   },

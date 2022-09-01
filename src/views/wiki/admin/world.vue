@@ -1,67 +1,6 @@
 <template>
   <el-container class="layout-container-demo" >
     <!--    侧边栏-->
-    <el-aside width="250px" style="margin: 10px">
-      <div>
-        <!--        个人信息-->
-        <div class="center" style="margin-bottom: 10px;text-align: center;">
-          <el-card :body-style="{ padding: '0px' }">
-            <!--  头像-->
-            <el-avatar :size="50" :src="circleUrl" />
-            <div>
-              <h3 style="margin:10px;margin-bottom: 10px;font-size:14px;">Yumnumkl</h3>
-              <p style="margin: 0px;padding: 0px;font-size:10px;">id:111111</p>
-              <div class="bottom" >
-                <p style="margin: 0px;padding: 0px;font-size:10px;line-height:120%;">这是一个签名,表达自己的想法用的,没什么实际的意义</p>
-                <div class="demo-count">
-                  <div  class="block">
-                    <span class="demonstration">4</span>
-                    <span class="demonstration">世界</span>
-                  </div>
-                  <div  class="block">
-                    <span class="demonstration">4440000</span>
-                    <span class="demonstration">粉丝</span>
-                  </div>
-                  <div  class="block">
-                    <span class="demonstration">433</span>
-                    <span class="demonstration">关注</span>
-                  </div>
-                </div>
-                <el-button text class="button">用户中心</el-button>
-              </div>
-            </div>
-          </el-card>
-        </div>
-        <!--        功能栏-->
-        <div style="margin-top: 10px">
-          <el-scrollbar>
-            <el-menu   :router="true"   :collapse="isCollapse"
-                       default-active="2">
-              <el-menu-item index="/admin/index">
-                <el-icon><icon-menu /></el-icon>
-                <template #title>我的关注</template>
-              </el-menu-item>
-              <el-menu-item index="/admin/world">
-                <el-icon><icon-menu /></el-icon>
-                <template #title>世界管理</template>
-              </el-menu-item>
-              <el-menu-item index="/admin/draft">
-                <el-icon><icon-menu /></el-icon>
-                <template #title>元素草稿</template>
-              </el-menu-item>
-              <el-menu-item index="/admin/disscuss">
-                <el-icon><icon-menu /></el-icon>
-                <template #title>我的评论</template>
-              </el-menu-item>
-              <el-menu-item index="/admin/message">
-                <el-icon><icon-menu /></el-icon>
-                <template #title>我的信息</template>
-              </el-menu-item>
-            </el-menu>
-          </el-scrollbar>
-        </div>
-      </div>
-    </el-aside>
     <!--    表格-->
     <el-container style="margin: 10px">
       <!--       内容区-->
@@ -110,17 +49,12 @@
               <el-table-column label="名称" align="center" key="name" prop="name"  />
               <el-table-column label="类型" align="center" key="typeName" prop="typeName" :show-overflow-tooltip="true" />
               <el-table-column label="简介" align="center" key="intro" prop="intro"  :show-overflow-tooltip="true" />
+              <el-table-column label="状态" align="center"  >
+                <template #default="scope">
+                  <span>{{worldStatus.get(scope.row.status)}}</span>
+                </template>
+              </el-table-column>
               <el-table-column label="创建人" align="center" key="createName" prop="createName"  :show-overflow-tooltip="true" />
-              <!--              <el-table-column label="状态" align="center" key="status" >-->
-              <!--                <template #default="scope">-->
-              <!--                  <el-switch-->
-              <!--                      v-model="scope.row.status"-->
-              <!--                      active-value="0"-->
-              <!--                      inactive-value="1"-->
-              <!--                      @change="handleStatusChange(scope.row)"-->
-              <!--                  ></el-switch>-->
-              <!--                </template>-->
-              <!--              </el-table-column>-->
               <el-table-column label="更新时间" align="center" prop="updateTime"  width="160">
                 <template #default="scope">
                   <span>{{scope.row.updateTime}}</span>
@@ -140,6 +74,13 @@
                         type="text"
                         icon="Edit"
                         @click="handleUpdate(scope.row)"
+                    ></el-button>
+                  </el-tooltip>
+                  <el-tooltip v-if="scope.row.status == 1" content="发布" placement="top" >
+                    <el-button
+                        type="text"
+                        icon="Edit"
+                        @click="handleIssue(scope.row)"
                     ></el-button>
                   </el-tooltip>
                   <el-tooltip content="删除" placement="top" >
@@ -190,7 +131,12 @@ class World {
   intro: string
   createTime:string
 }
-
+const worldStatus = new Map([
+  [0, "正常"],
+  [1, "待发布"],
+  [2, "锁定"],
+  [3, "删除"]
+]);
 const loading = ref(true);
 const worldList = ref([]);
 const total = ref(0);
@@ -228,6 +174,9 @@ function handleDelete ( row){
 
 function handleSee(row){
   router.push("/admin/worldInfo?wid="+row.id);
+}
+function handleIssue(row){
+
 }
 /** 选择条数  */
 function handleSelectionChange(selection) {

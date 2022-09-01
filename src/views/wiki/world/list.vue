@@ -26,7 +26,7 @@
               </el-menu>
           </el-aside>
           <el-main>
-            <h1>世界列表</h1>
+            <span style="size: 30px">世界列表</span><el-button style="float: right" @click="handleAdd">创建世界</el-button>
             <el-table v-loading="loading" :data="worldList" >
                             <el-table-column label="序号" width="50px" >
                               <template #default="scope">
@@ -54,20 +54,6 @@
                         @click="handleSee(scope.row)"
                     ></el-button>
                   </el-tooltip>
-                  <el-tooltip content="修改" placement="top" >
-                    <el-button
-                        type="text"
-                        icon="Edit"
-                        @click="handleUpdate(scope.row)"
-                    ></el-button>
-                  </el-tooltip>
-                  <el-tooltip content="删除" placement="top" >
-                    <el-button
-                        type="text"
-                        icon="Delete"
-                        @click="handleDelete(scope.row)"
-                    ></el-button>
-                  </el-tooltip>
                 </template>
               </el-table-column>
             </el-table>
@@ -87,7 +73,6 @@
 
 <script lang="ts" setup>
 import { getCurrentInstance, reactive, ref, toRefs} from 'vue'
-import { delWorld } from "@/api/admin/world";
 import { listWorld } from "@/api/wiki/world";
 import { useRouter} from "vue-router";
 const router = useRouter()
@@ -127,15 +112,15 @@ const search = ref('')
 function handleUpdate (row)  {
   router.push("/world/edit?wid="+row.id);
 }
-function handleDelete ( row){
-  const worldId = row.id ;
-  globalProperties.$modal.confirm('是否确认删除世界名称为"' + row.name + '"的数据？').then(function () {
-    return delWorld(worldId);
-  }).then(() => {
-    getList();
-    globalProperties.$modal.msgSuccess("删除成功");
-  }).catch(() => {});
-}
+// function handleDelete ( row){
+//   const worldId = row.id ;
+//   globalProperties.$modal.confirm('是否确认删除世界名称为"' + row.name + '"的数据？').then(function () {
+//     return delWorld(worldId);
+//   }).then(() => {
+//     getList();
+//     globalProperties.$modal.msgSuccess("删除成功");
+//   }).catch(() => {});
+// }
 function handFind(types:number){
   if(types != null && types != '' && types != undefined) {
     wtypes.value = types;
@@ -153,6 +138,9 @@ function handFind(types:number){
     worldList.value = response.rows;
     total.value = response.total;
   });
+}
+function handleAdd(){
+  router.push("/world/add");
 }
 //查看详细
 function handleSee(row){

@@ -1,67 +1,6 @@
 <template>
   <el-container class="layout-container-demo" >
     <!--    侧边栏-->
-    <el-aside width="250px" style="margin: 10px">
-      <div>
-        <!--        个人信息-->
-        <div class="center" style="margin-bottom: 10px;text-align: center;">
-          <el-card :body-style="{ padding: '0px' }">
-            <!--  头像-->
-            <el-avatar :size="50" :src="circleUrl" />
-            <div>
-              <h3 style="margin:10px;margin-bottom: 10px;font-size:14px;">Yumnumkl</h3>
-              <p style="margin: 0px;padding: 0px;font-size:10px;">id:111111</p>
-              <div class="bottom" >
-                <p style="margin: 0px;padding: 0px;font-size:10px;line-height:120%;">这是一个签名,表达自己的想法用的,没什么实际的意义</p>
-                <div class="demo-count">
-                  <div  class="block">
-                    <span class="demonstration">4</span>
-                    <span class="demonstration">世界</span>
-                  </div>
-                  <div  class="block">
-                    <span class="demonstration">4440000</span>
-                    <span class="demonstration">粉丝</span>
-                  </div>
-                  <div  class="block">
-                    <span class="demonstration">433</span>
-                    <span class="demonstration">关注</span>
-                  </div>
-                </div>
-                <el-button text class="button">用户中心</el-button>
-              </div>
-            </div>
-          </el-card>
-        </div>
-        <!--        功栏栏-->
-        <div style="margin-top: 10px">
-          <el-scrollbar>
-            <el-menu   :router="true"
-                       default-active="2">
-              <el-menu-item index="/admin/index">
-                <el-icon><icon-menu /></el-icon>
-                <template #title>我的关注</template>
-              </el-menu-item>
-              <el-menu-item index="/admin/world">
-                <el-icon><icon-menu /></el-icon>
-                <template #title>世界管理</template>
-              </el-menu-item>
-              <el-menu-item index="/admin/draft">
-                <el-icon><icon-menu /></el-icon>
-                <template #title>元素草稿</template>
-              </el-menu-item>
-              <el-menu-item index="/admin/disscuss">
-                <el-icon><icon-menu /></el-icon>
-                <template #title>我的评论</template>
-              </el-menu-item>
-              <el-menu-item index="/admin/message">
-                <el-icon><icon-menu /></el-icon>
-                <template #title>我的信息</template>
-              </el-menu-item>
-            </el-menu>
-          </el-scrollbar>
-        </div>
-      </div>
-    </el-aside>
     <!--    表格-->
     <el-container style="margin: 10px">
       <!--       内容区-->
@@ -73,21 +12,8 @@
               @select="handleSelect"
               style="margin:0px;pardding:0px"
           >
-            <el-menu-item index="1">帝国崛起</el-menu-item>
+            <el-menu-item index="1">待审核元素</el-menu-item>
           </el-menu>
-        </div>
-        <!--        多选-->
-        <div style="padding: 10px">
-          <el-space wrap>
-            <el-button text > <router-link :to="{path:'/admin/worldInfo', query: {wid:wid}}">简介</router-link></el-button>
-            <el-button text>  <router-link :to="{path:'/admin/worldManage', query: {wid:wid}}">造物主列表</router-link></el-button>
-            <el-button text>  <router-link :to="{path:'/admin/worldElement', query: {wid:wid}}">元素列表</router-link></el-button>
-            <el-button text>  <router-link :to="{path:'/admin/worldCategory', query: {wid:wid}}">分类管理</router-link></el-button>
-            <el-button text  type="primary">  <router-link :to="{path:'/admin/worldAudit', query: {wid:wid}}">元素审核</router-link></el-button>
-            <el-button text>  <router-link :to="{path:'/admin/worldRedident', query: {wid:wid}}">居民管理</router-link></el-button>
-            <el-button text>  <router-link :to="{path:'/admin/worldComment', query: {wid:wid}}">评论管理</router-link></el-button>
-            <el-button text>  <router-link :to="{path:'/admin/worldDiscuss', query: {wid:wid}}">讨论管理</router-link></el-button>
-          </el-space>
         </div>
         <!--        统计-->
         <div style="background-color:#b0c4de;margin: auto;padding: 10px">
@@ -99,17 +25,7 @@
             </el-col >
             <el-col :span="4"  style="text-align: right;">
               <div style="text-align: right; font-size: 12px" class="toolbar">
-                <el-dropdown>
-                  <el-icon style="margin-right: 8px; margin-top: 1px"><setting/></el-icon>
-                  <template #dropdown>
-                    <el-dropdown-menu>
-                      <el-dropdown-item>View</el-dropdown-item>
-                      <el-dropdown-item>Add</el-dropdown-item>
-                      <el-dropdown-item>Delete</el-dropdown-item>
-                    </el-dropdown-menu>
-                  </template>
-                </el-dropdown>
-                <span>Tom</span>
+                <el-button text @click="handleLog">查看历史记录</el-button>
               </div>
             </el-col>
           </el-row>
@@ -130,13 +46,13 @@
               <el-table-column prop="causeContent" label="修改说明" />
               <el-table-column prop="createName" label="修改人" />
               <el-table-column fixed="right" label="Operations" width="220">
-                <template  #header>
-                  <el-button text>查看历史记录</el-button>
-                </template>
+<!--                <template  #header>-->
+<!--                  <el-button text>查看历史记录</el-button>-->
+<!--                </template>-->
                 <template #default="scope">
                   <el-button link type="primary" size="small" @click="handleSee(scope.row)">详细</el-button>
                   <el-button link type="primary" size="small" @click="handleDiff(scope.row)">差异</el-button>
-                  <el-button link type="primary" size="small" @click="handleClean(scope.row)">取消</el-button>
+                  <el-button link type="primary" size="small" @click="handleClean(scope.row)">取消发布</el-button>
                 </template>
               </el-table-column>
             </el-table>
@@ -181,15 +97,15 @@
 import {getCurrentInstance, reactive, ref, toRefs} from 'vue'
 import {useRoute, useRouter} from "vue-router";
 import { Menu as IconMenu,CirclePlus, Message, Setting } from '@element-plus/icons-vue'
-import { listAudit } from "@/api/admin/draftElement";
+import { listDraft } from "@/api/admin/draftElement";
 import { getTree} from "@/api/wiki/category";
 const router = useRouter()
 
 // 接收url里的参数
 const route = useRoute();
-console.log(route.query.wid,"参数");
-const wid = ref(null);
-wid.value = route.query.wid;
+// console.log(route.query.wid,"参数");
+// const wid = ref(null);
+// wid.value = route.query.wid;
 const fits = ['世界', '粉丝', '关注']
 const activeIndex = ref('1')
 //弹出框
@@ -217,7 +133,7 @@ const data = reactive({
     auditStatus:0,
     name: undefined,
     types: undefined,
-    wid:wid.value,
+    // wid:wid.value,
   },
   rules: {
     // userName: [{ required: true, message: "用户名称不能为空", trigger: "blur" }, { min: 2, max: 20, message: "用户名称长度必须介于 2 和 20 之间", trigger: "blur" }],
@@ -226,28 +142,28 @@ const data = reactive({
 const { queryParams, form, rules } = toRefs(data);
 
 /**根据分类查询世界*/
-function findType(typeId:number) {
-  queryParams.value.wid=wid.value;
-  listAudit(globalProperties.addDateRange(queryParams.value, dateRange.value)).then(response => {
-    loading.value = false;
-    draftList.value = response.rows;
-    total.value = response.total;
-  });
-}
+// function findType(typeId:number) {
+//   queryParams.value.wid=wid.value;
+//   listDraft(globalProperties.addDateRange(queryParams.value, dateRange.value)).then(response => {
+//     loading.value = false;
+//     draftList.value = response.rows;
+//     total.value = response.total;
+//   });
+// }
 /** 查询世界列表 */
 function getList() {
-  listAudit(globalProperties.addDateRange(queryParams.value, dateRange.value)).then(response => {
+  listDraft(globalProperties.addDateRange(queryParams.value, dateRange.value)).then(response => {
     loading.value = false;
     draftList.value = response.rows;
     total.value = response.total;
   });
 }
-/** 查询分类列表 */
-function getCategoryTree() {
-  getTree(wid.value).then(response => {
-    dataStree.value = response.data
-  });
-}
+// /** 查询分类列表 */
+// function getCategoryTree() {
+//   getTree(wid.value).then(response => {
+//     dataStree.value = response.data
+//   });
+// }
 function handleClean(row){
   dialogFormVisible.value=true;
 }
@@ -257,7 +173,11 @@ function handleSee(row){
 function handleDiff(row){
   router.push("/admin/diffPreview?wid="+row.wid+"&deid="+row.id);
 }
-getCategoryTree();
+function handleLog(row){
+  router.push("/admin/auditLog");
+}
+
+// getCategoryTree();
 getList();
 </script>
 

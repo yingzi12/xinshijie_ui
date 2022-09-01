@@ -3,7 +3,9 @@
     <div>
       <el-breadcrumb separator="/">
         <el-breadcrumb-item :to="{ path: '/' }">首页</el-breadcrumb-item>
-        <el-breadcrumb-item>世界列表</el-breadcrumb-item>
+        <el-breadcrumb-item :to="{ path: '/world/list' }">世界树</el-breadcrumb-item>
+        <el-breadcrumb-item :to="{ path: '/world/details', query: {wid:wid} }">{{world.name}}</el-breadcrumb-item>
+        <el-breadcrumb-item>评论列表</el-breadcrumb-item>
       </el-breadcrumb>
     </div>
     <div>
@@ -21,7 +23,7 @@
           </el-col>
           <el-col :span="22">
             <el-form ref="refComment" :model="commentForm" :rules="rulesComment"  label-width="120px">
-              <el-input :disabled="disabled" v-model="commentForm.content" :rows="2" type="textarea" placeholder="请输入评论"/>
+              <el-input :disabled="disabled" v-model="commentForm.comment" :rows="2" type="textarea" placeholder="请输入评论"/>
               <el-button :disabled="disabled" type="primary" @click="onSubmit">发布评论</el-button>
             </el-form>
           </el-col>
@@ -56,7 +58,13 @@
               <el-divider />
             </div>
             <div class="center">
-              <el-pagination layout="prev, pager, next" :total="1000" />
+              <pagination
+                  v-show="total > 0"
+                  :total="total"
+                  v-model:page="queryParams.pageNum"
+                  v-model:limit="queryParams.pageSize"
+                  @pagination="getList"
+              />
             </div>
           </el-tab-pane>
         </el-tabs>
@@ -72,6 +80,7 @@ import { listComment} from "@/api/wiki/comment";
 import {ElMessage} from "element-plus";
 import useUserStore from '@/store/modules/user'
 import {useRoute} from "vue-router";
+import {  getWorld } from "@/api/wiki/world";
 
 const {  appContext : { config: { globalProperties } }  } = getCurrentInstance();
 const {  proxy  } = getCurrentInstance();
@@ -104,35 +113,7 @@ console.log("useUserStore:"+JSON.stringify(useUserStore))
 console.log("userStore:"+JSON.stringify(userStore))
 
 const commentActive = ref('allComm')
-const commentList =[ {
-  circleUrl:'',
-  date: '2020-05-02',
-  createName: 'Tom',
-  comment: 'No. 189, Grove St, Los Angeles',
-  createTime:"2020-05-02 11:23:09",
-},
-  {  circleUrl:'',
-    date: '2016-05-02',
-    createName: 'Tom',
-    comment: 'No. 189, Grove St, Los Angeles',
-    createTime:"2020-05-02 11:23:09",
-  },
-  {
-    circleUrl:'',
-    date: '2016-05-02',
-    createName: 'Tom',
-    comment: 'No. 189, Grove St, Los Angeles',
-    createTime:"2020-05-02 11:23:09",
-  },
-  {
-    circleUrl:'',
-    date: '2016-05-02',
-    createName: 'Tom',
-    comment: 'No. 189, Grove St, Los Angeles',
-    createTime:"2020-05-02 11:23:09",
-  }
-]
-
+const commentList = ref([])
 const data = reactive({
   commentForm: {},
   queryParams: {
@@ -140,22 +121,39 @@ const data = reactive({
     pageSize: 10,
     wid: undefined,
     eid: undefined,
-    configKey: undefined,
-    configType: undefined
   },
   rules: {
-    content: [{ required: true, message: "评论不能为空", trigger: "blur" }],
+    comment: [{ required: true, message: "评论不能为空", trigger: "blur" }],
   }
 });
+const total = ref(0);
 
 const { queryParams, commentForm, rules } = toRefs(data);
-
+//分页信息
+const dateRange = ref([]);
+//评论信息
+function getList() {
+  listComment(globalProperties.addDateRange(queryParams.value, dateRange.value)).then(response => {
+    console.log("查询世界详细:"+JSON.stringify(response))
+    commentList.value = response.rows
+    total.value = response.total;
+  });
+}
+//世界信息
+const world=ref({})
+/** 查询世界详细 */
+function handWorld(id:number) {
+  getWorld(id).then(response => {
+    console.log("查询世界详细:"+JSON.stringify(response))
+    world.value = response.data
+  });
+}
 function onSubmit(){
-  if(!commentForm.value.content){
+  if(!commentForm.value.comment){
     ElMessage.error("评论不能为空")
     return;
   }
-  if(commentForm.value.content.size>20){
+  if(commentForm.value.comment.length<20){
     ElMessage.error("评论不了少于20字")
     return;
   }
@@ -165,14 +163,16 @@ function onSubmit(){
   }else{
     commentForm.value.wid=wid.value
   }
-  if(eid.value == undefined){
-    commentForm.value.eid=eid.value
-  }
+  commentForm.value.wname=world.value.name
+  commentForm.value.circleUrl=userStore.avatar
   addComment(commentForm.value).then(response => {
     ElMessage.info("评论成功")
     console.log("评论成功")
+    getList()
   })
 }
+handWorld(wid.value)
+getList();
 </script>
 
 <style scoped>
