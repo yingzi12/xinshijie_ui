@@ -53,7 +53,7 @@
                 <el-icon><icon-menu /></el-icon>
                 <template #title>已发布元素</template>
               </el-menu-item>
-              <el-menu-item index="/admin/disscuss">
+              <el-menu-item index="/admin/discuss">
                 <el-icon><icon-menu /></el-icon>
                 <template #title>我的讨论</template>
               </el-menu-item>

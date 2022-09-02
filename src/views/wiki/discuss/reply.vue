@@ -13,15 +13,15 @@
           <el-col :span="2" class="center">
             <el-row>
               <el-col><el-avatar :size="50" :src="circleUrl" /></el-col>
-              <el-col><span class="demonstration">{{disscuss.createName}}</span></el-col>
+              <el-col><span class="demonstration">{{discuss.createName}}</span></el-col>
             </el-row>
           </el-col>
           <el-col :span="22">
             <div>
-            <p>{{disscuss.comment}}</p>
+            <p>{{discuss.comment}}</p>
             </div>
             <div style="color:#A3A6AD">
-              <span>{{ disscuss.createTime }}</span>
+              <span>{{ discuss.createTime }}</span>
               <span><BootstrapIcon @click="dialogFormVisible = true" icon="chat-dots" size="1x" flip-v />20 </span>
               <span><BootstrapIcon icon="hand-thumbs-up" size="1x" flip-v />10</span>
               <span><BootstrapIcon icon="hand-thumbs-down" size="1x" flip-v />20</span>
@@ -50,7 +50,7 @@
       <div>
         <el-tabs v-model="commentActive"  >
           <el-tab-pane label="全部评论" name="allComm">
-            <div v-for="comment in disscuss.reply">
+            <div v-for="comment in discuss.reply">
               <el-row>
                 <el-col :span="2">
                   <div  class="center">
@@ -105,7 +105,8 @@
 
 <script lang="ts" setup>
 import { reactive,ref } from 'vue'
-
+//世界信息
+const world=ref({})
 //弹出框
 const dialogFormVisible = ref(false)
 const formLabelWidth = '140px'
@@ -120,7 +121,7 @@ const circleUrl = ref(3)
 
 //评论列表
 const commentActive = ref('allComm')
-const disscuss={
+const discuss={
   id:1,
   circleUrl:'',
   date: '2020-05-02',

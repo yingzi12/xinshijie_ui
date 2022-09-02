@@ -69,7 +69,7 @@
               <el-table-column prop="new" label="新增元素" width="120" />
               <el-table-column prop="edit" label="编辑元素" width="120" />
               <el-table-column prop="commnet" label="评论" width="120" />
-              <el-table-column prop="disscuss" label="讨论" width="120" />
+              <el-table-column prop="discuss" label="讨论" width="120" />
               <!--              <el-table-column fixed="right" label="Operations" width="220">-->
 <!--                <template #default>-->
 <!--                  <el-button link type="primary" size="small" @click="handleClick">Detail</el-button>-->
@@ -109,7 +109,7 @@ const item = {
   new: 11,
   edit: 1221,
   comment: 12342341,
-  disscuss: 123231,
+  discuss: 123231,
 
   address: 'No. 189, Grove St, Los Angeles',
 }

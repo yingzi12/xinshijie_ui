@@ -117,21 +117,6 @@ export const constantRoutes = [
         name: 'Comment',
         meta: { title: '评论', icon: 'world' }
       },{
-        path: 'disscuss',
-        component: () => import('@/views/wiki/world/disscuss'),
-        name: 'disscuss',
-        meta: { title: '讨论主题详细', icon: 'world' }
-      },{
-        path: 'disscussList',
-        component: () => import('@/views/wiki/world/disscussList'),
-        name: 'disscussList',
-        meta: { title: '讨论主题列表', icon: 'world' }
-      },{
-        path: 'disscussReply',
-        component: () => import('@/views/wiki/world/disscussReply'),
-        name: 'disscussReply',
-        meta: { title: '讨论主题回复列表', icon: 'world' }
-      },{
         path: 'add',
         component: () => import('@/views/wiki/world/add'),
         name: 'AddWorld',
@@ -256,9 +241,9 @@ export const constantRoutes = [
         meta: { title: '评论', icon: 'wiki' }
       },
       {
-        path: 'disscuss',
-        component: () => import('@/views/wiki/admin/disscuss'),
-        name: 'disscuss',
+        path: 'discuss',
+        component: () => import('@/views/wiki/admin/discuss'),
+        name: 'discuss',
         meta: { title: '讨论', icon: 'wiki' }
       },
       {
@@ -420,6 +405,28 @@ export const constantRoutes = [
     path: "/:pathMatch(.*)*",
     component: () => import('@/views/error/404'),
     hidden: true
+  },
+  {
+    path: '/discuss',
+    component: LayoutWiki,
+    children: [
+      {
+        path: 'index',
+        component: () => import('@/views/wiki/discuss/index'),
+        name: 'discuss',
+        meta: { title: '讨论主题详细', icon: 'world' }
+      },{
+        path: 'list',
+        component: () => import('@/views/wiki/discuss/list'),
+        name: 'discussList',
+        meta: { title: '讨论主题列表', icon: 'world' }
+      },{
+        path: 'replay',
+        component: () => import('@/views/wiki/discuss/reply'),
+        name: 'discussReply',
+        meta: { title: '讨论主题回复列表', icon: 'world' }
+      }
+    ]
   },
   {
     path: '/401',

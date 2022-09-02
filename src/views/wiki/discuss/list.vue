@@ -54,23 +54,23 @@
       <div>
         <el-tabs v-model="commentActive"  >
           <el-tab-pane label="全部讨论" name="allComm">
-            <div v-for="disscuss in disscussList">
+            <div v-for="discuss in discussList">
               <el-row>
                 <el-col :span="2">
                     <!--              头像-->
-                    <p style="margin: 0px;padding: 0px"><el-avatar :size="50" :src="disscuss.circleUrl" /></p>
-                    <p style="font-weight:bold;margin: 0px;padding: 0px;">{{ disscuss.createName }}</p>
+                    <p style="margin: 0px;padding: 0px"><el-avatar :size="50" :src="discuss.circleUrl" /></p>
+                    <p style="font-weight:bold;margin: 0px;padding: 0px;">{{ discuss.createName }}</p>
                 </el-col>
                 <el-col :span="22">
                   <div >
-                    <span style="font-weight:bold;font-size:15px;">{{ disscuss.title }}</span>
-                    <el-tag>{{ disscuss.typesName }}</el-tag>
-                    <el-tag>{{ disscuss.status }}</el-tag>
+                    <span style="font-weight:bold;font-size:15px;">{{ discuss.title }}</span>
+                    <el-tag>{{ discuss.typesName }}</el-tag>
+                    <el-tag>{{ discuss.status }}</el-tag>
                   </div>
-                  <div v-html="disscuss.comment">
+                  <div v-html="discuss.comment">
                   </div>
                   <div style="color:#A3A6AD">
-                    <span>{{ disscuss.createTime }}</span>
+                    <span>{{ discuss.createTime }}</span>
                     <span><BootstrapIcon @click="dialogFormVisible = true" icon="chat-dots" size="1x" flip-v />20 </span>
                     <span><BootstrapIcon icon="hand-thumbs-up" size="1x" flip-v />10</span>
                     <span><BootstrapIcon icon="hand-thumbs-down" size="1x" flip-v />20</span>
@@ -111,6 +111,8 @@
 <script lang="ts" setup>
 import { reactive,ref } from 'vue'
 
+//世界信息
+const world=ref({})
 //弹出框
 const dialogFormVisible = ref(false)
 const formLabelWidth = '140px'
@@ -123,7 +125,7 @@ const form = reactive({
 const radio = ref(3)
 //评论列表
 const commentActive = ref('allComm')
-const disscussList =[ {
+const discussList =[ {
   id:1,
   circleUrl:'',
   date: '2020-05-02',
