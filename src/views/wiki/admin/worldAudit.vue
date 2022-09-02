@@ -38,17 +38,7 @@
             </el-col >
             <el-col :span="4"  style="text-align: right;">
               <div style="text-align: right; font-size: 12px" class="toolbar">
-                <el-dropdown>
-                  <el-icon style="margin-right: 8px; margin-top: 1px"><setting/></el-icon>
-                  <template #dropdown>
-                    <el-dropdown-menu>
-                      <el-dropdown-item>View</el-dropdown-item>
-                      <el-dropdown-item>Add</el-dropdown-item>
-                      <el-dropdown-item>Delete</el-dropdown-item>
-                    </el-dropdown-menu>
-                  </template>
-                </el-dropdown>
-                <span>Tom</span>
+                <el-button text @click="handleAuditLog">查看历史记录</el-button>
               </div>
             </el-col>
           </el-row>
@@ -68,10 +58,7 @@
               <el-table-column prop="causeNumber" label="修改原因" />
               <el-table-column prop="causeContent" label="修改说明" />
               <el-table-column prop="createName" label="修改人" />
-              <el-table-column fixed="right" label="Operations" width="220">
-                <template  #header>
-                  <el-button text>查看历史记录</el-button>
-                </template>
+              <el-table-column fixed="right" label="操作" width="220">
                 <template #default="scope">
                   <el-button link type="primary" size="small" @click="handleSee(scope.row)">详细</el-button>
                   <el-button link type="primary" size="small" @click="handleDiff(scope.row)">差异</el-button>
@@ -198,6 +185,10 @@ function handleSee(row){
 }
 function handleDiff(row){
   router.push("/admin/diffPreview?wid="+row.wid+"&deid="+row.id);
+}
+
+function handleAuditLog(row){
+  router.push("/admin/worldAuditLog?wid="+row.wid+"&wname="+wname.value);
 }
 getCategoryTree();
 getList();

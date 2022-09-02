@@ -32,7 +32,7 @@
             </el-col >
             <el-col :span="20"  style="text-align: right;">
               <div style="text-align: right; font-size: 12px" class="toolbar">
-                <span>创建世界</span>
+                <el-button text @click="handleAdd">创建世界</el-button>
               </div>
             </el-col>
           </el-row>
@@ -162,6 +162,10 @@ const search = ref('')
 function handleUpdate (row)  {
   router.push("/admin/worldEdit?wid="+row.id);
 }
+function handleAdd ()  {
+  router.push("/world/add");
+}
+
 function handleDelete ( row){
   const worldId = row.id ;
   globalProperties.$modal.confirm('是否确认删除世界名称为"' + row.name + '"的数据？').then(function () {

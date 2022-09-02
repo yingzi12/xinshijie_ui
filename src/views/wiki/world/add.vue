@@ -61,7 +61,7 @@ import {reactive, ref, toRefs} from 'vue'
 import type { FormInstance, FormRules } from 'element-plus'
 import { ElMessage } from 'element-plus'
 import { Plus } from '@element-plus/icons-vue'
-import { addWorld,updateImageUrl} from "@/api/admin/world";
+import { addWorld,updateImageUrl } from "@/api/admin/world";
 import { useRouter} from "vue-router";
 import { getCurrentInstance ,inject} from "vue";
 
@@ -103,9 +103,9 @@ const submitForm = async (formEl: FormInstance | undefined) => {
     if (valid) {
       console.log('submit!')
       ruleForm.value.imgUrl=imageUrlPath.value
-      addWorld(ruleForm.value).then(() => {
+      addWorld(ruleForm.value).then(response => {
         console.log("添加成功")
-        router.push("/world/list")
+        router.push("/admin/worldInfo?wid="+response.data.id);
       })
     } else {
       console.log('error submit!', fields)

@@ -56,32 +56,31 @@
         <!--        表格-->
         <div>
           <el-scrollbar>
-            <el-table :data="tableData">
+            <el-table :data="redidentList">
               <el-table-column label="序号" >
                 <template #default="scope">
                   {{scope.$index+1}}
                 </template>
               </el-table-column>
-              <el-table-column prop="date" label="时间" width="140" />
-              <el-table-column prop="name" label="姓名" width="120" />
-              <el-table-column prop="address" label="简介" />
-              <el-table-column prop="rank" label="等级" width="120" />
-              <el-table-column prop="new" label="新增元素" width="120" />
-              <el-table-column prop="edit" label="编辑元素" width="120" />
-              <el-table-column prop="commnet" label="评论" width="120" />
-              <el-table-column prop="discuss" label="讨论" width="120" />
-              <!--              <el-table-column fixed="right" label="Operations" width="220">-->
-<!--                <template #default>-->
-<!--                  <el-button link type="primary" size="small" @click="handleClick">Detail</el-button>-->
-<!--                  <el-button link type="primary" size="small">Edit</el-button>-->
-<!--                </template>-->
-<!--              </el-table-column>-->
+              <el-table-column prop="createTime" label="时间" width="140" />
+              <el-table-column prop="createName" label="姓名" width="120" />
+              <el-table-column prop="ranks" label="等级" width="120" />
+              <el-table-column prop="countNew" label="新增" width="120" />
+              <el-table-column prop="countEdit" label="编辑" width="120" />
+              <el-table-column prop="countSee" label="查看" width="120" />
+              <el-table-column prop="countComment" label="评论数" width="120" />
             </el-table>
           </el-scrollbar>
         </div>
         <!--        分页-->
         <div style="float:right; ">
-          <el-pagination  layout="prev, pager, next" :total="50" />
+          <pagination
+              v-show="total > 0"
+              :total="total"
+              v-model:page="queryParams.pageNum"
+              v-model:limit="queryParams.pageSize"
+              @pagination="getList"
+          />
         </div>
       </el-main>
     </el-container>
@@ -89,8 +88,10 @@
 </template>
 
 <script lang="ts" setup>
-import { ref } from 'vue'
+import {getCurrentInstance, reactive, ref, toRefs} from 'vue'
 import {useRoute, useRouter} from "vue-router";
+import { listRedident } from "@/api/admin/redident";
+
 import { Menu as IconMenu,CirclePlus, Message, Setting } from '@element-plus/icons-vue'
 // 接收url里的参数
 const route = useRoute();
@@ -99,95 +100,42 @@ const wid = ref(null);
 wid.value = route.query.wid;
 const wname = ref('');
 wname.value = <string>route.query.wname;
-const fits = ['世界', '粉丝', '关注']
-const activeIndex = ref('1')
 
-const item = {
-  date: '2016-05-02',
-  name: 'Tom',
-  rank: 11,
-  new: 11,
-  edit: 1221,
-  comment: 12342341,
-  discuss: 123231,
 
-  address: 'No. 189, Grove St, Los Angeles',
+const {  appContext : { config: { globalProperties } }  } = getCurrentInstance();
+const {  proxy  } = getCurrentInstance();
+//分页
+const dateRange = ref([]);
+//分类选项
+const dataStree = ref([])
+const loading = ref(true);
+const redidentList = ref([]);
+const total = ref(0);
+const data = reactive({
+  form: {},
+  queryParams: {
+    pageNum: 1,
+    pageSize: 10,
+    auditStatus:0,
+    name: undefined,
+    types: undefined,
+    // wid:wid.value,
+  },
+  rules: {
+    // userName: [{ required: true, message: "用户名称不能为空", trigger: "blur" }, { min: 2, max: 20, message: "用户名称长度必须介于 2 和 20 之间", trigger: "blur" }],
+  }
+});
+const { queryParams, form, rules } = toRefs(data);
+
+/** 查询世界列表 */
+function getList() {
+  listRedident(globalProperties.addDateRange(queryParams.value, dateRange.value)).then(response => {
+    loading.value = false;
+    redidentList.value = response.rows;
+    total.value = response.total;
+  });
 }
-const tableData = ref(Array.from({ length: 20 }).fill(item))
 
-
-const value = ref()
-
-const data = [
-  {
-    value: '1',
-    label: 'Level one 1',
-    children: [
-      {
-        value: '1-1',
-        label: 'Level two 1-1',
-        children: [
-          {
-            value: '1-1-1',
-            label: 'Level three 1-1-1',
-          },
-        ],
-      },
-    ],
-  },
-  {
-    value: '2',
-    label: 'Level one 2',
-    children: [
-      {
-        value: '2-1',
-        label: 'Level two 2-1',
-        children: [
-          {
-            value: '2-1-1',
-            label: 'Level three 2-1-1',
-          },
-        ],
-      },
-      {
-        value: '2-2',
-        label: 'Level two 2-2',
-        children: [
-          {
-            value: '2-2-1',
-            label: 'Level three 2-2-1',
-          },
-        ],
-      },
-    ],
-  },
-  {
-    value: '3',
-    label: 'Level one 3',
-    children: [
-      {
-        value: '3-1',
-        label: 'Level two 3-1',
-        children: [
-          {
-            value: '3-1-1',
-            label: 'Level three 3-1-1',
-          },
-        ],
-      },
-      {
-        value: '3-2',
-        label: 'Level two 3-2',
-        children: [
-          {
-            value: '3-2-1',
-            label: 'Level three 3-2-1',
-          },
-        ],
-      },
-    ],
-  },
-]
 
 import { Search } from '@element-plus/icons-vue'
 const input3 = ref('')

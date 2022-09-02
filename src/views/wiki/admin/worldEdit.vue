@@ -107,8 +107,7 @@
 <script lang="ts" setup>
 import {getCurrentInstance, inject, reactive, ref, toRefs} from 'vue'
 import { Menu as IconMenu, Message, Setting } from '@element-plus/icons-vue'
-import { useRoute }  from "vue-router";  // 引用vue-router
-import { useRouter} from "vue-router";
+import { useRoute,useRouter }  from "vue-router";  // 引用vue-router
 import {  updateWorld,getWorld } from "@/api/admin/world";
 import {ElMessage, FormInstance, UploadProps} from "element-plus";
 const {  appContext : { config: { globalProperties } }  } = getCurrentInstance();
@@ -171,6 +170,7 @@ function handleWorld(id:number) {
     console.log("查询世界详细:"+JSON.stringify(response))
     form.value = response.data;
     imageUrl.value=baseUrl+response.data.imgUrl;
+    imageUrlPath.value=response.data.imgUrl;
     // form.value.imgUrl='https://fuss10.elemecdn.com/e/5d/4a731a90594a4af544c0c25941171jpeg.jpeg'
     console.log("查询世界详细:"+JSON.stringify(world.value))
   });
@@ -184,7 +184,7 @@ const submitForm = async (formEl: FormInstance | undefined) => {
         form.value.imgUrl=imageUrlPath.value
         updateWorld(form.value).then(response => {
           globalProperties.$modal.msgSuccess("修改成功");
-          router.push("/world/worldInfo?wid="+wid.value);
+          router.push("/admin/worldInfo?wid="+wid.value);
         });
       }else {
         globalProperties.$modal.msgError("非法操作");

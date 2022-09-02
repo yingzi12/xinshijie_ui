@@ -38,7 +38,7 @@
             </el-col >
             <el-col :span="4"  style="text-align: right;">
               <div style="text-align: right; font-size: 12px" class="toolbar">
-                <el-button text @click>返回</el-button>
+                <el-button text @click="handleAudit">返回</el-button>
               </div>
             </el-col>
           </el-row>
@@ -66,9 +66,6 @@
               <el-table-column prop="auditNumber" label="审核人" />
               <el-table-column prop="auditContent" label="审核理由" />
               <el-table-column fixed="right" label="Operations" width="220">
-                <template  #header>
-                  <el-button text>查看历史记录</el-button>
-                </template>
                 <template #default="scope">
                   <el-button link type="primary" size="small" @click="handleSee(scope.row)">详细</el-button>
                   <el-button link type="primary" size="small" @click="handleDiff(scope.row)">差异</el-button>
@@ -196,6 +193,9 @@ function handleAuditDetial(row){
 }
 function handleSee(row){
   router.push("/admin/draftPreview?wid="+row.wid+"&deid="+row.id);
+}
+function handleAudit(row){
+  router.push("/admin/worldAudit?wid="+row.wid+"&wname="+wname.value);
 }
 function handleDiff(row){
   router.push("/admin/diffPreview?wid="+row.wid+"&deid="+row.id);
