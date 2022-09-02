@@ -79,10 +79,10 @@
               <el-form-item label="类 型" prop="types">
                 <el-select v-model="form.types" placeholder="请选择世界类型">
                   <el-option
-                      v-for="item in categoryList"
-                      :key="item.value"
-                      :label="item.label"
-                      :value="item.value"
+                      v-for="item in worldTypes"
+                      :key="item.id"
+                      :label="item.name"
+                      :value="item.id"
                   />
                 </el-select>
               </el-form-item>
@@ -109,8 +109,7 @@ import {getCurrentInstance, inject, reactive, ref, toRefs} from 'vue'
 import { Menu as IconMenu, Message, Setting } from '@element-plus/icons-vue'
 import { useRoute }  from "vue-router";  // 引用vue-router
 import { useRouter} from "vue-router";
-import {  updateWorld } from "@/api/admin/world";
-import {  getWorld } from "@/api/wiki/world";
+import {  updateWorld,getWorld } from "@/api/admin/world";
 import {ElMessage, FormInstance, UploadProps} from "element-plus";
 const {  appContext : { config: { globalProperties } }  } = getCurrentInstance();
 const {  proxy  } = getCurrentInstance();
@@ -133,20 +132,15 @@ const imageUrlPath = ref('')
 const formSize = ref('default')
 const ruleFormRef = ref<FormInstance>()
 const activeIndex = ref('1')
-const categoryList = [
-  {
-    value: 0,
-    label: '科幻',
-  },
-  {
-    value: 1,
-    label: '魔法',
-  },
-  {
-    value: 2,
-    label: '其他',
-  }
-]
+const worldTypes=reactive([{id:0,name:"科学"},{id:1,name:"武侠"},{id:2,name:"仙侠"},{id:3,name:"魔幻"},{id:4,name:"奇幻"},{id:5,name:"其他"}])
+const worldTypesMap=new Map([
+  [0,"科学"],
+  [1,"武侠"],
+  [2,"仙侠"],
+  [3,"魔幻"],
+  [4,"奇幻"],
+  [5,"其他"],
+])
 const data = reactive({
   form: {
   },

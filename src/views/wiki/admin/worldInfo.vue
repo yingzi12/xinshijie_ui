@@ -80,13 +80,10 @@
 <script lang="ts" setup>
 import {inject, ref} from 'vue'
 import {Flag, Edit,Menu as IconMenu, Message, Setting} from '@element-plus/icons-vue'
-
-
 import type { TabsPaneContext } from 'element-plus'
-import {  getWorld } from "@/api/wiki/world";
+import {  getWorld } from "@/api/admin/world";
 //接受参数
-import { useRoute }  from "vue-router";  // 引用vue-router
-import { useRouter} from "vue-router";
+import { useRoute,useRouter }  from "vue-router";  // 引用vue-router
 const router = useRouter()
 // 接收url里的参数
 const route = useRoute();

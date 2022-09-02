@@ -32,11 +32,12 @@
         </el-form-item>
         <el-form-item label="分 类" prop="types">
           <el-select v-model="ruleForm.types" placeholder="分类">
-            <el-option label="科幻" value="0" />
-            <el-option label="魔法" value="1" />
-            <el-option label="武侠" value="2" />
-            <el-option label="修真" value="3" />
-            <el-option label="其他" value="4" />
+            <el-option
+                v-for="item in worldTypes"
+                :key="item.id"
+                :label="item.name"
+                :value="item.id"
+            />
           </el-select>
         </el-form-item>
 
@@ -94,6 +95,7 @@ const data = reactive({
 
 const {  ruleForm, rules } = toRefs(data);
 
+const worldTypes=reactive([{id:0,name:"科学"},{id:1,name:"武侠"},{id:2,name:"仙侠"},{id:3,name:"魔幻"},{id:4,name:"奇幻"},{id:5,name:"其他"}])
 
 const submitForm = async (formEl: FormInstance | undefined) => {
   if (!formEl) return

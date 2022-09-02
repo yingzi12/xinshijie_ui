@@ -50,3 +50,10 @@ export function updateImageUrl(data) {
     data: data
   })
 }
+// 查询世界详细
+export function getWorld(id) {
+  return request({
+    url: '/admin/world/getInfo/' + id,
+    method: 'get'
+  })
+}

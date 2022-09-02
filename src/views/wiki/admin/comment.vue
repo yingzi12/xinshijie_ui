@@ -89,7 +89,6 @@ import { Menu as IconMenu,CirclePlus, Message, Setting } from '@element-plus/ico
 import { Search } from '@element-plus/icons-vue'
 import { getCurrentInstance, reactive, ref, toRefs} from 'vue'
 import { listComment} from "@/api/wiki/comment";
-import {  getWorld } from "@/api/wiki/world";
 import useUserStore from '@/store/modules/user'
 
 

@@ -118,7 +118,7 @@ import {ElMessage, ElTree, FormInstance} from "element-plus";
 import  Editor  from 'ckeditor5-custom-build/build/ckeditor';
 import {  getDraftDetails,updateDraft } from "@/api/admin/draftElement";
 import { getTree} from "@/api/wiki/category";
-import { getWorld} from "@/api/wiki/world";
+import { getWorld} from "@/api/admin/world";
 
 //接受参数
 import { useRoute ,useRouter}  from "vue-router";  // 引用vue-router
@@ -243,13 +243,13 @@ function getList() {
     console.log("树:"+JSON.stringify( dataStree.value))
   });
 }
-/** 查询世界列表 */
-function handWorld() {
-  getWorld(wid.value).then(response => {
-    world.value = response.data
-    console.log("树:"+JSON.stringify( dataStree.value))
-  });
-}
+// /** 查询世界列表 */
+// function handWorld() {
+//   getWorld(wid.value).then(response => {
+//     world.value = response.data
+//     console.log("树:"+JSON.stringify( dataStree.value))
+//   });
+// }
 
 function  show(val){
 //let that = this ,将this保存在that中，再在函数中使用that均可

@@ -115,7 +115,7 @@ import {ElTree, FormInstance, ElInput, ElMessage} from "element-plus";
 import  Editor  from 'ckeditor5-custom-build/build/ckeditor';
 import { getTree} from "@/api/wiki/category";
 import { addElement} from "@/api/admin/element";
-import { getWorld} from "@/api/wiki/world";
+import { getWorld} from "@/api/admin/world";
 import {useRoute, useRouter} from "vue-router";
 
 // 接收url里的参数
