@@ -2,7 +2,7 @@
   <div class="app-container">
     <div>
       <el-breadcrumb separator="/">
-        <el-breadcrumb-item :to="{ path: '/' }">首页</el-breadcrumb-item>
+        <el-breadcrumb-item :to="{ path: '/wiki/index' }">首页</el-breadcrumb-item>
         <el-breadcrumb-item>世界列表</el-breadcrumb-item>
       </el-breadcrumb>
     </div>

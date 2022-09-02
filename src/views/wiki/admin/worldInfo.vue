@@ -18,14 +18,14 @@
         <!--        多选-->
         <div style="padding: 10px">
           <el-space wrap>
-            <el-button text type="primary"> <router-link :to="{path:'/admin/worldInfo', query: {wid:wid}}">简介</router-link></el-button>
-            <el-button text>  <router-link :to="{path:'/admin/worldManage', query: {wid:wid}}">造物主列表</router-link></el-button>
-            <el-button text>  <router-link :to="{path:'/admin/worldElement', query: {wid:wid}}">元素列表</router-link></el-button>
-            <el-button text>  <router-link :to="{path:'/admin/worldCategory', query: {wid:wid}}">分类管理</router-link></el-button>
-            <el-button text>  <router-link :to="{path:'/admin/worldAudit', query: {wid:wid}}">元素审核</router-link></el-button>
-            <el-button text>  <router-link :to="{path:'/admin/worldRedident', query: {wid:wid}}">居民管理</router-link></el-button>
-            <el-button text>  <router-link :to="{path:'/admin/worldComment', query: {wid:wid}}">评论管理</router-link></el-button>
-            <el-button text>  <router-link :to="{path:'/admin/worldDiscuss', query: {wid:wid}}">讨论管理</router-link></el-button>
+            <el-button text type="primary"> <router-link :to="{path:'/admin/worldInfo', query: {wid:wid,wname:world.name}}">简介</router-link></el-button>
+            <el-button text>  <router-link :to="{path:'/admin/worldManage', query: {wid:wid,wname:world.name}}">造物主列表</router-link></el-button>
+            <el-button text>  <router-link :to="{path:'/admin/worldElement', query: {wid:wid,wname:world.name}}">元素列表</router-link></el-button>
+            <el-button text>  <router-link :to="{path:'/admin/worldCategory', query: {wid:wid,wname:world.name}}">分类管理</router-link></el-button>
+            <el-button text>  <router-link :to="{path:'/admin/worldAudit', query: {wid:wid,wname:world.name}}">元素审核</router-link></el-button>
+            <el-button text>  <router-link :to="{path:'/admin/worldRedident', query: {wid:wid,wname:world.name}}">居民管理</router-link></el-button>
+            <el-button text>  <router-link :to="{path:'/admin/worldComment', query: {wid:wid,wname:world.name}}">评论管理</router-link></el-button>
+            <el-button text>  <router-link :to="{path:'/admin/worldDiscuss', query: {wid:wid,wname:world.name}}">讨论管理</router-link></el-button>
           </el-space>
         </div>
         <!--   内容区-->
@@ -112,7 +112,7 @@ function handleEdit(){
   router.push("/admin/worldEdit?wid="+world.value.id);
 }
 /** 查询世界详细 */
-function getWorld2(id:number) {
+function handleWorld(id:number) {
   getWorld(id).then(response => {
     console.log("查询世界详细:"+JSON.stringify(response))
     world.value = response.data
@@ -125,7 +125,7 @@ function getWorld2(id:number) {
 function format(percentage){
   return percentage === 100 ? '100' : `7000/10000`;
 }
-getWorld2(world.value.id);
+handleWorld(world.value.id);
 </script>
 
 <style scoped>

@@ -99,6 +99,7 @@ import { reactive, ref } from 'vue'
 import { FormInstance} from "element-plus";
 import { useRoute} from "vue-router";
 import { getElementDetails } from "@/api/wiki/element";
+import {  getWorld } from "@/api/wiki/world";
 
 // 接收url里的参数
 const route = useRoute();

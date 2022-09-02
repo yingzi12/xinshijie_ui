@@ -3,10 +3,9 @@
   <div class="app-container">
     <div>
       <el-breadcrumb separator="/">
-        <el-breadcrumb-item :to="{ path: '/' }">homepage</el-breadcrumb-item>
-        <el-breadcrumb-item
-        ><a href="/">promotion management</a></el-breadcrumb-item
-        >
+        <el-breadcrumb-item :to="{ path: '/world/index' }">首页</el-breadcrumb-item>
+        <el-breadcrumb-item><a href="/world/list">世界树</a></el-breadcrumb-item>
+        <el-breadcrumb-item :to="{ path: '/world/details', query: {wid:wid} }">{{world.name}}</el-breadcrumb-item>
         <el-breadcrumb-item>promotion list</el-breadcrumb-item>
         <el-breadcrumb-item>promotion detail</el-breadcrumb-item>
       </el-breadcrumb>

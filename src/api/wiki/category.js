@@ -17,6 +17,13 @@ export function getCategory(id) {
   })
 }
 
+export function countCategory(wid) {
+  return request({
+    url: '/wiki/category/count/' + wid,
+    method: 'get'
+  })
+}
+
 export function getTree(wid) {
   return request({
     url: '/wiki/category/getTree?wid=' + wid,

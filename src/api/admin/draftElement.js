@@ -44,14 +44,14 @@ export function updateDraft(data) {
 //发布元素
 export function updatePush(wid,eid) {
   return request({
-    url: '/admin/draftElement/updatePush?wid=' + wid+'&eid='+eid,
+    url: '/admin/draftElement/issue?wid=' + wid+'&deid='+eid,
     method: 'get',
   })
 }
 // 删除元素
-export function delDraft(wid,eid) {
+export function delDraft(wid,deid) {
   return request({
-    url: '/admin/draftElement/remove?wid=' + wid+'&eid='+eid,
+    url: '/admin/draftElement/remove?wid=' + wid+'&deid='+deid,
     method: 'delete'
   })
 }
@@ -70,5 +70,13 @@ export function getDraftDetailsAdmin(wid,eid) {
   return request({
     url: '/admin/draftElement/getInfoAdmin?wid=' + wid+'&eid='+eid,
     method: 'get'
+  })
+}
+// 审核元素
+export function auditDraft(data) {
+  return request({
+    url: '/admin/draftElement/audit',
+    method: 'post',
+    data: data
   })
 }

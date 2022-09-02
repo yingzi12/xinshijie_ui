@@ -7,9 +7,8 @@
       <el-main>
         <div>
           <el-menu
-              :default-active="activeIndex"
+              :default-active="1"
               mode="horizontal"
-              @select="handleSelect"
               style="margin:0px;pardding:0px"
           >
             <el-menu-item index="1">关注的世界</el-menu-item>
@@ -17,14 +16,14 @@
           </el-menu>
         </div>
         <!--        分类选择-->
-        <div style="padding: 10px">
-          <el-space wrap>
-            <el-button text @click="findType(null)">全部</el-button>
-            <div v-for="types in worldTypes" :key="i">
-              <el-button text @click="findType(types.id)">{{types.name }} </el-button>
-            </div>
-          </el-space>
-        </div>
+<!--        <div style="padding: 10px">-->
+<!--          <el-space wrap>-->
+<!--            <el-button text @click="findType(null)">全部</el-button>-->
+<!--            <div v-for="types in worldTypes" :key="i">-->
+<!--              <el-button text @click="findType(types.id)">{{types.name }} </el-button>-->
+<!--            </div>-->
+<!--          </el-space>-->
+<!--        </div>-->
         <!--        统计-->
         <div style="background-color:#b0c4de;margin: auto;padding: 10px">
           <el-row>
@@ -51,22 +50,26 @@
         <!--        表格-->
         <div>
           <el-scrollbar>
-            <el-table :data="tableData">
+            <el-table :data="fllowList">
               <el-table-column label="序号" width="50"  >
                 <template #default="scope">
                   {{scope.$index+1}}
                 </template>
               </el-table-column>
-              <el-table-column prop="name" label="名称"  />
-              <el-table-column prop="typesName" label="类别" />
-              <el-table-column prop="rank" label="贡献等级" />
+              <el-table-column prop="wname" label="名称"  />
+              <el-table-column label="类别" align="center"  >
+                <template #default="scope">
+                  <span>{{worldTypesMap.get(scope.row.types)}}</span>
+                </template>
+              </el-table-column>
+              <el-table-column prop="ranks" label="等级" />
               <el-table-column prop="intro" label="简介" />
-              <el-table-column prop="updateTime" label="更新时间" />
-              <el-table-column prop="updateElement" label="更新元素" />
+              <el-table-column prop="updateNewElementTime" label="更新时间" />
+              <el-table-column prop="updateNewElement" label="更新元素" />
               <el-table-column prop="createTime" label="关注时间" />
               <el-table-column fixed="right" label="Operations" width="220">
-                <template #default>
-                  <el-button link type="primary" size="small" @click="handleClick">取消关注</el-button>
+                <template #default="scope">
+                  <el-button link type="primary" size="small" @click="handleClick(scope.row)">取消关注</el-button>
                 </template>
               </el-table-column>
             </el-table>
@@ -82,23 +85,52 @@
 </template>
 
 <script lang="ts" setup>
-import {reactive, ref} from 'vue'
+import {getCurrentInstance, reactive, ref, toRefs} from 'vue'
 import { Menu as IconMenu, Message, Setting } from '@element-plus/icons-vue'
-const fits = ['世界', '粉丝', '关注']
-const activeIndex = ref('1')
+import { listFllow,fllowClose } from "@/api/admin/fllow";
+import {ElMessage} from "element-plus";
+const total = ref(0);
+const data = reactive({
+  form: {},
+  queryParams: {
+    pageNum: 1,
+    pageSize: 10,
+    name: undefined,
+    types: undefined,
+  },
+  rules: {
+    // userName: [{ required: true, message: "用户名称不能为空", trigger: "blur" }, { min: 2, max: 20, message: "用户名称长度必须介于 2 和 20 之间", trigger: "blur" }],
+  }
+});
+const {  appContext : { config: { globalProperties } }  } = getCurrentInstance();
 const worldTypes=reactive([{id:0,name:"科学"},{id:1,name:"武侠"},{id:2,name:"仙侠"},{id:3,name:"魔幻"},{id:4,name:"奇幻"},{id:5,name:"其他"}])
+const worldTypesMap=new Map([
+    [0,"科学"],
+    [1,"武侠"],
+    [2,"仙侠"],
+    [3,"魔幻"],
+    [4,"奇幻"],
+    [5,"其他"],
+])
 
-const item = {
-  id: '2016-05-02',
-  name: 'Tom',
-  rank:111,
-  typesName:"科幻",
-  intro:"这是一个简介，肯定太长了。肯定太长了",
-  createTime:"2016-05-02 11:32:11",
-  updateTime:"2016-05-02 11:32:11",
-  updateElement:"世界树",
+
+const { queryParams, form, rules } = toRefs(data);
+const dateRange = ref([]);
+const fllowList = ref([]);
+function handleClick(row){
+  fllowClose(row.wid).then(response => {
+    ElMessage.success("取消成功");
+    getList();
+  });
 }
-const tableData = ref(Array.from({ length: 20 }).fill(item))
+/** 查询世界列表 */
+function getList() {
+  listFllow(globalProperties.addDateRange(queryParams.value, dateRange.value)).then(response => {
+    fllowList.value = response.rows;
+    total.value = response.total;
+  });
+}
+getList();
 </script>
 
 <style scoped>

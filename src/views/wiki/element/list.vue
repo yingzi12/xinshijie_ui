@@ -4,11 +4,9 @@
       <el-row >
         <el-col :span="21">
           <el-breadcrumb separator="/">
-            <el-breadcrumb-item :to="{ path: '/' }">首页</el-breadcrumb-item>
-            <el-breadcrumb-item :to="{ path: '/' }"
-            ><a href="/public">世界列表</a></el-breadcrumb-item
-            >
-            <el-breadcrumb-item>{{wname}}</el-breadcrumb-item>
+            <el-breadcrumb-item :to="{ path: '/world/index' }">首页</el-breadcrumb-item>
+            <el-breadcrumb-item><a href="/world/list">世界树</a></el-breadcrumb-item>
+            <el-breadcrumb-item :to="{ path: '/world/details', query: {wid:wid} }">{{wname}}</el-breadcrumb-item>
             <el-breadcrumb-item>元素列表</el-breadcrumb-item>
           </el-breadcrumb>
         </el-col>
@@ -130,8 +128,11 @@ function handleAdd(){
 function handFind(){
   queryParams.value.wid=wid.value;
   queryParams.value.title=title.value;
+  console.log("分类查询:"+JSON.stringify(categoryValue.value))
   if(categoryValue.value != null && categoryValue.value != '' && categoryValue.value != undefined){
     queryParams.value.types=categoryValue.value.split("$$")[0];
+  }else{
+    queryParams.value.types=null
   }
   listElement(globalProperties.addDateRange(queryParams.value, dateRange.value)).then(response => {
     // loading.value = false;

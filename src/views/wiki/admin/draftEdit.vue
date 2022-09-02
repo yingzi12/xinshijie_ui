@@ -165,7 +165,13 @@ const editorConfig ={
     uploadUrl: uploadImgUrl.value,
   },
 }
-
+const elementStatus = new Map([
+  [0, "草稿"],
+  [1, "发布"],
+  [3, "审核不通过"],
+  [2, "通过审核"],
+  [4, "删除"]
+]);
 //章节模块
 const formRef = ref<FormInstance>()
 

@@ -4,7 +4,7 @@
     <div>
       <div>
         <el-breadcrumb separator="/">
-          <el-breadcrumb-item :to="{ path: '/' }">首页</el-breadcrumb-item>
+          <el-breadcrumb-item :to="{ path: '/world/index' }">首页</el-breadcrumb-item>
           <el-breadcrumb-item><a href="/world/list">世界树</a></el-breadcrumb-item>
           <el-breadcrumb-item :to="{ path: '/world/details', query: {wid:wid} }">{{world.name}}</el-breadcrumb-item>
           <el-breadcrumb-item>详细</el-breadcrumb-item>
@@ -147,6 +147,7 @@ import type { TabsPaneContext } from 'element-plus'
 import {  getWorld } from "@/api/wiki/world";
 import {  listComment } from "@/api/wiki/comment";
 import { addComment} from "@/api/admin/comment";
+import { fllow} from "@/api/admin/fllow";
 import {  getWorldManage } from "@/api/wiki/manage";
 import { listElement } from "@/api/wiki/element";
 import useUserStore from '@/store/modules/user'
@@ -189,6 +190,12 @@ const imageUrl=ref('')
 
 function handElement(){
   router.push("/element/list?wid="+world.value.id);
+}
+
+function handleFllow(){
+  fllow(wid.value).then(response => {
+    ElMessage.success("关注成功");
+  })
 }
 /** 查询世界详细 */
 function handWorld(id:number) {

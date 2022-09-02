@@ -122,10 +122,11 @@ class World {
   createTime:string
 }
 const elementStatus = new Map([
-  [0, "正常"],
-  [1, "待发布"],
-  [2, "锁定"],
-  [3, "删除"]
+  [0, "草稿"],
+  [1, "发布"],
+  [3, "审核不通过"],
+  [2, "通过审核"],
+  [4, "删除"]
 ]);
 
 const loading = ref(true);
@@ -138,7 +139,7 @@ const data = reactive({
     pageSize: 10,
     name: undefined,
     types: undefined,
-    // wid:wid.value
+    status:0,
   },
   rules: {
     // userName: [{ required: true, message: "用户名称不能为空", trigger: "blur" }, { min: 2, max: 20, message: "用户名称长度必须介于 2 和 20 之间", trigger: "blur" }],

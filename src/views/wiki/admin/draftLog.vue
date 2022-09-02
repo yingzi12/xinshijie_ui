@@ -7,26 +7,12 @@
       <el-main>
         <div>
           <el-menu
-              :default-active="activeIndex"
+              :default-active="1"
               mode="horizontal"
-              @select="handleSelect"
               style="margin:0px;pardding:0px"
           >
-            <el-menu-item index="1">帝国崛起</el-menu-item>
+            <el-menu-item index="1">元素所有记录</el-menu-item>
           </el-menu>
-        </div>
-        <!--        多选-->
-        <div style="padding: 10px">
-          <el-space wrap>
-            <el-button text > <router-link :to="{path:'/admin/worldInfo', query: {wid:wid}}">简介</router-link></el-button>
-            <el-button text>  <router-link :to="{path:'/admin/worldManage', query: {wid:wid}}">造物主列表</router-link></el-button>
-            <el-button text type="primary">  <router-link :to="{path:'/admin/worldElement', query: {wid:wid}}">元素列表</router-link></el-button>
-            <el-button text>  <router-link :to="{path:'/admin/worldCategory', query: {wid:wid}}">分类管理</router-link></el-button>
-            <el-button text>  <router-link :to="{path:'/admin/worldAudit', query: {wid:wid}}">元素审核</router-link></el-button>
-            <el-button text>  <router-link :to="{path:'/admin/worldRedident', query: {wid:wid}}">居民管理</router-link></el-button>
-            <el-button text>  <router-link :to="{path:'/admin/worldComment', query: {wid:wid}}">评论管理</router-link></el-button>
-            <el-button text>  <router-link :to="{path:'/admin/worldDiscuss', query: {wid:wid}}">讨论管理</router-link></el-button>
-          </el-space>
         </div>
         <!--        统计-->
         <div style="background-color:#b0c4de;margin: auto;padding: 10px">
@@ -37,7 +23,7 @@
             </el-col>
             <el-col :span="4" style="text-align: right;">
               <div style="text-align: right; font-size: 12px" class="toolbar">
-                <el-button text @click="">返回</el-button>
+                <el-button text @click="handleDraft">返回</el-button>
               </div>
             </el-col>
           </el-row>
@@ -103,10 +89,11 @@ import { Menu as IconMenu, Message, Setting ,Search} from '@element-plus/icons-v
 const fits = ['世界', '粉丝', '关注']
 const activeIndex = ref('1')
 const elementStatus = new Map([
-  [0, "正常"],
-  [1, "待发布"],
-  [2, "锁定"],
-  [3, "删除"]
+  [0, "草稿"],
+  [1, "待审核"],
+  [3, "审核不通过"],
+  [2, "通过审核"],
+  [4, "删除"]
 ]);
 // 接收url里的参数
 const route = useRoute();
@@ -147,6 +134,9 @@ const single = ref(true);
 const multiple = ref(true);
 const search = ref('')
 
+function handleDraft(){
+  router.push("/admin/draft");
+}
 function handleSee(row){
   router.push("/element/preview?eid="+row.id);
 }

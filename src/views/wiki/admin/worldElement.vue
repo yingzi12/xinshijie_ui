@@ -5,27 +5,27 @@
     <el-container style="margin: 10px">
       <!--       内容区-->
       <el-main>
+        <!--        标题-->
         <div>
           <el-menu
-              :default-active="activeIndex"
+              :default-active="1"
               mode="horizontal"
-              @select="handleSelect"
               style="margin:0px;pardding:0px"
           >
-            <el-menu-item index="1">帝国崛起</el-menu-item>
+            <el-menu-item index="1">{{wname}}</el-menu-item>
           </el-menu>
         </div>
         <!--        多选-->
         <div style="padding: 10px">
           <el-space wrap>
-            <el-button text > <router-link :to="{path:'/admin/worldInfo', query: {wid:wid}}">简介</router-link></el-button>
-            <el-button text>  <router-link :to="{path:'/admin/worldManage', query: {wid:wid}}">造物主列表</router-link></el-button>
-            <el-button text type="primary">  <router-link :to="{path:'/admin/worldElement', query: {wid:wid}}">元素列表</router-link></el-button>
-            <el-button text>  <router-link :to="{path:'/admin/worldCategory', query: {wid:wid}}">分类管理</router-link></el-button>
-            <el-button text>  <router-link :to="{path:'/admin/worldAudit', query: {wid:wid}}">元素审核</router-link></el-button>
-            <el-button text>  <router-link :to="{path:'/admin/worldRedident', query: {wid:wid}}">居民管理</router-link></el-button>
-            <el-button text>  <router-link :to="{path:'/admin/worldComment', query: {wid:wid}}">评论管理</router-link></el-button>
-            <el-button text>  <router-link :to="{path:'/admin/worldDiscuss', query: {wid:wid}}">讨论管理</router-link></el-button>
+            <el-button text > <router-link :to="{path:'/admin/worldInfo', query: {wid:wid,wname:wname}}">简介</router-link></el-button>
+            <el-button text>  <router-link :to="{path:'/admin/worldManage', query: {wid:wid,wname:wname}}">造物主列表</router-link></el-button>
+            <el-button text type="primary">  <router-link :to="{path:'/admin/worldElement', query: {wid:wid,wname:wname}}">元素列表</router-link></el-button>
+            <el-button text>  <router-link :to="{path:'/admin/worldCategory', query: {wid:wid,wname:wname}}">分类管理</router-link></el-button>
+            <el-button text>  <router-link :to="{path:'/admin/worldAudit', query: {wid:wid,wname:wname}}">元素审核</router-link></el-button>
+            <el-button text>  <router-link :to="{path:'/admin/worldRedident', query: {wid:wid,wname:wname}}">居民管理</router-link></el-button>
+            <el-button text>  <router-link :to="{path:'/admin/worldComment', query: {wid:wid,wname:wname}}">评论管理</router-link></el-button>
+            <el-button text>  <router-link :to="{path:'/admin/worldDiscuss', query: {wid:wid,wname:wname}}">讨论管理</router-link></el-button>
           </el-space>
         </div>
         <!--        统计-->
@@ -38,7 +38,7 @@
             </el-col>
             <el-col :span="4" style="text-align: right;">
               <div style="text-align: right; font-size: 12px" class="toolbar">
-                <el-button text @click="dialogFormVisible = true">创建元素</el-button>
+                <el-button text @click="handleElementAdd">创建元素</el-button>
               </div>
             </el-col>
           </el-row>
@@ -127,7 +127,7 @@
 <script lang="ts" setup>
 import { getCurrentInstance, reactive, ref, toRefs} from 'vue'
 import {  listElement,delElement } from "@/api/admin/element";
-import { getTree} from "@/api/wiki/category";
+import { getTree,countCategory} from "@/api/wiki/category";
 import {useRoute, useRouter} from "vue-router";
 import { Menu as IconMenu, Message, Setting } from '@element-plus/icons-vue'
 const fits = ['世界', '粉丝', '关注']
@@ -138,6 +138,8 @@ const route = useRoute();
 const router = useRouter()
 const wid = ref(null);
 wid.value = route.query.wid;
+const wname = ref('');
+wname.value = <string>route.query.wname;
 console.log("世界id="+wid.value);
 const {  appContext : { config: { globalProperties } }  } = getCurrentInstance();
 const {  proxy  } = getCurrentInstance();
@@ -174,6 +176,16 @@ const multiple = ref(true);
 const search = ref('')
 function handleUpdate (row)  {
   router.push("/admin/elementEdit?id="+row.id);
+}
+function handleElementAdd ()  {
+  countCategory(wid.value).then(response => {
+    var count = response.data
+    if (count==0) {
+      ElMessage.error("请先创建分类")
+    }else {
+      router.push("/admin/elementAdd?wid=" + wid.value);
+    }
+  })
 }
 function handleDelete ( row){
   globalProperties.$modal.confirm('是否确认删除世界名称为"' + row.title + '"的数据？').then(function () {
@@ -223,6 +235,7 @@ getList();
 const value = ref()
 
 import {Search} from '@element-plus/icons-vue'
+import {ElMessage} from "element-plus";
 
 const input3 = ref('')
 const dialogFormVisible = ref(false)

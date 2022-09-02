@@ -1,6 +1,5 @@
 <template>
   <el-container class="layout-container-demo" >
-    <!--    侧边栏-->
     <!--    表格-->
     <el-container style="margin: 10px">
       <!--       内容区-->

@@ -268,6 +268,12 @@ export const constantRoutes = [
         meta: { title: '审核', icon: 'wiki' }
       },
       {
+        path: 'auditLog',
+        component: () => import('@/views/wiki/admin/auditLog'),
+        name: 'auditLog',
+        meta: { title: '审核历史', icon: 'wiki' }
+      },
+      {
         path: 'draft',
         component: () => import('@/views/wiki/admin/draft'),
         name: 'draft',
@@ -277,6 +283,12 @@ export const constantRoutes = [
         path: 'draftEdit',
         component: () => import('@/views/wiki/admin/draftEdit'),
         name: 'draftEdit',
+        meta: { title: '元素草稿', icon: 'wiki' }
+      },
+      {
+        path: 'draftLog',
+        component: () => import('@/views/wiki/admin/draftLog'),
+        name: 'draftLog',
         meta: { title: '元素草稿', icon: 'wiki' }
       },
       {

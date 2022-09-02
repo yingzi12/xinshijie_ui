@@ -50,17 +50,17 @@
         <!--        表格-->
         <div>
           <el-scrollbar>
-            <el-table :data="commentList">
-              <el-table-column label="序号" >
+            <el-table :data="commentList" >
+              <el-table-column label="序号" width="50" >
                 <template #default="scope">
                   {{scope.$index+1}}
                 </template>
               </el-table-column>
-              <el-table-column prop="createTime" label="创建时间" width="140" />
-              <el-table-column prop="wname" label="世界" />
-              <el-table-column prop="comment" label="内容" />
-              <el-table-column prop="reply" label="回复" />
-              <el-table-column fixed="right" label="Operations" width="220">
+              <el-table-column prop="createTime" label="创建时间" width="120" :show-overflow-tooltip="true"/>
+              <el-table-column prop="wname" label="世界" width="80"/>
+              <el-table-column prop="comment" label="内容"  :show-overflow-tooltip="true"/>
+              <el-table-column prop="reply" label="回复"  :show-overflow-tooltip="true" />
+              <el-table-column fixed="right" label="操作" width="80">
                 <template #default>
                   <!--                  <el-button link type="primary" size="small" @click="dialogFormVisible = true">查看</el-button>-->
                   <el-button link type="primary" size="small">删除</el-button>
@@ -71,7 +71,12 @@
         </div>
         <!--        分页-->
         <div style="float:right; ">
-          <el-pagination  layout="prev, pager, next" :total="50" />
+          <pagination
+              v-show="total > 0"
+              :total="total"
+              v-model:page="queryParams.pageNum"
+              v-model:limit="queryParams.pageSize"
+              @pagination="getList"/>
         </div>
       </el-main>
     </el-container>

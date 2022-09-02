@@ -26,17 +26,7 @@
             </el-col >
             <el-col :span="4"  style="text-align: right;">
               <div style="text-align: right; font-size: 12px" class="toolbar">
-                <el-dropdown>
-                  <el-icon style="margin-right: 8px; margin-top: 1px"><setting/></el-icon>
-                  <template #dropdown>
-                    <el-dropdown-menu>
-                      <el-dropdown-item>View</el-dropdown-item>
-                      <el-dropdown-item>Add</el-dropdown-item>
-                      <el-dropdown-item>Delete</el-dropdown-item>
-                    </el-dropdown-menu>
-                  </template>
-                </el-dropdown>
-                <span>Tom</span>
+                <el-button text @click="handleAudit">返回</el-button>
               </div>
             </el-col>
           </el-row>
@@ -51,19 +41,19 @@
                 </template>
               </el-table-column>
               <el-table-column prop="title" label="元素名称" width="140" />
-              <el-table-column prop="status" label="状态" />
+              <el-table-column label="状态" align="center"  >
+                <template #default="scope">
+                  <span>{{elementStatus.get(scope.row.status)}}</span>
+                </template>
+              </el-table-column>
               <el-table-column prop="createTime" label="修改时间" />
               <el-table-column prop="causeNumber" label="修改原因" />
               <el-table-column prop="causeContent" label="修改说明" />
               <el-table-column prop="createName" label="修改人" />
               <el-table-column fixed="right" label="Operations" width="220">
-                <template  #header>
-                  <el-button text>查看历史记录</el-button>
-                </template>
                 <template #default="scope">
                   <el-button link type="primary" size="small" @click="handleSee(scope.row)">详细</el-button>
                   <el-button link type="primary" size="small" @click="handleDiff(scope.row)">差异</el-button>
-                  <el-button link type="primary" size="small" @click="handleAudit(scope.row)">审核</el-button>
                 </template>
               </el-table-column>
             </el-table>
@@ -111,7 +101,13 @@ import { Menu as IconMenu,CirclePlus, Message, Setting } from '@element-plus/ico
 import { listDraft } from "@/api/admin/draftElement";
 import { getTree} from "@/api/wiki/category";
 const router = useRouter()
-
+const elementStatus = new Map([
+  [0, "草稿"],
+  [1, "发布"],
+  [3, "审核不通过"],
+  [2, "通过审核"],
+  [4, "删除"]
+]);
 // 接收url里的参数
 const route = useRoute();
 console.log(route.query.wid,"参数");
@@ -141,7 +137,7 @@ const data = reactive({
   queryParams: {
     pageNum: 1,
     pageSize: 10,
-    auditStatus:0,
+    auditStatus:1,
     name: undefined,
     types: undefined,
   },
@@ -166,7 +162,7 @@ function getList() {
 //   });
 // }
 function handleAudit(row){
-  dialogFormVisible.value=true;
+  router.push("/admin/audit");
 }
 function handleSee(row){
   router.push("/admin/draftPreview?wid="+row.wid+"&deid="+row.id);

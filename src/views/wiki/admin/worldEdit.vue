@@ -5,18 +5,16 @@
     <el-container style="margin: 10px">
       <!--       内容区-->
       <el-main>
+        <!--        标题-->
         <div>
           <el-menu
-              :default-active="activeIndex"
+              :default-active="1"
               mode="horizontal"
-              @select="handleSelect"
               style="margin:0px;pardding:0px"
           >
-            <el-menu-item index="1">关注的世界</el-menu-item>
-<!--            <el-menu-item index="2">关注的故事</el-menu-item>-->
+            <el-menu-item index="1">{{wname}}</el-menu-item>
           </el-menu>
-        </div>
-        <!--        多选-->
+        </div>        <!--        多选-->
         <div style="padding: 10px">
           <el-space wrap>
             <div v-for="i in 9" :key="i">
@@ -125,9 +123,9 @@ const wid = ref(null);
 
 //世界信息
 const world=ref({})
+wid.value = route.query.wid;
 world.value.id = wid.value
 console.log("世界id="+world.value.id);
-wid.value = route.query.wid;
 const baseUrl = inject("$baseUrl")
 const imageUrl=ref('')
 const uploadImgUrl = ref(baseUrl + "/common/upload"); // 上传的图片服务器地址
@@ -192,7 +190,7 @@ const submitForm = async (formEl: FormInstance | undefined) => {
         form.value.imgUrl=imageUrlPath.value
         updateWorld(form.value).then(response => {
           globalProperties.$modal.msgSuccess("修改成功");
-          router.push("/world/list");
+          router.push("/world/worldInfo?wid="+wid.value);
         });
       }else {
         globalProperties.$modal.msgError("非法操作");
@@ -203,7 +201,7 @@ const submitForm = async (formEl: FormInstance | undefined) => {
 }
 
 const reset = () => {
-  router.push("/admin/worldInfo?id="+world.value.id);
+  router.push("/admin/worldInfo?wid="+wid.value);
 }
 
 

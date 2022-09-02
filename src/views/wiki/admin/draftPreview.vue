@@ -87,10 +87,11 @@ console.log("元素deid="+deid.value);
 console.log("世界id="+wid.value);
 
 const elementStatus = new Map([
-  [0, "正常"],
-  [1, "待发布"],
-  [2, "锁定"],
-  [3, "删除"]
+  [0, "草稿"],
+  [1, "发布"],
+  [3, "审核不通过"],
+  [2, "通过审核"],
+  [4, "删除"]
 ]);
 
 

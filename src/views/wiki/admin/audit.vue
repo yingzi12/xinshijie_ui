@@ -40,7 +40,11 @@
                 </template>
               </el-table-column>
               <el-table-column prop="title" label="元素名称" width="140" />
-              <el-table-column prop="status" label="状态" />
+              <el-table-column label="状态" align="center"  >
+                <template #default="scope">
+                  <span>{{elementStatus.get(scope.row.status)}}</span>
+                </template>
+              </el-table-column>
               <el-table-column prop="createTime" label="修改时间" />
               <el-table-column prop="causeNumber" label="修改原因" />
               <el-table-column prop="causeContent" label="修改说明" />
@@ -111,7 +115,13 @@ const activeIndex = ref('1')
 //弹出框
 const dialogFormVisible = ref(false)
 const formLabelWidth = '140px'
-
+const elementStatus = new Map([
+  [0, "草稿"],
+  [1, "待审核"],
+  [3, "审核不通过"],
+  [2, "通过审核"],
+  [4, "删除"]
+]);
 //搜索框
 import { Search } from '@element-plus/icons-vue'
 const input3 = ref('')

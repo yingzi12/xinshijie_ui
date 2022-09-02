@@ -2,10 +2,9 @@
   <div class="app-container" >
     <div>
       <el-breadcrumb separator="/">
-        <el-breadcrumb-item :to="{ path: '/' }">homepage</el-breadcrumb-item>
-        <el-breadcrumb-item
-        ><a href="/public">promotion management</a></el-breadcrumb-item
-        >
+        <el-breadcrumb-item :to="{ path: '/world/index' }">首页</el-breadcrumb-item>
+        <el-breadcrumb-item><a href="/world/list">世界树</a></el-breadcrumb-item>
+        <el-breadcrumb-item :to="{ path: '/world/details', query: {wid:wid} }">{{world.name}}</el-breadcrumb-item>
         <el-breadcrumb-item>promotion list</el-breadcrumb-item>
         <el-breadcrumb-item>promotion detail</el-breadcrumb-item>
       </el-breadcrumb>
@@ -71,6 +70,8 @@ import { reactive, ref } from 'vue'
 import {FormInstance} from "element-plus";
 import {  getElementDetails } from "@/api/wiki/element";
 import {  updatePush } from "@/api/admin/element";
+import {  getWorld } from "@/api/wiki/world";
+
 //接受参数
 import { useRoute ,useRouter}  from "vue-router";  // 引用vue-router
 const router = useRouter()
@@ -104,7 +105,14 @@ interface DomainItem {
   title: string
   value: string
 }
-
+const wname=ref('')
+/** 查询世界详细 */
+function handWorld() {
+  getWorld(wid.value).then(response => {
+    console.log("查询世界详细:"+JSON.stringify(response))
+    wname.value = response.data.name
+  });
+}
 getElement(wid.value,eid.value);
 </script>
 
