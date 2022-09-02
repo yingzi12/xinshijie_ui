@@ -36,16 +36,6 @@
             </el-col >
             <el-col :span="4"  style="text-align: right;">
               <div style="text-align: right; font-size: 12px" class="toolbar">
-                <el-dropdown>
-                  <el-icon style="margin-right: 8px; margin-top: 1px"><setting/></el-icon>
-                  <template #dropdown>
-                    <el-dropdown-menu>
-                      <el-dropdown-item>View</el-dropdown-item>
-                      <el-dropdown-item>Add</el-dropdown-item>
-                      <el-dropdown-item>Delete</el-dropdown-item>
-                    </el-dropdown-menu>
-                  </template>
-                </el-dropdown>
                 <span>Tom</span>
               </div>
             </el-col>
@@ -54,7 +44,7 @@
         <!--        表格-->
         <div>
           <el-scrollbar>
-            <el-table :data="tableData">
+            <el-table :data="discussList">
               <el-table-column label="序号" width="50">
                 <template #default="scope">
                   {{scope.$index+1}}
@@ -79,101 +69,59 @@
         </div>
         <!--        分页-->
         <div style="float:right; ">
-          <el-pagination  layout="prev, pager, next" :total="50" />
+          <pagination
+              v-show="total > 0"
+              :total="total"
+              v-model:page="queryParams.pageNum"
+              v-model:limit="queryParams.pageSize"
+              @pagination="getList"
+          />
         </div>
       </el-main>
-
-<!--      审核弹出框-->
-      <el-dialog v-model="dialogFormVisible" title="审核">
-        <el-form :model="form">
-          <el-form-item label="Zones" :label-width="formLabelWidth">
-            <el-select v-model="form.region" placeholder="Please select a zone">
-              <el-option label="Zone No.1" value="shanghai" />
-              <el-option label="Zone No.2" value="beijing" />
-            </el-select>
-          </el-form-item>
-          <el-form-item label="说明" :label-width="formLabelWidth">
-            <el-input v-model="form.name" autocomplete="off" />
-          </el-form-item>
-        </el-form>
-        <template #footer>
-      <span class="dialog-footer">
-        <el-button @click="dialogFormVisible = false">取消</el-button>
-        <el-button type="primary" @click="dialogFormVisible = false">确认</el-button>
-      </span>
-        </template>
-      </el-dialog>
-
     </el-container>
   </el-container>
 </template>
 
 <script lang="ts" setup>
-import {reactive, ref} from 'vue'
+import {getCurrentInstance, reactive, ref, toRefs} from 'vue'
 import {useRoute, useRouter} from "vue-router";
-import { Menu as IconMenu,CirclePlus, Message, Setting } from '@element-plus/icons-vue'
 import { Search } from '@element-plus/icons-vue'
+import { listDiscuss } from "@/api/admin/discuss";
 
-// 接收url里的参数
-const route = useRoute();
-console.log(route.query.wid,"参数");
-const wid = ref(null);
-wid.value = route.query.wid;
-//个人消息
-const fits = ['世界', '粉丝', '关注']
-const activeIndex = ref('1')
 
-//表格内容
-const item = {
-  wname: '战国崛起',
-  etitle: '世界树',
-  title: 'No. 189, Grove St, Los Angeles',
-  ename:'世界数',
-  createName: 'Tom',
-  createTime: '2016-05-02',
-  types:"内容修改",
-  status:"进行中",
-  content:'内容讨论,内容讨论内容讨论内容讨论内容讨论内容讨论内容讨论,内容讨论',
-  audit:"允许，说的很不错，可以进行"
+const {  appContext : { config: { globalProperties } }  } = getCurrentInstance();
+const {  proxy  } = getCurrentInstance();
+//分页
+const dateRange = ref([]);
+//分类选项
+const dataStree = ref([])
+const loading = ref(true);
+const discussList = ref([]);
+const total = ref(0);
+const data = reactive({
+  form: {},
+  queryParams: {
+    pageNum: 1,
+    pageSize: 10,
+    auditStatus:0,
+    name: undefined,
+    types: undefined,
+    // wid:wid.value,
+  },
+  rules: {
+    // userName: [{ required: true, message: "用户名称不能为空", trigger: "blur" }, { min: 2, max: 20, message: "用户名称长度必须介于 2 和 20 之间", trigger: "blur" }],
+  }
+});
+const { queryParams, form, rules } = toRefs(data);
+
+/** 查询世界列表 */
+function getList() {
+  listDiscuss(globalProperties.addDateRange(queryParams.value, dateRange.value)).then(response => {
+    loading.value = false;
+    discussList.value = response.rows;
+    total.value = response.total;
+  });
 }
-const tableData = ref(Array.from({ length: 20 }).fill(item))
-
-//多选框
-const value = ref('')
-const options = [
-  {
-    value: 'Option1',
-    label: 'Option1',
-  },
-  {
-    value: 'Option2',
-    label: 'Option2',
-    disabled: true,
-  },
-  {
-    value: 'Option3',
-    label: 'Option3',
-  },
-  {
-    value: 'Option4',
-    label: 'Option4',
-  },
-  {
-    value: 'Option5',
-    label: 'Option5',
-  },
-]
-//搜索框
-const input3 = ref('')
-
-//弹出框
-const dialogFormVisible = ref(false)
-const formLabelWidth = '140px'
-
-const form = reactive({
-  name: '',
-  region: ''
-})
 </script>
 
 <style scoped>

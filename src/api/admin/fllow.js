@@ -1,6 +1,6 @@
 import request from '@/utils/request'
 
-// 查询元素列表
+// 查询关注列表
 export function listFllow(query) {
     return request({
         url: '/admin/fllow/list',

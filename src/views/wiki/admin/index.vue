@@ -15,20 +15,11 @@
 <!--            <el-menu-item index="2">关注的故事</el-menu-item>-->
           </el-menu>
         </div>
-        <!--        分类选择-->
-<!--        <div style="padding: 10px">-->
-<!--          <el-space wrap>-->
-<!--            <el-button text @click="findType(null)">全部</el-button>-->
-<!--            <div v-for="types in worldTypes" :key="i">-->
-<!--              <el-button text @click="findType(types.id)">{{types.name }} </el-button>-->
-<!--            </div>-->
-<!--          </el-space>-->
-<!--        </div>-->
         <!--        统计-->
         <div style="background-color:#b0c4de;margin: auto;padding: 10px">
           <el-row>
             <el-col  :span="4">
-              合计(65)
+              合计({{total}})
             </el-col >
             <el-col :span="20"  style="text-align: right;">
             </el-col>
@@ -64,7 +55,13 @@
         </div>
         <!--        分页-->
         <div style="float:right; ">
-          <el-pagination  layout="prev, pager, next" :total="50" />
+          <pagination
+              v-show="total > 0"
+              :total="total"
+              v-model:page="queryParams.pageNum"
+              v-model:limit="queryParams.pageSize"
+              @pagination="getList"
+          />
         </div>
       </el-main>
     </el-container>

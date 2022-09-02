@@ -51,9 +51,9 @@ export function updateImageUrl(data) {
   })
 }
 // // 查询世界详细
-// export function getWorld(id) {
-//   return request({
-//     url: '/admin/world/getInfo/' + id,
-//     method: 'get'
-//   })
-// }
+export function issue(wid) {
+  return request({
+    url: '/admin/world/issue?wid' + id,
+    method: 'get'
+  })
+}

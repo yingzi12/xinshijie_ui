@@ -235,6 +235,36 @@ export const constantRoutes = [
         meta: { title: '世界', icon: 'wiki' }
       },
       {
+        path: 'worldAudit',
+        component: () => import('@/views/wiki/admin/worldAudit'),
+        name: 'worldAudit',
+        meta: { title: '元素审核', icon: 'wiki' }
+      },
+      {
+        path: 'worldRedident',
+        component: () => import('@/views/wiki/admin/worldRedident'),
+        name: 'worldRedident',
+        meta: { title: '居民管理', icon: 'wiki' }
+      },
+      {
+        path: 'worldComment',
+        component: () => import('@/views/wiki/admin/worldComment'),
+        name: 'worldComment',
+        meta: { title: '评论管理', icon: 'wiki' }
+      },
+      {
+        path: 'worldDiscuss',
+        component: () => import('@/views/wiki/admin/worldDiscuss'),
+        name: 'worldDiscuss',
+        meta: { title: '讨论管理', icon: 'wiki' }
+      },
+      {
+        path: 'diff',
+        component: () => import('@/views/wiki/admin/diff'),
+        name: 'diff',
+        meta: { title: '内容比对', icon: 'wiki' }
+      },
+      {
         path: 'comment',
         component: () => import('@/views/wiki/admin/comment'),
         name: 'comment',
@@ -243,8 +273,8 @@ export const constantRoutes = [
       {
         path: 'discuss',
         component: () => import('@/views/wiki/admin/discuss'),
-        name: 'discuss',
-        meta: { title: '讨论', icon: 'wiki' }
+        name: 'mydiscuss',
+        meta: { title: '讨论管理', icon: 'wiki' }
       },
       {
         path: 'audit',
@@ -281,36 +311,6 @@ export const constantRoutes = [
         component: () => import('@/views/wiki/admin/elementLog'),
         name: 'elementLog',
         meta: { title: '元素草稿历史记录', icon: 'wiki' }
-      },
-      {
-        path: 'worldAudit',
-        component: () => import('@/views/wiki/admin/worldAudit'),
-        name: 'worldAudit',
-        meta: { title: '元素审核', icon: 'wiki' }
-      },
-      {
-        path: 'worldRedident',
-        component: () => import('@/views/wiki/admin/worldRedident'),
-        name: 'worldRedident',
-        meta: { title: '居民管理', icon: 'wiki' }
-      },
-      {
-        path: 'worldComment',
-        component: () => import('@/views/wiki/admin/worldComment'),
-        name: 'worldComment',
-        meta: { title: '评论管理', icon: 'wiki' }
-      },
-      {
-        path: 'worldDiscuss',
-        component: () => import('@/views/wiki/admin/worldDiscuss'),
-        name: 'worldDiscuss',
-        meta: { title: '讨论管理', icon: 'wiki' }
-      },
-      {
-        path: 'diff',
-        component: () => import('@/views/wiki/admin/diff'),
-        name: 'diff',
-        meta: { title: '内容比对', icon: 'wiki' }
       },
       {
         path: 'diff2',
@@ -361,9 +361,7 @@ export const constantRoutes = [
         name: 'elementContent',
         meta: { title: '管理员查看元素', icon: 'wiki' }
       }
-
     ]
-
   },
   {
     path: '/users',
@@ -402,11 +400,6 @@ export const constantRoutes = [
     ]
   },
   {
-    path: "/:pathMatch(.*)*",
-    component: () => import('@/views/error/404'),
-    hidden: true
-  },
-  {
     path: '/discuss',
     component: LayoutWiki,
     children: [
@@ -427,6 +420,11 @@ export const constantRoutes = [
         meta: { title: '讨论主题回复列表', icon: 'world' }
       }
     ]
+  },
+  {
+    path: "/:pathMatch(.*)*",
+    component: () => import('@/views/error/404'),
+    hidden: true
   },
   {
     path: '/401',

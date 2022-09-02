@@ -1,43 +1,43 @@
 import request from '@/utils/request'
 
 // 查询元素列表
-export function listDisscuss(query) {
+export function listDiscuss(query) {
   return request({
-    url: '/admin/disscuss/listDisscussWorld',
+    url: '/admin/discuss/listDiscussWorld',
     method: 'get',
     params: query
   })
 }
 
 // 查询元素详细
-export function getDisscussDetails(wid,did) {
+export function getDiscussDetails(wid,did) {
   return request({
-    url: '/wiki/disscuss/getInfo?wid=' + wid+'&did='+did,
+    url: '/wiki/discuss/getInfo?wid=' + wid+'&did='+did,
     method: 'get'
   })
 }
 
 // 新增元素
-export function addDisscuss(data) {
+export function addDiscuss(data) {
   return request({
-    url: '/admin/disscuss/add',
+    url: '/admin/discuss/add',
     method: 'post',
     data: data
   })
 }
 
 // 修改元素
-export function updateDisscuss(data) {
+export function updateDiscuss(data) {
   return request({
-    url: '/admin/disscuss/edit',
+    url: '/admin/discuss/edit',
     method: 'put',
     data: data
   })
 }
 // 删除元素
-export function delDisscuss(wid,did) {
+export function delDiscuss(wid,did) {
   return request({
-    url: '/admin/disscuss/remove?wid=' + wid+'&did='+did,
+    url: '/admin/discuss/remove?wid=' + wid+'&did='+did,
     method: 'delete'
   })
 }
