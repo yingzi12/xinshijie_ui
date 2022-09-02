@@ -41,7 +41,7 @@
                 <span><BootstrapIcon icon="eye" size="1x" flip-v />{{world.countSee}}</span>
               </div>
               <div style="margin-top: 2px">
-                <el-button type="primary">关注</el-button>
+                <el-button type="primary" @click="handleFllow">关注</el-button>
                 <el-button type="primary">点赞</el-button>
               </div>
             </div>
@@ -147,7 +147,7 @@ import type { TabsPaneContext } from 'element-plus'
 import {  getWorld } from "@/api/wiki/world";
 import {  listComment } from "@/api/wiki/comment";
 import { addComment} from "@/api/admin/comment";
-import { fllow} from "@/api/admin/fllow";
+import { addFllow} from "@/api/admin/fllow";
 import {  getWorldManage } from "@/api/wiki/manage";
 import { listElement } from "@/api/wiki/element";
 import useUserStore from '@/store/modules/user'
@@ -193,7 +193,7 @@ function handElement(){
 }
 
 function handleFllow(){
-  fllow(wid.value).then(response => {
+  addFllow(wid.value).then(response => {
     ElMessage.success("关注成功");
   })
 }

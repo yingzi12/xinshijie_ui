@@ -53,7 +53,7 @@ export function updateImageUrl(data) {
 // // 查询世界详细
 export function issue(wid) {
   return request({
-    url: '/admin/world/issue?wid' + id,
+    url: '/admin/world/issue?wid=' + wid,
     method: 'get'
   })
 }

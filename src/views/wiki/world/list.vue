@@ -6,8 +6,7 @@
         <el-breadcrumb-item>世界列表</el-breadcrumb-item>
       </el-breadcrumb>
     </div>
-    <div style="background-color: #97a8be">
-      <div >
+    <div >
         <el-container >
           <el-aside width="180px">
             <h3 class="mb-2">分类</h3>
@@ -26,15 +25,20 @@
               </el-menu>
           </el-aside>
           <el-main>
+            <div>
             <span style="size: 30px">世界列表</span><el-button style="float: right" @click="handleAdd">创建世界</el-button>
-            <el-table v-loading="loading" :data="worldList" >
+            <el-table v-loading="loading" :data="worldList"  style="width:100%">
                             <el-table-column label="序号" width="50px" >
                               <template #default="scope">
                                  {{scope.$index+1+(queryParams.pageNum-1)*10}}
                               </template>
                             </el-table-column>
               <el-table-column label="名称" align="center" key="name" prop="name"  />
-              <el-table-column label="类型" align="center" key="typeName" prop="typeName" :show-overflow-tooltip="true" />
+              <el-table-column label="类型" align="center" :show-overflow-tooltip="true" >
+                <template #default="scope">
+                  <span>{{worldTypesMap.get(scope.row.types)}}</span>
+                </template>
+              </el-table-column>
               <el-table-column label="简介" align="center" key="intro" prop="intro"  :show-overflow-tooltip="true" />
               <el-table-column label="创建人" align="center" key="createName" prop="createName"  :show-overflow-tooltip="true" />
               <el-table-column label="更新时间" align="center" prop="updateTime"  width="160">
@@ -57,6 +61,8 @@
                 </template>
               </el-table-column>
             </el-table>
+            </div>
+            <div style="float:right; position:relative">
             <pagination
                 v-show="total > 0"
                 :total="total"
@@ -64,9 +70,9 @@
                 v-model:limit="queryParams.pageSize"
                 @pagination="getList"
             />
+            </div>
           </el-main>
         </el-container>
-      </div>
     </div>
   </div>
 </template>
@@ -85,6 +91,15 @@ class World {
   intro: string
   createTime:string
 }
+const worldTypesMap=new Map([
+     [0,"科学"],
+      [1,"武侠"],
+  [2,"仙侠"],
+  [3,"魔幻"],
+  [4,"奇幻"],
+  [5,"其他"]
+])
+
 const worldTypes=reactive([{id:0,name:"科学"},{id:1,name:"武侠"},{id:2,name:"仙侠"},{id:3,name:"魔幻"},{id:4,name:"奇幻"},{id:5,name:"其他"}])
 const wname=ref('');
 const wtypes=ref(null);

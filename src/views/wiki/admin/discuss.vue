@@ -68,7 +68,7 @@
           </el-scrollbar>
         </div>
         <!--        分页-->
-        <div style="float:right; ">
+        <div style="float:right; position:relative; ">
           <pagination
               v-show="total > 0"
               :total="total"

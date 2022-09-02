@@ -10,7 +10,7 @@ export function listFllow(query) {
 }
 
 // 添加关注
-export function follow(wid) {
+export function addFllow(wid) {
     return request({
         url: '/admin/fllow/fllow?wid=' + wid,
         method: 'delete'

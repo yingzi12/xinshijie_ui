@@ -89,8 +89,13 @@
           </el-scrollbar>
         </div>
         <!--        分页-->
-        <div style="float:right; ">
-          <el-pagination  layout="prev, pager, next" :total="50" />
+        <div style="float:right; position:relative; ">
+          <pagination
+              v-show="total > 0"
+              :total="total"
+              v-model:page="queryParams.pageNum"
+              v-model:limit="queryParams.pageSize"
+              @pagination="getList"/>
         </div>
       </el-main>
 

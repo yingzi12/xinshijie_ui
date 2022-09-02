@@ -7,9 +7,8 @@
       <el-main>
         <div>
           <el-menu
-              :default-active="activeIndex"
+              :default-active="1"
               mode="horizontal"
-              @select="handleSelect"
               style="margin:0px;pardding:0px"
           >
             <el-menu-item index="1">世界管理</el-menu-item>
@@ -47,7 +46,11 @@
                 </template>
               </el-table-column>
               <el-table-column label="名称" align="center" key="name" prop="name"  />
-              <el-table-column label="类型" align="center" key="typeName" prop="typeName" :show-overflow-tooltip="true" />
+              <el-table-column label="类型" align="center" :show-overflow-tooltip="true" >
+               <template #default="scope">
+                <span>{{worldTypesMap.get(scope.row.types)}}</span>
+                </template>
+              </el-table-column>
               <el-table-column label="简介" align="center" key="intro" prop="intro"  :show-overflow-tooltip="true" />
               <el-table-column label="状态" align="center"  >
                 <template #default="scope">
@@ -97,7 +100,7 @@
           </el-scrollbar>
         </div>
         <!--        分页-->
-        <div style="float:right; ">
+        <div style="float:right; position:relative; ">
           <pagination
               v-show="total > 0"
               :total="total"
@@ -135,6 +138,14 @@ const worldStatus = new Map([
   [2, "锁定"],
   [3, "删除"]
 ]);
+const worldTypesMap=new Map([
+  [0,"科学"],
+  [1,"武侠"],
+  [2,"仙侠"],
+  [3,"魔幻"],
+  [4,"奇幻"],
+  [5,"其他"]
+])
 const loading = ref(true);
 const worldList = ref([]);
 const total = ref(0);
@@ -178,7 +189,8 @@ function handleSee(row){
   router.push("/admin/worldInfo?wid="+row.id);
 }
 function handleIssue(row){
-  issue(row.wid).then(response => {
+  console.log("发布："+JSON.stringify(row))
+  issue(row.id).then(response => {
     getList();
   });
 }
