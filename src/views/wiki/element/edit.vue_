@@ -103,6 +103,20 @@
 
       </div>
     </div>
+<!--    修改原因-->
+    <div>
+      <el-radio-group v-model="radio">
+        <el-radio :label="3">添加内容</el-radio>
+        <el-radio :label="6">修改错误</el-radio>
+        <el-radio :label="9">其他</el-radio>
+      </el-radio-group>
+      <el-input
+          v-model="textarea2"
+          :autosize="{ minRows: 2, maxRows: 4 }"
+          type="textarea"
+          placeholder="修改原因"
+      />
+    </div>
     <!--功能-->
       <div class="center" style="height: 80px;">
         <el-button @click="submit()">保存并预览</el-button>
@@ -119,7 +133,7 @@ import  Editor  from 'ckeditor5-custom-build/build/ckeditor';
 import {  getElementDetails } from "@/api/wiki/element";
 import {  updateElement } from "@/api/admin/element";
 import { getTree} from "@/api/wiki/category";
-import { getWorld} from "@/api/wiki/world";
+// import { getWorld} from "@/api/admin/world";
 
 //接受参数
 import { useRoute ,useRouter}  from "vue-router";  // 引用vue-router

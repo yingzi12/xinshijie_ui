@@ -98,21 +98,22 @@ function handleList(){
   router.push("/element/list?wid="+ wid.value+"&deid=" +eid.value)
 }
 function handleEdit(){
-  router.push("/admin/draftEdit?wid="+ wid.value+"&deid=" +eid.value)
+  router.push("/admin/elementEdit?wid="+ wid.value+"&eid=" +eid.value)
 }
 interface DomainItem {
   key: number
   title: string
   value: string
 }
-const wname=ref('')
+const world=ref({})
 /** 查询世界详细 */
 function handWorld() {
   getWorld(wid.value).then(response => {
     console.log("查询世界详细:"+JSON.stringify(response))
-    wname.value = response.data.name
+    world.value = response.data
   });
 }
+handWorld()
 getElement(wid.value,eid.value);
 </script>
 

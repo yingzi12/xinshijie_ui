@@ -197,7 +197,7 @@ function handleDelete ( row){
 }
 
 function handleSee(row){
-  router.push("/element/preview?eid="+row.id);
+  router.push("/element/details?wid="+row.wid+"&eid="+row.id);
 }
 /** 选择条数  */
 function handleSelectionChange(selection) {

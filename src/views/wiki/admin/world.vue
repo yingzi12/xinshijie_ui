@@ -58,7 +58,7 @@
                 </template>
               </el-table-column>
               <el-table-column label="创建人" align="center" key="createName" prop="createName"  :show-overflow-tooltip="true" />
-              <el-table-column label="更新时间" align="center" prop="updateTime"  width="160">
+              <el-table-column label="更新时间" align="center" prop="updateTime"  width="160" :show-overflow-tooltip="true">
                 <template #default="scope">
                   <span>{{scope.row.updateTime}}</span>
                 </template>
@@ -82,7 +82,7 @@
                   <el-tooltip v-if="scope.row.status == 1" content="发布" placement="top" >
                     <el-button
                         type="text"
-                        icon="Edit"
+                        icon="Position"
                         @click="handleIssue(scope.row)"
                     ></el-button>
                   </el-tooltip>

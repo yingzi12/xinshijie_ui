@@ -41,10 +41,10 @@
                 </template>
               </el-table-column>
               <el-table-column prop="ranks" label="等级" />
-              <el-table-column prop="intro" label="简介" />
-              <el-table-column prop="updateNewElementTime" label="更新时间" />
+              <el-table-column prop="intro" label="简介" :show-overflow-tooltip="true" />
+              <el-table-column prop="updateNewElementTime" label="更新时间" :show-overflow-tooltip="true" />
               <el-table-column prop="updateNewElement" label="更新元素" />
-              <el-table-column prop="createTime" label="关注时间" />
+              <el-table-column prop="createTime" label="关注时间" :show-overflow-tooltip="true" />
               <el-table-column fixed="right" label="操作" width="100">
                 <template #default="scope">
                   <el-button link type="primary" size="small" @click="handleClick(scope.row)">取消关注</el-button>

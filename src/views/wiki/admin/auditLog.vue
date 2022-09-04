@@ -7,12 +7,13 @@
       <el-main>
         <div>
           <el-menu
-              :default-active="1"
+              :default-active="2"
               mode="horizontal"
               @select="handleSelect"
               style="margin:0px;pardding:0px"
           >
-            <el-menu-item index="1">元素历史记录</el-menu-item>
+            <el-menu-item index="1" :to="{path:'/admin/audit'}">待审核元素</el-menu-item>
+            <el-menu-item index="2" :to="{path:'/admin/auditLog'}">已审核元素</el-menu-item>
           </el-menu>
         </div>
         <!--        多选-->
@@ -41,16 +42,24 @@
                 </template>
               </el-table-column>
               <el-table-column prop="title" label="元素名称" width="140" />
+              <el-table-column label="类型" align="center" :show-overflow-tooltip="true">
+                <template #default="scope">
+                  <el-tag v-for='idLabel in scope.row.idLabels.split(",")'>
+                    {{idLabel.split("$$")[1]}}
+                  </el-tag>
+                </template>
+              </el-table-column>
+              <el-table-column prop="wname" label="世界" width="140" />
               <el-table-column label="状态" align="center"  >
                 <template #default="scope">
                   <span>{{elementStatus.get(scope.row.status)}}</span>
                 </template>
               </el-table-column>
-              <el-table-column prop="createTime" label="修改时间" />
+              <el-table-column prop="createTime" label="修改时间" :show-overflow-tooltip="true" />
               <el-table-column prop="causeNumber" label="修改原因" />
-              <el-table-column prop="causeContent" label="修改说明" />
+              <el-table-column prop="causeContent" label="修改说明" :show-overflow-tooltip="true" />
               <el-table-column prop="createName" label="修改人" />
-              <el-table-column fixed="right" label="Operations" width="220">
+              <el-table-column fixed="right" label="操作" width="120">
                 <template #default="scope">
                   <el-button link type="primary" size="small" @click="handleSee(scope.row)">详细</el-button>
                   <el-button link type="primary" size="small" @click="handleDiff(scope.row)">差异</el-button>
@@ -161,6 +170,12 @@ function getList() {
 //     dataStree.value = response.data
 //   });
 // }
+function handleSelect(index:String,indexPath:String){
+  if(index =='1'){
+    router.push("/admin/audit");
+  }
+  console.log(indexPath)
+}
 function handleAudit(row){
   router.push("/admin/audit");
 }

@@ -140,12 +140,12 @@ function handFind(){
     total.value = response.total;
   });
 }
-const wname=ref('')
+const world=ref('')
 /** 查询世界详细 */
 function handWorld() {
   getWorld(wid.value).then(response => {
     console.log("查询世界详细:"+JSON.stringify(response))
-    wname.value = response.data.name
+    world.value = response.data
   });
 }
 /** 查询元素列表 */

@@ -80,3 +80,15 @@ export function auditDraft(data) {
     data: data
   })
 }
+export function issueClose(wid,deid) {
+  return request({
+    url: '/admin/draftElement/issueClose?wid=' + wid+'&deid='+deid,
+    method: 'get'
+  })
+}
+export function issue(wid,deid) {
+  return request({
+    url: '/admin/draftElement/issue?wid=' + wid+'&deid='+deid,
+    method: 'get'
+  })
+}

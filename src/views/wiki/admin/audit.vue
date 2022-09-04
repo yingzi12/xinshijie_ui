@@ -12,7 +12,8 @@
               @select="handleSelect"
               style="margin:0px;pardding:0px"
           >
-            <el-menu-item index="1">待审核元素</el-menu-item>
+            <el-menu-item index="1" :to="{path:'/admin/audit'}">待审核元素</el-menu-item>
+            <el-menu-item index="2" :to="{path:'/admin/auditLog'}">已审核元素</el-menu-item>
           </el-menu>
         </div>
         <!--        统计-->
@@ -40,23 +41,28 @@
                 </template>
               </el-table-column>
               <el-table-column prop="title" label="元素名称" width="140" />
+              <el-table-column label="类型" align="center" :show-overflow-tooltip="true">
+                <template #default="scope">
+                  <el-tag v-for='idLabel in scope.row.idLabels.split(",")'>
+                    {{idLabel.split("$$")[1]}}
+                  </el-tag>
+                </template>
+              </el-table-column>
+              <el-table-column prop="wname" label="世界" width="140" />
               <el-table-column label="状态" align="center"  >
                 <template #default="scope">
                   <span>{{elementStatus.get(scope.row.status)}}</span>
                 </template>
               </el-table-column>
-              <el-table-column prop="createTime" label="修改时间" />
-              <el-table-column prop="causeNumber" label="修改原因" />
-              <el-table-column prop="causeContent" label="修改说明" />
+              <el-table-column prop="createTime" label="修改时间" :show-overflow-tooltip="true" />
+              <el-table-column prop="causeNumber" label="修改原因" :show-overflow-tooltip="true" />
+              <el-table-column prop="causeContent" label="修改说明" :show-overflow-tooltip="true" />
               <el-table-column prop="createName" label="修改人" />
-              <el-table-column fixed="right" label="Operations" width="220">
-<!--                <template  #header>-->
-<!--                  <el-button text>查看历史记录</el-button>-->
-<!--                </template>-->
+              <el-table-column fixed="right" label="操作" width="220">
                 <template #default="scope">
                   <el-button link type="primary" size="small" @click="handleSee(scope.row)">详细</el-button>
                   <el-button link type="primary" size="small" @click="handleDiff(scope.row)">差异</el-button>
-                  <el-button link type="primary" size="small" @click="handleClean(scope.row)">取消发布</el-button>
+                  <el-button link type="primary" size="small" @click="handleIssueClose(scope.row)">取消发布</el-button>
                 </template>
               </el-table-column>
             </el-table>
@@ -101,7 +107,7 @@
 import {getCurrentInstance, reactive, ref, toRefs} from 'vue'
 import {useRoute, useRouter} from "vue-router";
 import { Menu as IconMenu,CirclePlus, Message, Setting } from '@element-plus/icons-vue'
-import { listDraft } from "@/api/admin/draftElement";
+import { listDraft,issueClose } from "@/api/admin/draftElement";
 import { getTree} from "@/api/wiki/category";
 const router = useRouter()
 
@@ -151,15 +157,13 @@ const data = reactive({
 });
 const { queryParams, form, rules } = toRefs(data);
 
-/**根据分类查询世界*/
-// function findType(typeId:number) {
-//   queryParams.value.wid=wid.value;
-//   listDraft(globalProperties.addDateRange(queryParams.value, dateRange.value)).then(response => {
-//     loading.value = false;
-//     draftList.value = response.rows;
-//     total.value = response.total;
-//   });
-// }
+function handleSelect(index:String,indexPath:String){
+  if(index =='2'){
+    router.push("/admin/auditLog");
+  }
+   console.log(indexPath)
+}
+
 /** 查询世界列表 */
 function getList() {
   listDraft(globalProperties.addDateRange(queryParams.value, dateRange.value)).then(response => {
@@ -168,13 +172,13 @@ function getList() {
     total.value = response.total;
   });
 }
-// /** 查询分类列表 */
-// function getCategoryTree() {
-//   getTree(wid.value).then(response => {
-//     dataStree.value = response.data
-//   });
-// }
-function handleClean(row){
+function handleIssueClose(row){
+  console.log("取消发布："+JSON.stringify(row))
+  issueClose(row.wid,row.id).then(response => {
+    getList();
+  });
+}
+function handleAudit(row){
   dialogFormVisible.value=true;
 }
 function handleSee(row){
@@ -186,8 +190,6 @@ function handleDiff(row){
 function handleLog(row){
   router.push("/admin/auditLog");
 }
-
-// getCategoryTree();
 getList();
 </script>
 

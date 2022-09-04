@@ -10,14 +10,15 @@
         <el-breadcrumb-item>promotion detail</el-breadcrumb-item>
       </el-breadcrumb>
     </div>
-    <div style="border-style:solid;">
+    <div >
     <!--  世界名称-->
     <div >
-        <h1>{{ element.title }}</h1>
-      <span>更新时间:</span><el-tag>{{element.updateTime}}</el-tag>
-        <span>分类:</span> <el-tag v-for="category in element.categoryList">
+        <h1 style="margin-bottom: 5px">{{ element.title }}</h1>
+      <div style="margin: 0px;font-size: 5px"><span>分类:</span> <el-tag v-for="category in element.categoryList">
         {{category.label}}
-      </el-tag>
+      </el-tag></div>
+        <div style="margin: 0px;font-size: 5px"><span>更新时间:</span><el-tag>{{element.updateTime}}</el-tag></div>
+
     </div>
     <el-divider />
     <!--  基本信息 -->
@@ -72,7 +73,7 @@
 <script  lang="ts" setup>
 import { reactive, ref } from 'vue'
 import {FormInstance} from "element-plus";
-import {  getDraftDetails ,updatePush} from "@/api/admin/draftElement";
+import {  getDraftDetails ,issue} from "@/api/admin/draftElement";
 //接受参数
 import { useRoute ,useRouter}  from "vue-router";  // 引用vue-router
 const router = useRouter()
@@ -104,9 +105,13 @@ function getDraft(wid:number,deid:number) {
   });
 }
 function submitPush(){
-  updatePush(wid.value,deid.value).then(response => {
+  issue(wid.value,deid.value).then(response => {
     console.log("发布成功")
-    router.push("/element/content?wid="+ wid.value+"&deid=" +deid.value)
+    if(response.data.types == 0){
+      router.push("/admin/draftPreview?wid="+ response.data.wid+"&deid=" +response.data.id)
+    }else{
+      router.push("/element/details?wid="+ response.data.wid+"&eid=" +response.data.id)
+    }
   });
 }
 function submitEdit(){

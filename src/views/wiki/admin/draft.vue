@@ -40,8 +40,14 @@
                 </template>
               </el-table-column>
               <el-table-column label="名称" align="center" key="title" prop="title"/>
-              <el-table-column label="世界" align="center" key="wanme" prop="wanme"/>
-              <el-table-column label="类型" align="center" key="typeName" prop="typeName" :show-overflow-tooltip="true"/>
+              <el-table-column label="世界" align="center" key="wname" prop="wname"/>
+              <el-table-column label="类型" align="center" :show-overflow-tooltip="true">
+              <template #default="scope">
+                <el-tag v-for='idLabel in scope.row.idLabels.split(",")'>
+                  {{idLabel.split("$$")[1]}}
+                </el-tag>
+              </template>
+              </el-table-column>
               <el-table-column label="状态" align="center"  >
                 <template #default="scope">
                   <span>{{elementStatus.get(scope.row.status)}}</span>
@@ -50,7 +56,7 @@
               <el-table-column label="简介" align="center" key="intro" prop="intro" :show-overflow-tooltip="true"/>
               <el-table-column label="创建人" align="center" key="createName" prop="createName"
                                :show-overflow-tooltip="true"/>
-              <el-table-column label="更新时间" align="center" prop="updateTime" width="160">
+              <el-table-column label="更新时间" align="center" prop="updateTime" width="160" :show-overflow-tooltip="true">
                 <template #default="scope">
                   <span>{{ scope.row.updateTime }}</span>
                 </template>
@@ -100,7 +106,7 @@
 
 <script lang="ts" setup>
 import { getCurrentInstance, reactive, ref, toRefs} from 'vue'
-import {  listDraft,delDraft } from "@/api/admin/draftElement";
+import {  listDraft,delDraft,issue } from "@/api/admin/draftElement";
 // import { getTree} from "@/api/wiki/category";
 import {useRoute, useRouter} from "vue-router";
 import { Menu as IconMenu, Search,Message, Setting } from '@element-plus/icons-vue'
@@ -170,6 +176,12 @@ function handleSeeLog(row){
 function handleSee(row){
   router.push("/admin/draftPreview?wid="+row.wid+"&deid="+row.id);
 }
+function handleIssue(row){
+  console.log("发布："+JSON.stringify(row))
+  issue(row.id).then(response => {
+    getList();
+  });
+}
 /**根据分类查询世界*/
 function findType(typeId:number) {
   // queryParams.value.wid=wid.value;
@@ -187,13 +199,6 @@ function getList() {
     total.value = response.total;
   });
 }
-/** 查询分类列表 */
-// function getCategoryTree() {
-//   getTree(wid.value).then(response => {
-//     dataStree.value = response.data
-//   });
-// }
-// getCategoryTree();
 getList();
 
 

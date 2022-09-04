@@ -43,7 +43,7 @@
           <el-form-item label="名称">
             <el-input v-model="element.title" />
           </el-form-item>
-          <el-form-item label="Activity form">
+          <el-form-item label="简介">
             <el-input v-model="element.intro" type="textarea" />
           </el-form-item>
         </el-form>
@@ -105,13 +105,13 @@
     </div>
 <!--    修改原因-->
     <div>
-      <el-radio-group v-model="radio">
-        <el-radio :label="3">添加内容</el-radio>
-        <el-radio :label="6">修改错误</el-radio>
-        <el-radio :label="9">其他</el-radio>
+      <el-radio-group v-model="causeNumber">
+        <el-radio :label="0">其他</el-radio>
+        <el-radio :label="1">添加内容</el-radio>
+        <el-radio :label="2">修改错误</el-radio>
       </el-radio-group>
       <el-input
-          v-model="textarea2"
+          v-model="causeContent"
           :autosize="{ minRows: 2, maxRows: 4 }"
           type="textarea"
           placeholder="修改原因"
@@ -147,14 +147,19 @@ eid.value = route.query.eid;
 wid.value = route.query.wid;
 console.log("元素id="+eid.value);
 console.log("世界id="+wid.value);
+//多选框
+const causeNumber = ref(1)
+const causeContent = ref('')
 
 //基本信息
 interface Element {
   id:number,
-  wid:String,
+  wid:number,
   title:string,
-  intro:String,
+  intro:string,
   softtype: number,
+  causeNumber: number,
+  causeContent: String,
   categoryList:[],
   contentList:[],
   contentIdList:[],
@@ -297,25 +302,39 @@ function submit(){
   if(!element.value.title ){
     ok=false;
     ElMessage.error('名称不能为空!')
+    return;
   }
   if(!element.value.intro ){
     ok=false;
     ElMessage.error('简介不能为空!')
+    return;
   }
-  if(!(element.value.title.length >1 && element.value.title.length < 100)){
+  if(element.value.title.length <1 || element.value.title.length > 100){
     ok=false;
-    ElMessage.error('名称长度不能超过100!')
+    ElMessage.error('元素名称长度不能小于1超过100')
+    return;
+
+  }
+  if(!causeContent ){
+    ok=false;
+    ElMessage.error('修改原因不能为空!')
+    return;
+  }
+  if(causeContent.value.length<10 || causeContent.value.length > 500){
+    ok=false;
+    ElMessage.error('修改原因不能少于10，超过500!')
+    return;
   }
   console.log("简介长度:"+element.value.intro.length)
-  console.log("简介长度:"+element.value.intro.length>10)
-  console.log("简介长度:"+element.value.intro.length <300)
-
-  if(!(element.value.intro.length>10 && element.value.intro.length <300)){
+  if(element.value.intro.length<10 || element.value.intro.length >300){
     ok=false;
     ElMessage.error('简介长度不能小于10超过100!')
+    return;
   }
   console.log("添加："+JSON.stringify(element.value))
   if(ok) {
+    element.value.causeContent=causeContent.value
+    element.value.causeNumber=causeNumber.value
     updateElement(element.value).then(response => {
       console.log("添加成功")
       router.push("/admin/draftPreview?wid="+ response.data.wid+"&deid=" + response.data.id)
@@ -324,7 +343,7 @@ function submit(){
 }
 
 function submitClear(){
-  router.push("/element/preview?wid="+ wid.value+"&eid=" + eid.value)
+  router.push("/element/details?wid="+ wid.value+"&eid=" + eid.value)
 }
 getElement(wid.value,eid.value);
 getList()
