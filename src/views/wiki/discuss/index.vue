@@ -78,29 +78,29 @@
                   </div>
                   <div style="color:#A3A6AD">
                     <span>{{ comment.createTime }}</span>
-                    <span><BootstrapIcon @click="dialogFormVisible = true" icon="chat-dots" size="1x" flip-v />20 </span>
+                    <span @click="handleReply(comment)"><BootstrapIcon  icon="chat-dots" size="1x" flip-v />20 </span>
                     <span><BootstrapIcon icon="hand-thumbs-up" size="1x" flip-v />10</span>
                     <span><BootstrapIcon icon="hand-thumbs-down" size="1x" flip-v />20</span>
                   </div>
                 </el-col>
               </el-row>
-              <div  style="margin-left: 150px;background-color: #8c939d;border-style: dotted;width: 40%">
-                <div v-if="comment.comHide">
-                  <el-avatar :size="20" :src="circleUrl" /><el-input style="width:80%"></el-input>
+              <div  v-if="comment.replyHide" style="margin-left: 150px;width: 40%;">
+                <div>
+                  <el-avatar    size="small" :src="circleUrl" /><el-input v-model="commReply"   style="width:80%"  size="small" @keyup.enter="sudmitCoomentReply(comment)"  ></el-input>
                 </div>
-                <div v-if="comment.replyHide">
-                  <el-table  :show-header="false"  :data=" comment.reply" >
+                <div v-if="comment.comHide">
+                  <el-table  :show-header="false"  :data="comment.reply"  size="small">
                     <el-table-column  label="replyNickname" >
                       <template #default="scope">
                         <!--                          <div v-if="comment.reply.front" style="background-color: #6b778c">-->
                         <!--                            <el-tag>{{ scope.row.replyNickname }}</el-tag>:{{ scope.row.front }}-->
                         <!--                          </div>-->
-                        <el-tag>{{ scope.row.nickname }}</el-tag>@<el-tag>{{ scope.row.replyNickname }}</el-tag>:<span>{{ scope.row.content }}</span>
-                        <p style="margin: 0px">{{ scope.row.createTime }}<BootstrapIcon @click="dialogFormVisible = true" icon="chat-dots" size="1x" flip-v /></p>
+                        <el-tag >{{ scope.row.nickname }}</el-tag>@<el-tag>{{ scope.row.replyNickname }}</el-tag>:<span >{{ scope.row.content }}</span>
+                        <p style="margin: 0px">{{ scope.row.createTime }}<BootstrapIcon @click="handleReplyComm(comment,scope.row)" icon="chat-dots" size="1x" flip-v /></p>
                       </template>
                     </el-table-column>
                   </el-table>
-                  <el-button class="mt-4" style="width: 100%" @click="onAddItem">更多</el-button>
+                  <el-button class="mt-4"  @click="onAddItem" size="small">更多</el-button>
                 </div>
               </div>
               <el-divider style="margin: 0px;padding: 0px"/>
@@ -113,15 +113,10 @@
       </div>
     </div>
       <el-dialog v-model="dialogFormVisible" title="Shipping address">
+        <span></span>
       <el-form :model="form">
         <el-form-item label="Promotion name" :label-width="formLabelWidth">
           <el-input v-model="form.name" autocomplete="off" />
-        </el-form-item>
-        <el-form-item label="Zones" :label-width="formLabelWidth">
-          <el-select v-model="form.region" placeholder="Please select a zone">
-            <el-option label="Zone No.1" value="shanghai" />
-            <el-option label="Zone No.2" value="beijing" />
-          </el-select>
         </el-form-item>
       </el-form>
       <template #footer>
@@ -140,6 +135,29 @@ import { reactive,ref } from 'vue'
 
 //世界信息
 const world=ref({})
+const commReply=ref("")
+const reply=ref({})
+const show=ref(false)
+interface  Comment{
+  id:number
+  circleUrl:string
+  date: string
+
+  createName: string
+  comment: string
+  createTime:string
+
+  replyHide:boolean
+  comHide:boolean
+  reply?: Reply[]
+}
+interface  Reply {
+  nickname:string
+  replyNickname:string
+  content:string
+  front:string
+  createTime:string
+}
 //弹出框
 const dialogFormVisible = ref(false)
 const formLabelWidth = '140px'
@@ -152,8 +170,9 @@ const form = reactive({
 const radio = ref(3)
 //评论列表
 const commentActive = ref('allComm')
+const circleUrl=ref('')
 
-const discuss ={
+const discuss =ref({
   id: 1,
   circleUrl: '',
   elementName:"世界树",
@@ -164,17 +183,18 @@ const discuss ={
   title: '标题，比什么都重要',
   comment: 'No. 189, Grove St, Los Angeles',
   createTime: "2020-05-02 11:23:09",
-}
-const commentList =[ {
-  id:1,
-  circleUrl:'',
-  date: '2020-05-02',
-  createName: 'Tom',
-  comment: 'No. 189, Grove St, Los Angeles',
-  createTime:"2020-05-02 11:23:09",
-  replyHide:false,
-  comHide:false,
-
+})
+const commentList = ref<Comment[]>([
+    {
+      id:1,
+      circleUrl:'',
+      date: '2020-05-02',
+      createName: 'Tom',
+      comment: 'No. 189, Grove St, Los Angeles',
+      createTime:"2020-05-02 11:23:09",
+      replyHide:false,
+      comHide:false,
+      reply:[]
 },
   {
     id:2,
@@ -245,6 +265,7 @@ const commentList =[ {
     createName: 'Tom',
     comment: 'No. 189, Grove St, Los Angeles',
     createTime:"2020-05-02 11:23:09",
+    replyHide:false,
     comHide:true,
     reply:[
       {
@@ -281,6 +302,8 @@ const commentList =[ {
     createName: 'Tom',
     comment: 'No. 189, Grove St, Los Angeles',
     createTime:"2020-05-02 11:23:09",
+    replyHide:false,
+    comHide:false,
     reply:[
       {
         nickname:"test",
@@ -291,16 +314,70 @@ const commentList =[ {
       }
     ]
   }
-]
+
+])
 function onSubmit(){
 
 }
 const onAddItem = () => {
 
 }
+function handleReply(comment){
+  show.value=true;
+
+  console.log("点击"+comment.replyHide)
+  comment. comHide=true
+  console.log(JSON.stringify(comment))
+  if(comment.replyHide){
+    comment.replyHide=false;
+    show.value=false;
+    return false
+  }else{
+    comment.replyHide=true;
+    show.value=true;
+    return true
+  }
+}
+function handleReplyComm(comment,row) {
+  dialogFormVisible.value=true
+  reply.value.nickname="test";
+  reply.value.replyNickname=row.nickname;
+  reply.value.content="这是一个回复";
+  reply.value.front=row.content;
+  reply.value.createTime="2020-05-02 11:23:09";
+}
+function sudmitReply(comment){
+  comment.reply.put(
+      {
+        nickname:"test",
+        replyNickname:comment.createTime,
+        content:"这是一个回复",
+        front:comment.comment,
+        createTime:"2020-05-02 11:23:09",
+      }
+  )
+}
+
+function sudmitCoomentReply(comment){
+  console.log(JSON.stringify(comment))
+  const newReply = {
+    nickname:"test",
+        replyNickname:comment.createTime,
+        content:commReply.value,
+        front:comment.comment,
+        createTime:"2020-05-02 11:23:09",
+  }
+  comment.reply.push(newReply)
+  console.log(JSON.stringify(comment))
+}
 </script>
 
 <style scoped>
+.reply span {
+  font-size: 5px;
+  font-family:'PingFangSC-Regular', 'PingFang SC', sans-serif;
+  color:#999999;
+}
 .center {
   display: flex;
   justify-content: center;

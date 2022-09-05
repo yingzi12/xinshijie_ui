@@ -50,22 +50,22 @@
       <div>
         <el-tabs v-model="commentActive"  >
           <el-tab-pane label="全部评论" name="allComm">
-            <div v-for="comment in discuss.reply">
+            <div v-for="reply in discuss.reply">
               <el-row>
                 <el-col :span="2">
                   <div  class="center">
                     <!--              头像-->
-                    <el-avatar :size="50" :src="comment.circleUrl" />
+                    <el-avatar :size="50" :src="reply.circleUrl" />
                   </div>
                 </el-col>
                 <el-col :span="22">
                   <div >
-                    <h3 style="font-weight:bold;">{{ comment.createName }}</h3>
+                    <h3 style="font-weight:bold;">{{ reply.createName }}</h3>
                   </div>
-                  <div v-html="comment.content">
+                  <div v-html="reply.content">
                   </div>
                   <div style="color:#A3A6AD">
-                    <span>{{ comment.createTime }}</span>
+                    <span>{{ reply.createTime }}</span>
                     <span><BootstrapIcon @click="dialogFormVisible = true" icon="chat-dots" size="1x" flip-v />20 </span>
                     <span><BootstrapIcon icon="hand-thumbs-up" size="1x" flip-v />10</span>
                     <span><BootstrapIcon icon="hand-thumbs-down" size="1x" flip-v />20</span>
