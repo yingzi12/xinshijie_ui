@@ -79,7 +79,7 @@
               <el-table-column prop="wname" label="世界" />
               <el-table-column prop="comment" label="内容" />
               <el-table-column prop="reply" label="回复" />
-              <el-table-column fixed="right" label="Operations" width="220">
+              <el-table-column fixed="right" label="操作" width="100">
                 <template #default>
 <!--                  <el-button link type="primary" size="small" @click="dialogFormVisible = true">查看</el-button>-->
                   <el-button link type="primary" size="small">删除</el-button>

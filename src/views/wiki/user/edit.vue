@@ -56,8 +56,8 @@
                 <el-form-item label="手机号" prop="count">
                   <el-input v-model="ruleForm.telephone" />
                 </el-form-item>
-                <el-form-item label="签名" prop="desc">
-                  <el-input v-model="ruleForm.desc" type="textarea" />
+                <el-form-item label="签名" prop="sign">
+                  <el-input v-model="ruleForm.sign" type="textarea" />
                 </el-form-item>
                 <el-form-item>
                   <el-button type="primary" @click="submitForm(ruleFormRef)"

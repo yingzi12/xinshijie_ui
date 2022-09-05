@@ -18,7 +18,7 @@
                 <el-icon><icon-menu /></el-icon>
                 <span>全部</span>
               </el-menu-item>
-              <el-menu-item  v-for="types in worldTypes" index="2" :index="types.id" @click="handFind(types.id)">
+              <el-menu-item  v-for="types in worldTypes"  :index="types.id" @click="handFind(types.id)">
                   <el-icon><icon-menu /></el-icon>
                   <span>{{types.name }}</span>
                 </el-menu-item>
@@ -34,7 +34,8 @@
                               </template>
                             </el-table-column>
               <el-table-column label="名称" align="center" key="name" prop="name"  />
-              <el-table-column label="类型" align="center" :show-overflow-tooltip="true" >
+              <el-table-column label="等级" align="center" key="ranks" prop="ranks"  width="50" />
+              <el-table-column label="类型" align="center" :show-overflow-tooltip="true" width="80" >
                 <template #default="scope">
                   <span>{{worldTypesMap.get(scope.row.types)}}</span>
                 </template>
@@ -92,15 +93,15 @@ class World {
   createTime:string
 }
 const worldTypesMap=new Map([
-     [0,"科学"],
-      [1,"武侠"],
+     [6,"科学"],
+   [1,"武侠"],
   [2,"仙侠"],
   [3,"魔幻"],
   [4,"奇幻"],
   [5,"其他"]
 ])
 
-const worldTypes=reactive([{id:0,name:"科学"},{id:1,name:"武侠"},{id:2,name:"仙侠"},{id:3,name:"魔幻"},{id:4,name:"奇幻"},{id:5,name:"其他"}])
+const worldTypes=reactive([{id:6,name:"科学"},{id:1,name:"武侠"},{id:2,name:"仙侠"},{id:3,name:"魔幻"},{id:4,name:"奇幻"},{id:5,name:"其他"}])
 const wname=ref('');
 const wtypes=ref(null);
 const loading = ref(true);
@@ -112,7 +113,7 @@ const data = reactive({
     pageNum: 1,
     pageSize: 10,
     name: undefined,
-    types:undefined,
+    types: null,
   },
   rules: {
     // userName: [{ required: true, message: "用户名称不能为空", trigger: "blur" }, { min: 2, max: 20, message: "用户名称长度必须介于 2 和 20 之间", trigger: "blur" }],
@@ -137,12 +138,11 @@ function handleUpdate (row)  {
 //   }).catch(() => {});
 // }
 function handFind(types:number){
-  if(types != null && types != '' && types != undefined) {
-    wtypes.value = types;
+  if(!types || types== -1  ) {
+    queryParams.value.types =null;
   }else{
-    wtypes.value = null;
+    queryParams.value.types =types;
   }
-  queryParams.value.types = wtypes.value;
   if(wname.value != null && wname.value != '' && wname.value != undefined) {
     queryParams.value.name=wname.value;
   }else{

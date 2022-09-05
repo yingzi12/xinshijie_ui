@@ -68,21 +68,21 @@
         <!--        表格-->
         <div>
           <el-scrollbar>
-            <el-table :data="tableData">
+            <el-table :data="discussList">
               <el-table-column label="序号" >
                 <template #default="scope">
                   {{scope.$index+1}}
                 </template>
               </el-table-column>
-              <el-table-column prop="date" label="创建时间" width="140" />
-              <el-table-column prop="name" label="创建人" width="120" />
-              <el-table-column prop="title" label="讨论主题" />
-              <el-table-column prop="ename" label="元素名称" />
-              <el-table-column prop="types" label="讨论类型" />
-              <el-table-column prop="content" label="讨论内容" />
+              <el-table-column prop="wname" label="世界名称" width="140" />
+              <el-table-column prop="etitle" label="元素名称" width="120" />
+              <el-table-column prop="title" label="讨论主题"   :show-overflow-tooltip="true"/>
+              <el-table-column prop="types" label="讨论类型"  />
+              <el-table-column prop="content" label="讨论内容"  :show-overflow-tooltip="true" />
+              <el-table-column prop="createTime" label="创建时间"  :show-overflow-tooltip="true" />
               <el-table-column prop="status" label="状态" />
-              <el-table-column prop="audit" label="审核说明" />
-              <el-table-column fixed="right" label="Operations" width="220">
+              <el-table-column prop="audit" label="审核结果" :show-overflow-tooltip="true"/>
+              <el-table-column fixed="right" label="操作" width="100">
                 <template #default>
                   <el-button link type="primary" size="small" @click="handleClick">查看</el-button>
                 </template>
@@ -127,71 +127,59 @@
 </template>
 
 <script lang="ts" setup>
-import {reactive, ref} from 'vue'
+import {getCurrentInstance, reactive, ref, toRefs} from 'vue'
 import {useRoute, useRouter} from "vue-router";
 import { Menu as IconMenu,CirclePlus, Message, Setting } from '@element-plus/icons-vue'
 import { Search } from '@element-plus/icons-vue'
+import { listDiscuss } from "@/api/admin/discuss";
+import {get} from "@vueuse/core";
 
 // 接收url里的参数
 const route = useRoute();
 console.log(route.query.wid,"参数");
 const wid = ref(null);
-wid.value = route.query.wid;
 const wname = ref('');
 wname.value = <string>route.query.wname;
-//个人消息
-const fits = ['世界', '粉丝', '关注']
-const activeIndex = ref('1')
+wid.value = route.query.wid;
 
-//表格内容
-const item = {
-  date: '2016-05-02',
-  name: 'Tom',
-  title: 'No. 189, Grove St, Los Angeles',
-  ename:'世界数',
-  types:'内容讨论',
-  status:"已处理",
-  content:"这一个评论的内容，这个内容有问题，不和规定，需要修改",
-  audit:"同意这个，已进行修改",
+const {  appContext : { config: { globalProperties } }  } = getCurrentInstance();
+const {  proxy  } = getCurrentInstance();
+//分页
+const dateRange = ref([]);
+//分类选项
+const dataStree = ref([])
+const loading = ref(true);
+const discussList = ref([]);
+const total = ref(0);
+const data = reactive({
+  form: {},
+  queryParams: {
+    pageNum: 1,
+    pageSize: 10,
+    auditStatus:0,
+    name: undefined,
+    types: undefined,
+    // wid:wid.value,
+  },
+  rules: {
+    // userName: [{ required: true, message: "用户名称不能为空", trigger: "blur" }, { min: 2, max: 20, message: "用户名称长度必须介于 2 和 20 之间", trigger: "blur" }],
+  }
+});
+const { queryParams, form, rules } = toRefs(data);
+
+/** 查询世界列表 */
+function getList() {
+  listDiscuss(globalProperties.addDateRange(queryParams.value, dateRange.value)).then(response => {
+    loading.value = false;
+    discussList.value = response.rows;
+    total.value = response.total;
+  });
 }
-const tableData = ref(Array.from({ length: 20 }).fill(item))
-
-//多选框
-const value = ref('')
-const options = [
-  {
-    value: 'Option1',
-    label: 'Option1',
-  },
-  {
-    value: 'Option2',
-    label: 'Option2',
-    disabled: true,
-  },
-  {
-    value: 'Option3',
-    label: 'Option3',
-  },
-  {
-    value: 'Option4',
-    label: 'Option4',
-  },
-  {
-    value: 'Option5',
-    label: 'Option5',
-  },
-]
-//搜索框
-const input3 = ref('')
-
 //弹出框
 const dialogFormVisible = ref(false)
 const formLabelWidth = '140px'
 
-const form = reactive({
-  name: '',
-  region: ''
-})
+getList()
 </script>
 
 <style scoped>

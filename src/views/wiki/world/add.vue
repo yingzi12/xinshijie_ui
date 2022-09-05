@@ -95,7 +95,7 @@ const data = reactive({
 
 const {  ruleForm, rules } = toRefs(data);
 
-const worldTypes=reactive([{id:0,name:"科学"},{id:1,name:"武侠"},{id:2,name:"仙侠"},{id:3,name:"魔幻"},{id:4,name:"奇幻"},{id:5,name:"其他"}])
+const worldTypes=reactive([{id:6,name:"科学"},{id:1,name:"武侠"},{id:2,name:"仙侠"},{id:3,name:"魔幻"},{id:4,name:"奇幻"},{id:5,name:"其他"}])
 
 const submitForm = async (formEl: FormInstance | undefined) => {
   if (!formEl) return

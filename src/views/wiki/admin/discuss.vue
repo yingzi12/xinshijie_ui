@@ -6,12 +6,11 @@
       <el-main>
         <div>
           <el-menu
-              :default-active="activeIndex"
+              default-active="1"
               mode="horizontal"
-              @select="handleSelect"
-              style="margin:0px;pardding:0px"
+              style="margin:0px;pardding:0px;"
           >
-            <el-menu-item index="1">我的评论</el-menu-item>
+            <el-menu-item index="1"><span style="font-size: 20px;font-weight:bold;">我的讨论</span></el-menu-item>
           </el-menu>
         </div>
         <!--        统计-->
@@ -58,7 +57,7 @@
               <el-table-column prop="createTime" label="创建时间"  :show-overflow-tooltip="true" />
               <el-table-column prop="status" label="状态" />
               <el-table-column prop="audit" label="审核结果" :show-overflow-tooltip="true"/>
-              <el-table-column fixed="right" label="Operations" width="220">
+              <el-table-column fixed="right" label="操作" width="220">
                 <template #default>
                   <el-button link type="primary" size="small" @click="handleClick">查看</el-button>
                   <el-button link type="primary" size="small" @click="dialogFormVisible = true">关闭</el-button>

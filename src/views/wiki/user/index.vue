@@ -63,7 +63,7 @@
             签名
           </div>
         </template>
-        {{user.desc}}
+        {{user.sign}}
       </el-descriptions-item>
     </el-descriptions>
   </el-container>

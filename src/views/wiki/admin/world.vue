@@ -11,7 +11,7 @@
               mode="horizontal"
               style="margin:0px;pardding:0px"
           >
-            <el-menu-item index="1">世界管理</el-menu-item>
+            <el-menu-item index="1"><span style="font-size: 20px;font-weight:bold;">世界管理</span></el-menu-item>
           </el-menu>
         </div>
         <!--        多选-->
@@ -46,7 +46,8 @@
                 </template>
               </el-table-column>
               <el-table-column label="名称" align="center" key="name" prop="name"  />
-              <el-table-column label="类型" align="center" :show-overflow-tooltip="true" >
+              <el-table-column label="等级" align="center" key="ranks" prop="ranks"   width="50"/>
+              <el-table-column label="类型" align="center" :show-overflow-tooltip="true"  width="80" >
                <template #default="scope">
                 <span>{{worldTypesMap.get(scope.row.types)}}</span>
                 </template>
@@ -139,7 +140,7 @@ const worldStatus = new Map([
   [3, "删除"]
 ]);
 const worldTypesMap=new Map([
-  [0,"科学"],
+  [6,"科学"],
   [1,"武侠"],
   [2,"仙侠"],
   [3,"魔幻"],
@@ -161,7 +162,7 @@ const data = reactive({
     // userName: [{ required: true, message: "用户名称不能为空", trigger: "blur" }, { min: 2, max: 20, message: "用户名称长度必须介于 2 和 20 之间", trigger: "blur" }],
   }
 });
-const worldTypes=reactive([{id:0,name:"科学"},{id:1,name:"武侠"},{id:2,name:"仙侠"},{id:3,name:"魔幻"},{id:4,name:"奇幻"},{id:5,name:"其他"}])
+const worldTypes=reactive([{id:6,name:"科学"},{id:1,name:"武侠"},{id:2,name:"仙侠"},{id:3,name:"魔幻"},{id:4,name:"奇幻"},{id:5,name:"其他"}])
 const { queryParams, form, rules } = toRefs(data);
 const dateRange = ref([]);
 const ids = ref([]);

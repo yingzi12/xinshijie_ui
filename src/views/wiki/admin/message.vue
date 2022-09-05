@@ -12,7 +12,7 @@
               @select="handleSelect"
               style="margin:0px;pardding:0px"
           >
-            <el-menu-item index="1">我的评论</el-menu-item>
+            <el-menu-item index="1"><span style="font-size: 20px;font-weight:bold;">我的评论</span></el-menu-item>
           </el-menu>
         </div>
         <!--        多选-->

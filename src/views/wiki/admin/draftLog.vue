@@ -11,7 +11,7 @@
               mode="horizontal"
               style="margin:0px;pardding:0px"
           >
-            <el-menu-item index="1">元素所有记录</el-menu-item>
+            <el-menu-item index="1"><span style="font-size: 20px;font-weight:bold;">元素所有记录</span></el-menu-item>
           </el-menu>
         </div>
         <!--        统计-->

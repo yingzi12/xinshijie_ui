@@ -9,7 +9,7 @@
             <!--  头像-->
             <el-avatar :size="50" :src="user.avatar" />
             <div>
-              <h3 style="margin:10px;margin-bottom: 10px;font-size:14px;">{{ user.name }}</h3>
+              <h3 style="margin:10px;margin-bottom: 10px;font-size:14px;">{{ user.userName }}({{ user.nickName }})</h3>
               <p style="margin: 0px;padding: 0px;font-size:10px;">id:{{ user.userId }}</p>
               <div class="bottom" >
                 <p style="margin: 0px;padding: 0px;font-size:10px;line-height:120%;">这是一个签名,表达自己的想法用的,没什么实际的意义</p>

@@ -4,27 +4,27 @@
     <el-aside width="250px" style="margin: 10px">
       <div>
         <!--        个人信息-->
-        <div class="center" style="margin-bottom: 10px;text-align: center;">
-          <el-card :body-style="{ padding: '0px' }">
+        <div class="center"  style="margin-bottom: 10px;text-align: center">
+          <el-card :body-style="{ padding: '0px',width:'200px'}">
             <!--  头像-->
             <el-avatar :size="50" :src="user.avatar" />
             <div>
-              <h3 style="margin:10px;margin-bottom: 10px;font-size:14px;">{{ user.name }}</h3>
+              <h3 style="margin:10px;margin-bottom: 10px;font-size:14px;">{{ user.userName }}({{ user.nickName }})</h3>
               <p style="margin: 0px;padding: 0px;font-size:10px;">id:{{ user.userId }}</p>
               <div class="bottom" >
-                <p style="margin: 0px;padding: 0px;font-size:10px;line-height:120%;">这是一个签名,表达自己的想法用的,没什么实际的意义</p>
-                <div class="demo-count">
+                <p style="margin: 0px;padding: 0px;font-size:10px;line-height:120%;">{{ user.sign }}</p>
+                <div class="user-count">
                   <div  class="block">
-                    <span class="demonstration">4</span>
-                    <span class="demonstration">世界</span>
+                    <span class="stration">{{user.countWorld}}</span>
+                    <span class="stration">世界</span>
                   </div>
                   <div  class="block">
-                    <span class="demonstration">4440000</span>
-                    <span class="demonstration">粉丝</span>
+                    <span class="stration">0</span>
+                    <span class="stration">粉丝</span>
                   </div>
                   <div  class="block">
-                    <span class="demonstration">433</span>
-                    <span class="demonstration">关注</span>
+                    <span class="stration">{{ user.countFllow }}</span>
+                    <span class="stration">关注</span>
                   </div>
                 </div>
                 <el-button text class="button">用户中心</el-button>
@@ -33,7 +33,7 @@
           </el-card>
         </div>
         <!--        功栏栏-->
-        <div style="margin-top: 10px">
+        <div style="margin-top: 10px;">
           <el-scrollbar>
             <el-menu   :router="true"
                        default-active="2">
@@ -61,12 +61,6 @@
                 <el-icon><icon-menu /></el-icon>
                 <template #title>我的评论</template>
               </el-menu-item>
-<!--              <el-menu-item index="/admin/message">-->
-<!--                <el-icon><icon-menu /></el-icon>-->
-<!--                <template #title>我的信息</template>-->
-<!--              </el-menu-item>-->
-
-
             </el-menu>
           </el-scrollbar>
         </div>
@@ -127,7 +121,7 @@ handleUser();
   align-items: center;
 }
 
-.demo-count .block {
+.user-count .block {
   padding: 0px 0;
   text-align: center;
   border-right: solid 1px var(--el-border-color);
@@ -136,10 +130,10 @@ handleUser();
   box-sizing: border-box;
   vertical-align: top;
 }
-.demo-count .block:last-child {
+.user-count .block:last-child {
   border-right: none;
 }
-.demo-count .demonstration {
+.user-count .stration {
   display: block;
   color: var(--el-text-color-secondary);
   font-size: 9px;

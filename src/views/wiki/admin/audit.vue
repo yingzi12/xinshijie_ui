@@ -12,8 +12,8 @@
               @select="handleSelect"
               style="margin:0px;pardding:0px"
           >
-            <el-menu-item index="1" :to="{path:'/admin/audit'}">待审核元素</el-menu-item>
-            <el-menu-item index="2" :to="{path:'/admin/auditLog'}">已审核元素</el-menu-item>
+            <el-menu-item index="1" :to="{path:'/admin/audit'}"><span style="font-size: 20px;font-weight:bold;">待审核元素</span></el-menu-item>
+            <el-menu-item index="2" :to="{path:'/admin/auditLog'}"><span style="font-size: 20px;font-weight:bold;">已审核元素</span></el-menu-item>
           </el-menu>
         </div>
         <!--        统计-->
