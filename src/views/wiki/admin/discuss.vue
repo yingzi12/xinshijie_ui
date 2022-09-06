@@ -63,7 +63,7 @@
         <el-table-column prop="audit" label="审核结果" :show-overflow-tooltip="true"/>
         <el-table-column fixed="right" label="操作" width="150">
           <template #default="scope">
-            <el-button link type="primary" size="small" @click="handleSee(scope.row.id)">查看</el-button>
+            <el-button link type="primary" size="small" @click="handleSee(scope.row)">查看</el-button>
             <el-button link type="primary" size="small" @click="dialogFormVisible = true">审核</el-button>
           </template>
         </el-table-column>
@@ -171,8 +171,8 @@ const input3 = ref('')
 //弹出框
 const dialogFormVisible = ref(false)
 const formLabelWidth = '140px'
-function handleSee(did){
-  router.push("/discuss/index?wid="+wid.value+"&wname="+wname.value+"&did="+did);
+function handleSee(row){
+  router.push("/discuss/index?wid="+row.wid+"&wname="+row.wname+"&did="+row.id);
 }
 
 getList()

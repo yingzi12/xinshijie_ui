@@ -305,6 +305,14 @@ function onSubmit(){
   })
 }
 function sudmitReply(comment){
+  if(!comment.replyComment){
+    ElMessage.error("回复不能为空")
+    return;
+  }
+  if(comment.replyComment.length<10 || comment.replyComment.length>200){
+    ElMessage.error("回复内容需大于10小于200")
+    return;
+  }
   console.log("添加回复:"+JSON.stringify(comment))
   form.value.did=did.value
   form.value.wid=world.value.id
@@ -324,6 +332,7 @@ function sudmitReply(comment){
     form.value.pid = comment.pid
   }
   addDiscussComment(form.value).then(response => {
+    console.log("评论成功"+JSON.stringify(response.data))
     comment.replyList.push(response.data)
     comment.replyComment=""
     console.log("评论成功"+JSON.stringify(comment))

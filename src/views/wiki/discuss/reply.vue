@@ -246,6 +246,14 @@ function handleDiscussComment() {
 }
 
 function sudmitReply(comment){
+  if(!comment.replyComment){
+    ElMessage.error("回复不能为空")
+    return;
+  }
+  if(comment.replyComment.length<10 || comment.replyComment.length>200){
+    ElMessage.error("回复内容需大于10小于200")
+    return;
+  }
   console.log("添加回复:"+JSON.stringify(comment))
   form.value.did=did.value
   form.value.wid=world.value.id
