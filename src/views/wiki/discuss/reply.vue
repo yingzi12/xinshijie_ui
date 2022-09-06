@@ -80,8 +80,13 @@
               </div>
               <el-divider style="margin: 0px;padding: 0px"/>
             </div>
-            <div class="center">
-              <el-pagination layout="prev, pager, next" :total="1000" />
+            <div style="float:right; position:relative; ">
+              <pagination
+                  v-show="total > 0"
+                  :total="total"
+                  v-model:page="queryParams.pageNum"
+                  v-model:limit="queryParams.pageSize"
+                  @pagination="getList"/>
             </div>
           </el-tab-pane>
         </el-tabs>
@@ -260,10 +265,11 @@ function sudmitReply(comment){
     form.value.pid = comment.pid
   }
   addDiscussComment(form.value).then(response => {
-    comment.replyList.push(response.data)
+    // comment.replyList.push(response.data)
     comment.replyComment=""
-    console.log("评论成功"+JSON.stringify(comment))
-    ElMessage.info("回复成功")
+    console.log("评论成功"+JSON.stringify(response.data))
+    // ElMessage.info("回复成功")
+    getList()
   })
 }
 handleDiscussComment()
@@ -313,14 +319,6 @@ function handleReply(comment){
   }else{
     comment.replyHide=true;
     show.value=true;
-    console.log("查询回复信息:"+JSON.stringify(comment))
-    queryParams.value.pid=comment.id
-    queryParams.value.pageSize=3
-    queryParams.value.ranks=null
-    listDiscussComment(globalProperties.addDateRange(queryParams.value, dateRange.value)).then(response => {
-      comment.replyList=response.rows
-      console.log("查询回复信息:"+JSON.stringify(comment))
-    })
     return true
   }
 }
