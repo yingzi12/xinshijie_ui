@@ -13,10 +13,10 @@
       <div>
         <el-divider />
         <div class="center">
-           <span style="font-size:30px;">舰队</span>
+           <span style="font-size:30px;">{{ world.name }}</span>
         </div>
         <div style="margin-bottom: 10px;margin-top: 10px">
-          你可以在这里发起和回复与元素有关的讨论。指出词条的错误点、缺失，请选择“编辑讨论”，以便问题快速解决；发布对词条主体的观点、见解，请选择“开放讨论”，以便收获更多互动。请理智、和谐讨论，遵守科星球社区规范。请勿发表过激/不实/不友善言论，不符合规范的内容会被删除。
+          你可以在这里发起和回复与世界/元素有关的讨论。指出世界/元素的错误点、缺失，除自由讨论之外选择,都会被管理员处理，使问题快速解决；发布对词条主体的观点、见解，请选择“自由讨论”，以便收获更多互动。请理智、和谐讨论，遵守公园规范。请勿发表过激/不实/不友善言论，不符合规范的内容会被删除。
         </div>
         <div style="margin: 0px;padding: 0px">
           <span style="font-size:15px;">发布主题</span><span style="font-size:10px;">文明上网理性发言，请遵守评论服务协议</span>
@@ -26,26 +26,28 @@
           <el-col :span="3" class="center">
             <el-row>
               <el-col><el-avatar :size="50" :src="circleUrl" /></el-col>
-              <el-col><span class="demonstration">未登录</span></el-col>
+              <el-col><span class="demonstration">{{ username }}</span></el-col>
             </el-row>
           </el-col>
           <el-col :span="21">
-            <el-radio-group v-model="radio">
-              <el-radio :label="1">内容错误</el-radio>
-              <el-radio :label="2">内容争议</el-radio>
-              <el-radio :label="3">添加内容</el-radio>
-              <el-radio :label="4">内容讨论</el-radio>
-              <el-radio :label="5">建议</el-radio>
-              <el-radio :label="6">其他</el-radio>
+            <el-radio-group v-model="disType">
+              <el-radio :label="1">自由讨论</el-radio>
+              <el-radio :label="2">建议</el-radio>
+              <el-radio :label="3">内容错误</el-radio>
+              <el-radio :label="4">内容缺失</el-radio>
+              <el-radio :label="5">过多重复</el-radio>
+              <el-radio :label="6">内容不相关</el-radio>
+              <el-radio :label="7">其他</el-radio>
             </el-radio-group>
             <el-form :model="form" label-width="120px">
-              <el-input
-                  v-model="textarea"
+              <el-input :disabled="disabled"  v-model="title" placeholder="请输入讨论标题"></el-input>
+              <el-input :disabled="disabled"
+                  v-model="discuss"
                   :rows="2"
                   type="textarea"
-                  placeholder="Please input"
+                  placeholder="请输入讨论内容"
               />
-              <el-button type="primary" @click="onSubmit">发布评论</el-button>
+              <el-button :disabled="disabled"  type="primary" @click="onSubmit">发布讨论</el-button>
             </el-form>
           </el-col>
         </el-row>
@@ -63,15 +65,15 @@
                 </el-col>
                 <el-col :span="22">
                   <div >
-                    <span style="font-weight:bold;font-size:15px;">{{ discuss.title }}</span>
-                    <el-tag>{{ discuss.typesName }}</el-tag>
-                    <el-tag>{{ discuss.status }}</el-tag>
+                    <span style="font-weight:bold;font-size:15px;"><router-link :to="{path:'/discuss/index',query: {wid:world.id,wname:world.name,did:discuss.id}}">{{ discuss.title }}</router-link></span>
+                    <el-tag>{{ discussTypesMap.get(discuss.types) }}</el-tag>
+                    <el-tag>{{ discussStatusMap.get(discuss.status) }}</el-tag>
                   </div>
                   <div v-html="discuss.comment">
                   </div>
                   <div style="color:#A3A6AD">
                     <span>{{ discuss.createTime }}</span>
-                    <span><BootstrapIcon @click="dialogFormVisible = true" icon="chat-dots" size="1x" flip-v />20 </span>
+                    <span><BootstrapIcon icon="chat-dots" size="1x" flip-v />20 </span>
                     <span><BootstrapIcon icon="hand-thumbs-up" size="1x" flip-v />10</span>
                     <span><BootstrapIcon icon="hand-thumbs-down" size="1x" flip-v />20</span>
                   </div>
@@ -79,115 +81,184 @@
               </el-row>
               <el-divider />
             </div>
-            <div class="center">
-              <el-pagination layout="prev, pager, next" :total="1000" />
+            <!--        分页-->
+            <div style="float:right; position:relative; ">
+              <pagination
+                  v-show="total > 0"
+                  :total="total"
+                  v-model:page="queryParams.pageNum"
+                  v-model:limit="queryParams.pageSize"
+                  @pagination="getList"/>
             </div>
           </el-tab-pane>
         </el-tabs>
       </div>
     </div>
-    <el-dialog v-model="dialogFormVisible" title="Shipping address">
-      <el-form :model="form">
-        <el-form-item label="Promotion name" :label-width="formLabelWidth">
-          <el-input v-model="form.name" autocomplete="off" />
-        </el-form-item>
-        <el-form-item label="Zones" :label-width="formLabelWidth">
-          <el-select v-model="form.region" placeholder="Please select a zone">
-            <el-option label="Zone No.1" value="shanghai" />
-            <el-option label="Zone No.2" value="beijing" />
-          </el-select>
-        </el-form-item>
-      </el-form>
-      <template #footer>
-      <span class="dialog-footer">
-        <el-button @click="dialogFormVisible = false">Cancel</el-button>
-        <el-button type="primary" @click="dialogFormVisible = false">Confirm</el-button>
-      </span>
-      </template>
-    </el-dialog>
   </div>
 </template>
 
 <script lang="ts" setup>
-import { reactive,ref } from 'vue'
+import { getCurrentInstance, reactive, ref, toRefs} from 'vue'
+import { listDiscuss } from "@/api/wiki/discuss";
+import { addDiscuss } from "@/api/admin/discuss";
+import { getWorld } from "@/api/wiki/world";
+import {useRoute, useRouter} from "vue-router";
+import {ElMessage} from "element-plus";
+import useUserStore from '@/store/modules/user'
 
+// 接收url里的参数
+const route = useRoute();
+const router = useRouter()
+const {  appContext : { config: { globalProperties } }  } = getCurrentInstance();
+const {  proxy  } = getCurrentInstance();
+
+//获取用户信息
+const userStore = useUserStore()
+const circleUrl=ref('')
+const disabled=ref(true)
+
+const username=ref('')
+console.log("userStore name:"+(userStore.name==''))
+
+const eid = ref(null);
+const wid = ref(null);
+eid.value = route.query.eid;
+wid.value = route.query.wid;
+console.log("元素id="+eid.value);
+console.log("世界id="+wid.value);
+
+if(userStore.name==''){
+  username.value="未登录"
+  disabled.value=true;
+}else{
+  username.value=userStore.name;
+  circleUrl.value=userStore.avatar;
+  disabled.value=false;
+}
+
+const discussTypesMap = new Map([
+  [1, "自由讨论"],
+  [2, "建议"],
+  [3, "内容错误"],
+  [4, "内容缺失"],
+  [5, "过多重复"],
+  [6, "内容不相关"],
+  [7, "其他"],
+
+]);
+const discussStatusMap = new Map([
+  [1, "待处理"],
+  [2, "已处理"],
+  [3, "关闭"],
+])
+//分页
+const dateRange = ref([]);
+//分类选项
+const dataStree = ref([])
+const loading = ref(true);
+const discussList = ref([]);
+const total = ref(0);
+const data = reactive({
+  form: {},
+  queryParams: {
+    pageNum: 1,
+    pageSize: 10,
+    auditStatus:0,
+    name: undefined,
+    types: undefined,
+    // wid:wid.value,
+  },
+  rules: {
+    // userName: [{ required: true, message: "用户名称不能为空", trigger: "blur" }, { min: 2, max: 20, message: "用户名称长度必须介于 2 和 20 之间", trigger: "blur" }],
+  }
+});
+const { queryParams, form, rules } = toRefs(data);
+
+
+
+/** 查询世界列表 */
+function getList() {
+
+  listDiscuss(globalProperties.addDateRange(queryParams.value, dateRange.value)).then(response => {
+    loading.value = false;
+    discussList.value = response.rows;
+    total.value = response.total;
+  });
+}
+
+const discuss=ref('')
+const title=ref('')
+
+const disType=ref(7)
 //世界信息
 const world=ref({})
+
+/** 查询世界详细 */
+function handWorld() {
+  if(wid.value == undefined){
+    ElMessage.error("缺少必要参数")
+    return;
+  }
+  getWorld(wid.value).then(response => {
+    console.log("查询世界详细:"+JSON.stringify(response))
+    world.value = response.data
+  });
+}
+
 //弹出框
 const dialogFormVisible = ref(false)
 const formLabelWidth = '140px'
 
-const form = reactive({
-  name: '',
-  region: ''
-})
-//单选框
-const radio = ref(3)
 //评论列表
 const commentActive = ref('allComm')
-const discussList =[ {
-  id:1,
-  circleUrl:'',
-  date: '2020-05-02',
-  createName: 'Tom',
-  status:"已处理",
-  typesName:"其他",
-  title:'标题，比什么都重要',
-  comment: 'No. 189, Grove St, Los Angeles',
-  createTime:"2020-05-02 11:23:09",
-},
-  {
-    id:2,
-    circleUrl:'',
-    typesName:"其他",
-    status:"讨论中",
-    date: '2016-05-02',
-    createName: 'Tom jaknecs',
-    title:'标题，比什么都重要',
-    comment: 'No. 189, Grove St, Los Angeles',
-    createTime:"2020-05-02 11:23:09",
 
-  },
-  {
-    id:3,
-    circleUrl:'',
-    date: '2016-05-02',
-    createName: 'harry dejafwae',
-    status:"已处理",
-    typesName:"其他",
-    title:'标题，比什么都重要',
-    comment: 'No. 189, Grove St, Los Angeles',
-    createTime:"2020-05-02 11:23:09",
-  },
-  {
-    id:4,
-    circleUrl:'',
-    date: '2016-05-02',
-    status:"讨论中",
-    createName: '哈哈哈哈 一个按',
-    typesName:"其他",
-    title:'标题，比什么都重要',
-    comment: 'No. 189, Grove St, Los Angeles',
-    createTime:"2020-05-02 11:23:09",
-  },
-  {
-    id:5,
-    circleUrl:'',
-    status:"讨论中",
-    date: '2016-05-02',
-    createName: 'Tom',
-    typesName:"其他",
-    title:'标题，比什么都重要',
-    comment: 'No. 189, Grove St, Los Angeles',
-    createTime:"2020-05-02 11:23:09",
-  }
-]
 function onSubmit(){
+  console.log("添加评论"+disType.value);
+  console.log("添加评论"+discuss.value);
+  console.log("添加评论"+wid.value);
+  console.log("添加评论"+eid.value);
+  console.log("添加评论"+JSON.stringify(userStore));
 
+  if(disType.value<1 || disType.value>7){
+     ElMessage.error("讨论类别必选")
+     return;
+   }
+  if(discuss.value.length<10 || discuss.value.length>500){
+    ElMessage.error("讨论内容需大于10小于500")
+    return;
+  }
+  if(title.value.length<5 || title.value.length>100){
+    ElMessage.error("讨论标题需大于5小于500")
+    return;
+  }
+  if(wid.value == undefined){
+    ElMessage.error("缺少必要参数")
+    return;
+  }else{
+    form.value.wid=world.value.id
+  }
+  if(eid.value == undefined){
+    form.value.eid=null
+  }else{
+    form.value.eid=eid.value
+  }
+  form.value.wname=world.value.name
+  form.value.circleUrl=userStore.avatar
+  form.value.types=disType.value
+  form.value.comment=discuss.value
+  form.value.title=title.value
+  console.log("添加主题")
+  addDiscuss(form.value).then(response => {
+    // ElMessage.info("评论成功")
+    disType.value=7
+    discuss.value=''
+    title.value=''
+    console.log("评论成功")
+    getList()
+  })
 }
-const onAddItem = () => {
-
-}
+handWorld()
+getList();
 </script>
 
 <style scoped>

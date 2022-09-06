@@ -1,10 +1,4 @@
 <template>
-  <el-container class="layout-container-demo" >
-    <!--    侧边栏-->
-    <!--    表格-->
-    <el-container style="margin: 10px">
-      <!--       内容区-->
-      <el-main>
         <!--        标题-->
         <div>
           <el-menu
@@ -50,17 +44,6 @@
             </el-col >
             <el-col :span="4"  style="text-align: right;">
               <div style="text-align: right; font-size: 12px" class="toolbar">
-                <el-dropdown>
-                  <el-icon style="margin-right: 8px; margin-top: 1px"><setting/></el-icon>
-                  <template #dropdown>
-                    <el-dropdown-menu>
-                      <el-dropdown-item>View</el-dropdown-item>
-                      <el-dropdown-item>Add</el-dropdown-item>
-                      <el-dropdown-item>Delete</el-dropdown-item>
-                    </el-dropdown-menu>
-                  </template>
-                </el-dropdown>
-                <span>Tom</span>
               </div>
             </el-col>
           </el-row>
@@ -74,17 +57,25 @@
                   {{scope.$index+1}}
                 </template>
               </el-table-column>
-              <el-table-column prop="wname" label="世界名称" width="140" />
-              <el-table-column prop="etitle" label="元素名称" width="120" />
+              <el-table-column prop="wname" label="世界名称" width="100" />
+              <el-table-column prop="etitle" label="元素名称" width="100" />
               <el-table-column prop="title" label="讨论主题"   :show-overflow-tooltip="true"/>
-              <el-table-column prop="types" label="讨论类型"  />
+              <el-table-column  label="讨论类型"  >
+                <template #default="scope">
+                  <span>{{discussTypesMap.get(scope.row.types)}}</span>
+                </template>
+              </el-table-column>
               <el-table-column prop="content" label="讨论内容"  :show-overflow-tooltip="true" />
               <el-table-column prop="createTime" label="创建时间"  :show-overflow-tooltip="true" />
-              <el-table-column prop="status" label="状态" />
+              <el-table-column  label="状态" >
+                <template #default="scope">
+                  <span>{{discussStatusMap.get(scope.row.status)}}</span>
+                </template>
+              </el-table-column>
               <el-table-column prop="audit" label="审核结果" :show-overflow-tooltip="true"/>
-              <el-table-column fixed="right" label="操作" width="100">
-                <template #default>
-                  <el-button link type="primary" size="small" @click="handleClick">查看</el-button>
+              <el-table-column fixed="right" label="操作" width="150">
+                <template #default="scope">
+                  <el-button link type="primary" size="small" @click="handleSee(scope.row.id)">查看</el-button>
                   <el-button link type="primary" size="small" @click="dialogFormVisible = true">审核</el-button>
                 </template>
               </el-table-column>
@@ -100,7 +91,6 @@
               v-model:limit="queryParams.pageSize"
               @pagination="getList"/>
         </div>
-      </el-main>
 
       <!--      审核弹出框-->
       <el-dialog v-model="dialogFormVisible" title="审核">
@@ -122,26 +112,38 @@
       </span>
         </template>
       </el-dialog>
-
-    </el-container>
-  </el-container>
 </template>
 
 <script lang="ts" setup>
 import {getCurrentInstance, reactive, ref, toRefs} from 'vue'
 import {useRoute, useRouter} from "vue-router";
-import { Menu as IconMenu,CirclePlus, Message, Setting } from '@element-plus/icons-vue'
 import { Search } from '@element-plus/icons-vue'
-import { listDiscuss } from "@/api/admin/discuss";
+import { listDiscussAdmin } from "@/api/admin/discuss";
 
 // 接收url里的参数
-const route = useRoute();
+// 接收url里的参数
+const route = useRoute()
+const router = useRouter()
 console.log(route.query.wid,"参数");
 const wid = ref(null);
 const wname = ref('');
 wname.value = <string>route.query.wname;
 wid.value = route.query.wid;
+const discussTypesMap = new Map([
+  [1, "自由讨论"],
+  [2, "建议"],
+  [3, "内容错误"],
+  [4, "内容缺失"],
+  [5, "过多重复"],
+  [6, "内容不相关"],
+  [7, "其他"],
 
+]);
+const discussStatusMap = new Map([
+  [1, "待处理"],
+  [2, "已处理"],
+  [3, "关闭"],
+])
 const {  appContext : { config: { globalProperties } }  } = getCurrentInstance();
 const {  proxy  } = getCurrentInstance();
 //分页
@@ -159,7 +161,7 @@ const data = reactive({
     auditStatus:0,
     name: undefined,
     types: undefined,
-    // wid:wid.value,
+    wid:wid.value,
   },
   rules: {
     // userName: [{ required: true, message: "用户名称不能为空", trigger: "blur" }, { min: 2, max: 20, message: "用户名称长度必须介于 2 和 20 之间", trigger: "blur" }],
@@ -169,7 +171,7 @@ const { queryParams, form, rules } = toRefs(data);
 
 /** 查询世界列表 */
 function getList() {
-  listDiscuss(globalProperties.addDateRange(queryParams.value, dateRange.value)).then(response => {
+  listDiscussAdmin(globalProperties.addDateRange(queryParams.value, dateRange.value)).then(response => {
     loading.value = false;
     discussList.value = response.rows;
     total.value = response.total;
@@ -181,6 +183,9 @@ const input3 = ref('')
 //弹出框
 const dialogFormVisible = ref(false)
 const formLabelWidth = '140px'
+function handleSee(did){
+  router.push("/discuss/index?wid="+wid.value+"&wname="+wname.value+"&did="+did);
+}
 
 getList()
 </script>

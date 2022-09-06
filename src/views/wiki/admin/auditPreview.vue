@@ -3,9 +3,7 @@
     <div>
       <el-breadcrumb separator="/">
         <el-breadcrumb-item :to="{ path: '/' }">homepage</el-breadcrumb-item>
-        <el-breadcrumb-item
-        ><a href="/public">promotion management</a></el-breadcrumb-item
-        >
+        <el-breadcrumb-item><a href="/public">promotion management</a></el-breadcrumb-item>
         <el-breadcrumb-item>promotion list</el-breadcrumb-item>
         <el-breadcrumb-item>promotion detail</el-breadcrumb-item>
       </el-breadcrumb>
@@ -62,7 +60,6 @@
         <el-button @click="handClean()">返回</el-button>
       </div>
     </div>
-
   </div>
 </template>
 

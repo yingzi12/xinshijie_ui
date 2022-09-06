@@ -1,10 +1,4 @@
 <template>
-  <el-container class="layout-container-demo" >
-    <!--    侧边栏-->
-    <!--    表格-->
-    <el-container style="margin: 10px">
-      <!--       内容区-->
-      <el-main>
         <div>
           <el-menu
               :default-active="activeIndex"
@@ -95,7 +89,6 @@
         <div style="float:right; ">
           <el-pagination  layout="prev, pager, next" :total="50" />
         </div>
-      </el-main>
 
 <!--      审核弹出框-->
       <el-dialog v-model="dialogFormVisible" title="审核">
@@ -116,10 +109,6 @@
         <el-button type="primary" @click="dialogFormVisible = false">确认</el-button>
       </span>
         </template>
-      </el-dialog>
-
-    </el-container>
-  </el-container>
 </template>
 
 <script lang="ts" setup>

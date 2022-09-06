@@ -1,10 +1,4 @@
 <template>
-  <el-container class="layout-container-demo" >
-    <!--    侧边栏-->
-    <!--    表格-->
-    <el-container style="margin: 10px">
-      <!--       内容区-->
-      <el-main>
         <!--        标题-->
         <div>
           <el-menu
@@ -99,9 +93,6 @@
             </el-form>
           </div>
         </div>
-      </el-main>
-    </el-container>
-  </el-container>
 </template>
 
 <script lang="ts" setup>

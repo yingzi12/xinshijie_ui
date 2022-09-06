@@ -1,10 +1,4 @@
 <template>
-  <el-container class="layout-container-demo">
-    <!--    侧边栏-->
-    <!--    表格-->
-    <el-container style="margin: 10px">
-      <!--       内容区-->
-      <el-main>
         <div>
           <el-menu
               :default-active="activeIndex"
@@ -99,9 +93,6 @@
               @pagination="getList"
           />
         </div>
-      </el-main>
-    </el-container>
-  </el-container>
 </template>
 
 <script lang="ts" setup>

@@ -3,14 +3,22 @@ import request from '@/utils/request'
 // 查询元素列表
 export function listDiscuss(query) {
   return request({
-    url: '/admin/discuss/listDiscussWorld',
+    url: '/admin/discuss/list',
+    method: 'get',
+    params: query
+  })
+}
+
+export function listDiscussAdmin(query) {
+  return request({
+    url: '/admin/discuss/listAdmin',
     method: 'get',
     params: query
   })
 }
 
 // 查询元素详细
-export function getDiscussDetails(wid,did) {
+export function getDiscuss(wid,did) {
   return request({
     url: '/wiki/discuss/getInfo?wid=' + wid+'&did='+did,
     method: 'get'

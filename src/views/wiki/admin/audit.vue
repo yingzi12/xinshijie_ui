@@ -1,10 +1,5 @@
 <template>
-  <el-container class="layout-container-demo" >
-    <!--    侧边栏-->
-    <!--    表格-->
-    <el-container style="margin: 10px">
-      <!--       内容区-->
-      <el-main>
+
         <div>
           <el-menu
               :default-active="activeIndex"
@@ -77,7 +72,6 @@
               v-model:limit="queryParams.pageSize"
               @pagination="getList"/>
         </div>
-      </el-main>
 
       <!--      审核弹出框-->
       <el-dialog v-model="dialogFormVisible" title="审核">
@@ -99,16 +93,12 @@
       </span>
         </template>
       </el-dialog>
-    </el-container>
-  </el-container>
 </template>
 
 <script lang="ts" setup>
 import {getCurrentInstance, reactive, ref, toRefs} from 'vue'
 import {useRoute, useRouter} from "vue-router";
-import { Menu as IconMenu,CirclePlus, Message, Setting } from '@element-plus/icons-vue'
 import { listDraft,issueClose } from "@/api/admin/draftElement";
-import { getTree} from "@/api/wiki/category";
 const router = useRouter()
 
 // 接收url里的参数
@@ -177,9 +167,6 @@ function handleIssueClose(row){
   issueClose(row.wid,row.id).then(response => {
     getList();
   });
-}
-function handleAudit(row){
-  dialogFormVisible.value=true;
 }
 function handleSee(row){
   router.push("/admin/draftPreview?wid="+row.wid+"&deid="+row.id);

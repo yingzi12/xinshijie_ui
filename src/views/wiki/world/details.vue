@@ -43,6 +43,7 @@
               <div style="margin-top: 2px">
                 <el-button type="primary" @click="handleFllow">关注</el-button>
                 <el-button type="primary">点赞</el-button>
+                <el-button type="primary"  @click="handleDiscuss">讨论</el-button>
               </div>
             </div>
           </el-col>
@@ -191,7 +192,9 @@ const imageUrl=ref('')
 function handElement(){
   router.push("/element/list?wid="+world.value.id);
 }
-
+function handleDiscuss(){
+  router.push("/discuss/list?wid="+world.value.id);
+}
 function handleFllow(){
   addFllow(wid.value).then(response => {
     ElMessage.success("关注成功");

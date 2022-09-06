@@ -2,7 +2,7 @@
   <div class="app-container">
     <!--  世界名称-->
     <div style="background-color: #E5EAF3">
-        <h2  class="center2">名称</h2>
+        <h2  class="center2">{{ world.name }}</h2>
     </div>
     <!--  分类管理 -->
     <div>
@@ -244,12 +244,12 @@ function getList() {
   });
 }
 // /** 查询世界列表 */
-// function handWorld() {
-//   getWorld(wid.value).then(response => {
-//     world.value = response.data
-//     console.log("树:"+JSON.stringify( dataStree.value))
-//   });
-// }
+function handWorld() {
+  getWorld(wid.value).then(response => {
+    world.value = response.data
+    console.log("树:"+JSON.stringify( dataStree.value))
+  });
+}
 
 function  show(val){
 //let that = this ,将this保存在that中，再在函数中使用that均可

@@ -1,10 +1,4 @@
 <template>
-  <el-container class="layout-container-demo" >
-    <!--    侧边栏-->
-    <!--    表格-->
-    <el-container style="margin: 10px">
-      <!--       内容区-->
-      <el-main>
         <div>
           <el-menu default-active="1" mode="horizontal" style="margin:0px;pardding:0px">
             <el-menu-item index="1"><span style="font-size: 20px;font-weight:bold;">我的评论</span></el-menu-item>
@@ -78,9 +72,6 @@
               v-model:limit="queryParams.pageSize"
               @pagination="getList"/>
         </div>
-      </el-main>
-    </el-container>
-  </el-container>
 </template>
 
 <script lang="ts" setup>

@@ -67,7 +67,7 @@
       </div>
     </el-aside>
     <!--    侧边栏-->
-    <el-container style="margin: 10px">
+    <el-container  style="margin: 10px">
       <!--       内容区-->
       <el-main>
         <router-view v-slot="{ Component, route }">

@@ -1,43 +1,43 @@
 import request from '@/utils/request'
 
 // 查询元素列表
-export function listDisscussComment(query) {
+export function listDiscussComment(query) {
   return request({
-    url: '/admin/disscussComment/listDisscussComment',
+    url: '/admin/discussComment/list',
     method: 'get',
     params: query
   })
 }
 
 // 查询元素详细
-export function getDisscussDetails(wid,dcid) {
+export function getDiscussDetails(wid,dcid) {
   return request({
-    url: '/wiki/disscussComment/getInfo?wid=' + wid+'&dcid='+dcid,
+    url: '/admin/discussComment/getInfo?wid=' + wid+'&dcid='+dcid,
     method: 'get'
   })
 }
 
 // 新增元素
-export function addDisscussComment(data) {
+export function addDiscussComment(data) {
   return request({
-    url: '/admin/disscussComment/add',
+    url: '/admin/discussComment/add',
     method: 'post',
     data: data
   })
 }
 
 // 修改元素
-export function updateDisscussComment(data) {
+export function updateDiscussComment(data) {
   return request({
-    url: '/admin/disscussComment/edit',
+    url: '/admin/discussComment/edit',
     method: 'put',
     data: data
   })
 }
 // 删除元素
-export function delDisscussComment(wid,dcid) {
+export function delDiscussComment(dcid) {
   return request({
-    url: '/admin/disscussComment/remove?wid=' + wid+'&dcid='+dcid,
+    url: '/admin/discussComment/remove?wid=' + wid+'&dcid='+dcid,
     method: 'delete'
   })
 }

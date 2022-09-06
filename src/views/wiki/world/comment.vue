@@ -109,7 +109,6 @@ if(userStore.name==''){
   disabled.value=false;
 }
 
-console.log("useUserStore:"+JSON.stringify(useUserStore))
 console.log("userStore:"+JSON.stringify(userStore))
 
 const commentActive = ref('allComm')

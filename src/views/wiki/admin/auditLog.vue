@@ -1,10 +1,4 @@
 <template>
-  <el-container class="layout-container-demo" >
-    <!--    侧边栏-->
-    <!--    表格-->
-    <el-container style="margin: 10px">
-      <!--       内容区-->
-      <el-main>
         <div>
           <el-menu
               default-active="2"
@@ -77,8 +71,6 @@
               v-model:limit="queryParams.pageSize"
               @pagination="getList"/>
         </div>
-      </el-main>
-
       <!--      审核弹出框-->
       <el-dialog v-model="dialogFormVisible" title="审核">
         <el-form :model="form">
@@ -99,16 +91,12 @@
       </span>
         </template>
       </el-dialog>
-    </el-container>
-  </el-container>
 </template>
 
 <script lang="ts" setup>
 import {getCurrentInstance, reactive, ref, toRefs} from 'vue'
 import {useRoute, useRouter} from "vue-router";
-import { Menu as IconMenu,CirclePlus, Message, Setting } from '@element-plus/icons-vue'
 import { listDraft } from "@/api/admin/draftElement";
-import { getTree} from "@/api/wiki/category";
 const router = useRouter()
 const elementStatus = new Map([
   [0, "草稿"],

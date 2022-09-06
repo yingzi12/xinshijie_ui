@@ -1,10 +1,4 @@
  <template>
-  <el-container class="layout-container-demo" >
-    <!--    侧边栏-->
-    <!--    表格-->
-    <el-container style="margin: 10px">
-      <!--       内容区-->
-      <el-main>
         <!--        标题-->
         <div>
           <el-menu
@@ -66,9 +60,7 @@
             </template>
           </el-dialog>
         </div>
-      </el-main>
-    </el-container>
-  </el-container>
+
 </template>
 
 <script lang="ts" setup>
@@ -78,7 +70,6 @@ import { addCategory,updateCategory} from "@/api/admin/category";
 import { getTree} from "@/api/wiki/category";
 import {useRoute,useRouter} from "vue-router";
 import {FormInstance} from "element-plus";
-import { Menu as IconMenu, Message, Setting } from '@element-plus/icons-vue'
 const fits = ['世界', '粉丝', '关注']
 const activeIndex = ref('1')
 const circleUrl=ref('')

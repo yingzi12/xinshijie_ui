@@ -103,7 +103,7 @@ export const constantRoutes = [
       {
         path: 'index',
         component: () => import('@/views/wiki/world/index'),
-        name: 'World',
+        name: 'WorldIndex',
         meta: { title: '世界首页', icon: 'world' }
       }
       ,{
@@ -414,7 +414,7 @@ export const constantRoutes = [
         name: 'discussList',
         meta: { title: '讨论主题列表', icon: 'world' }
       },{
-        path: 'replay',
+        path: 'reply',
         component: () => import('@/views/wiki/discuss/reply'),
         name: 'discussReply',
         meta: { title: '讨论主题回复列表', icon: 'world' }

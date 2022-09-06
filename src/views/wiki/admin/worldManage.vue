@@ -1,10 +1,4 @@
 <template>
-  <el-container class="layout-container-demo" >
-    <!--    侧边栏-->
-    <!--    表格-->
-    <el-container style="margin: 10px">
-      <!--       内容区-->
-      <el-main>
         <!--        标题-->
         <div>
           <el-menu
@@ -73,9 +67,6 @@
 
           </el-scrollbar>
         </div>
-      </el-main>
-    </el-container>
-
 <!--    添加管理员-->
     <el-dialog title="新增管理员" v-model="open" width="600px" append-to-body>
       <el-form :model="form" :rules="rules" ref="manageRef" label-width="80px">
@@ -94,7 +85,6 @@
         </div>
       </template>
     </el-dialog>
-  </el-container>
 </template>
 
 <script lang="ts" setup>

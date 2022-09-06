@@ -1,10 +1,4 @@
 <template>
-  <el-container class="layout-container-demo" >
-    <!--    侧边栏-->
-    <!--    表格-->
-    <el-container style="margin: 10px">
-      <!--       内容区-->
-      <el-main>
 <!--        标题-->
         <div>
           <el-menu
@@ -77,8 +71,6 @@
               v-model:limit="queryParams.pageSize"
               @pagination="getList"/>
         </div>
-      </el-main>
-
       <!--      审核弹出框-->
       <el-dialog v-model="dialogFormVisible" title="审核">
         <el-form :model="form">
@@ -99,8 +91,6 @@
       </span>
         </template>
       </el-dialog>
-    </el-container>
-  </el-container>
 </template>
 
 <script lang="ts" setup>
