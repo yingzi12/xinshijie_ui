@@ -115,7 +115,7 @@ import {ElTree, FormInstance, ElInput, ElMessage} from "element-plus";
 import  Editor  from 'ckeditor5-custom-build/build/ckeditor';
 import { getTree} from "@/api/wiki/category";
 import { addElement} from "@/api/admin/element";
-import { getWorld} from "@/api/admin/world";
+import { getWorld} from "@/api/wiki/world";
 import {useRoute, useRouter} from "vue-router";
 
 // 接收url里的参数
@@ -210,25 +210,34 @@ const addDomain = () => {
 function submit(){
   var ok=true;
   element.value.contentList=dynamicValidateForm.domains;
+  var ok=true;
   if(!element.value.title ){
     ok=false;
     ElMessage.error('名称不能为空!')
+    return;
   }
   if(!element.value.intro ){
     ok=false;
     ElMessage.error('简介不能为空!')
+    return;
   }
-  if(!(element.value.title.length >1 && element.value.title.length < 100)){
+  if(element.value.title.length <1 || element.value.title.length > 100){
     ok=false;
-    ElMessage.error('名称长度不能超过100!')
+    ElMessage.error('元素名称长度不能小于1超过100')
+    return;
+
   }
   console.log("简介长度:"+element.value.intro.length)
-  console.log("简介长度:"+element.value.intro.length>10)
-  console.log("简介长度:"+element.value.intro.length <300)
-
-  if(!(element.value.intro.length>10 && element.value.intro.length <300)){
+  if(element.value.intro.length<10 || element.value.intro.length >300){
     ok=false;
-    ElMessage.error('简介长度不能小于10超过100!')
+    ElMessage.error('简介长度不能小于10超过300!')
+    return;
+  }
+  console.log("分类长度:"+element.value.categoryList.length)
+  if(element.value.categoryList.length<1 || element.value.categoryList.length >10){
+    ok=false;
+    ElMessage.error('分类不能小于1超过10!')
+    return;
   }
   if(ok) {
     addElement(element.value).then(response => {

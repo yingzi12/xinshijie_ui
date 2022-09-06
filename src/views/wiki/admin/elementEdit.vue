@@ -2,7 +2,7 @@
   <div class="app-container">
     <!--  世界名称-->
     <div style="background-color: #E5EAF3">
-        <h2  class="center2">名称</h2>
+        <h2  class="center2">{{ wname }}</h2>
     </div>
     <!--  分类管理 -->
     <div>
@@ -133,7 +133,7 @@ import  Editor  from 'ckeditor5-custom-build/build/ckeditor';
 import {  getElementDetails } from "@/api/wiki/element";
 import {  updateElement } from "@/api/admin/element";
 import { getTree} from "@/api/wiki/category";
-// import { getWorld} from "@/api/admin/world";
+import { getWorld} from "@/api/admin/world";
 
 //接受参数
 import { useRoute ,useRouter}  from "vue-router";  // 引用vue-router
@@ -249,7 +249,14 @@ const element = ref<InstanceType<Element>>({})
 //原始的选中的value
 const sleValue=ref({})
 
-
+const wname=ref('')
+/** 查询世界详细 */
+function handWorld() {
+  getWorld(wid.value).then(response => {
+    console.log("查询世界详细:"+JSON.stringify(response))
+    wname.value = response.data.name
+  });
+}
 
 /** 查询世界列表 */
 function getList() {
@@ -320,15 +327,22 @@ function submit(){
     ElMessage.error('修改原因不能为空!')
     return;
   }
-  if(causeContent.value.length<10 || causeContent.value.length > 500){
+  if(causeContent.value.length<=10 || causeContent.value.length > 500){
     ok=false;
     ElMessage.error('修改原因不能少于10，超过500!')
     return;
   }
+
   console.log("简介长度:"+element.value.intro.length)
   if(element.value.intro.length<10 || element.value.intro.length >300){
     ok=false;
-    ElMessage.error('简介长度不能小于10超过100!')
+    ElMessage.error('简介长度不能小于10超过300!')
+    return;
+  }
+  console.log("分类长度:"+element.value.categoryList.length)
+  if(element.value.categoryList.length<1 || element.value.categoryList.length >10){
+    ok=false;
+    ElMessage.error('分类不能小于1超过10!')
     return;
   }
   console.log("添加："+JSON.stringify(element.value))

@@ -74,10 +74,10 @@
                   {{scope.$index+1}}
                 </template>
               </el-table-column>
-              <el-table-column prop="date" label="创建时间" width="140" />
+              <el-table-column prop="date" label="创建时间" width="140"  :show-overflow-tooltip="true"/>
               <el-table-column prop="name" label="创建人" width="120" />
               <el-table-column prop="title" label="评论内容" />
-              <el-table-column prop="ename" label="元素名称" />
+              <el-table-column prop="ename" label="元素名称"  :show-overflow-tooltip="true"/>
               <el-table-column prop="types" label="讨论类型" />
               <el-table-column fixed="right" label="操作" width="100">
                 <template #default>

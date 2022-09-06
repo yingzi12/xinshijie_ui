@@ -13,7 +13,7 @@
     <div style="border-style:solid;">
     <!--  世界名称-->
     <div >
-        <h1>{{ element.title }}</h1>
+        <h1>{{ element.title }}<el-tag size="small">{{elementStatus.get(element.status)}}</el-tag></h1>
       <span>更新时间:</span><el-tag>{{element.updateTime}}</el-tag>
         <span>分类:</span> <el-tag v-for="category in element.categoryList">
         {{category.label}}
@@ -64,9 +64,9 @@
     <el-divider />
       <!--功能-->
       <div class="center" style="height: 80px;">
-        <el-button @click="submitPush()">发布</el-button>
-        <el-button @click="submitEdit()">继续编辑</el-button>
-        <el-button @click="submitEdit()">退出</el-button>
+        <el-button v-if="element.status == 0" @click="submitPush()">发布</el-button>
+        <el-button v-if="element.status == 0" @click="submitEdit()">继续编辑</el-button>
+        <el-button @click="handleClose()">退出</el-button>
       </div>
     </div>
   </div>
@@ -99,7 +99,13 @@ deid.value = route.query.deid;
 wid.value = route.query.wid;
 console.log("元素deid="+deid.value);
 console.log("世界id="+wid.value);
-
+const elementStatus = new Map([
+  [0, "草稿"],
+  [1, "待审核"],
+  [3, "审核不通过"],
+  [2, "通过审核"],
+  [4, "删除"]
+]);
 const dialogTableVisible = ref(false)
 
 const element=ref({})
@@ -111,15 +117,17 @@ function getDraft(wid:number,deid:number) {
   });
 }
 function submitPush(){
-  updatePush(wid,deid).then(response => {
+  updatePush(wid.value,deid.value).then(response => {
     console.log("发布成功")
-    router.push("/element/content?wid="+ wid.value+"&deid=" +deid.value)
+    router.push("/admin/draftPreview?wid="+ wid.value+"&deid=" +deid.value)
   });
 }
 function submitEdit(){
   router.push("/admin/draftEdit?wid="+ wid.value+"&deid=" +deid.value)
 }
-
+function handleClose(){
+  router.push("/admin/audit")
+}
 const newContent=ref('');
 const oldContent=ref('');
 function handDiff(newId:number,oldId:number) {
@@ -133,13 +141,8 @@ function handDiff(newId:number,oldId:number) {
 
   });
 }
-interface DomainItem {
-  key: number
-  title: string
-  value: string
-}
-
 getDraft(wid.value,deid.value);
+console.log("状态:"+elementStatus.get(element.value.status))
 
 const getHtml = function(desc){
   // var temp=document.createElement("div");

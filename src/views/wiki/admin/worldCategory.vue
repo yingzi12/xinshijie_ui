@@ -1,4 +1,4 @@
-<template>
+ <template>
   <el-container class="layout-container-demo" >
     <!--    侧边栏-->
     <!--    表格-->
@@ -234,6 +234,7 @@ const remove = (node: Node, data: Tree) => {
 }
 /** 提交按钮 */
 function submitForm(formEl: FormInstance | undefined) {   //
+  form.value.wid=wid.value
   if (form.value.isUpdate){
     updateCategory(form.value).then(response => {
       console.log("修改成功:"+JSON.stringify(response.data))

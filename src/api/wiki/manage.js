@@ -2,7 +2,7 @@ import request from '@/utils/request'
 
 export function getWorldManage(id) {
   return request({
-    url: '/wiki/manage/getWorldManage/' + id,
+    url: '/wiki/manage/getWorldManage?wid=' + id,
     method: 'get'
   })
 }

@@ -13,7 +13,7 @@
     <div >
     <!--  世界名称-->
     <div >
-        <h1 style="margin-bottom: 5px">{{ element.title }}</h1>
+        <h1 style="margin-bottom: 5px">{{ element.title }}<el-tag size="small">{{elementStatus.get(element.status)}}</el-tag></h1>
       <div style="margin: 0px;font-size: 5px"><span>分类:</span> <el-tag v-for="category in element.categoryList">
         {{category.label}}
       </el-tag></div>
@@ -60,9 +60,9 @@
     <el-divider />
       <!--功能-->
       <div class="center" style="height: 80px;">
-        <el-button v-if="element.status = 1 " @click="submitPush()">发布</el-button>
+        <el-button v-if="element.status == 0 " @click="submitPush()">发布</el-button>
         <el-button  @click="handDiff()">查看差异</el-button>
-        <el-button v-if="element.status = 1 " @click="submitEdit()">继续编辑</el-button>
+        <el-button v-if="element.status == 0 " @click="submitEdit()">继续编辑</el-button>
         <el-button @click="handClean()">退出</el-button>
       </div>
     </div>
@@ -89,7 +89,7 @@ console.log("世界id="+wid.value);
 
 const elementStatus = new Map([
   [0, "草稿"],
-  [1, "发布"],
+  [1, "待审核"],
   [3, "审核不通过"],
   [2, "通过审核"],
   [4, "删除"]
@@ -102,6 +102,8 @@ function getDraft(wid:number,deid:number) {
   getDraftDetails(wid,deid).then(response => {
     console.log("查询世界详细:"+JSON.stringify(response))
     element.value = response.data
+    console.log("状态:"+element.value.status)
+    console.log("状态:"+elementStatus.get(element.value.status))
   });
 }
 function submitPush(){
@@ -123,13 +125,9 @@ function handDiff(){
 function handClean(){
   router.push("/admin/draft")
 }
-interface DomainItem {
-  key: number
-  title: string
-  value: string
-}
-
 getDraft(wid.value,deid.value);
+
+
 </script>
 
 <style scoped>

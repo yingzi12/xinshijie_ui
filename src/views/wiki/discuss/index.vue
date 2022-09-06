@@ -42,7 +42,7 @@
             <el-row>
               <el-col :span="20" class="center">
                 <el-input
-                    v-model="textarea"
+                    v-model="commReply"
                     :rows="2"
                     type="textarea"
                     placeholder="Please input"
@@ -86,10 +86,10 @@
               </el-row>
               <div  v-if="comment.replyHide" style="margin-left: 150px;width: 40%;">
                 <div>
-                  <el-avatar    size="small" :src="circleUrl" /><el-input v-model="commReply"   style="width:80%"  size="small" @keyup.enter="sudmitCoomentReply(comment)"  ></el-input>
+                  <el-avatar    size="small" :src="circleUrl" /><el-input v-model="comment.reply"   style="width:80%"  size="small" @keyup.enter="sudmitCoomentReply(comment)"  ></el-input>
                 </div>
-                <div v-if="comment.comHide">
-                  <el-table  :show-header="false"  :data="comment.reply"  size="small">
+                <div v-if="comment.replyList.length>0">
+                  <el-table  :show-header="false"  :data="comment.replyList"  size="small">
                     <el-table-column  label="replyNickname" >
                       <template #default="scope">
                         <!--                          <div v-if="comment.reply.front" style="background-color: #6b778c">-->
@@ -132,7 +132,9 @@
 
 <script lang="ts" setup>
 import { reactive,ref } from 'vue'
-
+import useUserStore from '@/store/modules/user'
+//获取用户信息
+const userStore = useUserStore()
 //世界信息
 const world=ref({})
 const commReply=ref("")
@@ -149,7 +151,8 @@ interface  Comment{
 
   replyHide:boolean
   comHide:boolean
-  reply?: Reply[]
+  reply:string,
+  replyList?: Reply[]
 }
 interface  Reply {
   nickname:string
@@ -194,7 +197,8 @@ const commentList = ref<Comment[]>([
       createTime:"2020-05-02 11:23:09",
       replyHide:false,
       comHide:false,
-      reply:[]
+      reply:"",
+      replyList:[]
 },
   {
     id:2,
@@ -203,9 +207,10 @@ const commentList = ref<Comment[]>([
     createName: 'Tom',
     comment: 'No. 189, Grove St, Los Angeles',
     createTime:"2020-05-02 11:23:09",
-    replyHide:true,
+    replyHide:false,
     comHide:true,
-    reply:[
+    reply:"",
+    replyList:[
       {
         nickname:"test",
         replyNickname:"admin",
@@ -246,9 +251,10 @@ const commentList = ref<Comment[]>([
     createName: 'Tom',
     comment: 'No. 189, Grove St, Los Angeles',
     createTime:"2020-05-02 11:23:09",
-    replyHide:true,
+    replyHide:false,
     comHide:true,
-    reply:[
+    reply:"",
+    replyList:[
       {
         nickname:"test",
         replyNickname:"admin",
@@ -267,7 +273,8 @@ const commentList = ref<Comment[]>([
     createTime:"2020-05-02 11:23:09",
     replyHide:false,
     comHide:true,
-    reply:[
+    reply:"",
+    replyList:[
       {
         nickname:"test",
         replyNickname:"admin",
@@ -304,7 +311,8 @@ const commentList = ref<Comment[]>([
     createTime:"2020-05-02 11:23:09",
     replyHide:false,
     comHide:false,
-    reply:[
+    reply:"",
+    replyList:[
       {
         nickname:"test",
         replyNickname:"admin",
@@ -349,8 +357,8 @@ function handleReplyComm(comment,row) {
 function sudmitReply(comment){
   comment.reply.put(
       {
-        nickname:"test",
-        replyNickname:comment.createTime,
+        nickname:userStore.username,
+        replyNickname:comment.nickname,
         content:"这是一个回复",
         front:comment.comment,
         createTime:"2020-05-02 11:23:09",
@@ -361,13 +369,13 @@ function sudmitReply(comment){
 function sudmitCoomentReply(comment){
   console.log(JSON.stringify(comment))
   const newReply = {
-    nickname:"test",
-        replyNickname:comment.createTime,
-        content:commReply.value,
+          nickname:"test",
+        replyNickname:comment.nickname,
+        content:comment.reply,
         front:comment.comment,
         createTime:"2020-05-02 11:23:09",
   }
-  comment.reply.push(newReply)
+  comment.replyList.push(newReply)
   console.log(JSON.stringify(comment))
 }
 </script>

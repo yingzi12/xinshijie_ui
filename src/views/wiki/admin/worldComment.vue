@@ -74,11 +74,11 @@
                   {{scope.$index+1}}
                 </template>
               </el-table-column>
-              <el-table-column prop="createTime" label="创建时间" width="140" />
+              <el-table-column prop="createTime" label="创建时间" width="140"  :show-overflow-tooltip="true" />
               <el-table-column prop="createName" label="创建人" width="120" />
               <el-table-column prop="wname" label="世界" />
-              <el-table-column prop="comment" label="内容" />
-              <el-table-column prop="reply" label="回复" />
+              <el-table-column prop="comment" label="内容"  :show-overflow-tooltip="true" />
+              <el-table-column prop="reply" label="回复"   :show-overflow-tooltip="true"/>
               <el-table-column fixed="right" label="操作" width="100">
                 <template #default>
 <!--                  <el-button link type="primary" size="small" @click="dialogFormVisible = true">查看</el-button>-->
