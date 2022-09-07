@@ -83,15 +83,32 @@ export const constantRoutes = [
   },
   {
     path: '/users',
-    component: LayoutWiki,
-    // component: () => import('@/views/wiki/world/index'),
+    component: LayoutUser,
     hidden: true,
     children: [
       {
         path: 'index',
-        component: () => import('@/views/wiki/user/details2'),
-        name: 'World',
-        meta: { title: '世界首页', icon: 'world' }
+        component: () => import('@/views/wiki/user/index'),
+        name: 'UserInex',
+        meta: { title: '用户首页', icon: 'world' }
+      },
+      {
+        path: 'edit',
+        component: () => import('@/views/wiki/user/edit'),
+        name: 'Useredit',
+        meta: { title: '用户首页', icon: 'world' }
+      },
+      {
+        path: 'info',
+        component: () => import('@/views/wiki/user/info'),
+        name: 'Userinfo',
+        meta: { title: '用户首页', icon: 'world' }
+      },
+      {
+        path: 'password',
+        component: () => import('@/views/wiki/user/password'),
+        name: 'Userpassword',
+        meta: { title: '用户首页', icon: 'world' }
       }
       ]
   },

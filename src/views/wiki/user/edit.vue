@@ -1,19 +1,15 @@
 <template>
-  <el-container class="layout-container-demo" >
-    <!--    侧边栏-->
-    <!--    表格-->
-    <el-container style="margin: 10px">
-      <!--       内容区-->
-      <el-main>
+
+  <div>
+    <el-menu
+        :default-active="1"
+        mode="horizontal"
+        style="margin:0px;pardding:0px"
+    >
+      <el-menu-item index="1" :to="{path:'/users/edit'}"><span style="font-size: 20px;font-weight:bold;">编辑用户</span></el-menu-item>
+    </el-menu>
+  </div>
         <div>
-          <div>
-            <h1>大标题</h1>
-          </div>
-          <div>
-            <div>
-              <h3>大标题</h3>
-            </div>
-            <div>
               <el-form
                   ref="ruleFormRef"
                   :model="ruleForm"
@@ -32,130 +28,95 @@
                       :on-success="handleAvatarSuccess"
                       :before-upload="beforeAvatarUpload"
                   >
-                    <img v-if="imageUrl" :src="imageUrl" class="avatar" />
+                    <el-avatar v-if="imageUrl" :size="50" :src="imageUrl" />
                     <el-icon v-else class="avatar-uploader-icon"><Plus /></el-icon>
                   </el-upload>
                 </el-form-item>
-                <el-form-item label="用户名" prop="name">
-                  <el-input v-model="ruleForm.name" />
+                <el-form-item label="用户名" prop="userName">
+                   <span>{{user.userName}}</span>
                 </el-form-item>
-                <el-form-item label="用户昵称" prop="name">
+                <el-form-item label="用户昵称" prop="nickName">
                   <el-input v-model="ruleForm.nickName" />
                 </el-form-item>
-                <el-form-item label="生日" prop="region">
-                  <el-date-picker
-                      v-model="ruleForm.birth"
-                      type="date"
-                      placeholder="Pick a day"
-                      :size="size"
-                  />
-                </el-form-item>
-                <el-form-item label="电子邮箱" prop="count">
+                <el-form-item label="电子邮箱" prop="email">
                   <el-input v-model="ruleForm.email" />
                 </el-form-item>
-                <el-form-item label="手机号" prop="count">
-                  <el-input v-model="ruleForm.telephone" />
+                <el-form-item label="手机号" prop="phonenumber">
+                  <el-input v-model="ruleForm.phonenumber" />
                 </el-form-item>
                 <el-form-item label="签名" prop="sign">
                   <el-input v-model="ruleForm.sign" type="textarea" />
                 </el-form-item>
                 <el-form-item>
-                  <el-button type="primary" @click="submitForm(ruleFormRef)"
-                  >Create</el-button
-                  >
-                  <el-button @click="resetForm(ruleFormRef)">Reset</el-button>
+                  <el-button type="primary" @click="submitForm(ruleFormRef)">修改</el-button>
                 </el-form-item>
               </el-form>
             </div>
-          </div>
-        </div>
-      </el-main>
-    </el-container>
-  </el-container>
 </template>
 
 
 <script lang="ts" setup>
-import { reactive, ref } from 'vue'
+import {getCurrentInstance, inject, reactive, ref} from 'vue'
 import type { FormInstance, FormRules } from 'element-plus'
-import { Menu as IconMenu, Message, Setting } from '@element-plus/icons-vue'
-const fits = ['世界', '粉丝', '关注']
-const activeIndex = ref('1')
+import {  getUser,updateUserBasic } from "@/api/admin/user";
+import {ElMessage, UploadProps} from "element-plus";
 
-const item = {
-  date: '2016-05-02',
-  name: 'Tom',
-  address: 'No. 189, Grove St, Los Angeles',
+const {  proxy  } = getCurrentInstance();
+//获取用户信息
+const user = ref({})
+const imageUrl=ref('')
+function handleUser(){
+  getUser().then(response => {
+    user.value=response.data
+    ruleForm.email=user.value.email
+    ruleForm.avatar=user.value.avatar
+    ruleForm.nickName=user.value.nickName
+    ruleForm.phonenumber=user.value.phonenumber
+    ruleForm.sign=user.value.sign
+    imageUrl.value=baseUrl+user.value.avatar;
+    imageUrlPath.value=user.value.avatar;
+    console.log(JSON.stringify(user))
+  })
 }
-const tableData = ref(Array.from({ length: 20 }).fill(item))
+handleUser()
 
 // 输入
 const formSize = ref('default')
 const ruleFormRef = ref<FormInstance>()
 const ruleForm = reactive({
-  name: 'Hello',
-  region: '',
-  count: '',
-  date1: '',
-  date2: '',
-  delivery: false,
-  type: [],
-  resource: '',
-  desc: '',
+  nickName: '',
+  email: '',
+  phonenumber: '',
+  sign: '',
+  avatar:'',
 })
 
 const rules = reactive<FormRules>({
-  name: [
-    { required: true, message: 'Please input Activity name', trigger: 'blur' },
+  nickName: [
+    { required: true, message: '请输入昵称', trigger: 'blur' },
     { min: 3, max: 5, message: 'Length should be 3 to 5', trigger: 'blur' },
   ],
-  region: [
+  email: [
     {
       required: true,
-      message: 'Please select Activity zone',
+      message: '请输入电子邮箱',
       trigger: 'change',
     },
+    {
+      type: "email",
+      message: "请输入正确的邮箱地址",
+      trigger: ["blur", "change"],
+    },
   ],
-  count: [
+  phonenumber: [
     {
       required: true,
-      message: 'Please select Activity count',
+      message: '请输入手机号码',
       trigger: 'change',
-    },
+    }
   ],
-  date1: [
-    {
-      type: 'date',
-      required: true,
-      message: 'Please pick a date',
-      trigger: 'change',
-    },
-  ],
-  date2: [
-    {
-      type: 'date',
-      required: true,
-      message: 'Please pick a time',
-      trigger: 'change',
-    },
-  ],
-  type: [
-    {
-      type: 'array',
-      required: true,
-      message: 'Please select at least one activity type',
-      trigger: 'change',
-    },
-  ],
-  resource: [
-    {
-      required: true,
-      message: 'Please select activity resource',
-      trigger: 'change',
-    },
-  ],
-  desc: [
-    { required: true, message: 'Please input activity form', trigger: 'blur' },
+  sign: [
+    { required: true, message: '请输入签名', trigger: 'blur' },
   ],
 })
 
@@ -163,6 +124,9 @@ const submitForm = async (formEl: FormInstance | undefined) => {
   if (!formEl) return
   await formEl.validate((valid, fields) => {
     if (valid) {
+      updateUserBasic(ruleForm).then(response => {
+           ElMessage.success("修改成功")
+      })
       console.log('submit!')
     } else {
       console.log('error submit!', fields)
@@ -175,52 +139,35 @@ const resetForm = (formEl: FormInstance | undefined) => {
   formEl.resetFields()
 }
 
-const options = Array.from({ length: 10000 }).map((_, idx) => ({
-  value: `${idx + 1}`,
-  label: `${idx + 1}`,
-}))
+const baseUrl = inject("$baseUrl")
+const uploadImgUrl = ref(baseUrl + "/common/upload"); // 上传的图片服务器地址
+const imageUrlPath = ref('')
+
+const handleAvatarSuccess: UploadProps['onSuccess'] = (
+    response,
+    uploadFile
+) => {
+  imageUrl.value = URL.createObjectURL(uploadFile.raw!)
+  imageUrlPath.value=uploadFile.response.fileName
+}
+
+const beforeAvatarUpload: UploadProps['beforeUpload'] = (rawFile) => {
+  if (rawFile.type !== 'image/jpeg') {
+    ElMessage.error('Avatar picture must be JPG format!')
+    return false
+  } else if (rawFile.size / 1024 / 1024 > 2) {
+    ElMessage.error('Avatar picture size can not exceed 2MB!')
+    return false
+  }
+  return true
+}
+
 </script>
 
 <style scoped>
-.layout-container-demo .el-aside {
-  color: var(--el-text-color-primary);
-  background: var(--el-color-primary-light-8);
-}
-.layout-container-demo .el-menu {
-  border-right: none;
-}
-.layout-container-demo .el-main {
-  padding: 0;
-}
-.layout-container-demo .toolbar {
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-  height: 100%;
-  right: 20px;
-}
 .center {
   display: flex;
   justify-content: center;
   align-items: center;
-}
-
-.demo-count .block {
-  padding: 0px 0;
-  text-align: center;
-  border-right: solid 1px var(--el-border-color);
-  display: inline-block;
-  width: 33%;
-  box-sizing: border-box;
-  vertical-align: top;
-}
-.demo-count .block:last-child {
-  border-right: none;
-}
-.demo-count .demonstration {
-  display: block;
-  color: var(--el-text-color-secondary);
-  font-size: 9px;
-  margin-bottom: 0px;
 }
 </style>

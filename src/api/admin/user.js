@@ -8,3 +8,11 @@ export function getUser(id) {
   })
 }
 
+export function updateUserBasic(data) {
+  return request({
+    url: '/admin/user/editBasic',
+    method: 'put',
+    data: data
+  })
+}
+

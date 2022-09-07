@@ -4,8 +4,8 @@
     <el-aside width="250px" style="margin: 10px">
       <div>
         <!--        个人信息-->
-        <div class="center" style="margin-bottom: 10px;text-align: center;">
-          <el-card :body-style="{ padding: '0px' }">
+        <div class="center" style="text-align: center;">
+          <el-card :body-style="{ padding: '0px' ,width: '202px'}">
             <!--  头像-->
             <el-avatar :size="50" :src="user.avatar" />
             <div>
@@ -15,15 +15,15 @@
                 <p style="margin: 0px;padding: 0px;font-size:10px;line-height:120%;">{{user.sign}}</p>
                 <div class="demo-count">
                   <div  class="block">
-                    <span class="demonstration">4</span>
+                    <span class="demonstration">0</span>
                     <span class="demonstration">世界</span>
                   </div>
                   <div  class="block">
-                    <span class="demonstration">4440000</span>
+                    <span class="demonstration">0</span>
                     <span class="demonstration">粉丝</span>
                   </div>
                   <div  class="block">
-                    <span class="demonstration">433</span>
+                    <span class="demonstration">0</span>
                     <span class="demonstration">关注</span>
                   </div>
                 </div>
@@ -37,15 +37,15 @@
           <el-scrollbar>
             <el-menu   :router="true"
                        default-active="2">
-              <el-menu-item index="/user/index">
+              <el-menu-item index="/users/index">
                 <el-icon><icon-menu /></el-icon>
                 <template #title>基础信息</template>
               </el-menu-item>
-              <el-menu-item index="/user/edit">
+              <el-menu-item index="/users/edit">
                 <el-icon><icon-menu /></el-icon>
                 <template #title>信息修改</template>
               </el-menu-item>
-              <el-menu-item index="/user/password">
+              <el-menu-item index="/users/password">
                 <el-icon><icon-menu /></el-icon>
                 <template #title>修改密码</template>
               </el-menu-item>

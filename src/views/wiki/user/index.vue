@@ -1,22 +1,27 @@
 <template>
-  <el-container class="layout-container-demo" >
-    <el-descriptions
+  <div>
+    <el-menu
+        :default-active="1"
+        mode="horizontal"
+        style="margin:0px;pardding:0px"
+    >
+      <el-menu-item index="1" :to="{path:'/users/index'}"><span style="font-size: 20px;font-weight:bold;">基础详细</span></el-menu-item>
+    </el-menu>
+  </div>
+  <el-descriptions
         class="margin-top"
-        title="基础信息"
+        title="基础"
         :column="3"
         :size="size"
         border
     >
-      <template #extra>
-        <el-button type="primary">修改</el-button>
-      </template>
       <el-descriptions-item>
         <template #label>
           <div class="cell-item">
             <el-icon :style="iconStyle">
               <user />
             </el-icon>
-            Username
+            用户名称
           </div>
         </template>
         {{ user.username }}
@@ -52,7 +57,7 @@
             标签
           </div>
         </template>
-        <el-tag size="small">{{user.tag}}</el-tag>
+        <el-tag size="small">{{user.tags}}</el-tag>
       </el-descriptions-item>
       <el-descriptions-item>
         <template #label>
@@ -66,22 +71,24 @@
         {{user.sign}}
       </el-descriptions-item>
     </el-descriptions>
-  </el-container>
 </template>
 
 <script lang="ts" setup>
-import { ref } from 'vue'
+import {getCurrentInstance, ref} from 'vue'
 import { Menu as IconMenu, Message, Setting } from '@element-plus/icons-vue'
-const fits = ['世界', '粉丝', '关注']
-const activeIndex = ref('1')
+import {  getUser } from "@/api/admin/user";
 
-const user={
-  name:"test",
-  desc:"这是一个说明,这是一个说明",
-  tag:"这是标签",
-  city:"上海",
-  jf:10,
+const {  proxy  } = getCurrentInstance();
+//获取用户信息
+const user = ref({})
+
+function handleUser(){
+  getUser().then(response => {
+    user.value=response.data
+    console.log(JSON.stringify(user))
+  })
 }
+handleUser();
 </script>
 
 <style scoped>

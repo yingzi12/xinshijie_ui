@@ -1,5 +1,5 @@
 <template>
-  <admin-head/>
+  <admin-head :username="userStore.name"/>
   <section class="app-main" style="width: 1250px">
     <admin-message></admin-message>
   </section>

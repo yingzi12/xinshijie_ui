@@ -5,7 +5,7 @@
       <div>
         <!--        个人信息-->
         <div class="center"  style="margin-bottom: 10px;text-align: center">
-          <el-card :body-style="{ padding: '0px',width:'200px'}">
+          <el-card :body-style="{ padding: '0px',width:'202px'}">
             <!--  头像-->
             <el-avatar :size="50" :src="user.avatar" />
             <div>

@@ -103,8 +103,6 @@ import {  updateWorld,getWorld } from "@/api/admin/world";
 import {ElMessage, FormInstance, UploadProps} from "element-plus";
 const {  appContext : { config: { globalProperties } }  } = getCurrentInstance();
 const {  proxy  } = getCurrentInstance();
-
-const fits = ['世界', '粉丝', '关注']
 const router = useRouter()
 // 接收url里的参数
 const route = useRoute();
