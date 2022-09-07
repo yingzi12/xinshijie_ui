@@ -11,11 +11,11 @@
   <el-descriptions
         class="margin-top"
         title="基础"
-        :column="3"
-        :size="size"
+        :column="2"
+        :size="large"
         border
     >
-      <el-descriptions-item>
+      <el-descriptions-item width="100px">
         <template #label>
           <div class="cell-item">
             <el-icon :style="iconStyle">
@@ -24,42 +24,42 @@
             用户名称
           </div>
         </template>
-        {{ user.username }}
+        {{ user.userName }}
       </el-descriptions-item>
-      <el-descriptions-item>
+    <el-descriptions-item width="100px">
+      <template #label>
+        <div class="cell-item">
+          <el-icon :style="iconStyle">
+            <user />
+          </el-icon>
+          用户昵称
+        </div>
+      </template>
+      {{ user.nickName }}
+    </el-descriptions-item>
+      <el-descriptions-item width="100px">
         <template #label>
           <div class="cell-item">
             <el-icon :style="iconStyle">
               <iphone />
             </el-icon>
-            Telephone
+            手机号码
           </div>
         </template>
         {{ user.telephone }}
       </el-descriptions-item>
-      <el-descriptions-item>
+      <el-descriptions-item width="100px">
         <template #label>
           <div class="cell-item">
             <el-icon :style="iconStyle">
-              <location />
+              <email />
             </el-icon>
-            城市
+            邮箱
           </div>
         </template>
-        {{ user.city }}
+        {{ user.email }}
       </el-descriptions-item>
-      <el-descriptions-item>
-        <template #label>
-          <div class="cell-item">
-            <el-icon :style="iconStyle">
-              <tickets />
-            </el-icon>
-            标签
-          </div>
-        </template>
-        <el-tag size="small">{{user.tags}}</el-tag>
-      </el-descriptions-item>
-      <el-descriptions-item>
+      <el-descriptions-item width="100px">
         <template #label>
           <div class="cell-item">
             <el-icon :style="iconStyle">
@@ -71,6 +71,59 @@
         {{user.sign}}
       </el-descriptions-item>
     </el-descriptions>
+
+
+  <el-descriptions
+      class="margin-top"
+      title="其他"
+      :column="5"
+      :size="large"
+      border
+  >
+    <el-descriptions-item width="100px">
+      <template #label>
+        <div class="cell-item">
+          <el-icon :style="iconStyle">
+            <user />
+          </el-icon>
+          等级
+        </div>
+      </template>
+      {{ user.ranks }}
+    </el-descriptions-item>
+    <el-descriptions-item width="100px">
+      <template #label>
+        <div class="cell-item">
+          经验
+        </div>
+      </template>
+      {{ user.exp }}
+    </el-descriptions-item>
+    <el-descriptions-item width="100px">
+      <template #label>
+        <div class="cell-item">
+          世界数
+        </div>
+      </template>
+      {{ user.countWorld }}
+    </el-descriptions-item>
+    <el-descriptions-item width="100px">
+      <template #label>
+        <div class="cell-item">
+          元素数
+        </div>
+      </template>
+      {{ user.countElement }}
+    </el-descriptions-item>
+    <el-descriptions-item width="100px">
+      <template #label>
+        <div class="cell-item">
+          讨论数
+        </div>
+      </template>
+      {{user.countDiscuss}}
+    </el-descriptions-item>
+  </el-descriptions>
 </template>
 
 <script lang="ts" setup>

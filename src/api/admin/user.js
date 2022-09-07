@@ -16,3 +16,10 @@ export function updateUserBasic(data) {
   })
 }
 
+export function resetPwd(data) {
+  return request({
+    url: '/admin/user/resetPwd',
+    method: 'put',
+    data: data
+  })
+}

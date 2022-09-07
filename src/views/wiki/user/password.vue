@@ -34,7 +34,8 @@
 
 <script lang="ts" setup>
 import { reactive } from 'vue'
-import {ElMessage} from "element-plus";
+import { ElMessage} from "element-plus";
+import {  resetPwd } from "@/api/admin/user";
 
 // do not use same name with ref
 const form = reactive({
@@ -56,7 +57,10 @@ const onSubmit = () => {
     ElMessage.error("重复密码不匹配");
     return
   }
-console.log('submit!')
+  resetPwd(form).then(response => {
+    ElMessage.success("修改成功")
+  })
+  console.log('submit!')
 }
 </script>
 

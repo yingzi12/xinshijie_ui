@@ -149,6 +149,8 @@ const handleAvatarSuccess: UploadProps['onSuccess'] = (
 ) => {
   imageUrl.value = URL.createObjectURL(uploadFile.raw!)
   imageUrlPath.value=uploadFile.response.fileName
+  ruleForm.avatar=response.fileName
+
 }
 
 const beforeAvatarUpload: UploadProps['beforeUpload'] = (rawFile) => {
