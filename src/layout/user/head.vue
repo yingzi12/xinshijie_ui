@@ -15,7 +15,7 @@
     <div class="flex-grow" />
     <el-button v-if="!isLogin" text style="margin-top: 10px">登录</el-button>
     <el-button v-if="!isLogin"  text style="margin-top: 10px">注册</el-button>
-    <el-button v-if="isLogin" link  style="margin-top: 10px">{{ props.username }}</el-button>
+    <el-button v-if="isLogin" link  style="margin-top: 10px" @click="handleUserMessage">{{ props.username }}</el-button>
     <el-button v-if="isLogin" text style="margin-top: 10px">退出</el-button>
   </el-menu>
   </div>
@@ -25,6 +25,8 @@
 <script lang="ts" setup>
 import {getCurrentInstance, ref} from 'vue'
 import logo2 from '@/assets/logo/logo2.png'
+import {useRouter} from "vue-router";
+const router = useRouter()
 
 const activeIndex = ref('3')
 const handleSelect = (key: string, keyPath: string[]) => {
@@ -44,6 +46,9 @@ if(!props.username){
   isLogin.value=false
 }else{
   isLogin.value=true
+}
+function handleUserMessage(){
+  router.push("/users/index");
 }
 </script>
 

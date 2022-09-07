@@ -57,10 +57,10 @@
                   {{scope.$index+1}}
                 </template>
               </el-table-column>
-              <el-table-column prop="wname" label="世界名称" width="100" />
-              <el-table-column prop="etitle" label="元素名称" width="100" />
+              <el-table-column prop="wname" label="世界名称" width="100" :show-overflow-tooltip="true" />
+              <el-table-column prop="etitle" label="元素名称" width="100" :show-overflow-tooltip="true" />
               <el-table-column prop="title" label="讨论主题"   :show-overflow-tooltip="true"/>
-              <el-table-column  label="讨论类型"  >
+              <el-table-column  label="讨论类型"  :show-overflow-tooltip="true" >
                 <template #default="scope">
                   <span>{{discussTypesMap.get(scope.row.types)}}</span>
                 </template>

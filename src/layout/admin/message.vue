@@ -7,7 +7,7 @@
         <div class="center"  style="margin-bottom: 10px;text-align: center">
           <el-card :body-style="{ padding: '0px',width:'202px'}">
             <!--  头像-->
-            <el-avatar :size="50" :src="user.avatar" />
+            <el-avatar :size="50" :src="imageUrl" />
             <div>
               <h3 style="margin:10px;margin-bottom: 10px;font-size:14px;">{{ user.userName }}({{ user.nickName }})</h3>
               <p style="margin: 0px;padding: 0px;font-size:10px;">id:{{ user.userId }}</p>
@@ -27,7 +27,7 @@
                     <span class="stration">关注</span>
                   </div>
                 </div>
-                <el-button text class="button">用户中心</el-button>
+                <el-button text class="button" @click="handleUserMessage">用户中心</el-button>
               </div>
             </div>
           </el-card>
@@ -78,7 +78,7 @@
 </template>
 
 <script lang="ts" setup>
-import {getCurrentInstance, ref} from 'vue'
+import {getCurrentInstance, inject, ref} from 'vue'
 import {useRoute, useRouter} from "vue-router";
 import { Menu as IconMenu,CirclePlus, Message, Setting } from '@element-plus/icons-vue'
 const {  appContext : { config: { globalProperties } }  } = getCurrentInstance();
@@ -87,12 +87,19 @@ import {  getUser } from "@/api/admin/user";
 const {  proxy  } = getCurrentInstance();
 //获取用户信息
 const user = ref({})
+const router = useRouter()
+const baseUrl = inject("$baseUrl")
+const imageUrl=ref('')
 
 function handleUser(){
   getUser().then(response => {
     user.value=response.data
+    imageUrl.value=baseUrl+response.data.avatar;
     console.log(JSON.stringify(user))
   })
+}
+function handleUserMessage(){
+  router.push("/users/index");
 }
 handleUser();
 </script>

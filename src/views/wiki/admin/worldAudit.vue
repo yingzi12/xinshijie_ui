@@ -46,12 +46,16 @@
                   {{scope.$index+1}}
                 </template>
               </el-table-column>
-              <el-table-column prop="title" label="元素名称" width="140" />
-              <el-table-column prop="status" label="状态" />
-              <el-table-column prop="createTime" label="修改时间" />
-              <el-table-column prop="causeNumber" label="修改原因" />
-              <el-table-column prop="causeContent" label="修改说明" />
-              <el-table-column prop="createName" label="修改人" />
+              <el-table-column prop="title" label="元素" width="140" :show-overflow-tooltip="true" />
+              <el-table-column label="状态" align="center"  >
+                <template #default="scope">
+                  <span>{{elementStatus.get(scope.row.status)}}</span>
+                </template>
+              </el-table-column>
+              <el-table-column prop="createTime" label="修改时间" :show-overflow-tooltip="true" />
+              <el-table-column prop="causeNumber" label="修改原因" :show-overflow-tooltip="true"/>
+              <el-table-column prop="causeContent" label="修改说明" :show-overflow-tooltip="true" />
+              <el-table-column prop="createName" label="修改人" :show-overflow-tooltip="true"/>
               <el-table-column fixed="right" label="操作" width="220">
                 <template #default="scope">
                   <el-button link type="primary" size="small" @click="handleSee(scope.row)">详细</el-button>
@@ -109,7 +113,13 @@ const wname = ref('');
 wname.value = <string>route.query.wname;
 wid.value = route.query.wid;
 
-const fits = ['世界', '粉丝', '关注']
+const elementStatus = new Map([
+  [0, "草稿"],
+  [1, "待审核"],
+  [3, "审核不通过"],
+  [2, "通过审核"],
+  [4, "删除"]
+]);
 const activeIndex = ref('1')
 //弹出框
 const dialogFormVisible = ref(false)
@@ -171,14 +181,14 @@ function handleAudit(row){
   dialogFormVisible.value=true;
 }
 function handleSee(row){
-  router.push("/admin/draftPreview?wid="+row.wid+"&deid="+row.id);
+  router.push("/admin/worldAuditPreview?wid="+wid.value+"&wname="+wname.value+"&deid="+row.id);
 }
 function handleDiff(row){
   router.push("/admin/diffPreview?wid="+row.wid+"&deid="+row.id);
 }
 
-function handleAuditLog(row){
-  router.push("/admin/worldAuditLog?wid="+row.wid+"&wname="+wname.value);
+function handleAuditLog(){
+  router.push("/admin/worldAuditLog?wid="+wid.value+"&wname="+wname.value);
 }
 getCategoryTree();
 getList();

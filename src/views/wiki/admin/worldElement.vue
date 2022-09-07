@@ -46,16 +46,18 @@
                   {{ scope.$index + 1 + (queryParams.pageNum - 1) * 10 }}
                 </template>
               </el-table-column>
-              <el-table-column label="名称" align="center" key="title" prop="title"/>
-              <el-table-column label="类型" align="center" key="typeName" prop="typeName" :show-overflow-tooltip="true"/>
+              <el-table-column label="名称" align="center" key="title" prop="title" :show-overflow-tooltip="true"/>
+              <el-table-column label="类型" align="center" :show-overflow-tooltip="true">
+                <template #default="scope">
+                  <el-tag v-for='idLabel in scope.row.idLabels.split(",")'>
+                    {{idLabel.split("$$")[1]}}
+                  </el-tag>
+                </template>
+              </el-table-column>
               <el-table-column label="简介" align="center" key="intro" prop="intro" :show-overflow-tooltip="true"/>
               <el-table-column label="创建人" align="center" key="createName" prop="createName"
                                :show-overflow-tooltip="true"/>
-              <el-table-column label="更新时间" align="center" prop="updateTime" width="160">
-                <template #default="scope">
-                  <span>{{ scope.row.updateTime }}</span>
-                </template>
-              </el-table-column>
+              <el-table-column label="更新时间" align="center" prop="updateTime" width="160" :show-overflow-tooltip="true" />
               <el-table-column label="操作" align="center" width="150" class-name="small-padding fixed-width">
                 <template #default="scope">
                   <el-tooltip content="详情" placement="top">

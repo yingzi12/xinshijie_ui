@@ -8,6 +8,7 @@
       <el-menu-item index="1" :to="{path:'/users/index'}"><span style="font-size: 20px;font-weight:bold;">基础详细</span></el-menu-item>
     </el-menu>
   </div>
+  <el-avatar v-if="imageUrl" :size="50" :src="imageUrl" />
   <el-descriptions
         class="margin-top"
         title="基础"
@@ -46,7 +47,7 @@
             手机号码
           </div>
         </template>
-        {{ user.telephone }}
+        {{ user.phonenumber }}
       </el-descriptions-item>
       <el-descriptions-item width="100px">
         <template #label>
@@ -71,8 +72,6 @@
         {{user.sign}}
       </el-descriptions-item>
     </el-descriptions>
-
-
   <el-descriptions
       class="margin-top"
       title="其他"
@@ -124,20 +123,52 @@
       {{user.countDiscuss}}
     </el-descriptions-item>
   </el-descriptions>
+  <el-descriptions
+      class="margin-top"
+      title="安全"
+      :column="2"
+      :size="large"
+      border
+  >
+    <el-descriptions-item width="100px">
+      <template #label>
+        <div class="cell-item">
+          <el-icon :style="iconStyle">
+            <user />
+          </el-icon>
+          最后登录IP
+        </div>
+      </template>
+      {{ user.loginIp }}
+    </el-descriptions-item>
+    <el-descriptions-item width="100px">
+      <template #label>
+        <div class="cell-item">
+          最后登录时间
+        </div>
+      </template>
+      {{ user.loginDate }}
+    </el-descriptions-item>
+  </el-descriptions>
+
 </template>
 
 <script lang="ts" setup>
-import {getCurrentInstance, ref} from 'vue'
+import {getCurrentInstance, inject, ref} from 'vue'
 import { Menu as IconMenu, Message, Setting } from '@element-plus/icons-vue'
 import {  getUser } from "@/api/admin/user";
+import {useRouter} from "vue-router";
 
 const {  proxy  } = getCurrentInstance();
 //获取用户信息
 const user = ref({})
-
+const router = useRouter()
+const baseUrl = inject("$baseUrl")
+const imageUrl=ref('')
 function handleUser(){
   getUser().then(response => {
     user.value=response.data
+    imageUrl.value=baseUrl+response.data.avatar;
     console.log(JSON.stringify(user))
   })
 }

@@ -33,8 +33,8 @@
                   {{ scope.$index + 1 + (queryParams.pageNum - 1) * 10 }}
                 </template>
               </el-table-column>
-              <el-table-column label="名称" align="center" key="title" prop="title"/>
-              <el-table-column label="世界" align="center" key="wname" prop="wname"/>
+              <el-table-column label="名称" align="center" key="title" prop="title" :show-overflow-tooltip="true"/>
+              <el-table-column label="世界" align="center" key="wname" prop="wname" :show-overflow-tooltip="true"/>
               <el-table-column label="类型" align="center" :show-overflow-tooltip="true">
               <template #default="scope">
                 <el-tag v-for='idLabel in scope.row.idLabels.split(",")'>

@@ -68,10 +68,10 @@
                   {{scope.$index+1}}
                 </template>
               </el-table-column>
-              <el-table-column prop="wname" label="世界名称" width="140" />
-              <el-table-column prop="etitle" label="元素名称" width="120" />
+              <el-table-column prop="wname" label="世界" width="140" :show-overflow-tooltip="true"/>
+              <el-table-column prop="etitle" label="元素" width="120" :show-overflow-tooltip="true" />
               <el-table-column prop="title" label="讨论主题"   :show-overflow-tooltip="true"/>
-              <el-table-column prop="types" label="讨论类型"  />
+              <el-table-column prop="types" label="讨论类型" :show-overflow-tooltip="true" />
               <el-table-column prop="content" label="讨论内容"  :show-overflow-tooltip="true" />
               <el-table-column prop="createTime" label="创建时间"  :show-overflow-tooltip="true" />
               <el-table-column prop="status" label="状态" />

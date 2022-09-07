@@ -258,6 +258,18 @@ export const constantRoutes = [
         meta: { title: '元素审核', icon: 'wiki' }
       },
       {
+        path: 'worldAuditLog',
+        component: () => import('@/views/wiki/admin/worldAuditLog'),
+        name: 'worldAuditLog',
+        meta: { title: '元素审核', icon: 'wiki' }
+      },
+      {
+        path: 'worldAuditPreview',
+        component: () => import('@/views/wiki/admin/worldAuditPreview'),
+        name: 'worldAuditPreview',
+        meta: { title: '元素审核', icon: 'wiki' }
+      },
+      {
         path: 'worldRedident',
         component: () => import('@/views/wiki/admin/worldRedident'),
         name: 'worldRedident',

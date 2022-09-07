@@ -68,7 +68,7 @@ export function listAudit(query) {
 // 查询元素详细
 export function getDraftDetailsAdmin(wid,eid) {
   return request({
-    url: '/admin/draftElement/getInfoAdmin?wid=' + wid+'&eid='+eid,
+    url: '/admin/draftElement/getInfoAdmin?wid=' + wid+'&deid='+eid,
     method: 'get'
   })
 }

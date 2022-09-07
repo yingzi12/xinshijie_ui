@@ -43,15 +43,11 @@
                   {{scope.$index+1+(queryParams.pageNum-1)*10}}
                 </template>
               </el-table-column>
-              <el-table-column label="姓名" align="center" key="userName" prop="userName"  />
+              <el-table-column label="姓名" align="center" key="userName" prop="userName" :show-overflow-tooltip="true" />
               <el-table-column label="等级" align="center" key="ranks" prop="ranks" :show-overflow-tooltip="true" />
               <el-table-column label="简介" align="center" key="intro" prop="intro"  :show-overflow-tooltip="true" />
               <el-table-column label="创建人" align="center" key="createName" prop="createName"  :show-overflow-tooltip="true" />
-              <el-table-column label="更新时间" align="center" prop="updateTime"  width="160">
-                <template #default="scope">
-                  <span>{{scope.row.updateTime}}</span>
-                </template>
-              </el-table-column>
+              <el-table-column label="更新时间" align="center" prop="updateTime"  width="160" :show-overflow-tooltip="true" />
               <el-table-column label="操作" align="center" width="150" class-name="small-padding fixed-width">
                 <template #default="scope">
                   <el-tooltip content="取消" placement="top" >

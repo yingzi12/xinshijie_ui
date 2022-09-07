@@ -60,6 +60,8 @@ import {getCurrentInstance, inject, reactive, ref} from 'vue'
 import type { FormInstance, FormRules } from 'element-plus'
 import {  getUser,updateUserBasic } from "@/api/admin/user";
 import {ElMessage, UploadProps} from "element-plus";
+import {useRouter} from "vue-router";
+const router = useRouter()
 
 const {  proxy  } = getCurrentInstance();
 //获取用户信息
@@ -94,7 +96,7 @@ const ruleForm = reactive({
 const rules = reactive<FormRules>({
   nickName: [
     { required: true, message: '请输入昵称', trigger: 'blur' },
-    { min: 3, max: 5, message: 'Length should be 3 to 5', trigger: 'blur' },
+    { min: 3, max: 100, message: 'Length should be 3 to 100', trigger: 'blur' },
   ],
   email: [
     {
@@ -126,6 +128,7 @@ const submitForm = async (formEl: FormInstance | undefined) => {
     if (valid) {
       updateUserBasic(ruleForm).then(response => {
            ElMessage.success("修改成功")
+        router.push("/users/index");
       })
       console.log('submit!')
     } else {

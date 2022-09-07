@@ -108,9 +108,6 @@ const elementStatus = new Map([
 // 接收url里的参数
 const route = useRoute();
 console.log(route.query.wid,"参数");
-// const wid = ref(null);
-// wid.value = route.query.wid;
-const fits = ['世界', '粉丝', '关注']
 const activeIndex = ref('1')
 //弹出框
 const dialogFormVisible = ref(false)

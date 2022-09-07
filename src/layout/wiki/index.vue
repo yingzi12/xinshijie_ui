@@ -15,7 +15,7 @@
       <div class="flex-grow" />
       <el-button v-if="!isLogin" text style="margin-top: 10px">登录</el-button>
       <el-button v-if="!isLogin"  text style="margin-top: 10px">注册</el-button>
-      <el-button v-if="isLogin" link  style="margin-top: 10px">{{ userStore.name }}</el-button>
+      <el-button v-if="isLogin" link  style="margin-top: 10px" @click="handleUserMessage">{{ userStore.name }}</el-button>
       <el-button v-if="isLogin" text style="margin-top: 10px">退出</el-button>
     </el-menu>
   </div>
@@ -33,12 +33,14 @@ import WikiFooter from './footer'
 import { useWindowSize } from '@vueuse/core'
 import useSettingsStore from '@/store/modules/settings'
 import {ElMessageBox} from "element-plus";
-import {useRoute} from "vue-router";
+import {useRoute, useRouter} from "vue-router";
 import useTagsViewStore from '@/store/modules/tagsView'
 import useUserStore from '@/store/modules/user'
 import logo2 from '@/assets/logo/logo2.png'
 import {ref} from "vue";
 const userStore = useUserStore()
+const router = useRouter()
+
 console.log("是否登录:"+JSON.stringify(userStore))
 console.log("是否登录:"+userStore.name)
 
@@ -96,6 +98,9 @@ function logout() {
 const emits = defineEmits(['setLayout'])
 function setLayout() {
   emits('setLayout');
+}
+function handleUserMessage(){
+  router.push("/users/index");
 }
 </script>
 

@@ -68,13 +68,21 @@
                   {{scope.$index+1}}
                 </template>
               </el-table-column>
-              <el-table-column prop="wname" label="世界名称" width="140" />
-              <el-table-column prop="etitle" label="元素名称" width="120" />
+              <el-table-column prop="wname" label="世界名称" width="140" :show-overflow-tooltip="true" />
+              <el-table-column prop="etitle" label="元素名称" width="120"  :show-overflow-tooltip="true"/>
               <el-table-column prop="title" label="讨论主题"   :show-overflow-tooltip="true"/>
-              <el-table-column prop="types" label="讨论类型"  />
+              <el-table-column  label="讨论类型"  :show-overflow-tooltip="true" >
+                <template #default="scope">
+                  <span>{{discussTypesMap.get(scope.row.types)}}</span>
+                </template>
+              </el-table-column>
               <el-table-column prop="content" label="讨论内容"  :show-overflow-tooltip="true" />
               <el-table-column prop="createTime" label="创建时间"  :show-overflow-tooltip="true" />
-              <el-table-column prop="status" label="状态" />
+              <el-table-column  label="状态" >
+                <template #default="scope">
+                  <span>{{discussStatusMap.get(scope.row.status)}}</span>
+                </template>
+              </el-table-column>
               <el-table-column prop="audit" label="审核结果" :show-overflow-tooltip="true"/>
               <el-table-column fixed="right" label="操作" width="100">
                 <template #default>
@@ -131,6 +139,22 @@ const wid = ref(null);
 const wname = ref('');
 wname.value = <string>route.query.wname;
 wid.value = route.query.wid;
+
+const discussTypesMap = new Map([
+  [1, "自由讨论"],
+  [2, "建议"],
+  [3, "内容错误"],
+  [4, "内容缺失"],
+  [5, "过多重复"],
+  [6, "内容不相关"],
+  [7, "其他"],
+
+]);
+const discussStatusMap = new Map([
+  [1, "待处理"],
+  [2, "已处理"],
+  [3, "关闭"],
+])
 
 const {  appContext : { config: { globalProperties } }  } = getCurrentInstance();
 const {  proxy  } = getCurrentInstance();

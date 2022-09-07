@@ -51,7 +51,7 @@
                 </template>
               </el-table-column>
               <el-table-column prop="createTime" label="创建时间" width="120" :show-overflow-tooltip="true"/>
-              <el-table-column prop="wname" label="世界" width="80"/>
+              <el-table-column prop="wname" label="世界" width="80" :show-overflow-tooltip="true"/>
               <el-table-column prop="comment" label="内容"  :show-overflow-tooltip="true"/>
               <el-table-column prop="reply" label="回复"  :show-overflow-tooltip="true" />
               <el-table-column fixed="right" label="操作" width="80">

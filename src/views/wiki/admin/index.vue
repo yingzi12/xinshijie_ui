@@ -28,8 +28,8 @@
                   {{scope.$index+1}}
                 </template>
               </el-table-column>
-              <el-table-column prop="wname" label="名称"  />
-              <el-table-column label="类别" align="center"  >
+              <el-table-column prop="wname" label="名称" :show-overflow-tooltip="true" />
+              <el-table-column label="类别" align="center"   >
                 <template #default="scope">
                   <span>{{worldTypesMap.get(scope.row.types)}}</span>
                 </template>
@@ -37,7 +37,7 @@
               <el-table-column prop="ranks" label="等级" />
               <el-table-column prop="intro" label="简介" :show-overflow-tooltip="true" />
               <el-table-column prop="updateNewElementTime" label="更新时间" :show-overflow-tooltip="true" />
-              <el-table-column prop="updateNewElement" label="更新元素" />
+              <el-table-column prop="updateNewElement" label="更新元素" :show-overflow-tooltip="true" />
               <el-table-column prop="createTime" label="关注时间" :show-overflow-tooltip="true" />
               <el-table-column fixed="right" label="操作" width="100">
                 <template #default="scope">
