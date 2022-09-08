@@ -26,7 +26,7 @@
         <div style="background-color:#b0c4de;margin: auto;padding: 10px">
           <el-row>
             <el-col  :span="20">
-              <el-select v-model="value" placeholder="类型">
+              <el-select v-model="value" placeholder="类型" clearable >
                 <el-option
                     v-for="item in options"
                     :key="item.value"
@@ -35,7 +35,7 @@
                     :disabled="item.disabled"
                 />
               </el-select>
-              <el-select placeholder="处理状态">
+              <el-select placeholder="处理状态" clearable >
                 <el-option label="已处理" value="已处理"/>
                 <el-option label="讨论中" value="讨论中"/>
               </el-select>

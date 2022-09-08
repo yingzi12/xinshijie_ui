@@ -26,7 +26,7 @@
         <div style="background-color:#b0c4de;margin: auto;padding: 10px">
           <el-row>
             <el-col  :span="20">
-              <el-tree-select v-model="value" :data="dataStree" check-strictly :render-after-expand="false"/>
+              <el-tree-select v-model="value" :data="dataStree" check-strictly :render-after-expand="false" clearable />
               <el-input v-model="input3" placeholder="Please input" class="input-with-select" style="width: 250px"/>
               <el-button :icon="Search" circle/>
             </el-col >

@@ -26,9 +26,9 @@
         <div style="background-color:#b0c4de;margin: auto;padding: 10px">
           <el-row>
             <el-col :span="20">
-              <el-tree-select v-model="value" :data="dataStree" check-strictly :render-after-expand="false"/>
-              <el-input v-model="input3" placeholder="Please input" class="input-with-select" style="width: 250px"/>
-              <el-button :icon="Search" circle/>
+              <el-tree-select v-model="queryParams.types" :data="dataStree" check-strictly :render-after-expand="false" clearable />
+              <el-input v-model="queryParams.title" placeholder="请输入元素名" class="input-with-select" style="width: 250px"/>
+              <el-button :icon="Search" circle @click="getList"/>
             </el-col>
             <el-col :span="4" style="text-align: right;">
               <div style="text-align: right; font-size: 12px" class="toolbar">
@@ -95,26 +95,6 @@
               v-model:limit="queryParams.pageSize"
               @pagination="getList"/>
         </div>
-    <el-dialog v-model="dialogFormVisible" title="Shipping address">
-      <el-form :model="form">
-        <el-form-item label="Promotion name" :label-width="formLabelWidth">
-          <el-input v-model="form.name" autocomplete="off"/>
-        </el-form-item>
-        <el-form-item label="Zones" :label-width="formLabelWidth">
-          <el-select v-model="form.region" placeholder="Please select a zone">
-            <el-option label="Zone No.1" value="shanghai"/>
-            <el-option label="Zone No.2" value="beijing"/>
-          </el-select>
-        </el-form-item>
-      </el-form>
-      <template #footer>
-      <span class="dialog-footer">
-        <el-button @click="dialogFormVisible = false">Cancel</el-button>
-        <el-button type="primary" @click="newElement(1)">Confirm</el-button
-        >
-      </span>
-      </template>
-    </el-dialog>
 </template>
 
 <script lang="ts" setup>
@@ -153,8 +133,8 @@ const data = reactive({
   queryParams: {
     pageNum: 1,
     pageSize: 10,
-    name: undefined,
-    types: undefined,
+    title: undefined,
+    types: '',
     wid:wid.value
   },
   rules: {
@@ -209,6 +189,11 @@ function findType(typeId:number) {
 }
 /** 查询元素列表 */
 function getList() {
+  console.log("查询："+queryParams.value.types != undefined && queryParams.value.types != '')
+  console.log("查询："+queryParams.value.types.split("$$")[0])
+  if(queryParams.value.types != undefined && queryParams.value.types != '' ){
+    queryParams.value.types=queryParams.value.types.split("$$")[0]
+  }
   listElement(globalProperties.addDateRange(queryParams.value, dateRange.value)).then(response => {
     loading.value = false;
     elementList.value = response.rows;
