@@ -5,18 +5,18 @@
         <el-breadcrumb-item :to="{ path: '/world/index' }">首页</el-breadcrumb-item>
         <el-breadcrumb-item><a href="/world/list">世界树</a></el-breadcrumb-item>
         <el-breadcrumb-item :to="{ path: '/world/details', query: {wid:wid} }">{{world.name}}</el-breadcrumb-item>
-        <el-breadcrumb-item>promotion list</el-breadcrumb-item>
-        <el-breadcrumb-item>promotion detail</el-breadcrumb-item>
+        <el-breadcrumb-item :to="{ path: '/element/list', query: {wid:wid} }">元素列表</el-breadcrumb-item>
+        <el-breadcrumb-item>元素详情</el-breadcrumb-item>
       </el-breadcrumb>
     </div>
-    <div style="border-style:solid;">
+    <div >
     <!--  世界名称-->
     <div >
         <h1>{{ element.title }}</h1>
-      <span>更新时间:</span><el-tag>{{element.updateTime}}</el-tag>
-        <span>分类:</span> <el-tag v-for="category in element.categoryList">
+      <div class="lessen"><span>分类:</span> <el-tag size="small" v-for="category in element.categoryList">
         {{category.label}}
-      </el-tag>
+      </el-tag></div>
+      <div class="lessen"><span>更新时间:</span><el-tag size="small">{{element.updateTime}}</el-tag></div>
     </div>
     <el-divider />
     <!--  基本信息 -->
@@ -67,9 +67,7 @@
 
 <script  lang="ts" setup>
 import { reactive, ref } from 'vue'
-import {FormInstance} from "element-plus";
 import {  getElementDetails } from "@/api/wiki/element";
-import {  updatePush } from "@/api/admin/element";
 import {  getWorld } from "@/api/wiki/world";
 
 //接受参数
@@ -100,11 +98,6 @@ function handleList(){
 function handleEdit(){
   router.push("/admin/elementEdit?wid="+ wid.value+"&eid=" +eid.value)
 }
-interface DomainItem {
-  key: number
-  title: string
-  value: string
-}
 const world=ref({})
 /** 查询世界详细 */
 function handWorld() {
@@ -124,16 +117,16 @@ getElement(wid.value,eid.value);
   text-align: center;
   font-size: 18px;
 }
-.my-label {
-  background: var(--el-color-success-light-9);
-}
-.my-content {
-  background: var(--el-color-danger-light-9);
-}
 .center {
   top: 50%;
   width: 100%;
   text-align: center;
   font-size: 18px;
+}
+.lessen {
+  color: #a6a6a6;
+  font: 12px/20px PingFangSC-Regular,-apple-system,Simsun;
+  height: 20px;
+  overflow: hidden;
 }
 </style>

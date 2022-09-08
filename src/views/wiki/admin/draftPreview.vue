@@ -1,24 +1,22 @@
 <template>
   <div class="app-container" >
     <div>
-      <el-breadcrumb separator="/">
-        <el-breadcrumb-item :to="{ path: '/' }">homepage</el-breadcrumb-item>
-        <el-breadcrumb-item
-        ><a href="/public">promotion management</a></el-breadcrumb-item
-        >
-        <el-breadcrumb-item>promotion list</el-breadcrumb-item>
-        <el-breadcrumb-item>promotion detail</el-breadcrumb-item>
-      </el-breadcrumb>
+      <el-menu
+          :default-active="1"
+          mode="horizontal"
+          style="margin:0px;pardding:0px"
+      >
+        <el-menu-item index="1" style="margin:0px;pardding:0px"><span style="font-size: 20px;font-weight:bold;">元素详细</span></el-menu-item>
+      </el-menu>
     </div>
     <div >
     <!--  世界名称-->
     <div >
-        <h1 style="margin-bottom: 5px">{{ element.title }}<el-tag size="small">{{elementStatus.get(element.status)}}</el-tag></h1>
-      <div style="margin: 0px;font-size: 5px"><span>分类:</span> <el-tag v-for="category in element.categoryList">
+        <span style="margin-bottom: 5px;font-size: 25px">{{ element.title }}</span><el-tag size="small">{{elementStatus.get(element.status)}}</el-tag>
+      <div class="lessen"><span>分类:</span> <el-tag size="small" v-for="category in element.categoryList">
         {{category.label}}
       </el-tag></div>
-        <div style="margin: 0px;font-size: 5px"><span>更新时间:</span><el-tag>{{element.updateTime}}</el-tag></div>
-
+        <div class="lessen"><span>更新时间:</span><el-tag size="small">{{element.updateTime}}</el-tag></div>
     </div>
     <el-divider />
     <!--  基本信息 -->
@@ -137,16 +135,16 @@ getDraft(wid.value,deid.value);
   text-align: center;
   font-size: 18px;
 }
-.my-label {
-  background: var(--el-color-success-light-9);
-}
-.my-content {
-  background: var(--el-color-danger-light-9);
-}
 .center {
   top: 50%;
   width: 100%;
   text-align: center;
   font-size: 18px;
+}
+.lessen {
+  color: #a6a6a6;
+  font: 12px/20px PingFangSC-Regular,-apple-system,Simsun;
+  height: 20px;
+  overflow: hidden;
 }
 </style>

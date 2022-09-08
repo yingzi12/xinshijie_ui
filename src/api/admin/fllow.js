@@ -13,14 +13,22 @@ export function listFllow(query) {
 export function addFllow(wid) {
     return request({
         url: '/admin/fllow/fllow?wid=' + wid,
-        method: 'delete'
+        method: 'get'
     })
 }
+//
+export function getInfoByWid(wid) {
+    return request({
+        url: '/admin/fllow/getInfoByWid?wid=' + wid,
+        method: 'get'
+    })
+}
+
 
 // 取消关注
 export function fllowClose(wid) {
     return request({
         url: '/admin/fllow/fllowClose?wid=' + wid,
-        method: 'delete'
+        method: 'get'
     })
 }

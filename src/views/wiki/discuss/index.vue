@@ -102,15 +102,15 @@
               </div>
               <el-divider style="margin: 0px;padding: 0px"/>
             </div>
-            <div style="float:right; position:relative; ">
-              <pagination
-                  v-show="total > 0"
-                  :total="total"
-                  v-model:page="queryParams.pageNum"
-                  v-model:limit="queryParams.pageSize"
-                  @pagination="getList"/>
-            </div>
           </el-tab-pane>
+          <div style="float:right; position:relative; ">
+            <pagination
+                v-show="total > 0"
+                :total="total"
+                v-model:page="queryParams.pageNum"
+                v-model:limit="queryParams.pageSize"
+                @pagination="getList"/>
+          </div>
         </el-tabs>
       </div>
     </div>

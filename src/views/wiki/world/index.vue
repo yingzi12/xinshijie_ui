@@ -39,7 +39,7 @@
         </el-col>
         <el-col :span="8">
           <router-link to='/world/order'>
-            <el-button type="success" round style="float:right;">更多</el-button>
+            <el-button type="success" round style="float:right;"  @click="handleList">更多</el-button>
           </router-link>
         </el-col>
       </el-row>
@@ -75,7 +75,7 @@
         </el-col>
         <el-col :span="8">
           <router-link to='/world/order'>
-            <el-button type="success" round style="float:right;">更多</el-button>
+            <el-button type="success" round style="float:right;" @click="handleList">更多</el-button>
           </router-link>
         </el-col>
       </el-row>
@@ -233,6 +233,9 @@ const search = ref('')
 //查看详细
 function handleSee(row){
   router.push("/world/details?wid="+row.id);
+}
+function handleList(){
+  router.push("/world/list");
 }
 /** 查询世界列表 */
 function getList() {

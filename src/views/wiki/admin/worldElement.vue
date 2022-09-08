@@ -148,7 +148,7 @@ const single = ref(true);
 const multiple = ref(true);
 const search = ref('')
 function handleUpdate (row)  {
-  router.push("/admin/elementEdit?id="+row.id);
+  router.push("/admin/elementEdit?eid="+row.id+"&wid=" + wid.value);
 }
 function handleElementAdd ()  {
   countCategory(wid.value).then(response => {

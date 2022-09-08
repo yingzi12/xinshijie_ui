@@ -41,7 +41,7 @@
                 <span><BootstrapIcon icon="eye" size="1x" flip-v />{{world.countSee}}</span>
               </div>
               <div style="margin-top: 2px">
-                <el-button type="primary" @click="handleFllow">关注</el-button>
+                <el-button v-if="isFllow" type="primary" @click="handleFllow">关注</el-button>
                 <el-button type="primary">点赞</el-button>
                 <el-button type="primary"  @click="handleDiscuss">讨论</el-button>
               </div>
@@ -148,7 +148,7 @@ import type { TabsPaneContext } from 'element-plus'
 import {  getWorld } from "@/api/wiki/world";
 import {  listComment } from "@/api/wiki/comment";
 import { addComment} from "@/api/admin/comment";
-import { addFllow} from "@/api/admin/fllow";
+import { addFllow,getInfoByWid } from "@/api/admin/fllow";
 import {  getWorldManage } from "@/api/wiki/manage";
 import { listElement } from "@/api/wiki/element";
 import useUserStore from '@/store/modules/user'
@@ -196,10 +196,11 @@ function handleDiscuss(){
   router.push("/discuss/list?wid="+world.value.id);
 }
 function handleFllow(){
-  addFllow(wid.value).then(response => {
-    ElMessage.success("关注成功");
-  })
+    addFllow(wid.value).then(response => {
+      ElMessage.success("关注成功");
+    });
 }
+
 /** 查询世界详细 */
 function handWorld(id:number) {
   getWorld(id).then(response => {
@@ -290,6 +291,16 @@ function handleComment(){
   router.push("/world/comment?wid="+world.value.id);
 }
 
+//判断是否已经关注
+const isFllow=ref(false)
+function handleIsFllow(){
+  getInfoByWid(wid.value).then(response => {
+    if(!response.data){
+      isFllow.value=true
+    }
+  });
+}
+handleIsFllow();
 //世界信息
 handWorld(world.value.id);
 //管理员信息

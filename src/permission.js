@@ -11,7 +11,7 @@ import usePermissionStore from '@/store/modules/permission'
 
 NProgress.configure({ showSpinner: false });
 
-const whiteList = ['/login', '/auth-redirect', '/bind', '/wiki', '/register', '/world', '/user', '/element',  '/manage', '/discuss'];
+const whiteList = ['/login', '/auth-redirect', '/bind', '/wiki', '/register', '/world',  '/element',  '/manage', '/discuss'];
 
 router.beforeEach((to, from, next) => {
   NProgress.start()
@@ -49,13 +49,7 @@ router.beforeEach((to, from, next) => {
       }
     }
   } else {
-    console.log("没有token")
-
-    console.log("路径:"+to.path.split('/')[1])
-    console.log("路径:"+whiteList.indexOf('/world'))
     var urlPath='/'+to.path.split('/')[1]
-    console.log("路径:"+urlPath)
-    console.log("路径:"+whiteList.indexOf(urlPath))
     // 没有token
     if (whiteList.indexOf(urlPath) !== -1) {
       // 在免登录白名单，直接进入

@@ -11,7 +11,6 @@
     <div>
       <!--    评论区-->
       <div>
-        <el-divider />
         <div class="center">
            <span style="font-size:30px;">{{ world.name }}</span>
         </div>
@@ -82,7 +81,7 @@
               <el-divider />
             </div>
             <!--        分页-->
-            <div style="float:right; position:relative; ">
+            <div style="float:right; position:relative;margin: 0px ">
               <pagination
                   v-show="total > 0"
                   :total="total"
@@ -91,6 +90,7 @@
                   @pagination="getList"/>
             </div>
           </el-tab-pane>
+
         </el-tabs>
       </div>
     </div>
