@@ -8,7 +8,13 @@ export function listComment(query) {
     params: query
   })
 }
-
+export function listCommentAdmin(query) {
+  return request({
+    url: '/admin/comment/listAdmin',
+    method: 'get',
+    params: query
+  })
+}
 // 查询世界评论详细
 export function getWorldComment(id) {
   return request({

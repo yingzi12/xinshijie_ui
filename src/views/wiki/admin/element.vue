@@ -45,7 +45,6 @@
               <el-table-column prop="typesName" label="分类" :show-overflow-tooltip="true"/>
               <el-table-column prop="intro" label="简介" :show-overflow-tooltip="true" width="120"/>
               <el-table-column prop="createTime" label="创建时间" :show-overflow-tooltip="true" />
-<!--              <el-table-column prop="createName" label="创建人" />-->
               <el-table-column prop="status" label="状态" />
               <el-table-column prop="updateType" label="修改原因" />
               <el-table-column prop="updateContent" label="修改说明" />

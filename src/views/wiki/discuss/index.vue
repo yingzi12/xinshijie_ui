@@ -57,8 +57,8 @@
       <!--    已经发布的的评论-->
       <div>
         <div v-if="discuss.status != 1 " style="background-color: #009926">
-            <p>已经处理，同意该意见，关闭讨论</p>
-          <p>2022-11-11 02:23:01</p>
+            <p>{{discuss.reply}}</p>
+          <p>{{discuss.updateTime}}</p>
         </div>
         <el-tabs v-model="commentActive"  >
           <el-tab-pane label="全部评论" name="allComm">

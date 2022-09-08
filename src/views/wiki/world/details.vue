@@ -280,6 +280,7 @@ function onSubmit(){
   commentForm.value.circleUrl=userStore.avatar
   addComment(commentForm.value).then(response => {
     ElMessage.success("评论成功")
+    commentForm.value.comment=''
     console.log("评论成功")
     getAllWorldComment();
   })

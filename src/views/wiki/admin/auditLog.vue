@@ -15,13 +15,12 @@
         <div style="background-color:#b0c4de;margin: auto;padding: 10px">
           <el-row>
             <el-col  :span="20">
-              <el-tree-select v-model="value" :data="dataStree" check-strictly :render-after-expand="false"/>
-              <el-input v-model="input3" placeholder="Please input" class="input-with-select" style="width: 250px"/>
-              <el-button :icon="Search" circle/>
+              <el-input v-model="queryParams.title" placeholder="请输入元素名" class="input-with-select" style="width: 250px"/>
+              <el-button :icon="Search" circle @click="getList"/>
             </el-col >
             <el-col :span="4"  style="text-align: right;">
               <div style="text-align: right; font-size: 12px" class="toolbar">
-                <el-button text @click="handleAudit">返回</el-button>
+<!--                <el-button text @click="handleAudit">返回</el-button>-->
               </div>
             </el-col>
           </el-row>
@@ -44,16 +43,16 @@
                 </template>
               </el-table-column>
               <el-table-column prop="wname" label="世界" width="140" />
-              <el-table-column label="状态" align="center"  >
+              <el-table-column label="审核" align="center"  >
                 <template #default="scope">
                   <span>{{elementStatus.get(scope.row.status)}}</span>
                 </template>
               </el-table-column>
+              <el-table-column label="审核说明" align="center" key="auditContent" prop="auditContent" :show-overflow-tooltip="true"/>
               <el-table-column prop="createTime" label="修改时间" :show-overflow-tooltip="true" />
               <el-table-column prop="causeNumber" label="修改原因" />
               <el-table-column prop="causeContent" label="修改说明" :show-overflow-tooltip="true" />
-              <el-table-column prop="createName" label="修改人" />
-              <el-table-column fixed="right" label="操作" width="120">
+              <el-table-column fixed="right" label="操作" width="180">
                 <template #default="scope">
                   <el-button link type="primary" size="small" @click="handleSee(scope.row)">详细</el-button>
                   <el-button link type="primary" size="small" @click="handleDiff(scope.row)">差异</el-button>
@@ -101,8 +100,8 @@ const router = useRouter()
 const elementStatus = new Map([
   [0, "草稿"],
   [1, "发布"],
-  [3, "审核不通过"],
-  [2, "通过审核"],
+  [3, "不通过"],
+  [2, "通过"],
   [4, "删除"]
 ]);
 // 接收url里的参数
@@ -132,7 +131,7 @@ const data = reactive({
     pageNum: 1,
     pageSize: 10,
     auditStatus:1,
-    name: undefined,
+    title: undefined,
     types: undefined,
   },
   rules: {

@@ -26,9 +26,9 @@
         <div style="background-color:#b0c4de;margin: auto;padding: 10px">
           <el-row>
             <el-col  :span="20">
-              <el-tree-select v-model="value" :data="dataStree" check-strictly :render-after-expand="false" clearable />
-              <el-input v-model="input3" placeholder="Please input" class="input-with-select" style="width: 250px"/>
-              <el-button :icon="Search" circle/>
+              <el-tree-select v-model="queryParams.types" :data="dataStree" check-strictly :render-after-expand="false" clearable />
+              <el-input v-model="queryParams.title" placeholder="请输入元素名称" class="input-with-select" style="width: 250px"/>
+              <el-button :icon="Search" circle @click="getList"/>
             </el-col >
             <el-col :span="4"  style="text-align: right;">
               <div style="text-align: right; font-size: 12px" class="toolbar">
@@ -60,7 +60,7 @@
                 <template #default="scope">
                   <el-button link type="primary" size="small" @click="handleSee(scope.row)">详细</el-button>
                   <el-button link type="primary" size="small" @click="handleDiff(scope.row)">差异</el-button>
-                  <el-button link type="primary" size="small" @click="handleAudit(scope.row)">审核</el-button>
+                  <el-button link type="primary" size="small" @click="handleOpen(scope.row)">审核</el-button>
                 </template>
               </el-table-column>
             </el-table>
@@ -77,21 +77,24 @@
         </div>
       <!--      审核弹出框-->
       <el-dialog v-model="dialogFormVisible" title="审核">
-        <el-form :model="form">
-          <el-form-item label="Zones" :label-width="formLabelWidth">
-            <el-select v-model="form.region" placeholder="Please select a zone">
-              <el-option label="Zone No.1" value="shanghai" />
-              <el-option label="Zone No.2" value="beijing" />
+        <el-form :model="form"
+                 :rules="rules"
+                 ref="ruleFormRef"
+        >
+          <el-form-item label="审核" :label-width="formLabelWidth"  prop="auditStatus">
+            <el-select v-model="form.auditStatus" placeholder="请选择审核结果" >
+              <el-option label="不通过" value="0" />
+              <el-option label="通过" value="1" />
             </el-select>
           </el-form-item>
-          <el-form-item label="说明" :label-width="formLabelWidth">
-            <el-input v-model="form.name" autocomplete="off" />
+          <el-form-item label="说明" :label-width="formLabelWidth" prop="auditContent">
+            <el-input v-model="form.auditContent" autocomplete="off" />
           </el-form-item>
         </el-form>
         <template #footer>
       <span class="dialog-footer">
         <el-button @click="dialogFormVisible = false">取消</el-button>
-        <el-button type="primary" @click="dialogFormVisible = false">确认</el-button>
+        <el-button type="primary" @click="onSudmit(ruleFormRef)">确认</el-button>
       </span>
         </template>
       </el-dialog>
@@ -101,7 +104,7 @@
 import {getCurrentInstance, reactive, ref, toRefs} from 'vue'
 import {useRoute, useRouter} from "vue-router";
 import { Menu as IconMenu,CirclePlus, Message, Setting } from '@element-plus/icons-vue'
-import { listAudit } from "@/api/admin/draftElement";
+import { listAudit,auditDraft } from "@/api/admin/draftElement";
 import { getTree} from "@/api/wiki/category";
 const router = useRouter()
 
@@ -127,6 +130,7 @@ const formLabelWidth = '140px'
 
 //搜索框
 import { Search } from '@element-plus/icons-vue'
+import {ElMessage, FormInstance} from "element-plus";
 const input3 = ref('')
 
 const {  appContext : { config: { globalProperties } }  } = getCurrentInstance();
@@ -144,12 +148,14 @@ const data = reactive({
     pageNum: 1,
     pageSize: 10,
     auditStatus:0,
-    name: undefined,
-    types: undefined,
+    title: undefined,
+    types: '',
     wid:wid.value,
   },
   rules: {
-    // userName: [{ required: true, message: "用户名称不能为空", trigger: "blur" }, { min: 2, max: 20, message: "用户名称长度必须介于 2 和 20 之间", trigger: "blur" }],
+    auditStatus: [{ required: true, message: "类别不能为空", trigger: "blur" }],
+    auditContent: [{ required: true, message: "说明不能为空", trigger: "blur" }, { min: 10, max: 200, message: "说明长度必须介于 10 和 200 之间", trigger: "blur" }],
+
   }
 });
 const { queryParams, form, rules } = toRefs(data);
@@ -165,6 +171,9 @@ function findType(typeId:number) {
 }
 /** 查询世界列表 */
 function getList() {
+  if(queryParams.value.types != undefined && queryParams.value.types != '' ){
+    queryParams.value.types=queryParams.value.types.split("$$")[0]
+  }
   listAudit(globalProperties.addDateRange(queryParams.value, dateRange.value)).then(response => {
     loading.value = false;
     draftList.value = response.rows;
@@ -189,6 +198,31 @@ function handleDiff(row){
 
 function handleAuditLog(){
   router.push("/admin/worldAuditLog?wid="+wid.value+"&wname="+wname.value);
+}
+const ruleFormRef = ref<FormInstance>()
+function handleOpen(row){
+  dialogFormVisible.value=true
+  form.value.deid=row.id
+  form.value.wid=wid.value
+  form.value.auditStatus=undefined
+  form.value.auditNumber=0
+  form.value.auditContent=''
+}
+
+const onSudmit = async (formEl: FormInstance | undefined) => {
+  if (!formEl) return
+  await formEl.validate((valid, fields) => {
+    if (valid) {
+      console.log('submit!')
+      auditDraft(form.value).then(response => {
+        dialogFormVisible.value=false
+        ElMessage.success("处理成功")
+        getList();
+      })
+    } else {
+      console.log('error submit!', fields)
+    }
+  })
 }
 getCategoryTree();
 getList();

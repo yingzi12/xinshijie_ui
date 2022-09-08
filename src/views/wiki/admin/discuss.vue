@@ -14,21 +14,24 @@
   <div style="background-color:#b0c4de;margin: auto;padding: 10px">
     <el-row>
       <el-col  :span="20">
-        <el-select v-model="value" placeholder="类型" clearable>
+        <el-select v-model="queryParams.types" placeholder="类型" clearable >
           <el-option
-              v-for="item in options"
-              :key="item.value"
-              :label="item.label"
-              :value="item.value"
-              :disabled="item.disabled"
+              v-for="item in discussTypes"
+              :key="item.id"
+              :label="item.name"
+              :value="item.id"
           />
         </el-select>
-        <el-select placeholder="处理状态"  clearable>
-          <el-option label="已处理" value="已处理"/>
-          <el-option label="讨论中" value="讨论中"/>
+        <el-select placeholder="处理状态" v-model="queryParams.status" clearable >
+          <el-option
+              v-for="item in discussStatus"
+              :key="item.id"
+              :label="item.name"
+              :value="item.id"
+          />
         </el-select>
-        <el-input v-model="input3" placeholder="Please input" class="input-with-select" style="width: 250px"/>
-        <el-button :icon="Search" circle />
+        <el-input v-model="queryParams.title" placeholder="请输入主题" class="input-with-select" style="width: 250px"/>
+        <el-button :icon="Search" circle @click="getList"/>
       </el-col >
       <el-col :span="4"  style="text-align: right;">
         <div style="text-align: right; font-size: 12px" class="toolbar">
@@ -53,18 +56,18 @@
             <span>{{discussTypesMap.get(scope.row.types)}}</span>
           </template>
         </el-table-column>
-        <el-table-column prop="content" label="讨论内容"  :show-overflow-tooltip="true" />
+        <el-table-column prop="comment" label="讨论内容"  :show-overflow-tooltip="true" />
         <el-table-column prop="createTime" label="创建时间"  :show-overflow-tooltip="true" />
         <el-table-column  label="状态" >
           <template #default="scope">
             <span>{{discussStatusMap.get(scope.row.status)}}</span>
           </template>
         </el-table-column>
-        <el-table-column prop="audit" label="审核结果" :show-overflow-tooltip="true"/>
+        <el-table-column prop="reply" label="审核结果" :show-overflow-tooltip="true"/>
         <el-table-column fixed="right" label="操作" width="150">
           <template #default="scope">
             <el-button link type="primary" size="small" @click="handleSee(scope.row)">查看</el-button>
-            <el-button link type="primary" size="small" @click="dialogFormVisible = true">审核</el-button>
+            <el-button link v-if="scope.row.types == 1" type="primary" size="small" @click="handleCloes(scope.row)">关闭</el-button>
           </template>
         </el-table-column>
       </el-table>
@@ -79,34 +82,14 @@
         v-model:limit="queryParams.pageSize"
         @pagination="getList"/>
   </div>
-
-  <!--      审核弹出框-->
-  <el-dialog v-model="dialogFormVisible" title="审核">
-    <el-form :model="form">
-      <el-form-item label="Zones" :label-width="formLabelWidth">
-        <el-select v-model="form.region" placeholder="Please select a zone">
-          <el-option label="Zone No.1" value="shanghai" />
-          <el-option label="Zone No.2" value="beijing" />
-        </el-select>
-      </el-form-item>
-      <el-form-item label="说明" :label-width="formLabelWidth">
-        <el-input v-model="form.name" autocomplete="off" />
-      </el-form-item>
-    </el-form>
-    <template #footer>
-      <span class="dialog-footer">
-        <el-button @click="dialogFormVisible = false">取消</el-button>
-        <el-button type="primary" @click="dialogFormVisible = false">确认</el-button>
-      </span>
-    </template>
-  </el-dialog>
 </template>
 
 <script lang="ts" setup>
 import {getCurrentInstance, reactive, ref, toRefs} from 'vue'
 import {useRoute, useRouter} from "vue-router";
 import { Search } from '@element-plus/icons-vue'
-import { listDiscuss } from "@/api/admin/discuss";
+import { listDiscuss,updateStatus } from "@/api/admin/discuss";
+import {ElMessage, ElMessageBox} from "element-plus";
 
 // 接收url里的参数
 // 接收url里的参数
@@ -132,6 +115,20 @@ const discussStatusMap = new Map([
   [2, "已处理"],
   [3, "关闭"],
 ])
+const discussTypes = ref([
+  {id:1,name:"自由讨论"},
+  {id:2,name:"建议"},
+  {id:3,name:"内容错误"},
+  {id:4,name:"内容缺失"},
+  {id:5,name:"过多重复"},
+  {id:6,name:"内容不相关"},
+  {id:7,name:"其他"},
+]);
+const discussStatus =ref([
+  {id:1, name:"待处理"},
+  {id:2, name:"已处理"},
+  {id:3, name:"关闭"},
+])
 const {  appContext : { config: { globalProperties } }  } = getCurrentInstance();
 const {  proxy  } = getCurrentInstance();
 //分页
@@ -147,9 +144,9 @@ const data = reactive({
     pageNum: 1,
     pageSize: 10,
     auditStatus:0,
-    name: undefined,
+    title: undefined,
     types: undefined,
-    // wid:wid.value,
+    status:1
   },
   rules: {
     // userName: [{ required: true, message: "用户名称不能为空", trigger: "blur" }, { min: 2, max: 20, message: "用户名称长度必须介于 2 和 20 之间", trigger: "blur" }],
@@ -173,6 +170,23 @@ const dialogFormVisible = ref(false)
 const formLabelWidth = '140px'
 function handleSee(row){
   router.push("/discuss/index?wid="+row.wid+"&wname="+row.wname+"&did="+row.id);
+}
+function handleCloes(row){
+  form.value.id=row.id
+  form.value.wid=row.wid
+  form.value.status=3
+  form.value.reply='手动关闭'
+  ElMessageBox.confirm('是否确定关闭该讨论')
+      .then(() => {
+        updateStatus(form.value).then(response => {
+          ElMessage.success("关闭成功")
+          getList();
+        })
+      })
+      .catch(() => {
+        // catch error
+      })
+
 }
 
 getList()

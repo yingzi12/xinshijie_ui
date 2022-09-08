@@ -15,13 +15,13 @@
         <div style="background-color:#b0c4de;margin: auto;padding: 10px">
           <el-row>
             <el-col  :span="20">
-              <el-tree-select v-model="value" :data="dataStree" check-strictly :render-after-expand="false"/>
-              <el-input v-model="input3" placeholder="Please input" class="input-with-select" style="width: 250px"/>
-              <el-button :icon="Search" circle/>
+<!--              <el-tree-select v-model="value" :data="dataStree" check-strictly :render-after-expand="false"/>-->
+              <el-input v-model="queryParams.title" placeholder="请输入元素名" class="input-with-select" style="width: 250px"/>
+              <el-button :icon="Search" circle @click="getList"/>
             </el-col >
             <el-col :span="4"  style="text-align: right;">
               <div style="text-align: right; font-size: 12px" class="toolbar">
-                <el-button text @click="handleLog">查看历史记录</el-button>
+<!--                <el-button text @click="handleLog">查看历史记录</el-button>-->
               </div>
             </el-col>
           </el-row>
@@ -52,7 +52,6 @@
               <el-table-column prop="createTime" label="修改时间" :show-overflow-tooltip="true" />
               <el-table-column prop="causeNumber" label="修改原因" :show-overflow-tooltip="true" />
               <el-table-column prop="causeContent" label="修改说明" :show-overflow-tooltip="true" />
-              <el-table-column prop="createName" label="修改人" />
               <el-table-column fixed="right" label="操作" width="220">
                 <template #default="scope">
                   <el-button link type="primary" size="small" @click="handleSee(scope.row)">详细</el-button>
@@ -137,7 +136,7 @@ const data = reactive({
     pageNum: 1,
     pageSize: 10,
     auditStatus:0,
-    name: undefined,
+    title: undefined,
     types: undefined,
     // wid:wid.value,
   },

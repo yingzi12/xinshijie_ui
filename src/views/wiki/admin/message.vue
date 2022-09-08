@@ -44,17 +44,6 @@
             </el-col >
             <el-col :span="4"  style="text-align: right;">
               <div style="text-align: right; font-size: 12px" class="toolbar">
-                <el-dropdown>
-                  <el-icon style="margin-right: 8px; margin-top: 1px"><setting/></el-icon>
-                  <template #dropdown>
-                    <el-dropdown-menu>
-                      <el-dropdown-item>View</el-dropdown-item>
-                      <el-dropdown-item>Add</el-dropdown-item>
-                      <el-dropdown-item>Delete</el-dropdown-item>
-                    </el-dropdown-menu>
-                  </template>
-                </el-dropdown>
-                <span>Tom</span>
               </div>
             </el-col>
           </el-row>
@@ -75,7 +64,7 @@
               <el-table-column prop="content" label="讨论内容"  :show-overflow-tooltip="true" />
               <el-table-column prop="createTime" label="创建时间"  :show-overflow-tooltip="true" />
               <el-table-column prop="status" label="状态" />
-              <el-table-column prop="audit" label="审核结果" :show-overflow-tooltip="true"/>
+<!--              <el-table-column prop="audit" label="审核结果" :show-overflow-tooltip="true"/>-->
               <el-table-column fixed="right" label="Operations" width="220">
                 <template #default>
                   <el-button link type="primary" size="small" @click="handleClick">查看</el-button>
@@ -86,29 +75,17 @@
           </el-scrollbar>
         </div>
         <!--        分页-->
-        <div style="float:right; ">
-          <el-pagination  layout="prev, pager, next" :total="50" />
-        </div>
+  <div style="float:right; position:relative; ">
+    <pagination
+        v-show="total > 0"
+        :total="total"
+        v-model:page="queryParams.pageNum"
+        v-model:limit="queryParams.pageSize"
+        @pagination="getList"
+    />
+  </div>
 
 <!--      审核弹出框-->
-      <el-dialog v-model="dialogFormVisible" title="审核">
-        <el-form :model="form">
-          <el-form-item label="Zones" :label-width="formLabelWidth">
-            <el-select v-model="form.region" placeholder="Please select a zone">
-              <el-option label="Zone No.1" value="shanghai" />
-              <el-option label="Zone No.2" value="beijing" />
-            </el-select>
-          </el-form-item>
-          <el-form-item label="说明" :label-width="formLabelWidth">
-            <el-input v-model="form.name" autocomplete="off" />
-          </el-form-item>
-        </el-form>
-        <template #footer>
-      <span class="dialog-footer">
-        <el-button @click="dialogFormVisible = false">取消</el-button>
-        <el-button type="primary" @click="dialogFormVisible = false">确认</el-button>
-      </span>
-        </template>
 </template>
 
 <script lang="ts" setup>

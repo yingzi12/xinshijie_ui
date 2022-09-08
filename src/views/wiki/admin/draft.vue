@@ -13,9 +13,8 @@
         <div style="background-color:#b0c4de;margin: auto;padding: 10px">
           <el-row>
             <el-col :span="20">
-<!--              <el-tree-select v-model="value" :data="dataStree" check-strictly :render-after-expand="false"/>-->
-              <el-input v-model="input3" placeholder="Please input" class="input-with-select" style="width: 250px"/>
-              <el-button :icon="Search" circle/>
+              <el-input v-model="queryParams.title" placeholder="请输入元素名" class="input-with-select" style="width: 250px"/>
+              <el-button :icon="Search" circle @click="getList"/>
             </el-col>
             <el-col :span="4" style="text-align: right;">
               <div style="text-align: right; font-size: 12px" class="toolbar">
@@ -48,8 +47,6 @@
                 </template>
               </el-table-column>
               <el-table-column label="简介" align="center" key="intro" prop="intro" :show-overflow-tooltip="true"/>
-              <el-table-column label="创建人" align="center" key="createName" prop="createName"
-                               :show-overflow-tooltip="true"/>
               <el-table-column label="更新时间" align="center" prop="updateTime" width="160" :show-overflow-tooltip="true">
                 <template #default="scope">
                   <span>{{ scope.row.updateTime }}</span>
@@ -135,7 +132,7 @@ const data = reactive({
   queryParams: {
     pageNum: 1,
     pageSize: 10,
-    name: undefined,
+    title: undefined,
     types: undefined,
     status:0,
   },

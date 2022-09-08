@@ -26,9 +26,8 @@
         <div style="background-color:#b0c4de;margin: auto;padding: 10px">
           <el-row>
             <el-col  :span="20">
-              <el-tree-select v-model="value" :data="data" check-strictly :render-after-expand="false"/>
-              <el-input v-model="input3" placeholder="Please input" class="input-with-select" style="width: 250px"/>
-              <el-button :icon="Search" circle />
+              <el-input v-model="queryParams.userName" placeholder="请输入用户名称" class="input-with-select" style="width: 250px"/>
+              <el-button :icon="Search" circle @click="getList"/>
             </el-col >
             <el-col :span="4"  style="text-align: right;">
               <div style="text-align: right; font-size: 12px" class="toolbar">
@@ -45,8 +44,8 @@
                   {{scope.$index+1}}
                 </template>
               </el-table-column>
-              <el-table-column prop="createTime" label="时间" width="140" />
-              <el-table-column prop="createName" label="姓名" width="120" />
+              <el-table-column prop="createTime" label="时间" width="140" :show-overflow-tooltip="true" />
+              <el-table-column prop="createName" label="姓名" width="120" :show-overflow-tooltip="true"  />
               <el-table-column prop="ranks" label="等级" width="120" />
               <el-table-column prop="countNew" label="新增" width="120" />
               <el-table-column prop="countEdit" label="编辑" width="120" />
@@ -97,9 +96,8 @@ const data = reactive({
     pageNum: 1,
     pageSize: 10,
     auditStatus:0,
-    name: undefined,
-    types: undefined,
-    // wid:wid.value,
+    userName: undefined,
+    wid: wid.value,
   },
   rules: {
     // userName: [{ required: true, message: "用户名称不能为空", trigger: "blur" }, { min: 2, max: 20, message: "用户名称长度必须介于 2 和 20 之间", trigger: "blur" }],

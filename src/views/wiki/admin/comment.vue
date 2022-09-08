@@ -8,36 +8,10 @@
         <div style="background-color:#b0c4de;margin: auto;padding: 10px">
           <el-row>
             <el-col  :span="20">
-              <el-select v-model="value" placeholder="类型" clearable>
-                <el-option
-                    v-for="item in options"
-                    :key="item.value"
-                    :label="item.label"
-                    :value="item.value"
-                    :disabled="item.disabled"
-                />
-              </el-select>
-              <el-select placeholder="处理状态" clearable>
-                <el-option label="已处理" value="已处理"/>
-                <el-option label="讨论中" value="讨论中"/>
-              </el-select>
-              <el-input v-model="input3" placeholder="Please input" class="input-with-select" style="width: 250px"/>
-              <el-button :icon="Search" circle />
+              <el-input v-model="queryParams.comment" placeholder="请输入内容" class="input-with-select" style="width: 250px"/>
+              <el-button :icon="Search" circle @click="getList"/>
             </el-col >
             <el-col :span="4"  style="text-align: right;">
-              <div style="text-align: right; font-size: 12px" class="toolbar">
-                <el-dropdown>
-                  <el-icon style="margin-right: 8px; margin-top: 1px"><setting/></el-icon>
-                  <template #dropdown>
-                    <el-dropdown-menu>
-                      <el-dropdown-item>View</el-dropdown-item>
-                      <el-dropdown-item>Add</el-dropdown-item>
-                      <el-dropdown-item>Delete</el-dropdown-item>
-                    </el-dropdown-menu>
-                  </template>
-                </el-dropdown>
-                <span>Tom</span>
-              </div>
             </el-col>
           </el-row>
         </div>
@@ -117,6 +91,7 @@ const data = reactive({
   queryParams: {
     pageNum: 1,
     pageSize: 10,
+    comment:undefined,
     wid: undefined,
     eid: undefined,
   },

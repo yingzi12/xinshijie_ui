@@ -26,22 +26,8 @@
         <div style="background-color:#b0c4de;margin: auto;padding: 10px">
           <el-row>
             <el-col  :span="20">
-              <el-select v-model="value" placeholder="类型" clearable>
-                <el-option
-                    v-for="item in options"
-                    :key="item.value"
-                    :label="item.label"
-                    :value="item.value"
-                    :disabled="item.disabled"
-                    clearable
-                />
-              </el-select>
-              <el-select placeholder="处理状态" clearable >
-                <el-option label="已处理" value="已处理"/>
-                <el-option label="讨论中" value="讨论中"/>
-              </el-select>
-              <el-input v-model="input3" placeholder="Please input" class="input-with-select" style="width: 250px"/>
-              <el-button :icon="Search" circle />
+              <el-input v-model="queryParams.comment" placeholder="请输入查询内容" class="input-with-select" style="width: 250px"/>
+              <el-button :icon="Search" circle @click="getList"/>
             </el-col >
             <el-col :span="4"  style="text-align: right;">
               <div style="text-align: right; font-size: 12px" class="toolbar">
@@ -112,17 +98,13 @@
       </span>
         </template>
       </el-dialog>
-
-<!--    </el-container>-->
-<!--  </el-container>-->
 </template>
 
 <script lang="ts" setup>
 import {getCurrentInstance, reactive, ref, toRefs} from 'vue'
 import {useRoute, useRouter} from "vue-router";
-import { Menu as IconMenu,CirclePlus, Message, Setting } from '@element-plus/icons-vue'
 import { Search } from '@element-plus/icons-vue'
-import { listComment} from "@/api/wiki/comment";
+import { listCommentAdmin} from "@/api/admin/comment";
 const {  appContext : { config: { globalProperties } }  } = getCurrentInstance();
 // 接收url里的参数
 const route = useRoute();
@@ -131,21 +113,13 @@ const wid = ref(null);
 const wname = ref('');
 wname.value = <string>route.query.wname;
 wid.value = route.query.wid;
-//弹出框内容
-const comment = {
-  circleUrl:'',
-  date: '2020-05-02',
-  createName: 'Tom',
-  comment: 'No. 189, Grove St, Los Angeles',
-  createTime:"2020-05-02 11:23:09",
-}
 //个人消息
 const fits = ['世界', '粉丝', '关注']
 const activeIndex = ref('1')
 
 //表格内容
 //表格内容
-
+const comment=ref({})
 const commentActive = ref('allComm')
 const commentList = ref([])
 const data = reactive({
@@ -153,7 +127,8 @@ const data = reactive({
   queryParams: {
     pageNum: 1,
     pageSize: 10,
-    wid: undefined,
+    comment:undefined,
+    wid: wid.value,
     eid: undefined,
   },
   rules: {
@@ -167,40 +142,13 @@ const { queryParams, commentForm, rules } = toRefs(data);
 const dateRange = ref([]);
 //评论信息
 function getList() {
-  listComment(globalProperties.addDateRange(queryParams.value, dateRange.value)).then(response => {
+  listCommentAdmin(globalProperties.addDateRange(queryParams.value, dateRange.value)).then(response => {
     console.log("查询评论列表:"+JSON.stringify(response))
     commentList.value = response.rows
     total.value = response.total;
   });
 }
 
-//多选框
-const value = ref('')
-const options = [
-  {
-    value: 'Option1',
-    label: 'Option1',
-  },
-  {
-    value: 'Option2',
-    label: 'Option2',
-    disabled: true,
-  },
-  {
-    value: 'Option3',
-    label: 'Option3',
-  },
-  {
-    value: 'Option4',
-    label: 'Option4',
-  },
-  {
-    value: 'Option5',
-    label: 'Option5',
-  },
-]
-//搜索框
-const input3 = ref('')
 
 //弹出框
 const dialogFormVisible = ref(false)

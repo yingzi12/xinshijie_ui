@@ -42,6 +42,22 @@ export function updateDiscuss(data) {
     data: data
   })
 }
+export function updateStatus(data) {
+  return request({
+    url: '/admin/discuss/updateStatus',
+    method: 'put',
+    data: data
+  })
+}
+
+export function updateStatusAdmin(data) {
+  return request({
+    url: '/admin/discuss/updateStatusAdmin',
+    method: 'put',
+    data: data
+  })
+}
+
 // 删除元素
 export function delDiscuss(wid,did) {
   return request({

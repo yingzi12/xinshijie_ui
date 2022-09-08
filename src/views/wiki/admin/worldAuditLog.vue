@@ -26,9 +26,9 @@
         <div style="background-color:#b0c4de;margin: auto;padding: 10px">
           <el-row>
             <el-col  :span="20">
-              <el-tree-select v-model="value" :data="dataStree" check-strictly :render-after-expand="false" clearable />
-              <el-input v-model="input3" placeholder="Please input" class="input-with-select" style="width: 250px"/>
-              <el-button :icon="Search" circle/>
+              <el-tree-select v-model="queryParams.types" :data="dataStree" check-strictly :render-after-expand="false" clearable />
+              <el-input v-model="queryParams.title" placeholder="请输入元素名称" class="input-with-select" style="width: 250px"/>
+              <el-button :icon="Search" circle @click="getList"/>
             </el-col >
             <el-col :span="4"  style="text-align: right;">
               <div style="text-align: right; font-size: 12px" class="toolbar">
@@ -57,7 +57,7 @@
               <el-table-column prop="causeContent" label="修改说明" :show-overflow-tooltip="true"/>
               <el-table-column prop="createName" label="修改人" :show-overflow-tooltip="true"/>
               <el-table-column prop="updateTime" label="审核时间"  :show-overflow-tooltip="true"/>
-              <el-table-column prop="auditNumber" label="审核人" :show-overflow-tooltip="true" />
+              <el-table-column prop="updateName" label="审核人" :show-overflow-tooltip="true" />
               <el-table-column prop="auditContent" label="审核理由" :show-overflow-tooltip="true"/>
               <el-table-column fixed="right" label="操作" width="220">
                 <template #default="scope">
@@ -118,8 +118,8 @@ wname.value = <string>route.query.wname;
 const elementStatus = new Map([
   [0, "草稿"],
   [1, "待审核"],
-  [3, "审核不通过"],
-  [2, "通过审核"],
+  [3, "不通过"],
+  [2, "通过"],
   [4, "删除"]
 ]);
 const activeIndex = ref('1')
@@ -145,8 +145,8 @@ const data = reactive({
     pageNum: 1,
     pageSize: 10,
     auditStatus:1,
-    name: undefined,
-    types: undefined,
+    title: undefined,
+    types: '',
     wid:wid.value,
   },
   rules: {
@@ -166,6 +166,9 @@ function findType(typeId:number) {
 }
 /** 查询世界列表 */
 function getList() {
+  if(queryParams.value.types != undefined && queryParams.value.types != '' ){
+    queryParams.value.types=queryParams.value.types.split("$$")[0]
+  }
   listAudit(globalProperties.addDateRange(queryParams.value, dateRange.value)).then(response => {
     loading.value = false;
     draftList.value = response.rows;
