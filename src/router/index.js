@@ -51,38 +51,32 @@ export const constantRoutes = [
     hidden: true
   },
   {
-    path: "/:pathMatch(.*)*",
-    component: () => import('@/views/error/404'),
-    hidden: true
-  },
-  {
     path: '/wiki',
     component: LayoutWiki,
     hidden: true,
     children: [
       {
         path: 'index',
-        component: () => import('@/views/wiki/index'),
+        component: () => import('@/views/wiki/home/index'),
         name: 'wiki',
-        meta: { title: '个人中心', icon: 'wiki' }
-      }
-    ]
-  },
-  {
-    path: '/wikiadmin',
-    component: LayoutAdmin,
-    hidden: true,
-    children: [
+        meta: { title: '首页', icon: 'wiki' }
+      },
       {
-        path: 'index',
-        component: () => import('@/views/wiki/index'),
-        name: 'wiki',
+        path: 'feedback',
+        component: () => import('@/views/wiki/feedback/index'),
+        name: 'feedback',
+        meta: { title: '个人中心', icon: 'wiki' }
+      },
+      {
+        path: 'help',
+        component: () => import('@/views/wiki/help/index'),
+        name: 'help',
         meta: { title: '个人中心', icon: 'wiki' }
       }
     ]
   },
   {
-    path: '/users',
+    path: '/user',
     component: LayoutUser,
     hidden: true,
     children: [
@@ -393,7 +387,7 @@ export const constantRoutes = [
     ]
   },
   {
-    path: '/users',
+    path: '/user',
     component: LayoutUser,
     hidden: true,
     children:[
@@ -473,20 +467,6 @@ export const constantRoutes = [
       }
     ]
   },
-  {
-    path: '/user',
-    component: Layout,
-    hidden: true,
-    redirect: 'noredirect',
-    children: [
-      {
-        path: 'profile',
-        component: () => import('@/views/system/user/profile/index'),
-        name: 'Profile',
-        meta: { title: '个人中心', icon: 'user' }
-      }
-    ]
-  }
 ]
 
 // 动态路由，基于用户权限动态去加载

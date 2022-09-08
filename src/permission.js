@@ -11,7 +11,7 @@ import usePermissionStore from '@/store/modules/permission'
 
 NProgress.configure({ showSpinner: false });
 
-const whiteList = ['/login', '/auth-redirect', '/bind', '/wiki', '/register', '/world', '/user', '/element', '/manage', '/discuss'];
+const whiteList = ['/login', '/auth-redirect', '/bind', '/wiki', '/register', '/world', '/user', '/element',  '/manage', '/discuss'];
 
 router.beforeEach((to, from, next) => {
   NProgress.start()
@@ -21,7 +21,7 @@ router.beforeEach((to, from, next) => {
     to.meta.title && useSettingsStore().setTitle(to.meta.title)
     /* has token*/
     if (to.path === '/login') {
-      next({ path: '/' })
+      next({ path: '/user/index' })
       NProgress.done()
     } else {
       if (useUserStore().roles.length === 0) {
@@ -41,7 +41,7 @@ router.beforeEach((to, from, next) => {
         }).catch(err => {
           useUserStore().logOut().then(() => {
             ElMessage.error(err)
-            next({ path: '/' })
+            next({ path: '/world/index' })
           })
         })
       } else {

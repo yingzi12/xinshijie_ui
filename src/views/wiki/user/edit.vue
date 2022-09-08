@@ -6,7 +6,7 @@
         mode="horizontal"
         style="margin:0px;pardding:0px"
     >
-      <el-menu-item index="1" :to="{path:'/users/edit'}"><span style="font-size: 20px;font-weight:bold;">编辑用户</span></el-menu-item>
+      <el-menu-item index="1"><span style="font-size: 20px;font-weight:bold;">编辑用户</span></el-menu-item>
     </el-menu>
   </div>
         <div>
@@ -128,7 +128,7 @@ const submitForm = async (formEl: FormInstance | undefined) => {
     if (valid) {
       updateUserBasic(ruleForm).then(response => {
            ElMessage.success("修改成功")
-        router.push("/users/index");
+        router.push("/user/index");
       })
       console.log('submit!')
     } else {

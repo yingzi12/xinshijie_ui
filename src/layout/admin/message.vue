@@ -99,7 +99,7 @@ function handleUser(){
   })
 }
 function handleUserMessage(){
-  router.push("/users/index");
+  router.push("/user/index");
 }
 handleUser();
 </script>

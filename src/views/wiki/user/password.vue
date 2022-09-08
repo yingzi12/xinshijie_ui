@@ -5,7 +5,7 @@
         mode="horizontal"
         style="margin:0px;pardding:0px"
     >
-      <el-menu-item index="1" :to="{path:'/users/passpord'}"><span style="font-size: 20px;font-weight:bold;">修改密码</span></el-menu-item>
+      <el-menu-item index="1"><span style="font-size: 20px;font-weight:bold;">修改密码</span></el-menu-item>
     </el-menu>
   </div>
   <el-container class="layout-container-demo" >

@@ -6,8 +6,8 @@
               @select="handleSelect"
               style="margin:0px;pardding:0px"
           >
-            <el-menu-item index="1" :to="{path:'/admin/audit'}"><span style="font-size: 20px;font-weight:bold;">待审核元素</span></el-menu-item>
-            <el-menu-item index="2" :to="{path:'/admin/auditLog'}"><span style="font-size: 20px;font-weight:bold;">已审核元素</span></el-menu-item>
+            <el-menu-item index="1" ><span style="font-size: 20px;font-weight:bold;">待审核元素</span></el-menu-item>
+            <el-menu-item index="2"><span style="font-size: 20px;font-weight:bold;">已审核元素</span></el-menu-item>
           </el-menu>
         </div>
         <!--        多选-->
@@ -30,12 +30,12 @@
         <div>
           <el-scrollbar>
             <el-table :data="draftList">
-              <el-table-column label="序号" >
+              <el-table-column label="序号"  width="50">
                 <template #default="scope">
                   {{scope.$index+1}}
                 </template>
               </el-table-column>
-              <el-table-column prop="title" label="元素名称" width="140" />
+              <el-table-column prop="title" label="元素" width="140" />
               <el-table-column label="类型" align="center" :show-overflow-tooltip="true">
                 <template #default="scope">
                   <el-tag v-for='idLabel in scope.row.idLabels.split(",")'>

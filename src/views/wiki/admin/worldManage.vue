@@ -38,7 +38,7 @@
         <div>
           <el-scrollbar>
             <el-table v-loading="loading" :data="worldList">
-              <el-table-column label="序号" width="50px" >
+              <el-table-column label="序号" width="50" >
                 <template #default="scope">
                   {{scope.$index+1+(queryParams.pageNum-1)*10}}
                 </template>

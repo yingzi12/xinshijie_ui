@@ -5,13 +5,14 @@
       class="el-menu-demo"
       mode="horizontal"
       :ellipsis="false"
+      :router="true"
       @select="handleSelect"
   >
-    <el-menu-item disabled>LOGO</el-menu-item>
-    <el-menu-item index="1" :to="{path:'/wiki/index'}"><span style="font-size: 30px;font-weight:bold;">首页</span></el-menu-item>
-    <el-menu-item index="2" :to="{path:'/world/index'}"><span style="font-size: 30px;font-weight:bold;">世界树</span></el-menu-item>
-    <el-menu-item index="3" :to="{path:'/users/index'}"><span style="font-size: 30px;font-weight:bold;">家园</span></el-menu-item>
-    <el-menu-item index="4" :to="{path:'/wiki/help'}"><span style="font-size: 30px;font-weight:bold;">帮助</span></el-menu-item>
+    <el-menu-item disabled><el-image style="width: 100%;height:55px" :src="logo2" fit="fill"></el-image></el-menu-item>
+    <el-menu-item index="/wiki/index" ><span style="font-size: 30px;font-weight:bold;">首页</span></el-menu-item>
+    <el-menu-item index="/world/index" ><span style="font-size: 30px;font-weight:bold;">世界树</span></el-menu-item>
+    <el-menu-item index="/user/index" ><span style="font-size: 30px;font-weight:bold;">家园</span></el-menu-item>
+    <el-menu-item index="/wiki/help" ><span style="font-size: 30px;font-weight:bold;">帮助</span></el-menu-item>
     <div class="flex-grow" />
       <el-button v-if="!isLogin" text style="margin-top: 10px">登录</el-button>
       <el-button v-if="!isLogin"  text style="margin-top: 10px">注册</el-button>
@@ -25,9 +26,9 @@
 <script lang="ts" setup>
 import {getCurrentInstance, ref} from 'vue'
 const activeIndex = ref('1')
-const handleSelect = (key: string, keyPath: string[]) => {
+const handleSelect = (key: string,indexPath:String,keyPath: string[]) => {
   activeIndex.value=key
-  console.log(key, keyPath)
+  console.log(key, keyPath,indexPath)
 }
 const  isLogin=ref(false)
 const props = defineProps({

@@ -10,12 +10,12 @@
 <!--           <div v-for="i in 2" :key="i">-->
 <!--             <el-button> button {{ i }} </el-button>-->
 <!--           </div>-->
-           <div><router-link to="">关于新世界</router-link></div>
-           <div><router-link to="">联系我们</router-link></div>
-           <div> <router-link to="">帮助中心</router-link></div>
-           <div><router-link to="">提交建议</router-link></div>
-           <div><router-link to="">举报中心</router-link></div>
-           <div> <router-link to="">漏洞提交</router-link></div>
+           <div><router-link :to="{path:'/wiki/help'}">关于新世界</router-link></div>
+           <div><router-link :to="{path:'/wiki/feedback'}">联系我们</router-link></div>
+           <div> <router-link :to="{path:'/wiki/feedback'}">帮助中心</router-link></div>
+           <div><router-link :to="{path:'/wiki/feedback'}">提交建议</router-link></div>
+           <div><router-link :to="{path:'/wiki/feedback'}">举报中心</router-link></div>
+           <div> <router-link :to="{path:'/wiki/feedback'}">漏洞提交</router-link></div>
            </el-space>
        </div>
        <div style="margin: 0px;text-align: center;"> <p  style="margin: 0px;">Copyright © 2002-2022 www.xingshijie.com All Rights Reserved 版权所有 心世界信息科技有限公司</p></div>

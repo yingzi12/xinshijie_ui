@@ -26,12 +26,12 @@
         <div>
           <el-scrollbar>
             <el-table v-loading="loading" :data="elementList" >
-              <el-table-column label="序号" width="50px">
+              <el-table-column label="序号" width="50">
                 <template #default="scope">
                   {{ scope.$index + 1 + (queryParams.pageNum - 1) * 10 }}
                 </template>
               </el-table-column>
-              <el-table-column label="名称" align="center" key="title" prop="title" :show-overflow-tooltip="true"/>
+              <el-table-column label="元素" align="center" key="title" prop="title" :show-overflow-tooltip="true"/>
               <el-table-column label="类型" align="center" :show-overflow-tooltip="true">
                 <template #default="scope">
                   <el-tag v-for='idLabel in scope.row.idLabels.split(",")'>

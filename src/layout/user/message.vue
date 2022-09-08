@@ -37,15 +37,15 @@
           <el-scrollbar>
             <el-menu   :router="true"
                        default-active="2">
-              <el-menu-item index="/users/index">
+              <el-menu-item index="/user/index">
                 <el-icon><icon-menu /></el-icon>
                 <template #title>基础信息</template>
               </el-menu-item>
-              <el-menu-item index="/users/edit">
+              <el-menu-item index="/user/edit">
                 <el-icon><icon-menu /></el-icon>
                 <template #title>信息修改</template>
               </el-menu-item>
-              <el-menu-item index="/users/password">
+              <el-menu-item index="/user/password">
                 <el-icon><icon-menu /></el-icon>
                 <template #title>修改密码</template>
               </el-menu-item>

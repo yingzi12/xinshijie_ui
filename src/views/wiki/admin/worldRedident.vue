@@ -40,7 +40,7 @@
         <div>
           <el-scrollbar>
             <el-table :data="redidentList">
-              <el-table-column label="序号" >
+              <el-table-column label="序号" width="50" >
                 <template #default="scope">
                   {{scope.$index+1}}
                 </template>

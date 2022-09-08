@@ -40,8 +40,8 @@
                   {{scope.$index+1}}
                 </template>
               </el-table-column>
-              <el-table-column prop="wname" label="世界名称" :show-overflow-tooltip="true" />
-              <el-table-column prop="title" label="名称" :show-overflow-tooltip="true" />
+              <el-table-column prop="wname" label="世界" :show-overflow-tooltip="true" />
+              <el-table-column prop="title" label="元素" :show-overflow-tooltip="true" />
               <el-table-column prop="typesName" label="分类" :show-overflow-tooltip="true"/>
               <el-table-column prop="intro" label="简介" :show-overflow-tooltip="true" width="120"/>
               <el-table-column prop="createTime" label="创建时间" :show-overflow-tooltip="true" />
