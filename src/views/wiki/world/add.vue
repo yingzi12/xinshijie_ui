@@ -14,7 +14,7 @@
           :size="formSize"
           status-icon
       >
-        <el-form-item label="照 片" prop="name">
+        <el-form-item label="照 片" prop="image">
           <el-upload
               class="avatar-uploader"
               :action="uploadImgUrl"
@@ -40,7 +40,17 @@
             />
           </el-select>
         </el-form-item>
-
+        <el-form-item label="来 源" prop="checkList">
+          <el-checkbox-group v-model="ruleForm.checkList" @change="handleSurce">
+            <el-checkbox label="原创" v-if="ischeck==0 || ischeck==1" />
+            <el-checkbox label="游戏"  v-if="ischeck==0 || ischeck==2"/>
+            <el-checkbox label="小说" v-if="ischeck==0 || ischeck==2" />
+            <el-checkbox label="电影"  v-if="ischeck==0 || ischeck==2"  />
+            <el-checkbox label="动漫"  v-if="ischeck==0 || ischeck==2"  />
+            <el-checkbox label="电视剧"  v-if="ischeck==0 || ischeck==2"  />
+            <el-checkbox label="其他"  v-if="ischeck==0 || ischeck==2"  />
+          </el-checkbox-group>
+        </el-form-item>
         <el-form-item label="简介" prop="intro">
           <el-input rows="2" v-model="ruleForm.intro" type="textarea" />
         </el-form-item>
@@ -64,6 +74,7 @@ import { Plus } from '@element-plus/icons-vue'
 import { addWorld,updateImageUrl } from "@/api/admin/world";
 import { useRouter} from "vue-router";
 import { getCurrentInstance ,inject} from "vue";
+const checkList = ref([])
 
 const router = useRouter()
 
@@ -85,23 +96,30 @@ const data = reactive({
       trigger: 'change',
     }
     ],
+    checkList: [{
+      required: true,
+      message: '请选择世界来源',
+      trigger: 'change',
+    }
+    ],
     intro: [ { required: true, message: '请输入世界简介', trigger: 'blur' },
       { min: 10, max: 255, message: 'Length should be 5 to 255', trigger: 'blur' }],
     description: [ { required: true, message: '请输入世界描述', trigger: 'blur' },
       { min: 10, max: 1000, message: 'Length should be 10 to 1000', trigger: 'blur' }],
-
   }
 });
 
 const {  ruleForm, rules } = toRefs(data);
 
 const worldTypes=reactive([{id:6,name:"科学"},{id:1,name:"武侠"},{id:2,name:"仙侠"},{id:3,name:"魔幻"},{id:4,name:"奇幻"},{id:5,name:"其他"}])
+const worldSource=reactive([{id:1,name:"原创"},{id:2,name:"电影"},{id:3,name:"小说"},{id:4,name:"游戏"},{id:5,name:"动漫"},{id:5,name:"电视剧"},{id:6,name:"其他"}])
 
 const submitForm = async (formEl: FormInstance | undefined) => {
   if (!formEl) return
   await formEl.validate((valid, fields) => {
     if (valid) {
       console.log('submit!')
+      ruleForm.value.source=ruleForm.value.checkList.map(String).join(';')
       ruleForm.value.imgUrl=imageUrlPath.value
       addWorld(ruleForm.value).then(response => {
         console.log("添加成功")
@@ -152,6 +170,23 @@ const beforeAvatarUpload: UploadProps['beforeUpload'] = (rawFile) => {
     return false
   }
   return true
+}
+
+const ischeck=ref(0)
+function handleSurce(){
+  console.log("原创"+ruleForm.value.checkList.indexOf("原创"))
+  console.log("原创长度"+ruleForm.value.checkList.length)
+  console.log("原创长度"+JSON.stringify(ruleForm.value.checkList))
+  if(ruleForm.value.checkList.length==0){
+    ischeck.value=0;
+  }else {
+    if (ruleForm.value.checkList.indexOf("原创") != -1) {
+      ischeck.value = 1;
+    } else {
+      ischeck.value = 2;
+    }
+  }
+
 }
 </script>
 

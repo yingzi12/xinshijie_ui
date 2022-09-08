@@ -70,7 +70,7 @@
               <el-form-item label="名 称" prop="name">
                 <el-input v-model="form.name" placeholder="请输入世界名称" maxlength="30"   />
               </el-form-item>
-              <el-form-item label="类 型" prop="types">
+              <el-form-item label="分 类" prop="types">
                 <el-select v-model="form.types" placeholder="请选择世界类型">
                   <el-option
                       v-for="item in worldTypes"
@@ -79,6 +79,17 @@
                       :value="item.id"
                   />
                 </el-select>
+              </el-form-item>
+              <el-form-item label="来 源" prop="checkList">
+                <el-checkbox-group v-model="form.checkList" @change="handleSurce">
+                  <el-checkbox label="原创" v-if="ischeck==0 || ischeck==1" />
+                  <el-checkbox label="游戏"  v-if="ischeck==0 || ischeck==2"/>
+                  <el-checkbox label="小说" v-if="ischeck==0 || ischeck==2" />
+                  <el-checkbox label="电影"  v-if="ischeck==0 || ischeck==2"  />
+                  <el-checkbox label="动漫"  v-if="ischeck==0 || ischeck==2"  />
+                  <el-checkbox label="电视剧"  v-if="ischeck==0 || ischeck==2"  />
+                  <el-checkbox label="其他"  v-if="ischeck==0 || ischeck==2"  />
+                </el-checkbox-group>
               </el-form-item>
               <el-form-item label="简 介" prop="intro">
                 <el-input v-model="form.intro" type="textarea" placeholder="请选择世界简介"/>
@@ -142,6 +153,12 @@ const data = reactive({
       trigger: 'change',
     }
     ],
+    checkList: [{
+      required: true,
+      message: '请选择世界来源',
+      trigger: 'change',
+    }
+    ],
     intro: [ { required: true, message: '请输入世界简介', trigger: 'blur' },
       { min: 10, max: 255, message: 'Length should be 10 to 255', trigger: 'blur' }],
     description: [ { required: true, message: '请输入世界描述', trigger: 'blur' },
@@ -158,6 +175,8 @@ function handleWorld(id:number) {
   getWorld(id).then(response => {
     console.log("查询世界详细:"+JSON.stringify(response))
     form.value = response.data;
+    form.value.checkList=form.value.source.split(';')
+    handleSurce();
     imageUrl.value=baseUrl+response.data.imgUrl;
     imageUrlPath.value=response.data.imgUrl;
     // form.value.imgUrl='https://fuss10.elemecdn.com/e/5d/4a731a90594a4af544c0c25941171jpeg.jpeg'
@@ -170,6 +189,7 @@ const submitForm = async (formEl: FormInstance | undefined) => {
     console.log("查询世界详细worldRef valid:"+JSON.stringify(valid))
     if (valid) {
       if (form.value.id != undefined) {
+        form.value.source=form.value.checkList.map(String).join(';')
         form.value.imgUrl=imageUrlPath.value
         updateWorld(form.value).then(response => {
           globalProperties.$modal.msgSuccess("修改成功");
@@ -206,6 +226,23 @@ const beforeAvatarUpload: UploadProps['beforeUpload'] = (rawFile) => {
     return false
   }
   return true
+}
+
+const ischeck=ref(0)
+function handleSurce(){
+  console.log("原创"+form.value.checkList.indexOf("原创"))
+  console.log("原创长度"+form.value.checkList.length)
+  console.log("原创长度"+JSON.stringify(form.value.checkList))
+  if(form.value.checkList.length==0){
+    ischeck.value=0;
+  }else {
+    if (form.value.checkList.indexOf("原创") != -1) {
+      ischeck.value = 1;
+    } else {
+      ischeck.value = 2;
+    }
+  }
+
 }
 
 handleWorld(wid.value);

@@ -14,8 +14,8 @@
     <el-menu-item index="/user/index" ><span style="font-size: 30px;font-weight:bold;">家园</span></el-menu-item>
     <el-menu-item index="/wiki/help" ><span style="font-size: 30px;font-weight:bold;">帮助</span></el-menu-item>
     <div class="flex-grow" />
-    <el-button v-if="!isLogin" text style="margin-top: 10px">登录</el-button>
-    <el-button v-if="!isLogin"  text style="margin-top: 10px">注册</el-button>
+    <el-button v-if="!isLogin" text style="margin-top: 10px"><router-link :to="{path:'/login'}">登录</router-link></el-button>
+    <el-button v-if="!isLogin"  text style="margin-top: 10px"><router-link :to="{path:'/register'}">注册</router-link></el-button>
     <el-button v-if="isLogin" link  style="margin-top: 10px" @click="handleUserMessage">{{ props.username }}</el-button>
     <el-button v-if="isLogin" text style="margin-top: 10px">退出</el-button>
   </el-menu>
