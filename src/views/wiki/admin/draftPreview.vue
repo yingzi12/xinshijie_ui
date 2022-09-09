@@ -32,14 +32,10 @@
             :key="domain.key"
             :label="'Domain' + index"
             :prop="'domains.' + index + '.value'"
-            :rules="{
-        required: true,
-        message: 'domain can not be null',
-        trigger: 'blur',
-      }"
+            :rules="{  required: true,  message: 'domain can not be null', trigger: 'blur',}"
            style="margin-bottom: 20px"
       >
-        <div class="smallTitle">
+        <div     class="smallTitle">
           <el-row >
             <el-col :span="19">
               <div class="biaoti">
@@ -50,7 +46,7 @@
             </el-col>
           </el-row>
         </div>
-        <div style="margin-left: 25px">
+        <div   style="margin-left: 25px">
           <div v-html="domain.content"> </div>
         </div>
       </div>
@@ -97,7 +93,7 @@ const elementStatus = new Map([
 const element=ref({})
 /** 查询世界详细 */
 function getDraft(wid:number,deid:number) {
-  getDraftDetails(wid,deid).then(response => {
+  getDraftDetails(wid,deid,0).then(response => {
     console.log("查询世界详细:"+JSON.stringify(response))
     element.value = response.data
     console.log("状态:"+element.value.status)

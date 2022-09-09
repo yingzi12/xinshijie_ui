@@ -103,7 +103,7 @@ const dialogTableVisible = ref(false)
 const element=ref({})
 /** 查询世界详细 */
 function getDraft(wid:number,deid:number) {
-  getDraftDetails(wid,deid).then(response => {
+  getDraftDetails(wid,deid,1).then(response => {
     console.log("查询世界详细:"+JSON.stringify(response))
     element.value = response.data
   });

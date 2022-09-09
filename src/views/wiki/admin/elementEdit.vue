@@ -75,7 +75,7 @@
         trigger: 'blur',
       }"
       >
-        <el-form :inline="true"  class="demo-form-inline">
+        <el-form  :inline="true"  class="demo-form-inline">
         <div style="background-color: #cccccc">
           <el-row >
             <el-col :span="19">
@@ -97,7 +97,7 @@
           </el-row>
         </div>
         <div>
-              <ckeditor    :editorDisabled="true" @input="onEditorInput(content)" :editor="editor" v-model="content.content" :config="editorConfig"></ckeditor>
+              <ckeditor :editorDisabled="true" @input="onEditorInput(content)" :editor="editor" v-model="content.content" :config="editorConfig"></ckeditor>
         </div>
         </el-form>
 

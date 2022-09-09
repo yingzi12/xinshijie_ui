@@ -109,10 +109,10 @@ const elementStatus = new Map([
 const dialogTableVisible = ref(false)
 
 const element=ref({})
-/** 查询世界详细 */
+/** 查询草稿详细 */
 function getDraft(wid:number,deid:number) {
-  getDraftDetails(wid,deid).then(response => {
-    console.log("查询世界详细:"+JSON.stringify(response))
+  getDraftDetails(wid,deid,1).then(response => {
+    console.log("查询草稿详细:"+JSON.stringify(response))
     element.value = response.data
   });
 }

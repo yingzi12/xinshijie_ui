@@ -270,10 +270,10 @@ function  show(val){
 }
 // const treeRef = ref<InstanceType<typeof ElTree>>()
 
-/** 查询世界详细 */
+/** 查询草稿详细 */
 function getElement(wid:number,deid:number) {
-  getDraftDetails(wid,deid).then(response => {
-    console.log("查询世界详细:"+JSON.stringify(response))
+  getDraftDetails(wid,deid,0).then(response => {
+    console.log("查询草稿详细:"+JSON.stringify(response))
     element.value = response.data
     element.value.contentIdList=[];
     categoryList.value=[];

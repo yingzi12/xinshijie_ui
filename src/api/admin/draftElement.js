@@ -10,12 +10,13 @@ export function listDraft(query) {
 }
 
 // 查询元素详细
-export function getDraftDetails(wid,deid) {
+export function getDraftDetails(wid,deid,isDel) {
   return request({
-    url: '/admin/draftElement/getInfo?wid=' + wid+'&deid='+deid,
+    url: '/admin/draftElement/getInfo?wid=' + wid+'&deid='+deid+'&isDel='+isDel,
     method: 'get'
   })
 }
+
 export function getDiff(newId,oldId) {
   return request({
     url: '/admin/diff/content?newId=' + newId+'&oldId='+oldId,
@@ -66,9 +67,9 @@ export function listAudit(query) {
 }
 
 // 查询元素详细
-export function getDraftDetailsAdmin(wid,eid) {
+export function getDraftDetailsAdmin(wid,eid,isDel) {
   return request({
-    url: '/admin/draftElement/getInfoAdmin?wid=' + wid+'&deid='+eid,
+    url: '/admin/draftElement/getInfoAdmin?wid=' + wid+'&deid='+eid+'&isDel='+isDel,
     method: 'get'
   })
 }
