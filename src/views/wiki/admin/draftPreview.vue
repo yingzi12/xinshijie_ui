@@ -20,7 +20,7 @@
     </div>
     <el-divider />
     <!--  基本信息 -->
-    <div style="margin-bottom: 20px">
+    <div style="margin-bottom: 20px;margin-left: 25px">
       <div v-html="element.intro"> </div>
     </div>
 <!--    内容简介-->
@@ -39,18 +39,18 @@
       }"
            style="margin-bottom: 20px"
       >
-        <div style="background-color: #cccccc;height:50px ;margin-bottom:10px">
+        <div class="smallTitle">
           <el-row >
             <el-col :span="19">
               <div class="biaoti">
-               <h3><BootstrapIcon icon="caret-down-fill" size="1x" flip-v /><span>{{domain.title  }}</span></h3>
+               <h3><el-icon><Tickets /></el-icon><span>{{domain.title  }}</span></h3>
               </div>
             </el-col>
             <el-col :span="5">
             </el-col>
           </el-row>
         </div>
-        <div>
+        <div style="margin-left: 25px">
           <div v-html="domain.content"> </div>
         </div>
       </div>
@@ -146,5 +146,29 @@ getDraft(wid.value,deid.value);
   font: 12px/20px PingFangSC-Regular,-apple-system,Simsun;
   height: 20px;
   overflow: hidden;
+}
+.smallTitle{
+  background: inherit;
+  background-color: rgba(249, 249, 249, 1);
+  box-sizing: border-box;
+  border-width: 1px;
+  border-style: solid;
+  border-color: rgba(233, 233, 233, 1);
+  border-radius: 0px;
+  -moz-box-shadow: none;
+  -webkit-box-shadow: none;
+  box-shadow: none;
+}
+.smallTitle h3{
+  font-family: 'PingFangSC-Semibold', 'PingFang SC Semibold', 'PingFang SC', sans-serif;
+  font-weight: 650;
+  font-size: 18px;
+}
+.title{
+  font-family: 'PingFangSC-Semibold', 'PingFang SC Semibold', 'PingFang SC', sans-serif;
+  font-weight: 650;
+  /* font-style: normal; */
+  font-size: 24px;
+  text-align: left;
 }
 </style>

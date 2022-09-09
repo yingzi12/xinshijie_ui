@@ -148,8 +148,8 @@ const multiple = ref(true);
 const search = ref('')
 
 function handleDelete ( row){
-  globalProperties.$modal.confirm('是否确认删除世界名称为"' + row.title + '"的数据？').then(function () {
-    return delDraft(row.id);
+  globalProperties.$modal.confirm('是否确认删除元素名称为"' + row.title + '"的草稿数据？').then(function () {
+    return delDraft(row.wid,row.id);
   }).then(() => {
     getList();
     globalProperties.$modal.msgSuccess("删除成功");

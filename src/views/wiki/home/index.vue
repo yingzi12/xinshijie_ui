@@ -38,9 +38,7 @@
           <el-button type="success"  round>最新</el-button>
         </el-col>
         <el-col :span="8">
-          <router-link to='/world/order'>
             <el-button type="success" round style="float:right;" @click="handleList">更多</el-button>
-          </router-link>
         </el-col>
       </el-row>
     </div>
@@ -74,9 +72,7 @@
           <el-button round>精品</el-button>
         </el-col>
         <el-col :span="8">
-          <router-link to='/world/order'>
-            <el-button type="success" round style="float:right;">更多</el-button>
-          </router-link>
+            <el-button type="success" round style="float:right;"  @click="handleList">更多</el-button>
         </el-col>
       </el-row>
     </div>

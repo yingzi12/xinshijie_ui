@@ -14,10 +14,10 @@
       <el-menu-item index="/user/index" ><span style="font-size: 30px;font-weight:bold;">家园</span></el-menu-item>
       <el-menu-item index="/wiki/help" ><span style="font-size: 30px;font-weight:bold;">帮助</span></el-menu-item>
       <div class="flex-grow" />
-      <el-button v-if="!isLogin" text style="margin-top: 10px">登录</el-button>
-      <el-button v-if="!isLogin"  text style="margin-top: 10px">注册</el-button>
+      <el-button v-if="!isLogin" text style="margin-top: 10px" @click="handleLogin">登录</el-button>
+      <el-button v-if="!isLogin"  text style="margin-top: 10px" @click="handleRegister">注册</el-button>
       <el-button v-if="isLogin" link  style="margin-top: 10px" @click="handleUserMessage">{{ userStore.name }}</el-button>
-      <el-button v-if="isLogin" text style="margin-top: 10px">退出</el-button>
+      <el-button v-if="isLogin" text style="margin-top: 10px" @click="logout()">退出</el-button>
     </el-menu>
   </div>
   <el-divider  style="margin:0px"/>
@@ -32,7 +32,6 @@
 <script lang="ts" setup name="LayoutWiki">
 import WikiFooter from './footer'
 import { useWindowSize } from '@vueuse/core'
-import useSettingsStore from '@/store/modules/settings'
 import {ElMessageBox} from "element-plus";
 import {useRoute, useRouter} from "vue-router";
 import useTagsViewStore from '@/store/modules/tagsView'
@@ -102,6 +101,12 @@ function setLayout() {
 }
 function handleUserMessage(){
   router.push("/user/index");
+}
+function handleLogin(){
+  router.push("/login");
+}
+function handleRegister(){
+  router.push("/register");
 }
 </script>
 

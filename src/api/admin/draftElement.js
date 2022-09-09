@@ -51,8 +51,8 @@ export function updatePush(wid,eid) {
 // 删除元素
 export function delDraft(wid,deid) {
   return request({
-    url: '/admin/draftElement/remove?wid=' + wid+'&deid='+deid,
-    method: 'delete'
+    url: '/admin/draftElement/delById?wid=' + wid+'&deid='+deid,
+    method: 'get'
   })
 }
 

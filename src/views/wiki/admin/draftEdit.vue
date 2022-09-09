@@ -81,16 +81,16 @@
             <el-col :span="19">
               <div class="biaoti">
                 <BootstrapIcon icon="pencil-square" size="1x" flip-v />
-                <span v-if="content.isEdit != 1">{{ content.title }}</span>
-                <el-input  style="width:100px" v-if="content.isEdit == 1"  size="small" v-model="content.title"  />
+                <span v-if="content.isUpdate != 1">{{ content.title }}</span>
+                <el-input  style="width:100px" v-if="content.isUpdate == 1"  size="small" v-model="content.title"  />
               </div>
             </el-col>
             <el-col :span="5">
               <div class="center">
-<!--                <el-button v-if="content.isEdit == 1" @click="submitForm(formRef)"><BootstrapIcon icon="save" size="1x" flip-v />保存</el-button>-->
-                <el-button v-if="content.isEdit == 1" @click="handEditClean(content)"><BootstrapIcon icon="save" size="1x" flip-v />退出编辑</el-button>
-                <el-button v-if="content.isEdit != 1" @click="handEdit(content)"><BootstrapIcon icon="pencil-square" size="1x" flip-v  />编辑</el-button>
-                <el-button v-if="content.isEdit != 1" @click.prevent="removeDomain(content)"><BootstrapIcon icon="trash" size="1x" flip-v />删除</el-button>
+<!--                <el-button v-if="content.isUpdate == 1" @click="submitForm(formRef)"><BootstrapIcon icon="save" size="1x" flip-v />保存</el-button>-->
+                <el-button v-if="content.isUpdate == 1" @click="handEditClean(content)"><BootstrapIcon icon="save" size="1x" flip-v />退出编辑</el-button>
+                <el-button v-if="content.isUpdate != 1" @click="handEdit(content)"><BootstrapIcon icon="pencil-square" size="1x" flip-v  />编辑</el-button>
+                <el-button v-if="content.isUpdate != 1" @click.prevent="removeDomain(content)"><BootstrapIcon icon="trash" size="1x" flip-v />删除</el-button>
                 <el-button v-if="content.status == 2" ><BootstrapIcon icon="lock" size="1x" flip-v />锁定</el-button>
               </div>
             </el-col>
@@ -150,7 +150,7 @@ interface Content {
   key: number
   title: string
   status: number
-  isEdit: number
+  isUpdate: number
   content: string,
   isNew: number
 }
@@ -195,21 +195,21 @@ const addDomain = () => {
     status:1 ,
     title: '标题',
     content: '',
-    isEdit: 0,
+    isUpdate: 0,
     isNew:1
   })
 }
 function onEditorInput(content: Content){
-  content.isEdit=1;
+  content.isUpdate=1;
   //出生了修改,需要更新
   content.status = 3
   console.log('onEditorInput!')
 }
 const handEdit = (content: Content) => {
-  content.isEdit=1;
+  content.isUpdate=1;
 }
 const handEditClean = (content: Content) => {
-  content.isEdit=0;
+  content.isUpdate=0;
 }
 const submitForm = (formEl: FormInstance | undefined) => {
   if (!formEl) return

@@ -14,19 +14,23 @@
     <el-menu-item index="/user/index" ><span style="font-size: 30px;font-weight:bold;">家园</span></el-menu-item>
     <el-menu-item index="/wiki/help" ><span style="font-size: 30px;font-weight:bold;">帮助</span></el-menu-item>
     <div class="flex-grow" />
-    <el-button v-if="!isLogin" text style="margin-top: 10px"><router-link :to="{path:'/login'}">登录</router-link></el-button>
-    <el-button v-if="!isLogin"  text style="margin-top: 10px"><router-link :to="{path:'/register'}">注册</router-link></el-button>
-    <el-button v-if="isLogin" link  style="margin-top: 10px" @click="handleUserMessage">{{ props.username }}</el-button>
-    <el-button v-if="isLogin" text style="margin-top: 10px">退出</el-button>
+    <el-button v-if="!isLogin" text style="margin-top: 10px" @click="handleLogin">登录</el-button>
+    <el-button v-if="!isLogin"  text style="margin-top: 10px" @click="handleRegister">注册</el-button>
+    <el-button v-if="isLogin" link  style="margin-top: 10px" @click="handleUserMessage">{{ userStore.name }}</el-button>
+    <el-button v-if="isLogin" text style="margin-top: 10px" @click="logout">退出</el-button>
   </el-menu>
   </div>
   <el-divider  style="margin:0px"/>
 </template>
 
 <script lang="ts" setup>
-import {getCurrentInstance, ref} from 'vue'
+import { ref} from 'vue'
 import logo2 from '@/assets/logo/logo2.png'
 import {useRouter} from "vue-router";
+import {ElMessageBox} from "element-plus";
+import useUserStore from '@/store/modules/user'
+const userStore = useUserStore()
+
 const router = useRouter()
 
 const activeIndex = ref('3')
@@ -48,9 +52,33 @@ if(!props.username){
 }else{
   isLogin.value=true
 }
+
+function logout() {
+  ElMessageBox.confirm('确定注销并退出系统吗？', '提示', {
+    confirmButtonText: '确定',
+    cancelButtonText: '取消',
+    type: 'warning'
+  }).then(() => {
+    userStore.logOut().then(() => {
+      location.href = '/index';
+    })
+  }).catch(() => { });
+}
+
+const emits = defineEmits(['setLayout'])
+function setLayout() {
+  emits('setLayout');
+}
 function handleUserMessage(){
   router.push("/user/index");
 }
+function handleLogin(){
+  router.push("/login");
+}
+function handleRegister(){
+  router.push("/register");
+}
+
 </script>
 
 <style scoped>

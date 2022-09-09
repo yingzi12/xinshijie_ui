@@ -32,6 +32,7 @@
                 </template>
               </el-table-column>
               <el-table-column label="元素" align="center" key="title" prop="title" :show-overflow-tooltip="true"/>
+              <el-table-column prop="wname" label="世界" width="140" />
               <el-table-column label="类型" align="center" :show-overflow-tooltip="true">
                 <template #default="scope">
                   <el-tag v-for='idLabel in scope.row.idLabels.split(",")'>

@@ -30,6 +30,44 @@
         </el-row>
       </div>
       <!--    已经发布的的评论-->
+<!--      <div>-->
+<!--        <el-tabs v-model="commentActive"  >-->
+<!--          <el-tab-pane label="全部评论" name="allComm">-->
+<!--            <div v-for="comment in commentList">-->
+<!--              <el-row>-->
+<!--                <el-col :span="2">-->
+<!--                  <div  class="center">-->
+<!--                    &lt;!&ndash;              头像&ndash;&gt;-->
+<!--                    <el-avatar :size="50" :src="comment.circleUrl" />-->
+<!--                  </div>-->
+<!--                </el-col>-->
+<!--                <el-col :span="22">-->
+<!--                  <div >-->
+<!--                    <h3 style="font-weight:bold;">{{ comment.createName }}</h3>-->
+<!--                  </div>-->
+<!--                  <div v-html="comment.comment">-->
+<!--                  </div>-->
+<!--                  <div style="color:#A3A6AD">-->
+<!--                    <span>{{ comment.createTime }}</span>-->
+<!--                    <span><el-icon :size="15"><ChatDotRound /></el-icon>{{comment.countReply}} </span>-->
+<!--                    <span><el-icon :size="15"><Pointer /></el-icon>{{comment.countReply}}</span>-->
+<!--                  </div>-->
+<!--                </el-col>-->
+<!--              </el-row>-->
+<!--              <el-divider />-->
+<!--            </div>-->
+<!--            <div class="center">-->
+<!--              <pagination-->
+<!--                  v-show="total > 0"-->
+<!--                  :total="total"-->
+<!--                  v-model:page="queryParams.pageNum"-->
+<!--                  v-model:limit="queryParams.pageSize"-->
+<!--                  @pagination="getList"-->
+<!--              />-->
+<!--            </div>-->
+<!--          </el-tab-pane>-->
+<!--        </el-tabs>-->
+<!--      </div>-->
       <div>
         <el-tabs v-model="commentActive"  >
           <el-tab-pane label="全部评论" name="allComm">
@@ -38,26 +76,27 @@
                 <el-col :span="2">
                   <div  class="center">
                     <!--              头像-->
-                    <el-avatar :size="50" :src="comment.circleUrl" />
+                    <el-avatar :size="50" :src="circleUrl" />
                   </div>
                 </el-col>
                 <el-col :span="22">
                   <div >
-                    <h3 style="font-weight:bold;">{{ comment.createName }}</h3>
+                    <h3 style="font-weight:bold;margin: 0px">{{ comment.createName }}</h3>
                   </div>
-                  <div v-html="comment.comment">
+                  <div>
+                    <p  style="margin:5px 0px 0px 0px;">{{ comment.comment }}</p>
                   </div>
                   <div style="color:#A3A6AD">
                     <span>{{ comment.createTime }}</span>
-                    <span><BootstrapIcon icon="chat-dots" size="1x" flip-v />20 </span>
-                    <span><BootstrapIcon icon="hand-thumbs-up" size="1x" flip-v />10</span>
-                    <span><BootstrapIcon icon="hand-thumbs-down" size="1x" flip-v />20</span>
+                    <span><el-icon :size="15"><ChatDotRound /></el-icon>{{comment.countReply}} </span>
+                    <span><el-icon :size="15"><Pointer /></el-icon>{{comment.countReply}}</span>
+                    <!--                  <span><BootstrapIcon icon="hand-thumbs-down" size="small" />{{comment.countReply}}</span>-->
                   </div>
                 </el-col>
               </el-row>
               <el-divider />
             </div>
-            <div class="center">
+            <div style="float:right; position:relative;height: 50px">
               <pagination
                   v-show="total > 0"
                   :total="total"
@@ -69,6 +108,7 @@
           </el-tab-pane>
         </el-tabs>
       </div>
+
     </div>
   </div>
 </template>
@@ -118,7 +158,7 @@ const data = reactive({
   queryParams: {
     pageNum: 1,
     pageSize: 10,
-    wid: undefined,
+    wid: wid.value,
     eid: undefined,
   },
   rules: {
@@ -174,5 +214,8 @@ handWorld(wid.value)
 getList();
 </script>
 
-<style scoped>
+<style >
+.pagination-container{
+  margin: 0px;
+}
 </style>

@@ -30,7 +30,7 @@
             </el-col >
             <el-col :span="20"  style="text-align: right;">
               <div style="text-align: right; font-size: 12px" class="toolbar">
-                <el-button type="primary" size="small" :icon="CirclePlus" @click="handleAdd"  >新增</el-button>
+                <el-button v-if="types == 1" type="primary" size="small" :icon="CirclePlus" @click="handleAdd"  >新增</el-button>
               </div>
             </el-col>
           </el-row>
@@ -45,10 +45,10 @@
               </el-table-column>
               <el-table-column label="姓名" align="center" key="userName" prop="userName" :show-overflow-tooltip="true" />
               <el-table-column label="等级" align="center" key="ranks" prop="ranks" :show-overflow-tooltip="true" />
-              <el-table-column label="简介" align="center" key="intro" prop="intro"  :show-overflow-tooltip="true" />
+              <el-table-column label="签名" align="center" key="sign" prop="sign"  :show-overflow-tooltip="true" />
               <el-table-column label="创建人" align="center" key="createName" prop="createName"  :show-overflow-tooltip="true" />
               <el-table-column label="更新时间" align="center" prop="updateTime"  width="160" :show-overflow-tooltip="true" />
-              <el-table-column label="操作" align="center" width="150" class-name="small-padding fixed-width">
+              <el-table-column   v-if="types == 1"  label="操作" align="center" width="150" class-name="small-padding fixed-width">
                 <template #default="scope">
                   <el-tooltip content="取消" placement="top" >
                     <el-button
@@ -87,7 +87,7 @@
 import { getCurrentInstance, reactive, ref, toRefs} from 'vue'
 import {useRoute, useRouter} from "vue-router";
 import { Menu as IconMenu,CirclePlus, Message, Setting } from '@element-plus/icons-vue'
-import { getWorldManage ,delManage,addManage } from "@/api/admin/manage";
+import { getWorldManage ,delManage,addManage,getInfo } from "@/api/admin/manage";
 
 const fits = ['世界', '粉丝', '关注']
 const activeIndex = ref('1')
@@ -197,6 +197,15 @@ function getList() {
     total.value = response.total;
   });
 }
+const types=ref(0)
+function getManage() {
+  console.log("getManage 世界id:"+wid.value)
+  getInfo(wid.value).then(response => {
+    types.value = response.data.types;
+    console.log("types 世界id:"+types.value)
+  });
+}
+getManage()
 getList();
 </script>
 

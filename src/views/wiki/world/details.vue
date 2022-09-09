@@ -10,40 +10,38 @@
           <el-breadcrumb-item>详细</el-breadcrumb-item>
         </el-breadcrumb>
       </div>
-      <div  style="margin: 15px">
+      <div  style="margin: 15px 0px 15px 0px">
         <el-row>
-          <el-col :span="4" class="center">
+          <el-col :span="3">
             <el-image  style="width: 150px; height: 200px;  display: block;margin: 0 auto;" :src="imageUrl" :fit="fit" />
           </el-col>
-          <el-col :span="16">
-            <div>
+          <el-col :span="16"  class="mb-4">
+            <div style="margin-left: 5px">
               <div>
-                <h1 style="margin: 2px">{{ world.name }}</h1>
+                <h1 style="margin: 0px" class="title">{{ world.name }}</h1>
               </div>
               <div style="margin-top: 5px" >
                 <el-space wrap>
-                  <el-tag size="small" type="success">{{ world.typeName }}</el-tag>
-                  <div v-if="world.tags != null "  v-for="tag in world.tags.split(';')" :key="i">
-                    <el-tag size="small" type="success">{{tag}}</el-tag>
-                  </div>
+                    <el-tag style="width: 70px;" size="default">{{ world.typeName }}</el-tag>
+                    <el-tag v-if="world.source != null " v-for="tag in world.source.split(';')"  style="width: 70px;" size="default" type="success">{{tag}}</el-tag>
+                    <el-tag v-if="world.tags != null "  v-for="tag in world.tags.split(';')"  style="width: 70px;" size="default" type="danger">{{tag}}</el-tag>
                 </el-space>
               </div>
               <div style="margin-top: 5px" v-if="world.updateNewElementId != null">
-                <span style="font-size:10px;color: #525457">更新时间:<time>{{ world.updateNewElementTime }}</time></span><el-tag style="font-size:10px;">{{ world.updateNewElement }}</el-tag>
+                <span style="font-size:10px;color:#999999;">更新时间:</span><span style="font-size:10px;color:#999999;">{{ world.updateNewElementTime }}</span><span style="font-size:10px;margin-left: 10px;color:#70B603;">{{ world.updateNewElement }}</span>
               </div>
-              <div style="margin-top: 2px">
-                <p style="margin-top: 5px">{{ world.intro }}</p>
+              <div style="height: 52px;overflow:hidden">
+                <p style="font-size: 18px;color: #666666;margin: 5px 0px 0px 0px">{{ world.intro }}</p>
               </div>
-              <div style="margin-top: 2px;color:#A3A6AD">
-                <span><BootstrapIcon icon="chat-dots" size="1x" flip-v />{{world.countComment}}</span>
-                <span><BootstrapIcon icon="pencil-square" size="1x" flip-v />{{world.countEdit}}</span>
-                <span><BootstrapIcon icon="hand-thumbs-up" size="1x" flip-v />{{world.countLike}}</span>
-                <span><BootstrapIcon icon="eye" size="1x" flip-v />{{world.countSee}}</span>
+              <div style="margin-top: 5px;color:#A3A6AD">
+                <span><el-icon size="20"><ChatDotRound /></el-icon>{{world.countComment}}</span>
+                <span><el-icon size="20"><Edit /></el-icon>{{world.countEdit}}</span>
+                <span><el-icon size="20"><Pointer /></el-icon>{{world.countLike}}</span>
+                <span><el-icon size="20"><View /></el-icon>{{world.countSee}}</span>
               </div>
-              <div style="margin-top: 2px">
-                <el-button v-if="isFllow" type="primary" @click="handleFllow">关注</el-button>
-                <el-button type="primary">点赞</el-button>
-                <el-button type="primary"  @click="handleDiscuss">讨论</el-button>
+              <div style="margin-top: 5px;" >
+                <el-button v-if="isFllow" style="width: 90px;" type="primary" @click="handleFllow">关注</el-button>
+                <el-button @click="handleDiscuss" style="width: 90px;">讨论({{world.countDiscuss}})</el-button>
               </div>
             </div>
           </el-col>
@@ -55,9 +53,9 @@
     </div>
     <!--    简介区-->
     <div>
-      <el-tabs v-model="worldActive" class="demo-tabs" @tab-click="handleClick">
+      <el-tabs v-model="worldActive" class="world-tabs" @tab-click="handleClick">
         <el-tab-pane label="描述" name="description">
-          <div v-html="world.description"></div>
+          <p style="white-space:pre;">{{world.description}}</p>
         </el-tab-pane>
         <el-tab-pane label="元素" name="element">
           <el-table :data="elementList" stripe style="width: 100%">
@@ -72,12 +70,13 @@
             <el-table-column prop="intro" label="简介" width="250" :show-overflow-tooltip="true"/>
             <el-table-column prop="createTime" label="创建时间" />
           </el-table>
-          <el-button @click="handElement()">更多</el-button>
+          <el-button style="margin-top:10px" text  @click="handElement">更多</el-button>
         </el-tab-pane>
         <el-tab-pane label="造物主" name="message">
           <el-table :data="manageList" stripe style="width: 100%">
             <el-table-column prop="createTime" label="创建时间" width="180" />
             <el-table-column prop="userName" label="用户名" width="180" />
+            <el-table-column prop="sign" label="签名" width="180"/>
             <el-table-column prop="credit" label="贡献值" width="180"/>
             <el-table-column prop="ranks" label="等级" />
           </el-table>
@@ -116,16 +115,16 @@
               </el-col>
               <el-col :span="22">
                 <div >
-                  <h3 style="font-weight:bold;">{{ comment.createName }}</h3>
+                  <h3 style="font-weight:bold;margin: 0px">{{ comment.createName }}</h3>
                 </div>
                 <div>
-                  <p>{{ comment.comment }}</p>
+                  <p  style="margin:5px 0px 0px 0px;">{{ comment.comment }}</p>
                 </div>
                 <div style="color:#A3A6AD">
                   <span>{{ comment.createTime }}</span>
-                  <span><BootstrapIcon icon="chat-dots" size="1x" flip-v />20 </span>
-                  <span><BootstrapIcon icon="hand-thumbs-up" size="1x" flip-v />10</span>
-                  <span><BootstrapIcon icon="hand-thumbs-down" size="1x" flip-v />20</span>
+                  <span><el-icon :size="15"><ChatDotRound /></el-icon>{{comment.countReply}} </span>
+                  <span><el-icon :size="15"><Pointer /></el-icon>{{comment.countReply}}</span>
+<!--                  <span><BootstrapIcon icon="hand-thumbs-down" size="small" />{{comment.countReply}}</span>-->
                 </div>
               </el-col>
             </el-row>
@@ -310,22 +309,35 @@ getAllWorldComment()
 getElementList()
 </script>
 
-<style scoped>
-*{
-  margin: 0px;
-  margin-top: 5px;
-  padding: 0px;
-}
-.demo-tabs > .el-tabs__content {
-  padding: 32px;
+<style>
+/**{*/
+/*  margin: 0px;*/
+/*  margin-top: 5px;*/
+/*  padding: 0px;*/
+/*}*/
+.world-tabs > .el-tabs__content {
+  padding: 10px;
   color: #6b778c;
-  font-size: 32px;
+  font-size: 15px;
   font-weight: 600;
+  line-height: 15px;
 }
 .center {
   display: flex;
   justify-content: center;
   align-items: center;
 }
-
+.title{
+  font-family: 'PingFangSC-Semibold', 'PingFang SC Semibold', 'PingFang SC', sans-serif;
+   font-weight: 650;
+  /* font-style: normal; */
+  font-size: 24px;
+  text-align: left;
+}
+ .el-tabs__item {
+  font-family: 'PingFangSC-Semibold', 'PingFang SC Semibold', 'PingFang SC', sans-serif;
+  font-weight: 650;
+  font-style: normal;
+  line-height: 24px;
+}
 </style>

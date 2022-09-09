@@ -12,7 +12,7 @@
     <div >
     <!--  世界名称-->
     <div >
-        <h1>{{ element.title }}</h1>
+        <h1 class="title">{{ element.title }}</h1>
       <div class="lessen"><span>分类:</span> <el-tag size="small" v-for="category in element.categoryList">
         {{category.label}}
       </el-tag></div>
@@ -20,7 +20,7 @@
     </div>
     <el-divider />
     <!--  基本信息 -->
-    <div style="margin-bottom: 20px">
+    <div style="margin-bottom: 20px;margin-left: 25px">
       <div v-html="element.intro"> </div>
     </div>
 <!--    内容简介-->
@@ -39,18 +39,10 @@
       }"
            style="margin-bottom: 20px"
       >
-        <div style="background-color: #cccccc;height:50px ;margin-bottom:10px">
-          <el-row >
-            <el-col :span="19">
-              <div class="biaoti">
-               <h3><BootstrapIcon icon="caret-down-fill" size="1x" flip-v /><span>{{domain.title  }}</span></h3>
-              </div>
-            </el-col>
-            <el-col :span="5">
-            </el-col>
-          </el-row>
-        </div>
-        <div>
+        <div class="smallTitle">
+           <h3><el-icon><Tickets /></el-icon>{{domain.title  }}</h3>
+         </div>
+        <div style="margin-left: 25px">
           <div v-html="domain.content"> </div>
         </div>
       </div>
@@ -58,8 +50,8 @@
     <el-divider />
       <!--功能-->
       <div class="center" style="height: 80px;">
-        <el-button @click="handleList()">返回</el-button>
-        <el-button @click="handleEdit()">编辑</el-button>
+        <el-button @click="handleList()" text type="success" style="width: 100px;">返回</el-button>
+        <el-button @click="handleEdit()" text type="success" style="width: 100px;">编辑</el-button>
       </div>
     </div>
   </div>
@@ -128,5 +120,29 @@ getElement(wid.value,eid.value);
   font: 12px/20px PingFangSC-Regular,-apple-system,Simsun;
   height: 20px;
   overflow: hidden;
+}
+.smallTitle{
+  background: inherit;
+  background-color: rgba(249, 249, 249, 1);
+  box-sizing: border-box;
+  border-width: 1px;
+  border-style: solid;
+  border-color: rgba(233, 233, 233, 1);
+  border-radius: 0px;
+  -moz-box-shadow: none;
+  -webkit-box-shadow: none;
+  box-shadow: none;
+}
+.smallTitle h3{
+  font-family: 'PingFangSC-Semibold', 'PingFang SC Semibold', 'PingFang SC', sans-serif;
+  font-weight: 650;
+  font-size: 18px;
+}
+.title{
+  font-family: 'PingFangSC-Semibold', 'PingFang SC Semibold', 'PingFang SC', sans-serif;
+  font-weight: 650;
+  /* font-style: normal; */
+  font-size: 24px;
+  text-align: left;
 }
 </style>

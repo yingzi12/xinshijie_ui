@@ -82,8 +82,8 @@
             <el-col :span="19">
               <div class="biaoti">
                 <BootstrapIcon icon="pencil-square" size="1x" flip-v />
-                 <span v-if="domain.isEdit = 0">小标题</span>
-                <el-input  style="width:100px" v-if="domain.isEdit = 1"  size="small" v-model="domain.title" placeholder="小标题" />
+                 <span v-if="domain.isUpdate = 0">小标题</span>
+                <el-input  style="width:100px" v-if="domain.isUpdate = 1"  size="small" v-model="domain.title" placeholder="小标题" />
               </div>
             </el-col>
             <el-col :span="5">
@@ -162,7 +162,7 @@ const dynamicValidateForm = reactive<{
       key: 1,
       title:'标题',
       status: 0,
-      isEdit: 0,
+      isUpdate: 0,
       content: '',
     },
   ],
@@ -173,7 +173,7 @@ interface Content {
   key: number
   title: string
   status: number,
-  isEdit: number,
+  isUpdate: number,
   content: string,
 }
 //基本信息
@@ -203,7 +203,7 @@ const addDomain = () => {
     key: Date.now(),
     title: '标题',
     status: 0,
-    isEdit: 1,
+    isUpdate: 1,
     content: '',
   })
 }

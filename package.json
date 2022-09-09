@@ -21,7 +21,7 @@
     "@element-plus/icons-vue": "1.1.4",
     "@vueuse/core": "8.5.0",
     "axios": "0.26.1",
-    "bootstrap-icons": "^1.8.3",
+    "bootstrap-icons": "^1.9.1",
     "ckeditor5-custom-build": "file:./ckeditor5-full",
     "codemirror": "^5.65.7",
     "diff2html": "^3.4.18",

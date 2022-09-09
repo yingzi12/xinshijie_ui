@@ -8,9 +8,9 @@ export function getWorldManage(id) {
 }
 
 //
-export function getManage(id) {
+export function getInfo(wid) {
   return request({
-    url: '/admin/manage/getInfo/' + id,
+    url: '/admin/manage/getInfo?wid='+wid,
     method: 'get'
   })
 }
