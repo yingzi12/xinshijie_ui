@@ -102,8 +102,10 @@ function getDraft(wid:number,deid:number) {
 }
 function submitPush(){
   issue(wid.value,deid.value).then(response => {
-    console.log("发布成功")
+    console.log("发布成功"+JSON.stringify(response.data))
+    // element.value.status=1
     if(response.data.types == 0){
+      element.value.status=1
       router.push("/admin/draftPreview?wid="+ response.data.wid+"&deid=" +response.data.id)
     }else{
       router.push("/element/details?wid="+ response.data.wid+"&eid=" +response.data.id)
@@ -120,8 +122,6 @@ function handClean(){
   router.push("/admin/draft")
 }
 getDraft(wid.value,deid.value);
-
-
 </script>
 
 <style scoped>

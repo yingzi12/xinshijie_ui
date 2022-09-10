@@ -97,7 +97,7 @@
           </el-row>
         </div>
         <div>
-          <ckeditor :editor="editor" v-model="domain.content" :config="editorConfig"></ckeditor>
+          <ckeditor :editor="editor"  @input="onEditorInput(domain)" v-model="domain.content" :config="editorConfig"></ckeditor>
         </div>
         </el-form>
       </div>
@@ -191,6 +191,13 @@ interface Tree {
   children?: Tree[]
 }
 
+
+function onEditorInput(content: Content){
+  console.log('onEditorInput!')
+  if(content.content.length>20000){
+    ElMessage.error("内容长度为"+content.content.length+"，已超过最大许可值2万")
+  }
+}
 const removeDomain = (item: Content) => {
   const index = dynamicValidateForm.domains.indexOf(item)
   if (index !== -1) {
@@ -225,7 +232,17 @@ function submit(){
     ok=false;
     ElMessage.error('元素名称长度不能小于1超过100')
     return;
-
+  }
+  if(element.value.contentList.length <1 || element.value.contentList.length > 10){
+    ok=false;
+    ElMessage.error('内容小节数不能超过10个小于1个')
+    return;
+  }
+  for(var i=0;i<element.value.contentList.length;i++) {
+    if(element.value.contentList[i].content.length>20000){
+      ElMessage.error("标题<<"+element.value.contentList[i].title+">>内容长度为"+element.value.contentList[i].content.length+"，已超过最大许可值2万")
+      return;
+    }
   }
   console.log("简介长度:"+element.value.intro.length)
   if(element.value.intro.length<10 || element.value.intro.length >300){
@@ -242,11 +259,7 @@ function submit(){
   if(ok) {
     addElement(element.value).then(response => {
       console.log("添加成功")
-      // if(response.data.types==0){
-      //   router.push("/element/preview?wid="+ response.data.wid+"&eid=" + response.data.id)
-      // }else{
         router.push("/admin/draftPreview?wid="+ response.data.wid+"&deid=" + response.data.id)
-      // }
     });
   }
 }
