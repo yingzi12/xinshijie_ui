@@ -47,6 +47,11 @@
                 </template>
               </el-table-column>
               <el-table-column label="元素" align="center" key="title" prop="title" :show-overflow-tooltip="true"/>
+              <el-table-column label="状态" align="center"  >
+                <template #default="scope">
+                  <span>{{elementStatusMap.get(scope.row.status)}}</span>
+                </template>
+              </el-table-column>
               <el-table-column label="类型" align="center" :show-overflow-tooltip="true">
                 <template #default="scope">
                   <el-tag v-for='idLabel in scope.row.idLabels.split(",")'>
@@ -105,7 +110,11 @@ import {useRoute, useRouter} from "vue-router";
 import { Menu as IconMenu, Message, Setting } from '@element-plus/icons-vue'
 const fits = ['世界', '粉丝', '关注']
 const activeIndex = ref('1')
-
+const elementStatusMap = new Map([
+  [1, "正常"],
+  [2, "锁定"],
+  [4, "删除"]
+]);
 // 接收url里的参数
 const route = useRoute();
 const router = useRouter()
