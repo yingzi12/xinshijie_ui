@@ -90,8 +90,7 @@ import { useRoute ,useRouter}  from "vue-router";  // 引用vue-router
 const router = useRouter()
 // 接收url里的参数
 const route = useRoute();
-//返回上一页
-// router.back()
+
 
 //世界信息
 const deid = ref(null);
@@ -123,6 +122,10 @@ function submitEdit(){
 
 function handClean(){
   router.push("/admin/audit")
+}
+//返回上一页
+function handleReturn(){
+   router.back()
 }
 const newContent=ref('');
 const oldContent=ref('');
