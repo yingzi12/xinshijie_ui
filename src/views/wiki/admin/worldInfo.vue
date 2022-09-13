@@ -81,7 +81,7 @@ import { useRoute,useRouter }  from "vue-router";  // 引用vue-router
 const router = useRouter()
 // 接收url里的参数
 const route = useRoute();
-console.log(route.query.id,"参数");
+//console.log(route.query.id,"参数");
 const worldStatus = new Map([
   [0, "正常"],
   [1, "待发布"],
@@ -93,7 +93,7 @@ const world=ref({})
 const wid = ref(null);
 wid.value = route.query.wid;
 world.value.id = route.query.wid;
-console.log("世界id="+world.value.id);
+//console.log("世界id="+world.value.id);
 const baseUrl = inject("$baseUrl")
 const imageUrl=ref('')
 const activeIndex = ref('1')
@@ -105,7 +105,7 @@ function handleEdit(){
 /** 查询世界详细 */
 function handleWorld(id:number) {
   getWorld(id).then(response => {
-    console.log("查询世界详细:"+JSON.stringify(response))
+    //console.log("查询世界详细:"+JSON.stringify(response))
     world.value = response.data
     imageUrl.value=baseUrl+response.data.imgUrl;
 

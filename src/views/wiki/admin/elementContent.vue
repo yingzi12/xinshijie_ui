@@ -101,12 +101,12 @@ import {  getElementDetails } from "@/api/wiki/element";
 
 // 接收url里的参数
 const route = useRoute();
-console.log(route.query.id,"参数");
+//console.log(route.query.id,"参数");
 const element=ref({})
 /** 查询世界详细 */
 function getElement(id:number) {
   getElementDetails(id).then(response => {
-    console.log("查询世界详细:"+JSON.stringify(response))
+    //console.log("查询世界详细:"+JSON.stringify(response))
     element.value = response.data
   });
 }

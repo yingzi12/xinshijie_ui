@@ -74,7 +74,7 @@ import { listRedident } from "@/api/admin/redident";
 import { Menu as IconMenu,CirclePlus, Message, Setting } from '@element-plus/icons-vue'
 // 接收url里的参数
 const route = useRoute();
-console.log(route.query.wid,"参数");
+//console.log(route.query.wid,"参数");
 const wid = ref(null);
 wid.value = route.query.wid;
 const wname = ref('');

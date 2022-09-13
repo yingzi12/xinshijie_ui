@@ -90,13 +90,16 @@ import { useRoute ,useRouter}  from "vue-router";  // 引用vue-router
 const router = useRouter()
 // 接收url里的参数
 const route = useRoute();
+//返回上一页
+// router.back()
+
 //世界信息
 const deid = ref(null);
 const wid = ref(null);
 deid.value = route.query.deid;
 wid.value = route.query.wid;
-console.log("元素deid="+deid.value);
-console.log("世界id="+wid.value);
+//console.log("元素deid="+deid.value);
+//console.log("世界id="+wid.value);
 
 const dialogTableVisible = ref(false)
 
@@ -104,13 +107,13 @@ const element=ref({})
 /** 查询世界详细 */
 function getDraft(wid:number,deid:number) {
   getDraftDetails(wid,deid,1).then(response => {
-    console.log("查询世界详细:"+JSON.stringify(response))
+    //console.log("查询世界详细:"+JSON.stringify(response))
     element.value = response.data
   });
 }
 function submitPush(){
   updatePush(wid,deid).then(response => {
-    console.log("发布成功")
+    //console.log("发布成功")
     router.push("/element/content?wid="+ wid.value+"&deid=" +deid.value)
   });
 }
@@ -125,12 +128,12 @@ const newContent=ref('');
 const oldContent=ref('');
 function handDiff(newId:number,oldId:number) {
   getDiff(newId,oldId).then(response => {
-    console.log("查询世界详细:"+JSON.stringify(response))
+    //console.log("查询世界详细:"+JSON.stringify(response))
     dialogTableVisible.value=true
     newContent.value=getHtml(response.data.newContent)
     oldContent.value=getHtml(response.data.oldContent)
-    console.log("newContent:"+JSON.stringify(newContent))
-    console.log("oldContent:"+JSON.stringify(oldContent))
+    //console.log("newContent:"+JSON.stringify(newContent))
+    //console.log("oldContent:"+JSON.stringify(oldContent))
 
   });
 }

@@ -100,7 +100,7 @@ const wid = ref();
  wid.value =route.query.wid;
 const wname = ref('');
 wname.value = <string>route.query.wname;
-console.log("世界id="+wid.value);
+//console.log("世界id="+wid.value);
 
 const {  appContext : { config: { globalProperties } }  } = getCurrentInstance();
 const {  proxy  } = getCurrentInstance();
@@ -149,7 +149,7 @@ function handleDelete ( row){
 
 /** 新增按钮操作 */
 function handleAdd() {
-  console.log("handleAdd 世界id:"+wid.value)
+  //console.log("handleAdd 世界id:"+wid.value)
   form.value.wid=wid.value;
      open.value=true;
 };
@@ -190,7 +190,7 @@ function reset() {
 };
 /** 查询管理员列表 */
 function getList() {
-  console.log("getList 世界id:"+wid.value)
+  //console.log("getList 世界id:"+wid.value)
   getWorldManage(wid.value).then(response => {
     loading.value = false;
     worldList.value = response.rows;
@@ -199,10 +199,10 @@ function getList() {
 }
 const types=ref(0)
 function getManage() {
-  console.log("getManage 世界id:"+wid.value)
+  //console.log("getManage 世界id:"+wid.value)
   getInfo(wid.value).then(response => {
     types.value = response.data.types;
-    console.log("types 世界id:"+types.value)
+    //console.log("types 世界id:"+types.value)
   });
 }
 getManage()

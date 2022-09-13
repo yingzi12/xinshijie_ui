@@ -123,7 +123,7 @@ const wid = ref(null);
 const world=ref({})
 wid.value = route.query.wid;
 world.value.id = wid.value
-console.log("世界id="+world.value.id);
+//console.log("世界id="+world.value.id);
 const baseUrl = inject("$baseUrl")
 const imageUrl=ref('')
 const uploadImgUrl = ref(baseUrl + "/common/upload"); // 上传的图片服务器地址
@@ -173,20 +173,20 @@ const {  form, rules } = toRefs(data);
 /** 查询世界详细 */
 function handleWorld(id:number) {
   getWorld(id).then(response => {
-    console.log("查询世界详细:"+JSON.stringify(response))
+    //console.log("查询世界详细:"+JSON.stringify(response))
     form.value = response.data;
     form.value.checkList=form.value.source.split(';')
     handleSurce();
     imageUrl.value=baseUrl+response.data.imgUrl;
     imageUrlPath.value=response.data.imgUrl;
     // form.value.imgUrl='https://fuss10.elemecdn.com/e/5d/4a731a90594a4af544c0c25941171jpeg.jpeg'
-    console.log("查询世界详细:"+JSON.stringify(world.value))
+    //console.log("查询世界详细:"+JSON.stringify(world.value))
   });
 }
 
 const submitForm = async (formEl: FormInstance | undefined) => {
   proxy.$refs["worldRef"].validate(valid => {
-    console.log("查询世界详细worldRef valid:"+JSON.stringify(valid))
+    //console.log("查询世界详细worldRef valid:"+JSON.stringify(valid))
     if (valid) {
       if (form.value.id != undefined) {
         form.value.source=form.value.checkList.map(String).join(';')
@@ -200,7 +200,7 @@ const submitForm = async (formEl: FormInstance | undefined) => {
       }
     }
   });
-  console.log("查询世界详细formEl:"+JSON.stringify(formEl))
+  //console.log("查询世界详细formEl:"+JSON.stringify(formEl))
 }
 
 const reset = () => {
@@ -230,9 +230,9 @@ const beforeAvatarUpload: UploadProps['beforeUpload'] = (rawFile) => {
 
 const ischeck=ref(0)
 function handleSurce(){
-  console.log("原创"+form.value.checkList.indexOf("原创"))
-  console.log("原创长度"+form.value.checkList.length)
-  console.log("原创长度"+JSON.stringify(form.value.checkList))
+  //console.log("原创"+form.value.checkList.indexOf("原创"))
+  //console.log("原创长度"+form.value.checkList.length)
+  //console.log("原创长度"+JSON.stringify(form.value.checkList))
   if(form.value.checkList.length==0){
     ischeck.value=0;
   }else {

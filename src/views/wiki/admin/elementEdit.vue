@@ -129,7 +129,6 @@
 <script  lang="ts" setup>
 import {inject, reactive, ref} from 'vue'
 import {ElMessage, ElTree, FormInstance} from "element-plus";
-// import ClassicEditor from '@ckeditor/ckeditor5-build-classic';
 import  Editor  from 'ckeditor5-custom-build/build/ckeditor';
 import {  getElementDetails } from "@/api/wiki/element";
 import {  updateElement } from "@/api/admin/element";
@@ -146,8 +145,8 @@ const eid = ref(null);
 const wid = ref(null);
 eid.value = route.query.eid;
 wid.value = route.query.wid;
-console.log("元素id="+eid.value);
-console.log("世界id="+wid.value);
+//console.log("元素id="+eid.value);
+//console.log("世界id="+wid.value);
 //多选框
 const causeNumber = ref(1)
 const causeContent = ref('')
@@ -195,9 +194,9 @@ const removeDomain = (item: Content) => {
     item.status=4
     element.value.contentIdList.push(item.id)
   }
-  // console.log("删除："+JSON.stringify(item))
+  // //console.log("删除："+JSON.stringify(item))
   const index = element.value.contentList.indexOf(item)
-  console.log("删除index："+index)
+  ////console.log("删除index："+index)
   if (index !== -1) {
     element.value.contentList.splice(index, 1)
   }
@@ -218,7 +217,7 @@ function onEditorInput(content: Content){
   content.isUpdate=1;
   //只有正常状态下会改变
     content.status = 3
-  console.log('onEditorInput!')
+  ////console.log('onEditorInput!')
   if(content.content.length>20000){
      ElMessage.error("内容长度为"+content.content.length+"，已超过最大许可值2万")
   }
@@ -233,9 +232,9 @@ const submitForm = (formEl: FormInstance | undefined) => {
   if (!formEl) return
   formEl.validate((valid) => {
     if (valid) {
-      console.log('submit!')
+   //   //console.log('submit!')
     } else {
-      console.log('error submit!')
+   //   //console.log('error submit!')
       return false
     }
   })
@@ -257,7 +256,7 @@ const wname=ref('')
 /** 查询世界详细 */
 function handWorld() {
   getWorld(wid.value).then(response => {
-    // console.log("查询世界详细:"+JSON.stringify(response))
+    // //console.log("查询世界详细:"+JSON.stringify(response))
     wname.value = response.data.name
   });
 }
@@ -266,15 +265,15 @@ function handWorld() {
 function getList() {
   getTree(wid.value).then(response => {
     dataStree.value = response.data
-    // console.log("树:"+JSON.stringify( dataStree.value))
+    // //console.log("树:"+JSON.stringify( dataStree.value))
   });
 }
 
 function  show(val){
 //let that = this ,将this保存在that中，再在函数中使用that均可
   dynamicTags.value=categoryList.value
-  // console.log("选中的对象value1"+categoryList.value)
-  // console.log("选中的对象treeRef"+JSON.stringify(treeRef.value))
+  // //console.log("选中的对象value1"+categoryList.value)
+  // //console.log("选中的对象treeRef"+JSON.stringify(treeRef.value))
 
   sleValue.value=new Array();
   dynamicTags.value=new Array();
@@ -283,16 +282,16 @@ function  show(val){
     sleValue.value[i]=categoryList.value[i].split('$$')[0]
   }
   element.value.categoryList=sleValue;
-  // console.log("选中的对象value2"+categoryList.value)
-  // console.log("选中的对象sleValue2"+sleValue.value)
-  // console.log("选中的对象element:"+JSON.stringify(element.value))
+  // //console.log("选中的对象value2"+categoryList.value)
+  // //console.log("选中的对象sleValue2"+sleValue.value)
+  // //console.log("选中的对象element:"+JSON.stringify(element.value))
 }
 // const treeRef = ref<InstanceType<typeof ElTree>>()
 
 /** 查询世界详细 */
 function getElement(wid:number,eid:number) {
   getElementDetails(wid,eid).then(response => {
-    // console.log("查询世界详细:"+JSON.stringify(response))
+    // //console.log("查询世界详细:"+JSON.stringify(response))
     element.value = response.data
     element.value.contentIdList=[];
     categoryList.value=[];
@@ -304,7 +303,7 @@ function getElement(wid:number,eid:number) {
       sleValue.value[i]=element.value.categoryList[i].id
     }
     element.value.categoryList=sleValue
-    // console.log("打印查询到的categoryList"+JSON.stringify(categoryList))
+    // //console.log("打印查询到的categoryList"+JSON.stringify(categoryList))
   });
 }
 
@@ -347,24 +346,24 @@ function submit(){
     return;
   }
 
-  // console.log("简介长度:"+element.value.intro.length)
+  // //console.log("简介长度:"+element.value.intro.length)
   if(element.value.intro.length<10 || element.value.intro.length >300){
     ok=false;
     ElMessage.error('简介长度不能小于10超过300!')
     return;
   }
-  // console.log("分类长度:"+element.value.categoryList.length)
+  // //console.log("分类长度:"+element.value.categoryList.length)
   if(element.value.categoryList.length<1 || element.value.categoryList.length >10){
     ok=false;
     ElMessage.error('分类不能小于1超过10!')
     return;
   }
-  // console.log("添加："+JSON.stringify(element.value))
+  // //console.log("添加："+JSON.stringify(element.value))
   if(ok) {
     element.value.causeContent=causeContent.value
     element.value.causeNumber=causeNumber.value
     updateElement(element.value).then(response => {
-      console.log("添加成功")
+  //    //console.log("添加成功")
       router.push("/admin/draftPreview?wid="+ response.data.wid+"&deid=" + response.data.id)
     });
   }

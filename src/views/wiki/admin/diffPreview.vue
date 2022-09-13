@@ -97,8 +97,8 @@ const deid = ref(null);
 const wid = ref(null);
 deid.value = route.query.deid;
 wid.value = route.query.wid;
-console.log("元素deid="+deid.value);
-console.log("世界id="+wid.value);
+//console.log("元素deid="+deid.value);
+//console.log("世界id="+wid.value);
 const elementStatus = new Map([
   [0, "草稿"],
   [1, "待审核"],
@@ -112,13 +112,13 @@ const element=ref({})
 /** 查询草稿详细 */
 function getDraft(wid:number,deid:number) {
   getDraftDetails(wid,deid,1).then(response => {
-    console.log("查询草稿详细:"+JSON.stringify(response))
+    //console.log("查询草稿详细:"+JSON.stringify(response))
     element.value = response.data
   });
 }
 function submitPush(){
   updatePush(wid.value,deid.value).then(response => {
-    console.log("发布成功")
+    //console.log("发布成功")
     router.push("/admin/draftPreview?wid="+ wid.value+"&deid=" +deid.value)
   });
 }
@@ -132,17 +132,17 @@ const newContent=ref('');
 const oldContent=ref('');
 function handDiff(newId:number,oldId:number) {
   getDiff(newId,oldId).then(response => {
-    console.log("查询世界详细:"+JSON.stringify(response))
+    //console.log("查询世界详细:"+JSON.stringify(response))
     dialogTableVisible.value=true
     newContent.value=getHtml(response.data.newContent)
     oldContent.value=getHtml(response.data.oldContent)
-    console.log("newContent:"+JSON.stringify(newContent))
-    console.log("oldContent:"+JSON.stringify(oldContent))
+    //console.log("newContent:"+JSON.stringify(newContent))
+    //console.log("oldContent:"+JSON.stringify(oldContent))
 
   });
 }
 getDraft(wid.value,deid.value);
-console.log("状态:"+elementStatus.get(element.value.status))
+//console.log("状态:"+elementStatus.get(element.value.status))
 
 const getHtml = function(desc){
   // var temp=document.createElement("div");

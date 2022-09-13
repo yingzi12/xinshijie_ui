@@ -106,7 +106,7 @@ const elementStatus = new Map([
 ]);
 // 接收url里的参数
 const route = useRoute();
-console.log(route.query.wid,"参数");
+//console.log(route.query.wid,"参数");
 const activeIndex = ref('1')
 //弹出框
 const dialogFormVisible = ref(false)
@@ -158,7 +158,7 @@ function handleSelect(index:String,indexPath:String){
   if(index =='1'){
     router.push("/admin/audit");
   }
-  console.log(indexPath)
+  //console.log(indexPath)
 }
 function handleAudit(row){
   router.push("/admin/audit");

@@ -80,21 +80,21 @@ const eid = ref(null);
 const wid = ref(null);
 eid.value = route.query.eid;
 wid.value = route.query.wid;
-console.log("元素id="+eid.value);
-console.log("世界id="+wid.value);
+//console.log("元素id="+eid.value);
+//console.log("世界id="+wid.value);
 
 
 const element=ref({})
 /** 查询世界详细 */
 function getElement(wid:number,eid:number) {
   getElementDetails(wid,eid).then(response => {
-    console.log("查询世界详细:"+JSON.stringify(response))
+    //console.log("查询世界详细:"+JSON.stringify(response))
     element.value = response.data
   });
 }
 function submitPush(){
   updatePush(wid,eid).then(response => {
-    console.log("发布成功")
+    //console.log("发布成功")
     router.push("/admin/elementContent?wid="+ wid.value+"&eid=" +eid.value)
   });
 }

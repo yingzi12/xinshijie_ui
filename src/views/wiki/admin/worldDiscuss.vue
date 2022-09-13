@@ -131,7 +131,7 @@ import {ElMessage, FormInstance, FormRules} from "element-plus";
 // 接收url里的参数
 const route = useRoute()
 const router = useRouter()
-console.log(route.query.wid,"参数");
+//console.log(route.query.wid,"参数");
 const wid = ref(null);
 const wname = ref('');
 wname.value = <string>route.query.wname;
@@ -222,14 +222,14 @@ const onSudmit = async (formEl: FormInstance | undefined) => {
   if (!formEl) return
   await formEl.validate((valid, fields) => {
     if (valid) {
-      console.log('submit!')
+      //console.log('submit!')
       updateStatusAdmin(form.value).then(response => {
         dialogFormVisible.value=false
         ElMessage.success("处理成功")
         getList();
       })
     } else {
-      console.log('error submit!', fields)
+      //console.log('error submit!', fields)
     }
   })
 }

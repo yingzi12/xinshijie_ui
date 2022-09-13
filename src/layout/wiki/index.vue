@@ -21,7 +21,6 @@
     </el-menu>
   </div>
   <el-divider  style="margin:0px"/>
-<!--  <wiki-head @username="useUserStore.username"/>-->
   <section class="app-main" style="width: 1250px">
     <router-view v-slot="{ Component, route }">
     </router-view>
@@ -41,13 +40,10 @@ import {ref} from "vue";
 const userStore = useUserStore()
 const router = useRouter()
 
-console.log("是否登录:"+JSON.stringify(userStore))
-console.log("是否登录:"+userStore.name)
 
 const activeIndex = ref('1')
 const handleSelect = (key: string, keyPath: string[]) => {
   activeIndex.value=key
-  console.log(key, keyPath)
 }
 const  isLogin=ref(false)
 if(!userStore.name){
@@ -55,7 +51,6 @@ if(!userStore.name){
 }else{
   isLogin.value=true
 }
-console.log("isLogin"+isLogin.value)
 // console.log("username"+props.username)
 
 // const settingsStore = useSettingsStore()

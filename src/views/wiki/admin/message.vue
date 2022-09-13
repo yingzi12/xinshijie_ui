@@ -96,7 +96,7 @@ import { Search } from '@element-plus/icons-vue'
 
 // 接收url里的参数
 const route = useRoute();
-console.log(route.query.wid,"参数");
+//console.log(route.query.wid,"参数");
 const wid = ref(null);
 wid.value = route.query.wid;
 //个人消息

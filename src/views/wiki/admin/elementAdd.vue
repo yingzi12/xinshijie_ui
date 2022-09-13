@@ -122,10 +122,10 @@ import {useRoute, useRouter} from "vue-router";
 const route = useRoute();
 const router = useRouter()
 
-console.log(route.query.wid,"参数");
+//console.log(route.query.wid,"参数");
 const wid = ref(null);
 wid.value = route.query.wid;
-console.log("世界id="+wid);
+//console.log("世界id="+wid);
 const editor = Editor
 const baseUrl = inject("$baseUrl")
 const uploadImgUrl = ref(baseUrl + "/common/uploadEditFile"); // 上传的图片服务器地址
@@ -193,7 +193,7 @@ interface Tree {
 
 
 function onEditorInput(content: Content){
-  console.log('onEditorInput!')
+  //console.log('onEditorInput!')
   if(content.content.length>20000){
     ElMessage.error("内容长度为"+content.content.length+"，已超过最大许可值2万")
   }
@@ -244,13 +244,13 @@ function submit(){
       return;
     }
   }
-  console.log("简介长度:"+element.value.intro.length)
+  //console.log("简介长度:"+element.value.intro.length)
   if(element.value.intro.length<10 || element.value.intro.length >300){
     ok=false;
     ElMessage.error('简介长度不能小于10超过300!')
     return;
   }
-  console.log("分类长度:"+element.value.categoryList.length)
+  //console.log("分类长度:"+element.value.categoryList.length)
   if(element.value.categoryList.length<1 || element.value.categoryList.length >10){
     ok=false;
     ElMessage.error('分类不能小于1超过10!')
@@ -258,21 +258,21 @@ function submit(){
   }
   if(ok) {
     addElement(element.value).then(response => {
-      console.log("添加成功")
+      //console.log("添加成功")
         router.push("/admin/draftPreview?wid="+ response.data.wid+"&deid=" + response.data.id)
     });
   }
 }
 //单个章节保存
 // const submitForm = (formEl: FormInstance | undefined,item: Content) => {
-//   console.log("参数:"+JSON.stringify(dynamicValidateForm.domains))
-//   console.log("参数:"+JSON.stringify(item))
+//   //console.log("参数:"+JSON.stringify(dynamicValidateForm.domains))
+//   //console.log("参数:"+JSON.stringify(item))
 //   if (!formEl) return
 //   formEl.validate((valid) => {
 //     if (valid) {
-//       console.log('submit!')
+//       //console.log('submit!')
 //     } else {
-//       console.log('error submit!')
+//       //console.log('error submit!')
 //       return false
 //     }
 //   })
@@ -281,7 +281,7 @@ const wname=ref('')
 /** 查询世界详细 */
 function handWorld() {
   getWorld(wid.value).then(response => {
-    console.log("查询世界详细:"+JSON.stringify(response))
+    //console.log("查询世界详细:"+JSON.stringify(response))
     wname.value = response.data.name
   });
 }
@@ -295,8 +295,8 @@ function getList() {
 function  show(val){
 //let that = this ,将this保存在that中，再在函数中使用that均可
   dynamicTags.value=categoryList.value
-  console.log("选中的对象value1"+categoryList.value)
-  console.log("选中的对象label"+JSON.stringify(treeRef.value))
+  //console.log("选中的对象value1"+categoryList.value)
+  //console.log("选中的对象label"+JSON.stringify(treeRef.value))
 
   sleValue.value=new Array();
   dynamicTags.value=new Array();
@@ -305,9 +305,9 @@ function  show(val){
     sleValue.value[i]=categoryList.value[i].split('$$')[0]
   }
   element.value.categoryList=sleValue;
-  console.log("选中的对象value2"+categoryList.value)
-  console.log("选中的对象sleValue2"+sleValue.value)
-  console.log("选中的对象element:"+JSON.stringify(element.value))
+  //console.log("选中的对象value2"+categoryList.value)
+  //console.log("选中的对象sleValue2"+sleValue.value)
+  //console.log("选中的对象element:"+JSON.stringify(element.value))
 }
 getList()
 handWorld();

@@ -118,15 +118,15 @@ const submitForm = async (formEl: FormInstance | undefined) => {
   if (!formEl) return
   await formEl.validate((valid, fields) => {
     if (valid) {
-      console.log('submit!')
+      //console.log('submit!')
       ruleForm.value.source=ruleForm.value.checkList.map(String).join(';')
       ruleForm.value.imgUrl=imageUrlPath.value
       addWorld(ruleForm.value).then(response => {
-        console.log("添加成功")
+        //console.log("添加成功")
         router.push("/admin/worldInfo?wid="+response.data.id);
       })
     } else {
-      console.log('error submit!', fields)
+      //console.log('error submit!', fields)
     }
   })
 }
@@ -155,9 +155,9 @@ const handleAvatarSuccess: UploadProps['onSuccess'] = (
 ) => {
   imageUrl.value = URL.createObjectURL(uploadFile.raw!)
   imageUrlPath.value=uploadFile.response.fileName
-  console.log("照片：" + JSON.stringify(uploadFile))
+  //console.log("照片：" + JSON.stringify(uploadFile))
   // let formData = new FormData();
-  // console.log("照片：" +  JSON.stringify(uploadFile))
+  // //console.log("照片：" +  JSON.stringify(uploadFile))
   // formData.append("imageUrl", uploadFile);
 }
 
@@ -174,9 +174,9 @@ const beforeAvatarUpload: UploadProps['beforeUpload'] = (rawFile) => {
 
 const ischeck=ref(0)
 function handleSurce(){
-  console.log("原创"+ruleForm.value.checkList.indexOf("原创"))
-  console.log("原创长度"+ruleForm.value.checkList.length)
-  console.log("原创长度"+JSON.stringify(ruleForm.value.checkList))
+  //console.log("原创"+ruleForm.value.checkList.indexOf("原创"))
+  //console.log("原创长度"+ruleForm.value.checkList.length)
+  //console.log("原创长度"+JSON.stringify(ruleForm.value.checkList))
   if(ruleForm.value.checkList.length==0){
     ischeck.value=0;
   }else {

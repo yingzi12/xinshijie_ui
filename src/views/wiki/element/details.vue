@@ -72,15 +72,15 @@ const eid = ref(null);
 const wid = ref(null);
 eid.value = route.query.eid;
 wid.value = route.query.wid;
-console.log("元素id="+eid.value);
-console.log("世界id="+wid.value);
+//console.log("元素id="+eid.value);
+//console.log("世界id="+wid.value);
 
 
 const element=ref({})
 /** 查询世界详细 */
 function getElement(wid:number,eid:number) {
   getElementDetails(wid,eid).then(response => {
-    console.log("查询世界详细:"+JSON.stringify(response))
+    //console.log("查询世界详细:"+JSON.stringify(response))
     element.value = response.data
   });
 }
@@ -94,7 +94,7 @@ const world=ref({})
 /** 查询世界详细 */
 function handWorld() {
   getWorld(wid.value).then(response => {
-    console.log("查询世界详细:"+JSON.stringify(response))
+    //console.log("查询世界详细:"+JSON.stringify(response))
     world.value = response.data
   });
 }

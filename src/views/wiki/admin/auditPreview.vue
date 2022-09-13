@@ -79,21 +79,21 @@ const deid = ref(null);
 const wid = ref(null);
 deid.value = route.query.deid;
 wid.value = route.query.wid;
-console.log("元素deid="+deid.value);
-console.log("世界id="+wid.value);
+//console.log("元素deid="+deid.value);
+//console.log("世界id="+wid.value);
 
 
 const element=ref({})
 /** 查询草稿详细 */
 function getDraft(wid:number,deid:number) {
   getDraftDetails(wid,deid,0).then(response => {
-    console.log("查询草稿详细:"+JSON.stringify(response))
+    //console.log("查询草稿详细:"+JSON.stringify(response))
     element.value = response.data
   });
 }
 function submitPush(){
   updatePush(wid,deid).then(response => {
-    console.log("发布成功")
+    //console.log("发布成功")
     router.push("/element/content?wid="+ wid.value+"&deid=" +deid.value)
   });
 }

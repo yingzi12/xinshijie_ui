@@ -145,8 +145,8 @@ const eid = ref(null);
 const wid = ref(null);
 eid.value = route.query.eid;
 wid.value = route.query.wid;
-console.log("元素id="+eid.value);
-console.log("世界id="+wid.value);
+//console.log("元素id="+eid.value);
+//console.log("世界id="+wid.value);
 
 //基本信息
 interface Element {
@@ -189,9 +189,9 @@ const removeDomain = (item: Content) => {
     item.status=4
     element.value.contentIdList.push(item.id)
   }
-  console.log("删除："+JSON.stringify(item))
+  //console.log("删除："+JSON.stringify(item))
   const index = element.value.contentList.indexOf(item)
-  console.log("删除index："+index)
+  //console.log("删除index："+index)
   if (index !== -1) {
     element.value.contentList.splice(index, 1)
   }
@@ -212,7 +212,7 @@ function onEditorInput(content: Content){
   content.isEdit=1;
   //只有正常状态下会改变
     content.status = 3
-  console.log('onEditorInput!')
+  //console.log('onEditorInput!')
 }
 const handEdit = (content: Content) => {
   content.isEdit=1;
@@ -224,9 +224,9 @@ const submitForm = (formEl: FormInstance | undefined) => {
   if (!formEl) return
   formEl.validate((valid) => {
     if (valid) {
-      console.log('submit!')
+      //console.log('submit!')
     } else {
-      console.log('error submit!')
+      //console.log('error submit!')
       return false
     }
   })
@@ -250,15 +250,15 @@ const sleValue=ref({})
 function getList() {
   getTree(wid.value).then(response => {
     dataStree.value = response.data
-    console.log("树:"+JSON.stringify( dataStree.value))
+    //console.log("树:"+JSON.stringify( dataStree.value))
   });
 }
 
 function  show(val){
 //let that = this ,将this保存在that中，再在函数中使用that均可
   dynamicTags.value=categoryList.value
-  console.log("选中的对象value1"+categoryList.value)
-  console.log("选中的对象treeRef"+JSON.stringify(treeRef.value))
+  //console.log("选中的对象value1"+categoryList.value)
+  //console.log("选中的对象treeRef"+JSON.stringify(treeRef.value))
 
   sleValue.value=new Array();
   dynamicTags.value=new Array();
@@ -267,16 +267,16 @@ function  show(val){
     sleValue.value[i]=categoryList.value[i].split('$$')[0]
   }
   element.value.categoryList=sleValue;
-  console.log("选中的对象value2"+categoryList.value)
-  console.log("选中的对象sleValue2"+sleValue.value)
-  console.log("选中的对象element:"+JSON.stringify(element.value))
+  //console.log("选中的对象value2"+categoryList.value)
+  //console.log("选中的对象sleValue2"+sleValue.value)
+  //console.log("选中的对象element:"+JSON.stringify(element.value))
 }
 // const treeRef = ref<InstanceType<typeof ElTree>>()
 
 /** 查询世界详细 */
 function getElement(wid:number,eid:number) {
   getElementDetails(wid,eid).then(response => {
-    console.log("查询世界详细:"+JSON.stringify(response))
+    //console.log("查询世界详细:"+JSON.stringify(response))
     element.value = response.data
     element.value.contentIdList=[];
     categoryList.value=[];
@@ -288,7 +288,7 @@ function getElement(wid:number,eid:number) {
       sleValue.value[i]=element.value.categoryList[i].id
     }
     element.value.categoryList=sleValue
-    console.log("打印查询到的categoryList"+JSON.stringify(categoryList))
+    //console.log("打印查询到的categoryList"+JSON.stringify(categoryList))
   });
 }
 
@@ -306,18 +306,18 @@ function submit(){
     ok=false;
     ElMessage.error('名称长度不能超过100!')
   }
-  console.log("简介长度:"+element.value.intro.length)
-  console.log("简介长度:"+element.value.intro.length>10)
-  console.log("简介长度:"+element.value.intro.length <300)
+  //console.log("简介长度:"+element.value.intro.length)
+  //console.log("简介长度:"+element.value.intro.length>10)
+  //console.log("简介长度:"+element.value.intro.length <300)
 
   if(!(element.value.intro.length>10 && element.value.intro.length <300)){
     ok=false;
     ElMessage.error('简介长度不能小于10超过100!')
   }
-  console.log("添加："+JSON.stringify(element.value))
+  //console.log("添加："+JSON.stringify(element.value))
   if(ok) {
     updateElement(element.value).then(response => {
-      console.log("添加成功")
+      //console.log("添加成功")
       router.push("/admin/draftPreview?wid="+ response.data.wid+"&deid=" + response.data.id)
     });
   }

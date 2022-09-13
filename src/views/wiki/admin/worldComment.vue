@@ -108,7 +108,7 @@ import { listCommentAdmin} from "@/api/admin/comment";
 const {  appContext : { config: { globalProperties } }  } = getCurrentInstance();
 // 接收url里的参数
 const route = useRoute();
-console.log(route.query.wid,"参数");
+//console.log(route.query.wid,"参数");
 const wid = ref(null);
 const wname = ref('');
 wname.value = <string>route.query.wname;
@@ -143,7 +143,7 @@ const dateRange = ref([]);
 //评论信息
 function getList() {
   listCommentAdmin(globalProperties.addDateRange(queryParams.value, dateRange.value)).then(response => {
-    console.log("查询评论列表:"+JSON.stringify(response))
+    //console.log("查询评论列表:"+JSON.stringify(response))
     commentList.value = response.rows
     total.value = response.total;
   });

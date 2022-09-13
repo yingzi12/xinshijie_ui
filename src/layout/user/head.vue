@@ -36,7 +36,6 @@ const router = useRouter()
 const activeIndex = ref('3')
 const handleSelect = (key: string, keyPath: string[]) => {
   activeIndex.value=key
-  console.log(key, keyPath)
 }
 const props = defineProps({
   foo: { type: String, required: true },
@@ -44,7 +43,6 @@ const props = defineProps({
   userid: Number,
   username: String
 })
-console.log("username"+props.username)
 
 const  isLogin=ref(false)
 if(!props.username){

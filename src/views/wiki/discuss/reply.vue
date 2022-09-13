@@ -119,7 +119,7 @@ const circleUrl=ref('')
 const disabled=ref(true)
 
 const username=ref('')
-console.log("userStore name:"+(userStore.name==''))
+//console.log("userStore name:"+(userStore.name==''))
 
 const did = ref(null);
 const wid = ref(null);
@@ -128,8 +128,8 @@ did.value = route.query.did;
 wid.value = route.query.wid;
 dcid.value = route.query.dcid;
 
-console.log("元素id="+did.value);
-console.log("世界id="+wid.value);
+//console.log("元素id="+did.value);
+//console.log("世界id="+wid.value);
 
 if(userStore.name==''){
   username.value="未登录"
@@ -188,7 +188,7 @@ function handleSelect(index:String,indexPath:String){
   if(index =='2'){
     router.push("/admin/auditLog");
   }
-  console.log(indexPath)
+  //console.log(indexPath)
 }
 
 /** 查询世界列表 */
@@ -211,7 +211,7 @@ function handWorld() {
     return;
   }
   getWorld(wid.value).then(response => {
-    console.log("查询世界详细:"+JSON.stringify(response))
+    //console.log("查询世界详细:"+JSON.stringify(response))
     world.value = response.data
   });
 }
@@ -225,7 +225,7 @@ function handleDiscuss() {
     return;
   }
   getDiscuss(did.value).then(response => {
-    console.log("查询讨论详细:"+JSON.stringify(response))
+    //console.log("查询讨论详细:"+JSON.stringify(response))
     discuss.value = response.data
   });
 }
@@ -240,7 +240,7 @@ function handleDiscussComment() {
     return;
   }
   getDiscussComment(dcid.value).then(response => {
-    console.log("查询讨论详细:"+JSON.stringify(response))
+    //console.log("查询讨论详细:"+JSON.stringify(response))
     discussComment.value = response.data
   });
 }
@@ -254,7 +254,7 @@ function sudmitReply(comment){
     ElMessage.error("回复内容需大于10小于200")
     return;
   }
-  console.log("添加回复:"+JSON.stringify(comment))
+  //console.log("添加回复:"+JSON.stringify(comment))
   form.value.did=did.value
   form.value.wid=world.value.id
   form.value.wname=world.value.name
@@ -275,7 +275,7 @@ function sudmitReply(comment){
   addDiscussComment(form.value).then(response => {
     // comment.replyList.push(response.data)
     comment.replyComment=""
-    console.log("评论成功"+JSON.stringify(response.data))
+    //console.log("评论成功"+JSON.stringify(response.data))
     // ElMessage.info("回复成功")
     getList()
   })
@@ -317,9 +317,9 @@ const commentList = ref<Comment[]>([])
 
 function handleReply(comment){
   show.value=true;
-  console.log("点击"+comment.replyHide)
+  //console.log("点击"+comment.replyHide)
   comment. comHide=true
-  console.log(JSON.stringify(comment))
+  //console.log(JSON.stringify(comment))
   if(comment.replyHide){
     comment.replyHide=false;
     show.value=false;

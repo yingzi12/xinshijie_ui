@@ -46,7 +46,6 @@ const useUserStore = defineStore(
             }
             this.name = user.userName
             this.avatar = avatar;
-            console.log("设置用户信息:"+JSON.stringify(this))
             resolve(res)
           }).catch(error => {
             reject(error)

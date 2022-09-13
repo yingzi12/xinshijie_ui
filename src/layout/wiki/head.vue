@@ -24,11 +24,10 @@
 </template>
 
 <script lang="ts" setup>
-import {getCurrentInstance, ref} from 'vue'
+import { ref} from 'vue'
 const activeIndex = ref('1')
 const handleSelect = (key: string,indexPath:String,keyPath: string[]) => {
   activeIndex.value=key
-  console.log(key, keyPath,indexPath)
 }
 const  isLogin=ref(false)
 const props = defineProps({
@@ -42,8 +41,6 @@ if(!props.username){
 }else{
   isLogin.value=true
 }
-console.log("isLogin"+isLogin.value)
-console.log("username"+props.username)
 
 // 第一种写法 没有默认值
 // defineProps<Props>();

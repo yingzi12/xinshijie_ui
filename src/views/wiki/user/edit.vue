@@ -77,7 +77,7 @@ function handleUser(){
     ruleForm.sign=user.value.sign
     imageUrl.value=baseUrl+user.value.avatar;
     imageUrlPath.value=user.value.avatar;
-    console.log(JSON.stringify(user))
+    //console.log(JSON.stringify(user))
   })
 }
 handleUser()
@@ -130,9 +130,9 @@ const submitForm = async (formEl: FormInstance | undefined) => {
            ElMessage.success("修改成功")
         router.push("/user/index");
       })
-      console.log('submit!')
+      //console.log('submit!')
     } else {
-      console.log('error submit!', fields)
+      //console.log('error submit!', fields)
     }
   })
 }

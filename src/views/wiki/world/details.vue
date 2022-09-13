@@ -158,7 +158,7 @@ const router = useRouter()
 
 // 接收url里的参数
 const route = useRoute();
-console.log(route.query.id,"参数");
+//console.log(route.query.id,"参数");
 //世界信息
 const world=ref({})
 //评论信息
@@ -184,7 +184,7 @@ const data = reactive({
 
 const { queryParams, commentForm, rules } = toRefs(data);
 world.value.id = route.query.wid;
-console.log("世界id="+world.value.id);
+//console.log("世界id="+world.value.id);
 const baseUrl = inject("$baseUrl")
 const imageUrl=ref('')
 
@@ -203,7 +203,7 @@ function handleFllow(){
 /** 查询世界详细 */
 function handWorld(id:number) {
   getWorld(id).then(response => {
-    console.log("查询世界详细:"+JSON.stringify(response))
+    //console.log("查询世界详细:"+JSON.stringify(response))
     world.value = response.data
     imageUrl.value=baseUrl+response.data.imgUrl;
   });
@@ -212,14 +212,14 @@ function handWorld(id:number) {
 function getAllWorldComment() {
   queryParams.value.wid=wid.value;
   listComment(globalProperties.addDateRange(queryParams.value, dateRange.value)).then(response => {
-    console.log("查询世界详细:"+JSON.stringify(response))
+    //console.log("查询世界详细:"+JSON.stringify(response))
     commentList.value = response.rows
   });
 }
 //小心
 function getAllWorldManage(id:number) {
   getWorldManage(id).then(response => {
-    console.log("查询世界详细:"+JSON.stringify(response))
+    //console.log("查询世界详细:"+JSON.stringify(response))
     manageList.value = response.rows
   });
 }
@@ -230,7 +230,7 @@ const worldActive = ref('description')
 const commentActive = ref('allComm')
 
 const handleClick = (tab: TabsPaneContext, event: Event) => {
-  console.log(tab, event)
+  //console.log(tab, event)
 }
 
 /** 查询元素列表 */
@@ -247,11 +247,11 @@ const circleUrl=ref('')
 const disabled=ref(true)
 
 const username=ref('')
-console.log("userStore name:"+(userStore.name==''))
+//console.log("userStore name:"+(userStore.name==''))
 
 const wid = ref(null);
 wid.value = route.query.wid;
-console.log("世界id="+wid.value);
+//console.log("世界id="+wid.value);
 if(userStore.name==''){
   username.value="未登录"
   disabled.value=true;
@@ -281,7 +281,7 @@ function onSubmit(){
   addComment(commentForm.value).then(response => {
     ElMessage.success("评论成功")
     commentForm.value.comment=''
-    console.log("评论成功")
+    //console.log("评论成功")
     getAllWorldComment();
   })
 }

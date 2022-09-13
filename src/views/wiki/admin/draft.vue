@@ -106,7 +106,7 @@ const route = useRoute();
 const router = useRouter()
 // const wid = ref(null);
 // wid.value = route.query.wid;
-// console.log("世界id="+wid.value);
+// //console.log("世界id="+wid.value);
 const {  appContext : { config: { globalProperties } }  } = getCurrentInstance();
 const {  proxy  } = getCurrentInstance();
 class World {
@@ -165,7 +165,7 @@ function handleSee(row){
   router.push("/admin/draftPreview?wid="+row.wid+"&deid="+row.id);
 }
 function handleIssue(row){
-  console.log("发布："+JSON.stringify(row))
+  //console.log("发布："+JSON.stringify(row))
   issue(row.id).then(response => {
     getList();
   });

@@ -97,7 +97,7 @@ const route = useRoute();
 const router = useRouter()
 // const wid = ref(null);
 // wid.value = route.query.wid;
-// console.log("世界id="+wid.value);
+// //console.log("世界id="+wid.value);
 const {  appContext : { config: { globalProperties } }  } = getCurrentInstance();
 const {  proxy  } = getCurrentInstance();
 class World {

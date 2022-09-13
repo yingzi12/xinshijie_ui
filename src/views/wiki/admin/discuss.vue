@@ -95,7 +95,7 @@ import {ElMessage, ElMessageBox} from "element-plus";
 // 接收url里的参数
 const route = useRoute()
 const router = useRouter()
-console.log(route.query.wid,"参数");
+//console.log(route.query.wid,"参数");
 const wid = ref(null);
 const wname = ref('');
 wname.value = <string>route.query.wname;

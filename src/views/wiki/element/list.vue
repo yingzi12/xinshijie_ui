@@ -128,7 +128,7 @@ function handleAdd(){
 function handFind(){
   queryParams.value.wid=wid.value;
   queryParams.value.title=title.value;
-  console.log("分类查询:"+JSON.stringify(categoryValue.value))
+  //console.log("分类查询:"+JSON.stringify(categoryValue.value))
   if(categoryValue.value != null && categoryValue.value != '' && categoryValue.value != undefined){
     queryParams.value.types=categoryValue.value.split("$$")[0];
   }else{
@@ -144,7 +144,7 @@ const world=ref('')
 /** 查询世界详细 */
 function handWorld() {
   getWorld(wid.value).then(response => {
-    console.log("查询世界详细:"+JSON.stringify(response))
+    //console.log("查询世界详细:"+JSON.stringify(response))
     world.value = response.data
   });
 }

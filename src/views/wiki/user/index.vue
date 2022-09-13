@@ -169,7 +169,7 @@ function handleUser(){
   getUser().then(response => {
     user.value=response.data
     imageUrl.value=baseUrl+response.data.avatar;
-    console.log(JSON.stringify(user))
+    //console.log(JSON.stringify(user))
   })
 }
 handleUser();

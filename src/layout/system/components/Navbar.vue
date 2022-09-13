@@ -63,7 +63,6 @@ import useSettingsStore from '@/store/modules/settings'
 
 const appStore = useAppStore()
 const userStore = useUserStore()
-console.log("多对多:"+userStore.avatar)
 const settingsStore = useSettingsStore()
 
 function toggleSideBar() {

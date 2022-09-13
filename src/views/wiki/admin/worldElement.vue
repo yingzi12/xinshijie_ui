@@ -122,7 +122,7 @@ const wid = ref(null);
 wid.value = route.query.wid;
 const wname = ref('');
 wname.value = <string>route.query.wname;
-console.log("世界id="+wid.value);
+//console.log("世界id="+wid.value);
 const {  appContext : { config: { globalProperties } }  } = getCurrentInstance();
 const {  proxy  } = getCurrentInstance();
 class World {
@@ -198,8 +198,8 @@ function findType(typeId:number) {
 }
 /** 查询元素列表 */
 function getList() {
-  console.log("查询："+queryParams.value.types != undefined && queryParams.value.types != '')
-  console.log("查询："+queryParams.value.types.split("$$")[0])
+  //console.log("查询："+queryParams.value.types != undefined && queryParams.value.types != '')
+  //console.log("查询："+queryParams.value.types.split("$$")[0])
   if(queryParams.value.types != undefined && queryParams.value.types != '' ){
     queryParams.value.types=queryParams.value.types.split("$$")[0]
   }
@@ -228,7 +228,7 @@ const input3 = ref('')
 const dialogFormVisible = ref(false)
 
 function newElement(wid: number) {
-  console.log('submit!')
+  //console.log('submit!')
   router.push("/element/add?id=" + wid);
 }
 </script>

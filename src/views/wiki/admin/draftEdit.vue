@@ -130,8 +130,8 @@ const deid = ref(null);
 const wid = ref(null);
 deid.value = route.query.deid;
 wid.value = route.query.wid;
-console.log("deid="+deid.value);
-console.log("世界id="+wid.value);
+//console.log("deid="+deid.value);
+//console.log("世界id="+wid.value);
 
 //基本信息
 interface Element {
@@ -180,9 +180,9 @@ const removeDomain = (item: Content) => {
     item.status=4
     element.value.contentIdList.push(item.id)
   }
-  // console.log("删除："+JSON.stringify(item))
+  // //console.log("删除："+JSON.stringify(item))
   const index = element.value.contentList.indexOf(item)
-  // console.log("删除index："+index)
+  // //console.log("删除index："+index)
   if (index !== -1) {
     element.value.contentList.splice(index, 1)
   }
@@ -203,7 +203,7 @@ function onEditorInput(content: Content){
   content.isUpdate=1;
   //出生了修改,需要更新
   content.status = 3
-  console.log('onEditorInput!')
+  //console.log('onEditorInput!')
   if(content.content.length>20000){
     ElMessage.error("内容长度为"+content.content.length+"，已超过最大许可值2万")
   }
@@ -218,9 +218,9 @@ const submitForm = (formEl: FormInstance | undefined) => {
   if (!formEl) return
   formEl.validate((valid) => {
     if (valid) {
-      console.log('submit!')
+      //console.log('submit!')
     } else {
-      console.log('error submit!')
+      //console.log('error submit!')
       return false
     }
   })
@@ -243,22 +243,22 @@ const sleValue=ref({})
 function getList() {
   getTree(wid.value).then(response => {
     dataStree.value = response.data
-    // console.log("树:"+JSON.stringify( dataStree.value))
+    // //console.log("树:"+JSON.stringify( dataStree.value))
   });
 }
 // /** 查询世界列表 */
 function handWorld() {
   getWorld(wid.value).then(response => {
     world.value = response.data
-    // console.log("树:"+JSON.stringify( dataStree.value))
+    // //console.log("树:"+JSON.stringify( dataStree.value))
   });
 }
 
 function  show(val){
 //let that = this ,将this保存在that中，再在函数中使用that均可
   dynamicTags.value=categoryList.value
-  // console.log("选中的对象value1"+categoryList.value)
-  // console.log("选中的对象treeRef"+JSON.stringify(treeRef.value))
+  // //console.log("选中的对象value1"+categoryList.value)
+  // //console.log("选中的对象treeRef"+JSON.stringify(treeRef.value))
 
   sleValue.value=new Array();
   dynamicTags.value=new Array();
@@ -267,16 +267,16 @@ function  show(val){
     sleValue.value[i]=categoryList.value[i].split('$$')[0]
   }
   element.value.categoryList=sleValue;
-  // console.log("选中的对象value2"+categoryList.value)
-  // console.log("选中的对象sleValue2"+sleValue.value)
-  // console.log("选中的对象element:"+JSON.stringify(element.value))
+  // //console.log("选中的对象value2"+categoryList.value)
+  // //console.log("选中的对象sleValue2"+sleValue.value)
+  // //console.log("选中的对象element:"+JSON.stringify(element.value))
 }
 // const treeRef = ref<InstanceType<typeof ElTree>>()
 
 /** 查询草稿详细 */
 function getElement(wid:number,deid:number) {
   getDraftDetails(wid,deid,0).then(response => {
-    // console.log("查询草稿详细:"+JSON.stringify(response))
+    // //console.log("查询草稿详细:"+JSON.stringify(response))
     element.value = response.data
     element.value.contentIdList=[];
     categoryList.value=[];
@@ -288,8 +288,8 @@ function getElement(wid:number,deid:number) {
       sleValue.value[i]=element.value.categoryList[i].id
     }
     element.value.categoryList=sleValue
-    // console.log("打印查询到的categoryList"+JSON.stringify(categoryList))
-    // console.log("打印查询到的element"+JSON.stringify(element))
+    // //console.log("打印查询到的categoryList"+JSON.stringify(categoryList))
+    // //console.log("打印查询到的element"+JSON.stringify(element))
   });
 }
 
@@ -323,23 +323,23 @@ function submit(){
       return;
     }
   }
-  // console.log("简介长度:"+element.value.intro.length)
+  // //console.log("简介长度:"+element.value.intro.length)
   if(element.value.intro.length<10 || element.value.intro.length >300){
     ok=false;
     ElMessage.error('简介长度不能小于10超过300!')
     return;
   }
-  // console.log("简介长度:"+element.value.categoryList.length)
+  // //console.log("简介长度:"+element.value.categoryList.length)
   if(element.value.categoryList.length<1 || element.value.categoryList.length >10){
     ok=false;
     ElMessage.error('分类不能小于1超过10!')
     return;
   }
-  console.log("添加："+JSON.stringify(element.value))
+  //console.log("添加："+JSON.stringify(element.value))
   if(ok) {
     element.value.wname=world.value.name
     updateDraft(element.value).then(response => {
-      console.log("添加成功")
+      //console.log("添加成功")
       router.push("/admin/draftPreview?wid="+ wid.value+"&deid=" + deid.value)
     });
   }

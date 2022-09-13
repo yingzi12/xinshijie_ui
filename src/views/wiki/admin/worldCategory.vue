@@ -96,12 +96,12 @@ const title = ref("");
 
 // 接收url里的参数
 const route = useRoute();
-console.log(route.query.wid,"参数");
+//console.log(route.query.wid,"参数");
 const wid = ref(null);
 const wname = ref('');
 wname.value = <string>route.query.wname;
 wid.value = route.query.wid;
-console.log("世界id="+wid.value);
+//console.log("世界id="+wid.value);
 //世界信息
 const world=ref({})
 interface Tree {
@@ -186,7 +186,7 @@ const append = ( data: Tree) => {
     data.children = []
   }
   form.value=newChild
-  console.log("from 子集"+JSON.stringify(form.value))
+  //console.log("from 子集"+JSON.stringify(form.value))
 
 }
 //修改名称
@@ -196,7 +196,7 @@ const updateName = ( data: Tree) => {
   dialogFormVisible.value=true
   data.isUpdate=true
   form.value=data
-  console.log("from 修改分类"+JSON.stringify(form.value))
+  //console.log("from 修改分类"+JSON.stringify(form.value))
 }
 //添加分类
 const disForm=(dis:boolean)=>{
@@ -206,12 +206,12 @@ const disForm=(dis:boolean)=>{
   var cateCode=dataSource.value.length+10;
   const newTree = { id: 0, code:cateCode,label: '', pid:0,pcode:0,tier:0,wid:wid.value,children: [],isUpdate:false }
   form.value=newTree
-  console.log("from 添加分类 "+JSON.stringify(form.value))
+  //console.log("from 添加分类 "+JSON.stringify(form.value))
 }
 //添加1级分类,并关闭弹出框
 const insertAfter = (label:string,formEl: FormInstance | undefined) => {
-  console.log(formEl)
-  console.log("修改后"+JSON.stringify(form.value))
+  //console.log(formEl)
+  //console.log("修改后"+JSON.stringify(form.value))
   submitForm(formEl)
   dialogFormVisible.value=false
 }
@@ -228,12 +228,12 @@ function submitForm(formEl: FormInstance | undefined) {   //
   form.value.wid=wid.value
   if (form.value.isUpdate){
     updateCategory(form.value).then(response => {
-      console.log("修改成功:"+JSON.stringify(response.data))
+      //console.log("修改成功:"+JSON.stringify(response.data))
       getList();
     })
   }else{
     addCategory(form.value).then(response => {
-      console.log("添加成功"+JSON.stringify(response.data))
+      //console.log("添加成功"+JSON.stringify(response.data))
       getList();
     })
   }

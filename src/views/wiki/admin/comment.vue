@@ -67,7 +67,7 @@ const username=ref('')
 const {  appContext : { config: { globalProperties } }  } = getCurrentInstance();
 // 接收url里的参数
 const route = useRoute();
-console.log(route.query.wid,"参数");
+//console.log(route.query.wid,"参数");
 const wid = ref(null);
 wid.value = route.query.wid;
 //弹出框内容
@@ -107,7 +107,7 @@ const dateRange = ref([]);
 //评论信息
 function getList() {
   listComment(globalProperties.addDateRange(queryParams.value, dateRange.value)).then(response => {
-    console.log("查询评论列表:"+JSON.stringify(response))
+    //console.log("查询评论列表:"+JSON.stringify(response))
     commentList.value = response.rows
     total.value = response.total;
   });

@@ -60,7 +60,7 @@ const onSubmit = () => {
   resetPwd(form).then(response => {
     ElMessage.success("修改成功")
   })
-  console.log('submit!')
+  //console.log('submit!')
 }
 </script>
 

@@ -46,7 +46,7 @@ const prettyHtml  = () => {
   });
 }
 rawHtml.value=prettyHtml();
-console.log(rawHtml)
+//console.log(rawHtml)
 </script>
 
 <style scoped>

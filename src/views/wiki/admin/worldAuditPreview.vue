@@ -79,15 +79,15 @@ const wname = ref('');
 wname.value = <string>route.query.wname;
 deid.value = route.query.deid;
 wid.value = route.query.wid;
-console.log("元素deid="+deid.value);
-console.log("世界id="+wid.value);
+//console.log("元素deid="+deid.value);
+//console.log("世界id="+wid.value);
 
 
 const element=ref({})
 /** 查询世界详细 */
 function getDraft(wid:number,deid:number) {
   getDraftDetailsAdmin(wid,deid,0).then(response => {
-    console.log("查询世界详细:"+JSON.stringify(response))
+    //console.log("查询世界详细:"+JSON.stringify(response))
     element.value = response.data
   });
 }

@@ -102,7 +102,7 @@ const router = useRouter()
 
 // 接收url里的参数
 const route = useRoute();
-// console.log(route.query.wid,"参数");
+// //console.log(route.query.wid,"参数");
 // const wid = ref(null);
 // wid.value = route.query.wid;
 const fits = ['世界', '粉丝', '关注']
@@ -150,7 +150,7 @@ function handleSelect(index:String,indexPath:String){
   if(index =='2'){
     router.push("/admin/auditLog");
   }
-   console.log(indexPath)
+   //console.log(indexPath)
 }
 
 /** 查询世界列表 */
@@ -162,7 +162,7 @@ function getList() {
   });
 }
 function handleIssueClose(row){
-  console.log("取消发布："+JSON.stringify(row))
+  //console.log("取消发布："+JSON.stringify(row))
   issueClose(row.wid,row.id).then(response => {
     getList();
   });

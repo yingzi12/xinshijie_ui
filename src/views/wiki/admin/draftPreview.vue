@@ -78,8 +78,8 @@ const deid = ref(null);
 const wid = ref(null);
 deid.value = route.query.deid;
 wid.value = route.query.wid;
-console.log("元素deid="+deid.value);
-console.log("世界id="+wid.value);
+//console.log("元素deid="+deid.value);
+//console.log("世界id="+wid.value);
 
 const elementStatus = new Map([
   [0, "草稿"],
@@ -94,15 +94,15 @@ const element=ref({})
 /** 查询世界详细 */
 function getDraft(wid:number,deid:number) {
   getDraftDetails(wid,deid,0).then(response => {
-    console.log("查询世界详细:"+JSON.stringify(response))
+    //console.log("查询世界详细:"+JSON.stringify(response))
     element.value = response.data
-    console.log("状态:"+element.value.status)
-    console.log("状态:"+elementStatus.get(element.value.status))
+    //console.log("状态:"+element.value.status)
+    //console.log("状态:"+elementStatus.get(element.value.status))
   });
 }
 function submitPush(){
   issue(wid.value,deid.value).then(response => {
-    console.log("发布成功")
+    //console.log("发布成功")
     element.value.status=1
     if(response.data.types == 0){
       router.push("/admin/draftPreview?wid="+ response.data.wid+"&deid=" +response.data.id)

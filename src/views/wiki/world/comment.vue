@@ -132,14 +132,14 @@ const circleUrl=ref('')
 const disabled=ref(true)
 
 const username=ref('')
-console.log("userStore name:"+(userStore.name==''))
+//console.log("userStore name:"+(userStore.name==''))
 
 const eid = ref(null);
 const wid = ref(null);
 eid.value = route.query.eid;
 wid.value = route.query.wid;
-console.log("元素id="+eid.value);
-console.log("世界id="+wid.value);
+//console.log("元素id="+eid.value);
+//console.log("世界id="+wid.value);
 if(userStore.name==''){
   username.value="未登录"
   disabled.value=true;
@@ -149,7 +149,7 @@ if(userStore.name==''){
   disabled.value=false;
 }
 
-console.log("userStore:"+JSON.stringify(userStore))
+//console.log("userStore:"+JSON.stringify(userStore))
 
 const commentActive = ref('allComm')
 const commentList = ref([])
@@ -173,7 +173,7 @@ const dateRange = ref([]);
 //评论信息
 function getList() {
   listComment(globalProperties.addDateRange(queryParams.value, dateRange.value)).then(response => {
-    console.log("查询世界详细:"+JSON.stringify(response))
+    //console.log("查询世界详细:"+JSON.stringify(response))
     commentList.value = response.rows
     total.value = response.total;
   });
@@ -183,7 +183,7 @@ const world=ref({})
 /** 查询世界详细 */
 function handWorld(id:number) {
   getWorld(id).then(response => {
-    console.log("查询世界详细:"+JSON.stringify(response))
+    //console.log("查询世界详细:"+JSON.stringify(response))
     world.value = response.data
   });
 }
@@ -206,7 +206,7 @@ function onSubmit(){
   commentForm.value.circleUrl=userStore.avatar
   addComment(commentForm.value).then(response => {
     ElMessage.info("评论成功")
-    console.log("评论成功")
+    //console.log("评论成功")
     getList()
   })
 }
