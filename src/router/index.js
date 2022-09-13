@@ -93,12 +93,6 @@ export const constantRoutes = [
         meta: { title: '用户首页', icon: 'world' }
       },
       {
-        path: 'info',
-        component: () => import('@/views/wiki/user/info'),
-        name: 'Userinfo',
-        meta: { title: '用户首页', icon: 'world' }
-      },
-      {
         path: 'password',
         component: () => import('@/views/wiki/user/password'),
         name: 'Userpassword',
@@ -133,19 +127,9 @@ export const constantRoutes = [
         name: 'AddWorld',
         meta: { title: '创造世界', icon: 'world' }
       },{
-        path: 'edit',
-        component: () => import('@/views/wiki/world/edit'),
-        name: 'editWorld',
-        meta: { title: '创造世界', icon: 'world' }
-      },{
         path: 'list',
         component: () => import('@/views/wiki/world/list'),
         name: 'ListWorld',
-        meta: { title: '世界列表', icon: 'world' }
-      },{
-        path: 'test',
-        component: () => import('@/views/wiki/world/test'),
-        name: 'test',
         meta: { title: '世界列表', icon: 'world' }
       }
     ]
@@ -156,26 +140,6 @@ export const constantRoutes = [
     hidden: true,
     children: [
       {
-        path: 'add',
-        component: () => import('@/views/wiki/element/add'),
-        name: 'AddElement',
-        meta: { title: '添加元素', icon: 'element' }
-      },{
-        path: 'edit',
-        component: () => import('@/views/wiki/element/edit'),
-        name: 'EditElement',
-        meta: { title: '编辑元素', icon: 'element' }
-      },{
-        path: 'preview',
-        component: () => import('@/views/wiki/element/preview'),
-        name: 'PreviewElement',
-        meta: { title: '预览元素', icon: 'element' }
-      },{
-        path: 'editElementType',
-        component: () => import('@/views/wiki/element/editElementType'),
-        name: 'EditElementType',
-        meta: { title: '编辑元素分类', icon: 'element' }
-      },{
         path: 'list',
         component: () => import('@/views/wiki/element/list'),
         name: 'OrderElement',
@@ -184,11 +148,6 @@ export const constantRoutes = [
         path: 'test',
         component: () => import('@/views/wiki/element/test'),
         name: 'test',
-        meta: { title: '元素列表', icon: 'element' }
-      },{
-        path: 'addElement',
-        component: () => import('@/views/wiki/element/addElement'),
-        name: 'addElement',
         meta: { title: '元素列表', icon: 'element' }
       },{
         path: 'details',
@@ -264,6 +223,12 @@ export const constantRoutes = [
         meta: { title: '元素审核', icon: 'wiki' }
       },
       {
+        path: 'worldDiffPreview',
+        component: () => import('@/views/wiki/admin/worldDiffPreview'),
+        name: 'worldDiffPreview',
+        meta: { title: '元素差异', icon: 'wiki' }
+      },
+      {
         path: 'worldRedident',
         component: () => import('@/views/wiki/admin/worldRedident'),
         name: 'worldRedident',
@@ -286,6 +251,12 @@ export const constantRoutes = [
         component: () => import('@/views/wiki/admin/diff'),
         name: 'diff',
         meta: { title: '内容比对', icon: 'wiki' }
+      },
+      {
+        path: 'diffPreview',
+        component: () => import('@/views/wiki/admin/diffPreview'),
+        name: 'auditElementPreview',
+        meta: { title: '元素修改差异记录', icon: 'wiki' }
       },
       {
         path: 'comment',
@@ -336,28 +307,9 @@ export const constantRoutes = [
         meta: { title: '元素草稿历史记录', icon: 'wiki' }
       },
       {
-        path: 'diff2',
-        component: () => import('@/views/wiki/admin/diff2'),
-        name: 'diff2',
-        meta: { title: '内容比对', icon: 'wiki' }
-      }
-      ,
-      {
-        path: 'diffPreview',
-        component: () => import('@/views/wiki/admin/diffPreview'),
-        name: 'auditElementPreview',
-        meta: { title: '元素修改差异记录', icon: 'wiki' }
-      },
-      {
         path: 'draftPreview',
         component: () => import('@/views/wiki/admin/draftPreview'),
         name: 'draftPreview',
-        meta: { title: '元素修改差异', icon: 'wiki' }
-      },
-      {
-        path: 'draftDiffView',
-        component: () => import('@/views/wiki/admin/draftDiffView'),
-        name: 'draftDiffView',
         meta: { title: '元素修改差异', icon: 'wiki' }
       },
       {
