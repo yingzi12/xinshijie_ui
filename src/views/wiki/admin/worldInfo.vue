@@ -64,7 +64,10 @@
             <h1 style="padding: 10px;margin: 0px"><Flag style="width: 1em; height: 1em; margin-right: 8px" />简介</h1>
             <el-divider  style="padding: 0px;margin: 0px"/>
           </div>
-          <div style=" padding: 10px;margin: 0px" v-html="world.description"></div>
+
+          <div style=" padding: 10px;margin: 0px" >
+            <p style="white-space:pre;">{{world.description}}</p>
+          </div>
         </div>
 </template>
 

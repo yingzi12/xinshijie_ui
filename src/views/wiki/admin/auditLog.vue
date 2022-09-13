@@ -34,7 +34,7 @@
                   {{scope.$index+1}}
                 </template>
               </el-table-column>
-              <el-table-column prop="title" label="元素" width="140" />
+              <el-table-column prop="title" label="元素" width="140" :show-overflow-tooltip="true" />
               <el-table-column label="类型" align="center" :show-overflow-tooltip="true">
                 <template #default="scope">
                   <el-tag v-for='idLabel in scope.row.idLabels.split(",")'>

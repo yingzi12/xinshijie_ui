@@ -1,14 +1,15 @@
 <template>
   <div class="app-container" >
+    <!--        标题-->
     <div>
-      <el-breadcrumb separator="/">
-        <el-breadcrumb-item :to="{ path: '/' }">homepage</el-breadcrumb-item>
-        <el-breadcrumb-item><a href="/public">promotion management</a></el-breadcrumb-item>
-        <el-breadcrumb-item>promotion list</el-breadcrumb-item>
-        <el-breadcrumb-item>promotion detail</el-breadcrumb-item>
-      </el-breadcrumb>
+      <el-menu
+          :default-active="1"
+          mode="horizontal"
+          style="margin:0px;pardding:0px"
+      >
+        <el-menu-item index="1">{{wname}}</el-menu-item>
+      </el-menu>
     </div>
-    <div style="border-style:solid;">
     <!--  世界名称-->
     <div >
         <h1>{{ element.title }}</h1>
@@ -60,7 +61,6 @@
         <el-button @click="handClean()">返回</el-button>
       </div>
     </div>
-  </div>
 </template>
 
 <script  lang="ts" setup>
@@ -86,7 +86,7 @@ console.log("世界id="+wid.value);
 const element=ref({})
 /** 查询世界详细 */
 function getDraft(wid:number,deid:number) {
-  getDraftDetailsAdmin(wid,deid).then(response => {
+  getDraftDetailsAdmin(wid,deid,0).then(response => {
     console.log("查询世界详细:"+JSON.stringify(response))
     element.value = response.data
   });

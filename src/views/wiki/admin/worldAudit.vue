@@ -193,7 +193,7 @@ function handleSee(row){
   router.push("/admin/worldAuditPreview?wid="+wid.value+"&wname="+wname.value+"&deid="+row.id);
 }
 function handleDiff(row){
-  router.push("/admin/diffPreview?wid="+row.wid+"&deid="+row.id);
+  router.push("/admin/worldDiffPreview?wid="+row.wid+"&deid="+row.id+"&wname="+wname.value);
 }
 
 function handleAuditLog(){

@@ -95,7 +95,7 @@
                 <el-input v-model="form.intro" type="textarea" placeholder="请选择世界简介"/>
               </el-form-item>
               <el-form-item label="描 述" prop="description">
-                <el-input v-model="form.description" type="textarea"  placeholder="请输入世界说明"/>
+                <el-input v-model="form.description" type="textarea" rows="10"  placeholder="请输入世界说明"/>
               </el-form-item>
               <el-form-item>
                 <el-button type="primary" @click="submitForm(ruleFormRef)">修改</el-button>

@@ -39,7 +39,11 @@
                   {{scope.$index+1+(queryParams.pageNum-1)*10}}
                 </template>
               </el-table-column>
-              <el-table-column label="名称" align="center" key="name" prop="name"  :show-overflow-tooltip="true"/>
+              <el-table-column label="名称" align="center" key="name" prop="name"  :show-overflow-tooltip="true">
+                <template #default="scope">
+                  <router-link  :to="{path:'/admin/worldInfo', query: {wid:scope.row.id,wname:scope.row.name}}">{{scope.row.name}}</router-link>
+                </template>
+              </el-table-column>
               <el-table-column label="等级" align="center" key="ranks" prop="ranks"   width="50"/>
               <el-table-column label="类型" align="center" :show-overflow-tooltip="true"  width="80" >
                <template #default="scope">

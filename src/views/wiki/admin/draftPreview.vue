@@ -2,11 +2,12 @@
   <div class="app-container" >
     <div>
       <el-menu
-          :default-active="1"
+          :default-active="activeIndex"
           mode="horizontal"
+          @select="handleSelect"
           style="margin:0px;pardding:0px"
       >
-        <el-menu-item index="1" style="margin:0px;pardding:0px"><span style="font-size: 20px;font-weight:bold;">元素详细</span></el-menu-item>
+        <el-menu-item index="1"><span style="font-size: 20px;font-weight:bold;">内容详细</span></el-menu-item>
       </el-menu>
     </div>
     <div >
@@ -66,7 +67,6 @@
 
 <script  lang="ts" setup>
 import { reactive, ref } from 'vue'
-import {FormInstance} from "element-plus";
 import {  getDraftDetails ,issue} from "@/api/admin/draftElement";
 //接受参数
 import { useRoute ,useRouter}  from "vue-router";  // 引用vue-router
@@ -103,6 +103,7 @@ function getDraft(wid:number,deid:number) {
 function submitPush(){
   issue(wid.value,deid.value).then(response => {
     console.log("发布成功")
+    element.value.status=1
     if(response.data.types == 0){
       router.push("/admin/draftPreview?wid="+ response.data.wid+"&deid=" +response.data.id)
     }else{

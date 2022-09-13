@@ -1,12 +1,14 @@
 <template>
   <div class="app-container" >
     <div>
-      <el-breadcrumb separator="/">
-        <el-breadcrumb-item :to="{ path: '/' }">homepage</el-breadcrumb-item>
-        <el-breadcrumb-item><a href="/public">promotion management</a></el-breadcrumb-item>
-        <el-breadcrumb-item>promotion list</el-breadcrumb-item>
-        <el-breadcrumb-item>promotion detail</el-breadcrumb-item>
-      </el-breadcrumb>
+      <el-menu
+          :default-active="activeIndex"
+          mode="horizontal"
+          @select="handleSelect"
+          style="margin:0px;pardding:0px"
+      >
+        <el-menu-item index="1"><span style="font-size: 20px;font-weight:bold;">内容详细</span></el-menu-item>
+      </el-menu>
     </div>
     <div style="border-style:solid;">
     <!--  世界名称-->
