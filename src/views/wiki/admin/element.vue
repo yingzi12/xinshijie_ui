@@ -46,8 +46,8 @@
               <el-table-column prop="intro" label="简介" :show-overflow-tooltip="true" width="120"/>
               <el-table-column prop="createTime" label="创建时间" :show-overflow-tooltip="true" />
               <el-table-column prop="status" label="状态" />
-              <el-table-column prop="updateType" label="修改原因" />
-              <el-table-column prop="updateContent" label="修改说明" />
+              <el-table-column prop="causeNumber" label="修改原因" :show-overflow-tooltip="true"/>
+              <el-table-column prop="causeContent" label="修改说明" :show-overflow-tooltip="true" />
               <el-table-column fixed="right" label="Operations" width="220">
                 <template #default>
                   <el-button link type="primary" size="small" @click="handleClick">查看</el-button>

@@ -2,12 +2,11 @@
   <div class="app-container" >
     <div>
       <el-menu
-          :default-active="activeIndex"
+          :default-active="1"
           mode="horizontal"
-          @select="handleSelect"
           style="margin:0px;pardding:0px"
       >
-        <el-menu-item index="1"><span style="font-size: 20px;font-weight:bold;">内容详细</span></el-menu-item>
+        <el-menu-item index="1" style="margin:0px;pardding:0px"><span style="font-size: 20px;font-weight:bold;">元素详细</span></el-menu-item>
       </el-menu>
     </div>
     <div >
@@ -67,6 +66,7 @@
 
 <script  lang="ts" setup>
 import { reactive, ref } from 'vue'
+import {FormInstance} from "element-plus";
 import {  getDraftDetails ,issue} from "@/api/admin/draftElement";
 //接受参数
 import { useRoute ,useRouter}  from "vue-router";  // 引用vue-router
