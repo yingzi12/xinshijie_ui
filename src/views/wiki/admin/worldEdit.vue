@@ -1,44 +1,45 @@
 <template>
         <!--        标题-->
-        <div>
-          <el-menu
-              :default-active="1"
-              mode="horizontal"
-              style="margin:0px;pardding:0px"
-          >
-            <el-menu-item index="1">{{wname}}</el-menu-item>
-          </el-menu>
-        </div>        <!--        多选-->
-        <div style="padding: 10px">
-          <el-space wrap>
-            <div v-for="i in 9" :key="i">
-              <el-button text> Text{{i}} </el-button>
-            </div>
-          </el-space>
-        </div>
+  <div>
+    <el-menu
+        :default-active="1"
+        mode="horizontal"
+        style="margin:0px;pardding:0px"
+    >
+      <el-menu-item index="1"><span style="font-size: 20px;font-weight:bold;">{{wname}}</span></el-menu-item>
+    </el-menu>
+  </div>
+  <!--        多选-->
+<!--        <div style="padding: 10px">-->
+<!--          <el-space wrap>-->
+<!--            <div v-for="i in 9" :key="i">-->
+<!--              <el-button text> Text{{i}} </el-button>-->
+<!--            </div>-->
+<!--          </el-space>-->
+<!--        </div>-->
         <!--        统计-->
-        <div style="background-color:#b0c4de;margin: auto;padding: 10px">
-          <el-row>
-            <el-col  :span="4">
-              合计(65)
-            </el-col >
-            <el-col :span="20"  style="text-align: right;">
-              <div style="text-align: right; font-size: 12px" class="toolbar">
-                <el-dropdown>
-                  <el-icon style="margin-right: 8px; margin-top: 1px"><setting/></el-icon>
-                  <template #dropdown>
-                    <el-dropdown-menu>
-                      <el-dropdown-item>View</el-dropdown-item>
-                      <el-dropdown-item>Add</el-dropdown-item>
-                      <el-dropdown-item>Delete</el-dropdown-item>
-                    </el-dropdown-menu>
-                  </template>
-                </el-dropdown>
-                <span>Tom</span>
-              </div>
-            </el-col>
-          </el-row>
-        </div>
+<!--        <div style="background-color:#b0c4de;margin: auto;padding: 10px">-->
+<!--          <el-row>-->
+<!--            <el-col  :span="4">-->
+<!--              合计(65)-->
+<!--            </el-col >-->
+<!--            <el-col :span="20"  style="text-align: right;">-->
+<!--              <div style="text-align: right; font-size: 12px" class="toolbar">-->
+<!--                <el-dropdown>-->
+<!--                  <el-icon style="margin-right: 8px; margin-top: 1px"><setting/></el-icon>-->
+<!--                  <template #dropdown>-->
+<!--                    <el-dropdown-menu>-->
+<!--                      <el-dropdown-item>View</el-dropdown-item>-->
+<!--                      <el-dropdown-item>Add</el-dropdown-item>-->
+<!--                      <el-dropdown-item>Delete</el-dropdown-item>-->
+<!--                    </el-dropdown-menu>-->
+<!--                  </template>-->
+<!--                </el-dropdown>-->
+<!--                <span>Tom</span>-->
+<!--              </div>-->
+<!--            </el-col>-->
+<!--          </el-row>-->
+<!--        </div>-->
         <!--        表格-->
         <div>
           <div style="background-color: #E5EAF3;height: 30px;margin: 0px;padding: 0px">
@@ -125,6 +126,8 @@ wid.value = route.query.wid;
 world.value.id = wid.value
 //console.log("世界id="+world.value.id);
 const baseUrl = inject("$baseUrl")
+const imgUrl = inject("$imgUrl")
+
 const imageUrl=ref('')
 const uploadImgUrl = ref(baseUrl + "/common/upload"); // 上传的图片服务器地址
 const imageUrlPath = ref('')
@@ -177,7 +180,7 @@ function handleWorld(id:number) {
     form.value = response.data;
     form.value.checkList=form.value.source.split(';')
     handleSurce();
-    imageUrl.value=baseUrl+response.data.imgUrl;
+    imageUrl.value=imgUrl+response.data.imgUrl;
     imageUrlPath.value=response.data.imgUrl;
     // form.value.imgUrl='https://fuss10.elemecdn.com/e/5d/4a731a90594a4af544c0c25941171jpeg.jpeg'
     //console.log("查询世界详细:"+JSON.stringify(world.value))

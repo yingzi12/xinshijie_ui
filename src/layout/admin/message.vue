@@ -89,13 +89,14 @@ const {  proxy  } = getCurrentInstance();
 const user = ref({})
 const router = useRouter()
 const baseUrl = inject("$baseUrl")
+const imgUrl = inject("$imgUrl")
+
 const imageUrl=ref('')
 
 function handleUser(){
   getUser().then(response => {
     user.value=response.data
-    imageUrl.value=baseUrl+response.data.avatar;
-    console.log(JSON.stringify(user))
+    imageUrl.value=imgUrl+response.data.avatar;
   })
 }
 function handleUserMessage(){

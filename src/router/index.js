@@ -413,7 +413,7 @@ export const constantRoutes = [
     children: [
       {
         path: '/index',
-        component: () => import('@/views/wiki/home'),
+        component: () => import('@/views/wiki/index'),
         name: 'Index',
         meta: { title: '首页', icon: 'dashboard', affix: true }
       }

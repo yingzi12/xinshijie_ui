@@ -23,7 +23,7 @@
                   <el-upload
                       class="avatar-uploader"
                       :action="uploadImgUrl"
-                      name="file"
+                      name="upload"
                       :show-file-list="false"
                       :on-success="handleAvatarSuccess"
                       :before-upload="beforeAvatarUpload"
@@ -64,6 +64,13 @@ import {useRouter} from "vue-router";
 const router = useRouter()
 
 const {  proxy  } = getCurrentInstance();
+
+const baseUrl = inject("$baseUrl")
+const imgUrl = inject("$imgUrl")
+
+const uploadImgUrl = ref(baseUrl + "/common/uploadImage"); // 上传的图片服务器地址
+const imageUrlPath = ref('')
+
 //获取用户信息
 const user = ref({})
 const imageUrl=ref('')
@@ -75,7 +82,7 @@ function handleUser(){
     ruleForm.nickName=user.value.nickName
     ruleForm.phonenumber=user.value.phonenumber
     ruleForm.sign=user.value.sign
-    imageUrl.value=baseUrl+user.value.avatar;
+    imageUrl.value=imgUrl+user.value.avatar;
     imageUrlPath.value=user.value.avatar;
     //console.log(JSON.stringify(user))
   })
@@ -136,15 +143,6 @@ const submitForm = async (formEl: FormInstance | undefined) => {
     }
   })
 }
-
-const resetForm = (formEl: FormInstance | undefined) => {
-  if (!formEl) return
-  formEl.resetFields()
-}
-
-const baseUrl = inject("$baseUrl")
-const uploadImgUrl = ref(baseUrl + "/common/upload"); // 上传的图片服务器地址
-const imageUrlPath = ref('')
 
 const handleAvatarSuccess: UploadProps['onSuccess'] = (
     response,

@@ -163,12 +163,13 @@ const {  proxy  } = getCurrentInstance();
 //获取用户信息
 const user = ref({})
 const router = useRouter()
-const baseUrl = inject("$baseUrl")
+const imgUrl = inject("$imgUrl")
+
 const imageUrl=ref('')
 function handleUser(){
   getUser().then(response => {
     user.value=response.data
-    imageUrl.value=baseUrl+response.data.avatar;
+    imageUrl.value=imgUrl+response.data.avatar;
     //console.log(JSON.stringify(user))
   })
 }

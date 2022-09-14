@@ -95,6 +95,8 @@ wid.value = route.query.wid;
 world.value.id = route.query.wid;
 //console.log("世界id="+world.value.id);
 const baseUrl = inject("$baseUrl")
+const imgUrl = inject("$imgUrl")
+
 const imageUrl=ref('')
 const activeIndex = ref('1')
 const fits = ['世界', '粉丝', '关注']
@@ -107,7 +109,7 @@ function handleWorld(id:number) {
   getWorld(id).then(response => {
     //console.log("查询世界详细:"+JSON.stringify(response))
     world.value = response.data
-    imageUrl.value=baseUrl+response.data.imgUrl;
+    imageUrl.value=imgUrl+response.data.imgUrl;
 
   });
 

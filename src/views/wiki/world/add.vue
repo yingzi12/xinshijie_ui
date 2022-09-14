@@ -18,7 +18,7 @@
           <el-upload
               class="avatar-uploader"
               :action="uploadImgUrl"
-              name="file"
+              name="upload"
               :show-file-list="false"
               :on-success="handleAvatarSuccess"
               :before-upload="beforeAvatarUpload"
@@ -75,7 +75,13 @@ import { addWorld,updateImageUrl } from "@/api/admin/world";
 import { useRouter} from "vue-router";
 import { getCurrentInstance ,inject} from "vue";
 const checkList = ref([])
+const baseUrl = inject("$baseUrl")
+const imgUrl = inject("$imgUrl")
 
+const imageUrl = ref('')
+const imageUrlPath = ref('')
+
+const uploadImgUrl = ref(baseUrl + "/common/uploadImage"); // 上传的图片服务器地址
 const router = useRouter()
 
 import type { UploadProps } from 'element-plus'
@@ -142,23 +148,12 @@ const options = Array.from({ length: 10000 }).map((_, idx) => ({
 }))
 
 
-const baseUrl = inject("$baseUrl")
-
-const imageUrl = ref('')
-const imageUrlPath = ref('')
-
-const uploadImgUrl = ref(baseUrl + "/common/upload"); // 上传的图片服务器地址
-
 const handleAvatarSuccess: UploadProps['onSuccess'] = (
     response,
     uploadFile
 ) => {
   imageUrl.value = URL.createObjectURL(uploadFile.raw!)
   imageUrlPath.value=uploadFile.response.fileName
-  //console.log("照片：" + JSON.stringify(uploadFile))
-  // let formData = new FormData();
-  // //console.log("照片：" +  JSON.stringify(uploadFile))
-  // formData.append("imageUrl", uploadFile);
 }
 
 const beforeAvatarUpload: UploadProps['beforeUpload'] = (rawFile) => {
