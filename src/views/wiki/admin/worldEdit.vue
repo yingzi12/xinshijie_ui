@@ -59,7 +59,7 @@
                 <el-upload
                     class="avatar-uploader"
                     :action="uploadImgUrl"
-                    name="file"
+                    name="upload"
                     :show-file-list="false"
                     :on-success="handleAvatarSuccess"
                     :before-upload="beforeAvatarUpload"
@@ -129,7 +129,7 @@ const baseUrl = inject("$baseUrl")
 const imgUrl = inject("$imgUrl")
 
 const imageUrl=ref('')
-const uploadImgUrl = ref(baseUrl + "/common/upload"); // 上传的图片服务器地址
+const uploadImgUrl = ref(baseUrl + "/common/uploadImage"); // 上传的图片服务器地址
 const imageUrlPath = ref('')
 const formSize = ref('default')
 const ruleFormRef = ref<FormInstance>()

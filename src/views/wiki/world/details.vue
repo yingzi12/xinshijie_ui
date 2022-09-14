@@ -18,7 +18,10 @@
           <el-col :span="16"  class="mb-4">
             <div style="margin-left: 5px">
               <div>
-                <h1 style="margin: 0px" class="title">{{ world.name }}</h1>
+                <el-badge :value="world.ranks" class="item">
+                  <h1 style="margin: 2px" class="title">{{ world.name }}</h1>
+                </el-badge>
+<!--                <h1 style="margin: 0px" class="title">{{ world.name }}</h1>-->
               </div>
               <div style="margin-top: 5px" >
                 <el-space wrap>

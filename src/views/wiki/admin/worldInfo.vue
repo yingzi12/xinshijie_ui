@@ -54,7 +54,7 @@
                 <div  style="text-align: right;vertical-align: top;"><el-button  @click="handleEdit" type="primary" :icon="Edit" circle /></div>
                 <div class="center" style="height: 100px">
                   <div style="width: 150px;float:left;" ><el-progress  :text-inside="true" :stroke-width="26" :percentage="70" :format="format" /></div>
-                  <div style="width: 20%;float:left;" ><el-tag>LV12</el-tag></div>
+                  <div style="width: 20%;float:left;" ><el-tag>LV{{world.ranks}}</el-tag></div>
                 </div>
               </el-col>
             </el-row>
@@ -65,8 +65,8 @@
             <el-divider  style="padding: 0px;margin: 0px"/>
           </div>
 
-          <div style=" padding: 10px;margin: 0px" >
-            <p style="white-space:pre;">{{world.description}}</p>
+          <div style=" padding: 10px;margin: 0px;white-space:pre; word-break:break-all;word-wrap:break-word;" >
+            <p style="">{{world.description}}</p>
           </div>
         </div>
 </template>

@@ -2,7 +2,7 @@
   "name": "ruoyi",
   "version": "3.8.3",
   "description": "心世界",
-  "author": "若依",
+  "author": "harry",
   "license": "MIT",
   "scripts": {
     "dev": "vite",

@@ -3,10 +3,8 @@
   <div style="margin-bottom: 10px">
     <el-carousel :interval="5000" arrow="always">
       <el-carousel-item v-for="item in 4" :key="item">
-<!--        <div style="width: 100%">-->
         <el-image style="width: 100%;height: 300px" :src="test" fit="fill"></el-image>
         <h3 text="2xl" justify="center">这是一个测试 这是一个测试这是一个测试这是一个测试</h3>
-<!--        </div>-->
       </el-carousel-item>
     </el-carousel>
   </div>

@@ -169,9 +169,6 @@ const beforeAvatarUpload: UploadProps['beforeUpload'] = (rawFile) => {
 
 const ischeck=ref(0)
 function handleSurce(){
-  //console.log("原创"+ruleForm.value.checkList.indexOf("原创"))
-  //console.log("原创长度"+ruleForm.value.checkList.length)
-  //console.log("原创长度"+JSON.stringify(ruleForm.value.checkList))
   if(ruleForm.value.checkList.length==0){
     ischeck.value=0;
   }else {

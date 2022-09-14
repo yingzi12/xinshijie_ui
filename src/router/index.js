@@ -56,12 +56,6 @@ export const constantRoutes = [
     hidden: true,
     children: [
       {
-        path: 'index',
-        component: () => import('@/views/wiki/home/index'),
-        name: 'wiki',
-        meta: { title: '首页', icon: 'wiki' }
-      },
-      {
         path: 'feedback',
         component: () => import('@/views/wiki/feedback/index'),
         name: 'feedback',

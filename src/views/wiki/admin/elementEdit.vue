@@ -179,7 +179,7 @@ const editor = Editor
 const baseUrl = inject("$baseUrl")
 const imgUrl = inject("$imgUrl")
 
-const uploadImgUrl = ref(baseUrl + "/common/uploadEditFile"); // 上传的图片服务器地址
+const uploadImgUrl = ref(baseUrl + "/common/uploadImage"); // 上传的图片服务器地址
 const editorConfig ={
   language:"zh-cn",
   simpleUpload: {
