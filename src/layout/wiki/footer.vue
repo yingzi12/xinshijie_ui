@@ -10,7 +10,7 @@
 <!--           <div v-for="i in 2" :key="i">-->
 <!--             <el-button> button {{ i }} </el-button>-->
 <!--           </div>-->
-           <div><router-link :to="{path:'/wiki/help'}">关于新世界</router-link></div>
+           <div><router-link :to="{path:'/wiki/help'}">关于心世界</router-link></div>
            <div><router-link :to="{path:'/wiki/feedback'}">联系我们</router-link></div>
            <div> <router-link :to="{path:'/wiki/feedback'}">帮助中心</router-link></div>
            <div><router-link :to="{path:'/wiki/feedback'}">提交建议</router-link></div>

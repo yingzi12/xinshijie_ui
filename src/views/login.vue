@@ -74,9 +74,14 @@
           <span v-if="!loading">登 录</span>
           <span v-else>登 录 中...</span>
         </el-button>
-        <div style="float: right;" v-if="register">
-          <router-link class="link-type" :to="'/register'">立即注册</router-link>
-        </div>
+        <div  v-if="register"  style="width:100%">
+          <div style=" float: right;width: 50%">
+          <router-link style="float: right;" class="link-type" :to="'/register'">立即注册</router-link>
+          </div>
+          <div style=" float: left;width: 50%">
+             <router-link  class="link-type" :to="'/restpasswort'">找回密码</router-link>
+          </div>
+          </div>
       </el-form-item>
     </el-form>
 
@@ -200,7 +205,7 @@ getCookie();
   justify-content: center;
   align-items: center;
   height: 100%;
-  background-image: url("../assets/images/login-background.jpg");
+  //background-image: url("../assets/images/login-background.jpg");
   background-size: cover;
 }
 .title {

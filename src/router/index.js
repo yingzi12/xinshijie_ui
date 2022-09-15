@@ -41,6 +41,7 @@ export const constantRoutes = [
     ]
   },
   {
+
     path: '/login',
     component: () => import('@/views/login'),
     hidden: true
@@ -48,6 +49,11 @@ export const constantRoutes = [
   {
     path: '/register',
     component: () => import('@/views/register'),
+    hidden: true
+  },
+  {
+    path: '/restpasswort',
+    component: () => import('@/views/restpasswort'),
     hidden: true
   },
   {
@@ -68,31 +74,6 @@ export const constantRoutes = [
         meta: { title: '个人中心', icon: 'wiki' }
       }
     ]
-  },
-  {
-    path: '/user',
-    component: LayoutUser,
-    hidden: true,
-    children: [
-      {
-        path: 'index',
-        component: () => import('@/views/wiki/user/index'),
-        name: 'UserInex',
-        meta: { title: '用户首页', icon: 'world' }
-      },
-      {
-        path: 'edit',
-        component: () => import('@/views/wiki/user/edit'),
-        name: 'Useredit',
-        meta: { title: '用户首页', icon: 'world' }
-      },
-      {
-        path: 'password',
-        component: () => import('@/views/wiki/user/password'),
-        name: 'Userpassword',
-        meta: { title: '用户首页', icon: 'world' }
-      }
-      ]
   },
   {
     path: '/world',
@@ -343,17 +324,42 @@ export const constantRoutes = [
         name: 'Users',
         meta: { title: '基础信息', icon: 'user' }
       },{
+        path: 'check',
+        component: () => import('@/views/wiki/user/checkemail'),
+        name: 'check',
+        meta: { title: '邮箱', icon: 'user' }
+      }
+      ,{
         path: 'edit',
         component: () => import('@/views/wiki/user/edit'),
         name: 'edit',
         meta: { title: '修改', icon: 'user' }
-      },{
+      }
+      ,{
         path: 'password',
         component: () => import('@/views/wiki/user/password'),
         name: 'password',
         meta: { title: '修改密码', icon: 'user' }
       }
       ]
+  },
+  {
+    path: '/check',
+    component: LayoutWiki,
+    hidden: true,
+    children:[
+      {
+        path: 'email',
+        component: () => import('@/views/wiki/check/email'),
+        name: 'email',
+        meta: { title: '基础信息', icon: 'user' }
+      },{
+        path: 'password',
+        component: () => import('@/views/wiki/check/password'),
+        name: 'password',
+        meta: { title: '修改密码', icon: 'user' }
+      }
+    ]
   },
   {
     path: '/comment',
@@ -407,7 +413,7 @@ export const constantRoutes = [
     children: [
       {
         path: '/index',
-        component: () => import('@/views/wiki/index'),
+        component: () => import('@/views/index'),
         name: 'Index',
         meta: { title: '首页', icon: 'dashboard', affix: true }
       }

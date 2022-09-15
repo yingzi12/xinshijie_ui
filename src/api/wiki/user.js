@@ -16,3 +16,25 @@ export function getUser(id) {
     method: 'get'
   })
 }
+// 查询用户详细
+export function checkEmail(key,check) {
+  return request({
+    url: '/wiki/user/updateCheckEmail?key=' + key+"&check="+check,
+    method: 'get'
+  })
+}
+// 查询用户详细
+export function sendPasswordEmail(email) {
+  return request({
+    url: '/wiki/user/sendCheckPassword?email=' +email,
+    method: 'get'
+  })
+}
+
+export function resetPwd(data) {
+  return request({
+    url: '/wiki/user/restPasswort',
+    method: 'put',
+    data: data
+  })
+}

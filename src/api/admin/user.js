@@ -23,3 +23,10 @@ export function resetPwd(data) {
     data: data
   })
 }
+
+export function sendEmail(email) {
+  return request({
+    url: '/admin/user/sendUpdateCheckEmail?email='+email,
+    method: 'get',
+  })
+}

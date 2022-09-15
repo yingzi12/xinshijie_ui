@@ -38,9 +38,9 @@
                 <el-form-item label="用户昵称" prop="nickName">
                   <el-input v-model="ruleForm.nickName" />
                 </el-form-item>
-                <el-form-item label="电子邮箱" prop="email">
-                  <el-input v-model="ruleForm.email" />
-                </el-form-item>
+<!--                <el-form-item label="电子邮箱" prop="email">-->
+<!--                  <el-input v-model="ruleForm.email" />-->
+<!--                </el-form-item>-->
                 <el-form-item label="手机号" prop="phonenumber">
                   <el-input v-model="ruleForm.phonenumber" />
                 </el-form-item>

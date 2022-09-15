@@ -49,6 +49,10 @@
                 <el-icon><icon-menu /></el-icon>
                 <template #title>修改密码</template>
               </el-menu-item>
+              <el-menu-item index="/user/email">
+                <el-icon><icon-menu /></el-icon>
+                <template #title>邮箱验证</template>
+              </el-menu-item>
             </el-menu>
           </el-scrollbar>
         </div>

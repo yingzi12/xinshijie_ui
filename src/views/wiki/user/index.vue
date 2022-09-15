@@ -1,4 +1,5 @@
 <template>
+  <el-alert v-if="user.isEmail != 1 " title="安全邮箱未验证,将无法使用找回密码功能" type="warning" />
   <div>
     <el-menu
         :default-active="1"
@@ -55,7 +56,7 @@
             <el-icon :style="iconStyle">
               <email />
             </el-icon>
-            邮箱
+            邮箱<el-tag v-if="user.isEmail == 1" type="success">（已验证）</el-tag>
           </div>
         </template>
         {{ user.email }}
