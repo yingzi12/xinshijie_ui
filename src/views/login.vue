@@ -1,4 +1,26 @@
 <template>
+  <div style="margin:0 auto; width:1248px;">
+    <el-menu
+        :default-active="activeIndex"
+        class="el-menu-demo"
+        mode="horizontal"
+        :ellipsis="false"
+        :router="true"
+        @select="handleSelect"
+    >
+      <el-menu-item disabled><el-image style="width: 100%;height:55px" :src="logo2" fit="fill"></el-image></el-menu-item>
+      <el-menu-item index="/index" ><span style="font-size: 30px;font-weight:bold;">首页</span></el-menu-item>
+      <el-menu-item index="/world/index" ><span style="font-size: 30px;font-weight:bold;">世界树</span></el-menu-item>
+      <el-menu-item index="/user/index" ><span style="font-size: 30px;font-weight:bold;">家园</span></el-menu-item>
+      <el-menu-item index="/wiki/help" ><span style="font-size: 30px;font-weight:bold;">帮助</span></el-menu-item>
+      <div class="flex-grow" />
+<!--      <el-button v-if="!isLogin" text style="margin-top: 10px"><router-link :to="{path:'/login'}">登录</router-link></el-button>-->
+<!--      <el-button v-if="!isLogin"  text style="margin-top: 10px"><router-link :to="{path:'/register'}">注册</router-link></el-button>-->
+<!--      <el-button v-if="isLogin" text style="margin-top: 10px">{{ username }}</el-button>-->
+<!--      <el-button v-if="isLogin" text style="margin-top: 10px">退出</el-button>-->
+    </el-menu>
+  </div>
+  <el-divider  style="margin:0px"/>
   <div class="login">
     <el-form ref="loginRef" :model="loginForm" :rules="loginRules" class="login-form">
       <h3 class="title">心世界</h3>
@@ -57,10 +79,32 @@
         </div>
       </el-form-item>
     </el-form>
-    <!--  底部  -->
-    <div class="el-login-footer">
-      <span>Copyright © 2018-2022 ruoyi.vip All Rights Reserved.</span>
-    </div>
+
+  </div>
+  <!--  底部  -->
+  <div>
+    <el-divider style="margin: 0px"/>
+    <el-row :gutter="20">
+      <el-col :span="2"> </el-col>
+      <el-col :span="20" style="margin: 0px">
+        <div class="tiaozhuan" style="margin: 0px;text-align: center;">
+          <el-space  spacer="|">
+            <!--           <div v-for="i in 2" :key="i">-->
+            <!--             <el-button> button {{ i }} </el-button>-->
+            <!--           </div>-->
+            <div><router-link to="">关于心世界</router-link></div>
+            <div><router-link to="">联系我们</router-link></div>
+            <div> <router-link to="">帮助中心</router-link></div>
+            <div><router-link to="">提交建议</router-link></div>
+            <div><router-link to="">举报中心</router-link></div>
+            <div> <router-link to="">漏洞提交</router-link></div>
+          </el-space>
+        </div>
+        <div style="margin: 0px;text-align: center;"> <p  style="margin: 0px;">Copyright © 2002-2022 www.xingshijie.com All Rights Reserved 版权所有 心世界信息科技有限公司</p></div>
+        <div style="margin: 0px;text-align: center;"><p style="margin: 0px;">本站所收录的作品、社区话题、用户评论、用户上传内容或图片等均属用户个人行为。如前述内容侵害您的权益，欢迎举报投诉，一经核实，立即删除，本站不承担任何责任</p></div>
+      </el-col>
+      <el-col :span="2"></el-col>
+    </el-row>
   </div>
 </template>
 
@@ -75,8 +119,8 @@ const router = useRouter();
 const { proxy } = getCurrentInstance();
 
 const loginForm = ref({
-  username: "admin",
-  password: "admin123",
+  username: "",
+  password: "",
   rememberMe: false,
   code: "",
   uuid: ""
@@ -211,5 +255,22 @@ getCookie();
 .login-code-img {
   height: 40px;
   padding-left: 12px;
+}
+p{
+  color: #a6a6a6;
+  font: 12px/20px PingFangSC-Regular,-apple-system,Simsun;
+  height: 20px;
+  overflow: hidden;
+}
+
+.tiaozhuan {
+  color: #1a1a1a;
+  font-family: PingFangSC-Regular,-apple-system,Simsun;
+  font-size: 12px;
+  line-height: 27px;
+  margin-right: 16px;
+}
+.flex-grow {
+  flex-grow: 1;
 }
 </style>
