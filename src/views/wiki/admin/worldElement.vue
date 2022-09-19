@@ -32,7 +32,7 @@
             </el-col>
             <el-col :span="4" style="text-align: right;">
               <div style="text-align: right; font-size: 12px" class="toolbar">
-                <el-button text @click="handleElementAdd">创建元素</el-button>
+                <el-button text @click="handleAddDialog">创建元素</el-button>
               </div>
             </el-col>
           </el-row>
@@ -100,6 +100,29 @@
               v-model:limit="queryParams.pageSize"
               @pagination="getList"/>
         </div>
+
+  <el-dialog
+      v-model="dialogVisible"
+      title="元素模板"
+      width="30%"
+      :before-close="handleClose"
+  >
+    <el-select v-model="temType" placeholder="Select">
+      <el-option
+          v-for="item in options"
+          :key="item.value"
+          :label="item.label"
+          :value="item.value"
+          :disabled="item.disabled"
+      />
+    </el-select>
+    <template #footer>
+      <span class="dialog-footer">
+        <el-button @click="dialogVisible = false">取消</el-button>
+        <el-button type="primary" @click="handleElementAdd">确定</el-button>
+      </span>
+    </template>
+  </el-dialog>
 </template>
 
 <script lang="ts" setup>
@@ -118,27 +141,30 @@ const elementStatusMap = new Map([
 
 // 弹出框
 const  dialogVisible=ref(false);
-const temType = ref('1')
+const temType = ref(1)
 const options = [
   {
-    value: '通用',
-    label: '1',
+    value: 1,
+    label: '通用',
   },
   {
-    value: '角色/人物',
-    label: '2',
+    value: 2,
+    label:'角色/人物' ,
   },
   {
-    value: '组织/势力',
-    label: '3',
+    value: 3,
+    label:'组织/势力',
+    disabled: true,
   },
   {
-    value: '动物/植物',
-    label: '4',
+    value: 4,
+    label: '动物/植物',
+    disabled: true,
   },
   {
-    value: '种族',
-    label: '5',
+    value:5 ,
+    label: '种族',
+    disabled: true,
   },
 ]
 // 接收url里的参数
@@ -185,13 +211,23 @@ const search = ref('')
 function handleUpdate (row)  {
   router.push("/admin/elementEdit?eid="+row.id+"&wid=" + wid.value);
 }
+//添加新元素,需要登录权限
+function handleAddDialog(){
+  dialogVisible.value=true
+}
 function handleElementAdd ()  {
   countCategory(wid.value).then(response => {
     var count = response.data
     if (count==0) {
       ElMessage.error("请先创建分类")
     }else {
-      router.push("/admin/elementAdd?wid=" + wid.value);
+      if(temType.value==1) {
+        router.push("/admin/elementAddGeneral?wid=" + wid.value + "&temType=" + temType.value);
+      }
+      if(temType.value==2) {
+        router.push("/admin/elementAddRole?wid=" + wid.value + "&temType=" + temType.value);
+      }
+      // router.push("/admin/elementAdd?wid=" + wid.value);
     }
   })
 }
@@ -213,19 +249,8 @@ function handleSelectionChange(selection) {
   single.value = selection.length != 1;
   multiple.value = !selection.length;
 };
-/**根据分类查询世界*/
-function findType(typeId:number) {
-  queryParams.value.wid=wid.value;
-  listElement(globalProperties.addDateRange(queryParams.value, dateRange.value)).then(response => {
-    loading.value = false;
-    elementList.value = response.rows;
-    total.value = response.total;
-  });
-}
 /** 查询元素列表 */
 function getList() {
-  //console.log("查询："+queryParams.value.types != undefined && queryParams.value.types != '')
-  //console.log("查询："+queryParams.value.types.split("$$")[0])
   if(queryParams.value.types != undefined && queryParams.value.types != '' ){
     queryParams.value.types=queryParams.value.types.split("$$")[0]
   }

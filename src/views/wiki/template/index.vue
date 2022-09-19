@@ -125,6 +125,10 @@ const router = useRouter()
 //console.log(route.query.wid,"参数");
 const wid = ref(null);
 wid.value = route.query.wid;
+const temType = ref(1);
+wid.value = route.query.wid;
+wid.temType = route.query.temType;
+
 //console.log("世界id="+wid);
 const editor = Editor
 const baseUrl = inject("$baseUrl")
@@ -258,6 +262,7 @@ function submit(){
     ElMessage.error('分类不能小于1超过10!')
     return;
   }
+  element.value.temType=temType.value
   if(ok) {
     addElement(element.value).then(response => {
       //console.log("添加成功")

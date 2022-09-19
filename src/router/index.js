@@ -30,7 +30,7 @@ import LayoutUser from '@/layout/user'
 export const constantRoutes = [
   {
     path: '/redirect',
-    component: Layout,
+    component: LayoutWiki,
     hidden: true,
     children: [
       {
@@ -288,14 +288,14 @@ export const constantRoutes = [
       },
       {
         path: 'elementAddGeneral',
-        component: () => import('@/views/wiki/element/index'),
-        name: 'elementAdd',
+        component: () => import('@/views/wiki/template/index'),
+        name: 'elementAddGeneral',
         meta: { title: '管理员添加元素', icon: 'wiki' }
       },
       {
         path: 'elementAddRole',
-        component: () => import('@/views/wiki/element/role'),
-        name: 'elementAdd',
+        component: () => import('@/views/wiki/template/role'),
+        name: 'elementAddRole',
         meta: { title: '管理员添加元素', icon: 'wiki' }
       },
       {

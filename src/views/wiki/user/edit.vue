@@ -137,7 +137,6 @@ const submitForm = async (formEl: FormInstance | undefined) => {
            ElMessage.success("修改成功")
         router.push("/user/index");
       })
-      //console.log('submit!')
     } else {
       //console.log('error submit!', fields)
     }
@@ -151,7 +150,6 @@ const handleAvatarSuccess: UploadProps['onSuccess'] = (
   imageUrl.value = URL.createObjectURL(uploadFile.raw!)
   imageUrlPath.value=uploadFile.response.fileName
   ruleForm.avatar=response.fileName
-
 }
 
 const beforeAvatarUpload: UploadProps['beforeUpload'] = (rawFile) => {

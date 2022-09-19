@@ -77,30 +77,31 @@
       </div>
     </div>
   </div>
-</template>
 
-<el-dialog
-    v-model="dialogVisible"
-    title="Tips"
-    width="30%"
-    :before-close="handleClose"
->
-<el-select v-model="temType" placeholder="Select">
-  <el-option
-      v-for="item in options"
-      :key="item.value"
-      :label="item.label"
-      :value="item.value"
-      :disabled="item.disabled"
-  />
-</el-select>
-<template #footer>
+  <el-dialog
+      v-model="dialogVisible"
+      title="元素模板"
+      width="30%"
+      :before-close="handleClose"
+  >
+    <el-select v-model="temType" placeholder="Select">
+      <el-option
+          v-for="item in options"
+          :key="item.value"
+          :label="item.label"
+          :value="item.value"
+          :disabled="item.disabled"
+      />
+    </el-select>
+    <template #footer>
       <span class="dialog-footer">
         <el-button @click="dialogVisible = false">取消</el-button>
-        <el-button type="primary" @click="handleAddDialog">确定</el-button>
+        <el-button type="primary" @click="handleAdd">确定</el-button>
       </span>
+    </template>
+  </el-dialog>
 </template>
-</el-dialog>
+
 
 <script lang="ts" setup>
 import { getCurrentInstance, reactive, ref, toRefs} from 'vue'
@@ -131,27 +132,30 @@ const data = reactive({
 
 // 弹出框
 const  dialogVisible=ref(false);
-const temType = ref('1')
+const temType = ref(1)
 const options = [
   {
-    value: '通用',
-    label: '1',
+    value: 1,
+    label: '通用',
   },
   {
-    value: '角色/人物',
-    label: '2',
+    value: 2,
+    label:'角色/人物' ,
   },
   {
-    value: '组织/势力',
-    label: '3',
+    value: 3,
+    label:'组织/势力',
+    disabled: true,
   },
   {
-    value: '动物/植物',
-    label: '4',
+    value: 4,
+    label: '动物/植物',
+    disabled: true,
   },
   {
-    value: '种族',
-    label: '5',
+    value:5 ,
+    label: '种族',
+    disabled: true,
   },
 ]
 
@@ -224,8 +228,6 @@ function getCategoryTree() {
 getCategoryTree();
 getList();
 handWorld();
-
-
 </script>
 
 <style scoped>

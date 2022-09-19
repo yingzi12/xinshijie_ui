@@ -38,18 +38,72 @@
       <div style="background-color: #E5EAF3">
         <BootstrapIcon icon="card-checklist" size="1x" flip-v /><span>基本信息</span>
       </div>
-      <div>
-        <el-form :model="element" label-width="120px">
-          <el-form-item label="名称">
-            <el-input v-model="element.title" />
-          </el-form-item>
-          <el-form-item label="简介">
-            <el-input v-model="element.intro" type="textarea" />
-          </el-form-item>
-        </el-form>
+      <div style="margin: 10px">
+        <el-row >
+          <el-col  :span="2"><span>照片</span></el-col>
+          <el-col  :span="22">
+               <el-upload
+                  class="avatar-uploader"
+                  :action="uploadImgUrl"
+                  name="upload"
+                  :show-file-list="false"
+                  :on-success="handleAvatarSuccess"
+                  :before-upload="beforeAvatarUpload"
+               >
+            <el-avatar v-if="imageUrl" :size="50" :src="imageUrl" />
+            <el-icon v-else class="avatar-uploader-icon"><Plus /></el-icon>
+          </el-upload>
+          </el-col>
+          <el-col  :span="2"><span>姓名</span></el-col>
+          <el-col  :span="22"><el-input v-model="element.title"  style="width: 150px"/></el-col>
+
+          <el-col  :span="2"><span>别名</span></el-col>
+          <el-col  :span="6"><el-input v-model="basic.nickName"  style="width: 150px"/></el-col>
+          <el-col  :span="2"> <span>性别</span></el-col>
+          <el-col  :span="6"><el-input v-model="basic.sex" style="width: 150px"/></el-col >
+          <el-col :span="2"><span>种族</span></el-col>
+          <el-col  :span="6"><el-input v-model="basic.race" style="width: 150px"/></el-col>
+
+          <el-col :span="2"><span>势力</span></el-col>
+          <el-col  :span="6"><el-input v-model="basic.force" style="width: 150px"/></el-col>
+          <el-col :span="2"><span>性格</span></el-col>
+          <el-col  :span="6"><el-input v-model="basic.character" style="width: 150px"/></el-col>
+          <el-col :span="2"><span>信仰</span></el-col>
+          <el-col  :span="6"><el-input v-model="basic.belief" style="width: 150px"/></el-col>
+
+          <el-col :span="2"><span>出生-逝世</span></el-col>
+          <el-col  :span="6"><el-input v-model="basic.birth" style="width: 70px"/>-<el-input v-model="basic.die" style="width: 70px"/></el-col>
+          <el-col :span="2"><span>成就</span></el-col>
+          <el-col  :span="6"><el-input v-model="basic.other" style="width: 150px"/></el-col>
+          <el-col :span="2"><span>称号</span></el-col>
+          <el-col  :span="6"><el-input v-model="basic.r3" style="width: 150px"/></el-col>
+
+          <el-col :span="2"><span>父母</span></el-col>
+          <el-col  :span="6"><el-input autosize v-model="basic.parent" type="textarea"   /></el-col>
+          <el-col :span="2"><span>配偶</span></el-col>
+          <el-col  :span="6"><el-input autosize v-model="basic.mate" type="textarea"   /></el-col>
+          <el-col :span="2"><span>子女</span></el-col>
+          <el-col  :span="6"><el-input autosize v-model="basic.children" type="textarea"   /></el-col>
+
+          <el-col :span="2"><span>朋友</span></el-col>
+          <el-col  :span="10"><el-input autosize v-model="basic.friend" type="textarea"   /></el-col>
+          <el-col :span="2"><span>仇敌</span></el-col>
+          <el-col  :span="10"><el-input autosize v-model="basic.enemy" type="textarea"   /></el-col>
+
+          <el-col :span="2"><span>最喜欢的</span></el-col>
+          <el-col  :span="10"><el-input v-model="basic.r8" style="width: 150px"/></el-col>
+          <el-col :span="2"><span>最讨厌的</span></el-col>
+          <el-col  :span="10"><el-input v-model="basic.r9" style="width: 150px"/></el-col>
+
+          <el-col :span="2"><span>特征</span></el-col>
+          <el-col  :span="22"><el-input autosize v-model="basic.trait" type="textarea"   /></el-col>
+
+          <el-col :span="2"><span>简介</span></el-col>
+          <el-col  :span="22"><el-input autosize v-model="element.intro" type="textarea"   /></el-col>
+        </el-row>
       </div>
     </div>
-    <!-- 元素内容 -->
+     <!-- 元素内容 -->
     <div>
       <div style="background-color: #E5EAF3">
         <el-row >
@@ -75,7 +129,7 @@
         trigger: 'blur',
       }"
       >
-        <el-form            ref="ruleFormRef"
+        <el-form  ref="ruleFormRef"
                             :inline="true" :model="dynamicValidateForm" class="demo-form-inline">
           <div style="background-color: #cccccc">
             <el-row >
@@ -111,7 +165,7 @@
 
 <script  lang="ts" setup>
 import {getCurrentInstance, inject, reactive, ref} from 'vue'
-import {ElTree, FormInstance, ElInput, ElMessage} from "element-plus";
+import {ElTree, FormInstance, ElInput, ElMessage, UploadProps} from "element-plus";
 import  Editor  from 'ckeditor5-custom-build/build/ckeditor';
 import { getTree} from "@/api/wiki/category";
 import { addElement} from "@/api/admin/element";
@@ -153,6 +207,9 @@ const element = ref<InstanceType<Element>>({})
 element.value.wid=wid;
 //原始的选中的value
 const sleValue=ref({})
+//基本信息
+const basic=ref({})
+
 //章节模块
 const ruleFormRef = ref<FormInstance>()
 const dynamicValidateForm = reactive<{
@@ -162,11 +219,18 @@ const dynamicValidateForm = reactive<{
   domains: [
     {
       key: 1,
-      title:'标题',
+      title: '生平',
       status: 0,
-      isUpdate: 0,
+      isUpdate: 1,
       content: '',
     },
+    {
+      key: 1,
+      title: '成就',
+      status: 0,
+      isUpdate: 1,
+      content: '',
+    }
   ],
   email: '',
 })
@@ -181,11 +245,12 @@ interface Content {
 //基本信息
 interface Element {
   wid:String,
-  title:string,
+  title:String,
   intro:String,
   softtype: number,
   categoryList:[],
-  contentList:[]
+  contentList:[],
+  ext:String,
 }
 interface Tree {
   id: number
@@ -259,6 +324,8 @@ function submit(){
     return;
   }
   if(ok) {
+    element.value.ext=JSON.stringify(basic.value)
+    element.value.softtype=2
     addElement(element.value).then(response => {
       //console.log("添加成功")
       router.push("/admin/draftPreview?wid="+ response.data.wid+"&deid=" + response.data.id)
@@ -295,11 +362,7 @@ function getList() {
 }
 
 function  show(val){
-//let that = this ,将this保存在that中，再在函数中使用that均可
   dynamicTags.value=categoryList.value
-  //console.log("选中的对象value1"+categoryList.value)
-  //console.log("选中的对象label"+JSON.stringify(treeRef.value))
-
   sleValue.value=new Array();
   dynamicTags.value=new Array();
   for(let i=0;i<=categoryList.value.length-1;i++){
@@ -307,12 +370,32 @@ function  show(val){
     sleValue.value[i]=categoryList.value[i].split('$$')[0]
   }
   element.value.categoryList=sleValue;
-  //console.log("选中的对象value2"+categoryList.value)
-  //console.log("选中的对象sleValue2"+sleValue.value)
-  //console.log("选中的对象element:"+JSON.stringify(element.value))
 }
 getList()
 handWorld();
+
+//图片上传
+const imageUrlPath = ref('')
+const imageUrl=ref('')
+const handleAvatarSuccess: UploadProps['onSuccess'] = (
+    response,
+    uploadFile
+) => {
+  imageUrl.value = URL.createObjectURL(uploadFile.raw!)
+  imageUrlPath.value=uploadFile.response.fileName
+  element.value.imageUrls=response.fileName
+}
+
+const beforeAvatarUpload: UploadProps['beforeUpload'] = (rawFile) => {
+  if (rawFile.type !== 'image/jpeg') {
+    ElMessage.error('Avatar picture must be JPG format!')
+    return false
+  } else if (rawFile.size / 1024 / 1024 > 2) {
+    ElMessage.error('Avatar picture size can not exceed 2MB!')
+    return false
+  }
+  return true
+}
 </script>
 
 <style scoped>
@@ -327,5 +410,7 @@ handWorld();
   justify-content: center;
   align-items: center;
 }
-
+.el-col{
+  margin-top: 5px;
+}
 </style>
