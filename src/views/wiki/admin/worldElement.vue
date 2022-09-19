@@ -115,6 +115,32 @@ const elementStatusMap = new Map([
   [2, "锁定"],
   [4, "删除"]
 ]);
+
+// 弹出框
+const  dialogVisible=ref(false);
+const temType = ref('1')
+const options = [
+  {
+    value: '通用',
+    label: '1',
+  },
+  {
+    value: '角色/人物',
+    label: '2',
+  },
+  {
+    value: '组织/势力',
+    label: '3',
+  },
+  {
+    value: '动物/植物',
+    label: '4',
+  },
+  {
+    value: '种族',
+    label: '5',
+  },
+]
 // 接收url里的参数
 const route = useRoute();
 const router = useRouter()

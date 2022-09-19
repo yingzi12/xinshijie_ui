@@ -40,7 +40,7 @@
           <!-- Form -->
           <el-dialog v-model="dialogFormVisible" :title="title">
             <el-form :model="form"
-                     ref="ruleFormRef">
+                     ref="ruleFormRef"  @submit.native.prevent>
               <el-form-item label="名称" :label-width="formLabelWidth">
                 <el-input v-model="form.label" autocomplete="off" />
               </el-form-item>

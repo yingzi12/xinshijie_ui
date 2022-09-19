@@ -11,7 +11,7 @@
           </el-breadcrumb>
         </el-col>
         <el-col :span="3">
-          <el-button @click="handleAdd"> 添加新元素</el-button>
+          <el-button @click="handleAddDialog"> 添加新元素</el-button>
         </el-col>
       </el-row>
     </div>
@@ -79,6 +79,29 @@
   </div>
 </template>
 
+<el-dialog
+    v-model="dialogVisible"
+    title="Tips"
+    width="30%"
+    :before-close="handleClose"
+>
+<el-select v-model="temType" placeholder="Select">
+  <el-option
+      v-for="item in options"
+      :key="item.value"
+      :label="item.label"
+      :value="item.value"
+      :disabled="item.disabled"
+  />
+</el-select>
+<template #footer>
+      <span class="dialog-footer">
+        <el-button @click="dialogVisible = false">取消</el-button>
+        <el-button type="primary" @click="handleAddDialog">确定</el-button>
+      </span>
+</template>
+</el-dialog>
+
 <script lang="ts" setup>
 import { getCurrentInstance, reactive, ref, toRefs} from 'vue'
 import { listElement } from "@/api/wiki/element";
@@ -106,6 +129,32 @@ const data = reactive({
   }
 });
 
+// 弹出框
+const  dialogVisible=ref(false);
+const temType = ref('1')
+const options = [
+  {
+    value: '通用',
+    label: '1',
+  },
+  {
+    value: '角色/人物',
+    label: '2',
+  },
+  {
+    value: '组织/势力',
+    label: '3',
+  },
+  {
+    value: '动物/植物',
+    label: '4',
+  },
+  {
+    value: '种族',
+    label: '5',
+  },
+]
+
 const { queryParams, form } = toRefs(data);
 
 const elementList = ref([]);
@@ -122,8 +171,18 @@ function handleSee(id:number,wid:number){
   router.push("/element/details?eid="+id+"&wid="+wid);
 }
 //添加新元素,需要登录权限
+function handleAddDialog(){
+  dialogVisible.value=true
+  // router.push("/admin/elementAdd?wid="+wid.value);
+}
+//添加新元素,需要登录权限
 function handleAdd(){
-  router.push("/admin/elementAdd?wid="+wid.value);
+  if(temType.value==1) {
+    router.push("/admin/elementAddGeneral?wid=" + wid.value + "&temType=" + temType.value);
+  }
+  if(temType.value==2) {
+    router.push("/admin/elementAddRole?wid=" + wid.value + "&temType=" + temType.value);
+  }
 }
 function handFind(){
   queryParams.value.wid=wid.value;
@@ -165,6 +224,8 @@ function getCategoryTree() {
 getCategoryTree();
 getList();
 handWorld();
+
+
 </script>
 
 <style scoped>
