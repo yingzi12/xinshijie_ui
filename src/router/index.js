@@ -297,24 +297,6 @@ export const constantRoutes = [
         component: () => import('@/views/wiki/admin/elementEdit'),
         name: 'elementEdit',
         meta: { title: '管理员修改元素', icon: 'wiki' }
-      },
-      {
-        path: 'elementPreview',
-        component: () => import('@/views/wiki/admin/elementPreview'),
-        name: 'elementPreview',
-        meta: { title: '管理员查看元素', icon: 'wiki' }
-      },
-      {
-        path: 'elementContent',
-        component: () => import('@/views/wiki/admin/elementContent'),
-        name: 'elementContent',
-        meta: { title: '管理员查看元素', icon: 'wiki' }
-      },
-      {
-        path: 'test2',
-        component: () => import('@/views/wiki/template/index'),
-        name: 'auditElementPreview',
-        meta: { title: '元素修改差异记录', icon: 'wiki' }
       }
     ]
   },

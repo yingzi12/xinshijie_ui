@@ -3,10 +3,8 @@
   <div style="margin-bottom: 10px">
     <el-carousel :interval="5000" arrow="always">
       <el-carousel-item v-for="item in 4" :key="item">
-<!--        <div style="width: 100%">-->
         <el-image style="width: 100%;height: 300px" :src="test" fit="fill"></el-image>
-        <h3 text="2xl" justify="center">{{ 这是一个测试 }}</h3>
-<!--        </div>-->
+        <h3 text="2xl" justify="center">这是一个测试 这是一个测试这是一个测试这是一个测试</h3>
       </el-carousel-item>
     </el-carousel>
   </div>
@@ -14,15 +12,15 @@
   <div style="margin-bottom: 10px">
     <el-row :gutter="20">
       <el-col
-          v-for="(o, index) in 4"
-          :key="o"
+          v-for="(world, index) in worldRedact"
+          :key="world"
           :span="6"
       >
         <el-card class="dddd" :body-style="{ padding: '0px',width:'100%' }">
-          <el-image style="width:100%; height: 100px" :src="url" :fit="fill" />
+          <el-image style="width:100%; height: 100px" :src="world.imgUrl" fit="fill" @click="handleSee(world.id)"/>
           <div style="padding: 1px;margin: 0px;text-align: center">
-            <p class="biaoti" style="font-size:16px;line-height:28px;margin: 0px"><span style="font-family:'PingFangSC-Semibold', 'PingFang SC Semibold', 'PingFang SC', sans-serif;font-weight:650;">最具有脑洞的世界</span></p>
-            <p style="font-size:14px;line-height:28px;margin: 0px"><span style="font-family:'PingFangSC-Regular', 'PingFang SC', sans-serif;font-weight:400;color:#999999;font-size: x-small;">用最大的想象力,完全超出过去所有的世界</span></p>
+            <p class="biaoti" style="font-size:16px;line-height:28px;margin: 0px" @click="handleSee(world.id)"><span style="font-family:'PingFangSC-Semibold', 'PingFang SC Semibold', 'PingFang SC', sans-serif;font-weight:650;" >{{ world.name }}</span></p>
+            <p class="shuoming" style="font-size:14px;line-height:28px;margin: 0px;"><span style="font-family:'PingFangSC-Regular', 'PingFang SC', sans-serif;font-weight:400;color:#999999;font-size: x-small;">{{ world.intro }}</span></p>
           </div>
         </el-card>
       </el-col>
@@ -34,28 +32,29 @@
       <el-row :gutter="24">
         <el-col :span="16">
           <el-button round>推荐</el-button>
-          <el-button type="primary" round>优秀</el-button>
-          <el-button type="success"  round>最新</el-button>
+          <el-button type="primary" round @click="handleList">优秀</el-button>
+          <el-button type="success"  round @click="handleList">最新</el-button>
         </el-col>
         <el-col :span="8">
-            <el-button type="success" round style="float:right;"  @click="handleList">更多</el-button>
+            <el-button type="success" round style="float:right;" @click="handleList">更多</el-button>
         </el-col>
       </el-row>
     </div>
     <div>
       <el-row :gutter="20" class="el-row" type="flex" >
-        <el-col :span="4" v-for = "i in 18" :key="i" class="el-col" style="text-align: center">
+        <el-col :span="4" v-for = "world in worldRandom" :key="i" class="el-col" style="text-align: center">
           <el-card :body-style="{ padding: '10px' }"  class="demo-image">
             <div style="display: inline-block">
               <el-image style="width: 100px; height: 100px;text-align: center;" fit="fill"
-                        :src="url"
+                        @click="handleSee(world.id)"
+                        :src="world.imgUrl"
                         class="image"
               />
             </div>
             <div >
               <div id="u10366-1_text" class="text u10366_text" style="/* visibility: inherit; */">
-                <p class="biaoti" ><span style="font-family:'PingFangSC-Regular', 'PingFang SC', sans-serif;color:#333333;">星海征途星海征途征途</span></p>
-                <p class="shuoming"><span style="font-family:'PingFangSC-Regular', 'PingFang SC', sans-serif;  color:#999999; font-size: x-small;">我们的目标是星辰大海,我们的征程是星辰大海,我们的征程是星辰大海</span></p>
+                <p class="biaoti" @click="handleSee(world.id)" ><span style="font-family:'PingFangSC-Regular', 'PingFang SC', sans-serif;color:#333333;">{{ world.name }}</span></p>
+                <p class="shuoming"><span style="font-family:'PingFangSC-Regular', 'PingFang SC', sans-serif;  color:#999999; font-size: x-small;">{{ world.intro }}</span></p>
               </div>
             </div>
           </el-card>
@@ -72,7 +71,7 @@
           <el-button round>精品</el-button>
         </el-col>
         <el-col :span="8">
-            <el-button type="success" round style="float:right;" @click="handleList">更多</el-button>
+            <el-button type="success" round style="float:right;"  @click="handleList">更多</el-button>
         </el-col>
       </el-row>
     </div>
@@ -84,34 +83,36 @@
             <el-card :body-style="{ padding: '10px' }">
               <div style="display: inline-block">
                 <el-image style="width: 100px; height: 130px" fit="fill"
-                          src="https://shadow.elemecdn.com/app/element/hamburger.9cf7b091-55e9-11e9-a976-7f4d0b07eef6.png"
+                          @click="handleSee(worldKey1.id)"
+                          src="worldKey1.imgUrl"
                           class="image"
                 />
               </div>
               <div >
                 <div id="u10366-1_text" class="text u10366_text" style="/* visibility: inherit; */">
-                  <p><span style="font-family:'PingFangSC-Regular', 'PingFang SC', sans-serif;color:#333333;">星海征途星海征途征途</span></p>
-                  <p><span style="font-family:'PingFangSC-Regular', 'PingFang SC', sans-serif;  color:#999999; font-size: x-small;">我们的目标是星辰大海,我们的征程是星辰大海,我们的征程是星辰大海</span></p>
+                  <p><span style="font-family:'PingFangSC-Regular', 'PingFang SC', sans-serif;color:#333333;"  @click="handleSee(worldKey1.id)">{{ worldKey1.name }}</span></p>
+                  <p><span style="font-family:'PingFangSC-Regular', 'PingFang SC', sans-serif;  color:#999999; font-size: x-small;"  @click="handleSee(worldKey1.id)">{{ worldKey1.intro }}</span></p>
                 </div>
               </div>
-              <el-button text>详细</el-button>
+              <el-button text @click="handleSee(worldKey1.id)">详细</el-button>
             </el-card>
           </div>
           <div style="padding: 1px;margin: 0px;text-align: center">
             <el-card :body-style="{ padding: '10px' }">
               <div style="display: inline-block">
                 <el-image style="width: 100px; height: 130px" fit="fill"
-                          src="https://shadow.elemecdn.com/app/element/hamburger.9cf7b091-55e9-11e9-a976-7f4d0b07eef6.png"
+                          @click="handleSee(worldKey2.id)"
+                          src="worldKey2.imgUrl"
                           class="image"
                 />
               </div>
               <div >
                 <div id="u10366-1_text" class="text u10366_text" style="/* visibility: inherit; */">
-                  <p><span style="font-family:'PingFangSC-Regular', 'PingFang SC', sans-serif;color:#333333;">星海征途星海征途征途</span></p>
-                  <p><span style="font-family:'PingFangSC-Regular', 'PingFang SC', sans-serif;  color:#999999; font-size: x-small;">我们的目标是星辰大海,我们的征程是星辰大海,我们的征程是星辰大海</span></p>
+                  <p><span style="font-family:'PingFangSC-Regular', 'PingFang SC', sans-serif;color:#333333;"  @click="handleSee(worldKey2.id)">{{ worldKey2.name }}</span></p>
+                  <p><span style="font-family:'PingFangSC-Regular', 'PingFang SC', sans-serif;  color:#999999; font-size: x-small;"  @click="handleSee(worldKey2.id)">{{ worldKey2.intro }}</span></p>
                 </div>
               </div>
-              <el-button text>详细</el-button>
+              <el-button text @click="handleSee(worldKey2.id)">详细</el-button>
             </el-card>
           </div>
         </el-col >
@@ -120,22 +121,22 @@
           <el-row>
             <el-col
                 style="margin-bottom: 10px"
-                v-for="(j, index) in 9"
-                :key="j"
+                v-for="(world, index) in worldNew"
+                :key="world.id"
                 :span="8"
             >
               <el-card :body-style="{ margin: '0px' }">
                 <el-row>
                   <el-col :span="8">
-                    <el-image style="width: 66px; height: 88px" :src="url" fit="fill" />
+                    <el-image style="width: 66px; height: 88px" :src="world.imgUrl" fit="fill" @click="handleSee(world.id)" />
                   </el-col>
                   <el-col :span="16">
-                    <h3 class="biaoti" >这是名称这是名称</h3>
-                    <p class="zuozhe">2020-11-11 11:11:11</p>
-                    <p class="zuozhe">这是作者</p>
+                    <h3 class="biaoti" @click="handleSee(world.id)" >{{ world.name }}</h3>
+                    <p class="zuozhe">{{ world.createTime }}</p>
+                    <p class="zuozhe">{{ world.createName }}</p>
                   </el-col>
                 </el-row>
-                <p class="shuoming">这一个说明这一个说明这一个说明这一个说明这一个说明这一个说明这一个说明</p>
+                <p class="shuoming" @click="handleSee(world.id)">{{world.intro}}</p>
               </el-card>
             </el-col>
           </el-row>
@@ -143,38 +144,39 @@
 <!--        右边-->
         <el-col  style="text-align: center" :span="4">
           <div style="padding: 1px;margin: 0px;text-align: center">
-
             <el-card :body-style="{ padding: '10px' }">
               <div style="display: inline-block">
                 <el-image style="width: 100px; height: 130px" fit="fill"
-                          src="https://shadow.elemecdn.com/app/element/hamburger.9cf7b091-55e9-11e9-a976-7f4d0b07eef6.png"
+                          @click="handleSee(worldKey3.id)"
+                          src="worldKey3.imgUrl"
                           class="image"
                 />
               </div>
               <div >
                 <div id="u10366-1_text" class="text u10366_text" style="/* visibility: inherit; */">
-                  <p><span style="font-family:'PingFangSC-Regular', 'PingFang SC', sans-serif;color:#333333;">星海征途星海征途征途</span></p>
-                  <p><span style="font-family:'PingFangSC-Regular', 'PingFang SC', sans-serif;  color:#999999; font-size: x-small;">我们的目标是星辰大海,我们的征程是星辰大海,我们的征程是星辰大海</span></p>
+                  <p><span style="font-family:'PingFangSC-Regular', 'PingFang SC', sans-serif;color:#333333;"  @click="handleSee(worldKey3.id)">{{ worldKey3.name }}</span></p>
+                  <p><span style="font-family:'PingFangSC-Regular', 'PingFang SC', sans-serif;  color:#999999; font-size: x-small;"  @click="handleSee(worldKey3.id)">{{ worldKey3.intro }}</span></p>
                 </div>
               </div>
-              <el-button text>详细</el-button>
+              <el-button text @click="handleSee(worldKey3.id)">详细</el-button>
             </el-card>
           </div>
           <div >
             <el-card :body-style="{ padding: '10px' }">
               <div style="display: inline-block">
                 <el-image style="width: 100px; height: 130px" fit="fill"
-                          src="https://shadow.elemecdn.com/app/element/hamburger.9cf7b091-55e9-11e9-a976-7f4d0b07eef6.png"
+                          @click="handleSee(worldKey4.id)"
+                          src="worldKey4.imgUrl"
                           class="image"
                 />
               </div>
               <div >
                 <div id="u10366-1_text" class="text u10366_text" style="/* visibility: inherit; */">
-                  <p><span style="font-family:'PingFangSC-Regular', 'PingFang SC', sans-serif;color:#333333;">星海征途星海征途征途</span></p>
-                  <p><span style="font-family:'PingFangSC-Regular', 'PingFang SC', sans-serif;  color:#999999; font-size: x-small;">我们的目标是星辰大海,我们的征程是星辰大海,我们的征程是星辰大海</span></p>
+                  <p><span style="font-family:'PingFangSC-Regular', 'PingFang SC', sans-serif;color:#333333;"  @click="handleSee(worldKey4.id)">{{ worldKey4.name }}</span></p>
+                  <p><span style="font-family:'PingFangSC-Regular', 'PingFang SC', sans-serif;  color:#999999; font-size: x-small;"  @click="handleSee(worldKey4.id)">{{ worldKey4.intro }}</span></p>
                 </div>
               </div>
-              <el-button text>详细</el-button>
+              <el-button text @click="handleSee(worldKey4.id)">详细</el-button>
             </el-card>
           </div>
         </el-col >
@@ -193,6 +195,8 @@ import { useRouter} from "vue-router";
 const router = useRouter()
 const {  appContext : { config: { globalProperties } }  } = getCurrentInstance();
 const {  proxy  } = getCurrentInstance();
+const url =
+    'https://fuss10.elemecdn.com/e/5d/4a731a90594a4af544c0c25941171jpeg.jpeg'
 const worldTypesMap=new Map([
   [6,"科学"],
   [1,"武侠"],
@@ -204,7 +208,18 @@ const worldTypesMap=new Map([
 const worldTypes=reactive([{id:6,name:"科学"},{id:1,name:"武侠"},{id:2,name:"仙侠"},{id:3,name:"魔幻"},{id:4,name:"奇幻"},{id:5,name:"其他"}])
 const wname=ref('');
 const loading = ref(true);
-const worldList = ref([]);
+//编辑推荐 4个
+const worldRedact = ref([]);
+//随机推荐 18个
+const worldRandom = ref([]);
+//重要推荐 4个
+const worldKey1 = ref({});
+const worldKey2 = ref({});
+const worldKey3 = ref({});
+const worldKey4 = ref({});
+
+//新的推荐 9个
+const worldNew = ref([]);
 const total = ref(0);
 const data = reactive({
   form: {},
@@ -225,21 +240,54 @@ const single = ref(true);
 const multiple = ref(true);
 const search = ref('')
 //查看详细
-function handleSee(row){
-  router.push("/world/details?wid="+row.id);
+function handleSee(id){
+  router.push("/world/details?wid="+id);
 }
+
 function handleList(){
   router.push("/world/list");
 }
 /** 查询世界列表 */
-function getList() {
+function getRedactList() {
+  queryParams.value.pageSize=4
   listWorld(globalProperties.addDateRange(queryParams.value, dateRange.value)).then(response => {
     loading.value = false;
-    worldList.value = response.rows;
+    worldRedact.value = response.rows;
     total.value = response.total;
   });
 }
-getList();
+function getRandomList() {
+  queryParams.value.pageSize=18
+  listWorld(globalProperties.addDateRange(queryParams.value, dateRange.value)).then(response => {
+    loading.value = false;
+    worldRandom.value = response.rows;
+    total.value = response.total;
+  });
+}
+function getKeyList() {
+  queryParams.value.pageSize=4
+  listWorld(globalProperties.addDateRange(queryParams.value, dateRange.value)).then(response => {
+    loading.value = false;
+    worldKey1.value = response.rows[0];
+    worldKey2.value = response.rows[1];
+    worldKey3.value = response.rows[2];
+    worldKey4.value = response.rows[3];
+    total.value = response.total;
+  });
+}
+function getNewList() {
+  queryParams.value.pageSize=9
+  listWorld(globalProperties.addDateRange(queryParams.value, dateRange.value)).then(response => {
+    loading.value = false;
+    worldNew.value = response.rows;
+    total.value = response.total;
+  });
+}
+getRedactList();
+getRandomList();
+getKeyList();
+getNewList();
+
 </script>
 
 <style scoped>

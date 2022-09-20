@@ -1,6 +1,7 @@
 <template>
   <admin-head :username="userStore.name"/>
   <section class="app-main" style="width: 1250px">
+    <el-alert title="系统测试中" type="warning" effect="dark" />
     <admin-message></admin-message>
   </section>
   <admin-footer/>

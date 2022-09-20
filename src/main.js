@@ -56,10 +56,11 @@ app.config.globalProperties.selectDictLabel = selectDictLabel
 app.config.globalProperties.selectDictLabels = selectDictLabels
 
 app.config.globalProperties.$baseUrl= "http://localhost/dev-api"
-app.provide("$baseUrl","http://localhost/dev-api")
+// app.provide("$baseUrl","http://localhost/dev-api")
+//阿里云路径
 app.provide("$imgUrl","https://shadow-xinshijie.oss-cn-hongkong.aliyuncs.com")
-
-// app.provide("$baseUrl","https://49.0.240.63:8080/prod-api")
+//服务器理解
+app.provide("$baseUrl","https://www.aiavr.com:8080")
 // 全局组件挂载
 app.component('DictTag', DictTag)
 app.component('Pagination', Pagination)

@@ -22,6 +22,7 @@
   </div>
   <el-divider  style="margin:0px"/>
   <section class="app-main" style="width: 1250px">
+    <el-alert title="系统测试中" type="warning" effect="dark" />
     <router-view v-slot="{ Component, route }">
     </router-view>
   </section>
