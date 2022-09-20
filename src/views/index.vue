@@ -17,7 +17,7 @@
           :span="6"
       >
         <el-card class="dddd" :body-style="{ padding: '0px',width:'100%' }">
-          <el-image style="width:100%; height: 100px" :src="world.imgUrl" fit="fill" @click="handleSee(world.id)"/>
+          <el-image style="width:100%; height: 100px" :src="imgUrl+world.imgUrl" fit="fill" @click="handleSee(world.id)"/>
           <div style="padding: 1px;margin: 0px;text-align: center">
             <p class="biaoti" style="font-size:16px;line-height:28px;margin: 0px" @click="handleSee(world.id)"><span style="font-family:'PingFangSC-Semibold', 'PingFang SC Semibold', 'PingFang SC', sans-serif;font-weight:650;" >{{ world.name }}</span></p>
             <p class="shuoming" style="font-size:14px;line-height:28px;margin: 0px;"><span style="font-family:'PingFangSC-Regular', 'PingFang SC', sans-serif;font-weight:400;color:#999999;font-size: x-small;">{{ world.intro }}</span></p>
@@ -42,12 +42,12 @@
     </div>
     <div>
       <el-row :gutter="20" class="el-row" type="flex" >
-        <el-col :span="4" v-for = "world in worldRandom" :key="i" class="el-col" style="text-align: center">
+        <el-col :span="4" v-for = "world in worldRandom" :key="world.id" class="el-col" style="text-align: center">
           <el-card :body-style="{ padding: '10px' }"  class="demo-image">
             <div style="display: inline-block">
               <el-image style="width: 100px; height: 100px;text-align: center;" fit="fill"
                         @click="handleSee(world.id)"
-                        :src="world.imgUrl"
+                        :src="imgUrl+world.imgUrl"
                         class="image"
               />
             </div>
@@ -84,7 +84,7 @@
               <div style="display: inline-block">
                 <el-image style="width: 100px; height: 130px" fit="fill"
                           @click="handleSee(worldKey1.id)"
-                          src="worldKey1.imgUrl"
+                          :src="imgUrl+worldKey1.imgUrl"
                           class="image"
                 />
               </div>
@@ -102,7 +102,7 @@
               <div style="display: inline-block">
                 <el-image style="width: 100px; height: 130px" fit="fill"
                           @click="handleSee(worldKey2.id)"
-                          src="worldKey2.imgUrl"
+                          :src="imgUrl+worldKey2.imgUrl"
                           class="image"
                 />
               </div>
@@ -128,7 +128,7 @@
               <el-card :body-style="{ margin: '0px' }">
                 <el-row>
                   <el-col :span="8">
-                    <el-image style="width: 66px; height: 88px" :src="world.imgUrl" fit="fill" @click="handleSee(world.id)" />
+                    <el-image style="width: 66px; height: 88px" :src="imgUrl+world.imgUrl" fit="fill" @click="handleSee(world.id)" />
                   </el-col>
                   <el-col :span="16">
                     <h3 class="biaoti" @click="handleSee(world.id)" >{{ world.name }}</h3>
@@ -148,7 +148,7 @@
               <div style="display: inline-block">
                 <el-image style="width: 100px; height: 130px" fit="fill"
                           @click="handleSee(worldKey3.id)"
-                          src="worldKey3.imgUrl"
+                          :src="imgUrl+worldKey3.imgUrl"
                           class="image"
                 />
               </div>
@@ -166,7 +166,7 @@
               <div style="display: inline-block">
                 <el-image style="width: 100px; height: 130px" fit="fill"
                           @click="handleSee(worldKey4.id)"
-                          src="worldKey4.imgUrl"
+                          :src="imgUrl+worldKey4.imgUrl"
                           class="image"
                 />
               </div>
@@ -188,13 +188,15 @@
 </template>
 
 <script setup>
-import { getCurrentInstance, reactive, ref, toRefs} from 'vue'
+import { getCurrentInstance, reactive,inject, ref, toRefs} from 'vue'
 import test from '@/assets/images/test.png'
 import { listWorld } from "@/api/wiki/world";
 import { useRouter} from "vue-router";
 const router = useRouter()
 const {  appContext : { config: { globalProperties } }  } = getCurrentInstance();
 const {  proxy  } = getCurrentInstance();
+const imgUrl = inject("$imgUrl")
+
 const url =
     'https://fuss10.elemecdn.com/e/5d/4a731a90594a4af544c0c25941171jpeg.jpeg'
 const worldTypesMap=new Map([

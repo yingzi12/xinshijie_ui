@@ -45,7 +45,6 @@ watchEffect(() => {
   }
 })
 
-const settingRef = ref(null);
 const tagsViewStore = useTagsViewStore()
 const route = useRoute()
 tagsViewStore.addCachedView(route)

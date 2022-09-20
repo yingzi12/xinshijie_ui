@@ -66,7 +66,7 @@
           </div>
 
           <div style=" padding: 10px;margin: 0px;white-space:pre; word-break:break-all;word-wrap:break-word;" >
-            <p style="">{{world.description}}</p>
+            <p style="white-space: pre-wrap">{{world.description}}</p>
           </div>
         </div>
 </template>

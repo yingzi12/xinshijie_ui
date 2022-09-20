@@ -17,6 +17,7 @@
       <el-button v-if="!isLogin" text style="margin-top: 10px"><router-link :to="{path:'/login'}">登录</router-link></el-button>
       <el-button v-if="!isLogin"  text style="margin-top: 10px"><router-link :to="{path:'/register'}">注册</router-link></el-button>
       <el-button v-if="isLogin" text style="margin-top: 10px">{{ username }}</el-button>
+      <el-button v-if="isLogin" text style="margin-top: 10px">管理中心</el-button>
       <el-button v-if="isLogin" text style="margin-top: 10px">退出</el-button>
   </el-menu>
   </div>

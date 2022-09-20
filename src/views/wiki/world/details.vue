@@ -58,7 +58,7 @@
     <div>
       <el-tabs v-model="worldActive" class="world-tabs" @tab-click="handleClick">
         <el-tab-pane label="描述" name="description">
-          <p style="white-space:pre;">{{world.description}}</p>
+          <p style="white-space: pre-wrap;">{{world.description}}</p>
         </el-tab-pane>
         <el-tab-pane label="元素" name="element">
           <el-table :data="elementList" stripe style="width: 100%">

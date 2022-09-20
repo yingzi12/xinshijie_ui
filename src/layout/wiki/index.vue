@@ -17,6 +17,7 @@
       <el-button v-if="!isLogin" text style="margin-top: 10px" @click="handleLogin">登录</el-button>
       <el-button v-if="!isLogin"  text style="margin-top: 10px" @click="handleRegister">注册</el-button>
       <el-button v-if="isLogin" link  style="margin-top: 10px" @click="handleUserMessage">{{ userStore.name }}</el-button>
+      <el-button v-if="isLogin" link  style="margin-top: 10px" @click="handleWorldMessage">管理中心</el-button>
       <el-button v-if="isLogin" text style="margin-top: 10px" @click="logout()">退出</el-button>
     </el-menu>
   </div>
@@ -76,6 +77,9 @@ function setLayout() {
 }
 function handleUserMessage(){
   router.push("/user/index");
+}
+function handleWorldMessage(){
+  router.push("/admin/index");
 }
 function handleLogin(){
   router.push("/login");

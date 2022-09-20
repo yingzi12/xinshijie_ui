@@ -157,6 +157,41 @@ const options = [
     label: '种族',
     disabled: true,
   },
+  {
+    value:6 ,
+    label: '宗教/党派',
+    disabled: true,
+  },
+  {
+    value:7 ,
+    label: '习俗',
+    disabled: true,
+  },
+  {
+    value:8,
+    label: '矿物',
+    disabled: true,
+  },
+  {
+    value:9 ,
+    label: '武器',
+    disabled: true,
+  },
+  {
+    value:10 ,
+    label: '药品',
+    disabled: true,
+  },
+  {
+    value:10 ,
+    label: '城市/港口',
+    disabled: true,
+  },
+  {
+    value:10 ,
+    label: '物品',
+    disabled: true,
+  },
 ]
 
 const { queryParams, form } = toRefs(data);
@@ -181,7 +216,7 @@ function handleAddDialog(){
 }
 //添加新元素,需要登录权限
 function handleAdd(){
-  router.push("/admin/elementAddGeneral?wid=" + wid.value + "&temType=" + temType.value);
+  router.push("/admin/elementAdd?wid=" + wid.value + "&temType=" + temType.value);
 }
 function handFind(){
   queryParams.value.wid=wid.value;

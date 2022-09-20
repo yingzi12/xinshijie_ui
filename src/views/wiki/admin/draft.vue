@@ -1,9 +1,8 @@
 <template>
         <div>
           <el-menu
-              :default-active="activeIndex"
+              :default-active="1"
               mode="horizontal"
-              @select="handleSelect"
               style="margin:0px;pardding:0px"
           >
             <el-menu-item index="1"><span style="font-size: 20px;font-weight:bold;">草稿管理</span></el-menu-item>
