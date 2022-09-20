@@ -100,28 +100,6 @@ function getDraft(wid:number,deid:number) {
     //console.log("状态:"+elementStatus.get(element.value.status))
   });
 }
-function submitPush(){
-  issue(wid.value,deid.value).then(response => {
-    //console.log("发布成功")
-    element.value.status=1
-    if(response.data.types == 0){
-      router.push("/admin/draftPreview?wid="+ response.data.wid+"&deid=" +response.data.id)
-    }else{
-      router.push("/element/details?wid="+ response.data.wid+"&eid=" +response.data.id)
-    }
-  });
-}
-function submitEdit(){
-  router.push("/admin/draftEdit?wid="+ wid.value+"&deid=" +deid.value)
-}
-function handDiff(){
-  router.push("/admin/diffPreview?wid="+ wid.value+"&deid=" +deid.value)
-}
-function handClean(){
-  router.push("/admin/draft")
-}
-getDraft(wid.value,deid.value);
-
 
 </script>
 

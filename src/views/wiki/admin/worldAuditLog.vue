@@ -78,26 +78,6 @@
               v-model:limit="queryParams.pageSize"
               @pagination="getList"/>
         </div>
-      <!--      审核弹出框-->
-      <el-dialog v-model="dialogFormVisible" title="审核">
-        <el-form :model="form">
-          <el-form-item label="Zones" :label-width="formLabelWidth">
-            <el-select v-model="form.region" placeholder="Please select a zone">
-              <el-option label="Zone No.1" value="shanghai" />
-              <el-option label="Zone No.2" value="beijing" />
-            </el-select>
-          </el-form-item>
-          <el-form-item label="说明" :label-width="formLabelWidth">
-            <el-input v-model="form.name" autocomplete="off" />
-          </el-form-item>
-        </el-form>
-        <template #footer>
-      <span class="dialog-footer">
-        <el-button @click="dialogFormVisible = false">取消</el-button>
-        <el-button type="primary" @click="dialogFormVisible = false">确认</el-button>
-      </span>
-        </template>
-      </el-dialog>
 </template>
 
 <script lang="ts" setup>
@@ -155,15 +135,6 @@ const data = reactive({
 });
 const { queryParams, form, rules } = toRefs(data);
 
-/**根据分类查询世界*/
-function findType(typeId:number) {
-  queryParams.value.wid=wid.value;
-  listAudit(globalProperties.addDateRange(queryParams.value, dateRange.value)).then(response => {
-    loading.value = false;
-    draftList.value = response.rows;
-    total.value = response.total;
-  });
-}
 /** 查询世界列表 */
 function getList() {
   if(queryParams.value.types != undefined && queryParams.value.types != '' ){
@@ -185,13 +156,13 @@ function handleAuditDetial(row){
   dialogFormVisible.value=true;
 }
 function handleSee(row){
-  router.push("/admin/worldAuditPreview?wid="+wid.value+"&wname="+wname.value+"&deid="+row.id);
+  router.push("/admin/worldAuditPreview?wid="+wid.value+"&wname="+wname.value+"&deid="+row.id+"&temType="+row.softtype);
 }
 function handleAudit(){
   router.push("/admin/worldAudit?wid="+wid.value+"&wname="+wname.value);
 }
 function handleDiff(row){
-  router.push("/admin/worldDiffPreview?wid="+row.wid+"&deid="+row.id);
+  router.push("/admin/worldDiffPreview?wid="+row.wid+"&deid="+row.id+"&temType="+row.softtype);
 }
 getCategoryTree();
 getList();

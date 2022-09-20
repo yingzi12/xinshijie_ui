@@ -62,7 +62,11 @@
         </el-tab-pane>
         <el-tab-pane label="元素" name="element">
           <el-table :data="elementList" stripe style="width: 100%">
-            <el-table-column prop="title" label="元素名称" width="180" />
+            <el-table-column prop="title" label="元素名称" width="180" >
+              <template #default="scope">
+                <router-link :to="{path:'/element/details', query: {eid:scope.row.id,wid:scope.row.wid,temType:scope.row.softtype}}">{{ scope.row.title }}</router-link>
+              </template>
+            </el-table-column>
             <el-table-column label="分类" width="180"  :show-overflow-tooltip="true">
               <template #default="scope">
                 <el-tag v-for='idLabel in scope.row.idLabels.split(",")'>
@@ -199,6 +203,7 @@ function handleDiscuss(){
 }
 function handleFllow(){
     addFllow(wid.value).then(response => {
+
       ElMessage.success("关注成功");
     });
 }

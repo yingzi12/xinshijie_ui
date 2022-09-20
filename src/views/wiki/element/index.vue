@@ -1,119 +1,161 @@
 <template>
-  !--  元素-->
-  <div class="app-container">
+  <div class="app-container" >
     <div>
       <el-breadcrumb separator="/">
         <el-breadcrumb-item :to="{ path: '/world/index' }">首页</el-breadcrumb-item>
         <el-breadcrumb-item><a href="/world/list">世界树</a></el-breadcrumb-item>
         <el-breadcrumb-item :to="{ path: '/world/details', query: {wid:wid} }">{{world.name}}</el-breadcrumb-item>
-        <el-breadcrumb-item></el-breadcrumb-item>
-        <el-breadcrumb-item>promotion detail</el-breadcrumb-item>
+        <el-breadcrumb-item :to="{ path: '/element/list', query: {wid:wid} }">元素列表</el-breadcrumb-item>
+        <el-breadcrumb-item>元素详情</el-breadcrumb-item>
       </el-breadcrumb>
     </div>
-    <div>
-      <el-tree-select
-          v-model="value"
-          :data="data"
-          multiple
-          :render-after-expand="false"
-      />
-      <el-table :data="filterTableData" style="width: 100%">
-        <el-table-column label="Date" prop="date" sortable />
-        <el-table-column label="Name" prop="name" />
-        <el-table-column align="right">
-          <template #header>
-            <el-input v-model="search" size="small" placeholder="Type to search" />
-          </template>
-          <template #default="scope">
-            <el-button size="small" @click="handleEdit(scope.$index, scope.row)">Edit</el-button>
-            <el-button
-                size="small"
-                type="danger"
-                @click="handleDelete(scope.$index, scope.row)" >Delete</el-button>
-          </template>
-        </el-table-column>
-      </el-table>
-      <el-pagination  background layout="prev, pager, next" :total="1000" />
+    <div >
+      <!--  元素名称-->
+      <div >
+        <h1 class="title">{{ worldElement.title }}</h1>
+        <div class="lessen"><span>分类:</span> <el-tag size="small" v-for="category in worldElement.categoryList">
+          {{category.label}}
+        </el-tag></div>
+        <div class="lessen"><span>更新时间:</span><el-tag size="small">{{worldElement.updateTime}}</el-tag></div>
+      </div>
+      <el-divider />
+      <!--  简介 -->
+      <div style="margin-bottom: 20px;margin-left: 25px">
+        <div v-html="worldElement.intro"> </div>
+      </div>
+      <!-- 元素内容 -->
+      <component :is="temPage"  v-bind="worldElement" ></component>
+      <el-divider />
+      <!--功能-->
+      <div class="center" style="height: 80px;">
+        <el-button @click="handleReturn()" text type="success" style="width: 100px;">返回</el-button>
+        <el-button @click="handleEdit()" text type="success" style="width: 100px;">编辑</el-button>
+      </div>
     </div>
   </div>
 </template>
 
 <script  lang="ts" setup>
-import { ref } from 'vue'
+import {markRaw, reactive, ref, shallowRef} from 'vue'
+import {  getElementDetails } from "@/api/wiki/element";
+import {  getWorld } from "@/api/wiki/world";
+//接受参数
+import { useRoute ,useRouter}  from "vue-router";
 
-const value = ref()
-const data = [
-  {
-    value: '1',
-    label: 'Level one 1',
-    children: [
-      {
-        value: '1-1',
-        label: 'Level two 1-1',
-        children: [
-          {
-            value: '1-1-1',
-            label: 'Level three 1-1-1',
-          },
-        ],
-      },
-    ],
-  },
-  {
-    value: '2',
-    label: 'Level one 2',
-    children: [
-      {
-        value: '2-1',
-        label: 'Level two 2-1',
-        children: [
-          {
-            value: '2-1-1',
-            label: 'Level three 2-1-1',
-          },
-        ],
-      },
-      {
-        value: '2-2',
-        label: 'Level two 2-2',
-        children: [
-          {
-            value: '2-2-1',
-            label: 'Level three 2-2-1',
-          },
-        ],
-      },
-    ],
-  },
-  {
-    value: '3',
-    label: 'Level one 3',
-    children: [
-      {
-        value: '3-1',
-        label: 'Level two 3-1',
-        children: [
-          {
-            value: '3-1-1',
-            label: 'Level three 3-1-1',
-          },
-        ],
-      },
-      {
-        value: '3-2',
-        label: 'Level two 3-2',
-        children: [
-          {
-            value: '3-2-1',
-            label: 'Level three 3-2-1',
-          },
-        ],
-      },
-    ],
-  },
-]
+import biologly from '../view/biology'
+import goods from '../view/goods'
+import index from '../view/index'
+import race from '../view/race'
+import role from '../view/role'
+
+const temTypesMap=new Map([
+  [1,shallowRef(index)],
+  [2,shallowRef(role)],
+  [3,shallowRef(biologly)],
+  [4,shallowRef(race)],
+  [5,shallowRef(goods)],
+
+])
+
+const router = useRouter()
+// 接收url里的参数
+const route = useRoute();
+
+const temType = ref(1);
+if(!route.query.temType || isNaN(route.query.temType)){
+  console.log("111:"+route.query.temType)
+  temType.value =1
+}else {
+  console.log("2222:"+route.query.temType)
+  temType.value =route.query.temType;
+  if(temType.value>5 || temType.value<=0 ){
+    temType.value =1
+  }
+}
+const  temPage=temTypesMap.get(temType.value)
+const worldElement=ref({})
+
+//世界信息
+const eid = ref(null);
+const wid = ref(null);
+eid.value = route.query.eid;
+wid.value = route.query.wid;
+worldElement.value.wid=1
+
+/** 查询元素详细 */
+function getElement() {
+  getElementDetails(wid.value,eid.value).then(response => {
+    //console.log("查询元素详细:"+JSON.stringify(response))
+    worldElement.value = response.data
+    console.log("父组件值传递2:"+JSON.stringify(worldElement))
+  });
+}
+getElement();
+console.log("父组件值传递1:"+JSON.stringify(worldElement))
+
+function handleList(){
+  router.push("/element/list?wid="+ wid.value+"&deid=" +eid.value)
+}
+function handleEdit(){
+  router.push("/admin/elementEdit?wid="+ wid.value+"&eid=" +eid.value+"&temType="+temType)
+}
+function handleReturn(){
+  router.back()
+}
+const world=ref({})
+/** 查询世界详细 */
+function handWorld() {
+  getWorld(wid.value).then(response => {
+    //console.log("查询世界详细:"+JSON.stringify(response))
+    world.value = response.data
+  });
+}
+handWorld()
+
+console.log("sss:"+JSON.stringify(worldElement))
 </script>
 
 <style scoped>
-
+.center2 {
+  top: 50%;
+  width: 100%;
+  text-align: center;
+  font-size: 18px;
+}
+.center {
+  top: 50%;
+  width: 100%;
+  text-align: center;
+  font-size: 18px;
+}
+.lessen {
+  color: #a6a6a6;
+  font: 12px/20px PingFangSC-Regular,-apple-system,Simsun;
+  height: 20px;
+  overflow: hidden;
+}
+.smallTitle{
+  background: inherit;
+  background-color: rgba(249, 249, 249, 1);
+  box-sizing: border-box;
+  border-width: 1px;
+  border-style: solid;
+  border-color: rgba(233, 233, 233, 1);
+  border-radius: 0px;
+  -moz-box-shadow: none;
+  -webkit-box-shadow: none;
+  box-shadow: none;
+}
+.smallTitle h3{
+  font-family: 'PingFangSC-Semibold', 'PingFang SC Semibold', 'PingFang SC', sans-serif;
+  font-weight: 650;
+  font-size: 18px;
+}
+.title{
+  font-family: 'PingFangSC-Semibold', 'PingFang SC Semibold', 'PingFang SC', sans-serif;
+  font-weight: 650;
+  /* font-style: normal; */
+  font-size: 24px;
+  text-align: left;
+}
 </style>

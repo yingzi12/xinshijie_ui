@@ -54,12 +54,12 @@
                   <span>{{ scope.row.updateTime }}</span>
                 </template>
               </el-table-column>
-              <el-table-column align="right">
+              <el-table-column align="center" >
                 <template #header>
                   <el-input v-model="title" size="small" placeholder="请输入元素名称" @change="handFind"/>
                 </template>
                 <template #default="scope">
-                  <el-button size="small" @click="handleSee( scope.row.id,scope.row.wid)">查看</el-button>
+                  <el-button size="small" @click="handleSee( scope.row.id,scope.row.wid,scope.row.softtype)">查看</el-button>
                 </template>
               </el-table-column>
             </el-table>
@@ -171,8 +171,8 @@ const categoryValue= ref();
 const title= ref();
 
 /**查看元素详细*/
-function handleSee(id:number,wid:number){
-  router.push("/element/details?eid="+id+"&wid="+wid);
+function handleSee(id:number,wid:number,softtype:number){
+  router.push("/element/details?eid="+id+"&wid="+wid+"&temType="+softtype);
 }
 //添加新元素,需要登录权限
 function handleAddDialog(){

@@ -107,9 +107,9 @@ function submitPush(){
     //console.log("发布成功")
     worldElement.value.status=1
     if(response.data.types == 0){
-      router.push("/admin/draftPreview?wid="+ response.data.wid+"&deid=" +response.data.id)
+      router.push("/admin/draftPreview?wid="+ response.data.wid+"&deid=" +response.data.id+"&temType="+temType.value)
     }else{
-      router.push("/element/details?wid="+ response.data.wid+"&eid=" +response.data.id)
+      router.push("/element/details?wid="+ response.data.wid+"&eid=" +response.data.id+"&temType="+temType.value)
     }
   });
 }

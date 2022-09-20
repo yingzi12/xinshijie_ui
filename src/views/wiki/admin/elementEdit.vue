@@ -279,7 +279,7 @@ function submit(){
 }
 
 function submitClear(){
-  router.push("/element/details?wid="+ wid.value+"&eid=" + eid.value)
+  router.push("/element/details?wid="+ wid.value+"&eid=" + eid.value+"&temType="+temType.value)
 }
 getElement(wid.value,eid.value);
 getList()

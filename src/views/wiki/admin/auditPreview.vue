@@ -29,7 +29,7 @@
     <el-divider />
       <!--功能-->
       <div class="center" style="height: 80px;">
-        <el-button @click="handClean()">返回</el-button>
+        <el-button @click="handleReturn()">返回</el-button>
       </div>
     </div>
   </div>
@@ -96,8 +96,8 @@ function submitPush(){
 function handDiff(){
   router.push("/admin/auditDiffPreview?wid="+ wid.value+"&deid=" +deid.value)
 }
-function handClean(){
-  router.push("/admin/audit")
+function handleReturn(){
+  router.back()
 }
 interface DomainItem {
   key: number

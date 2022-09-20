@@ -160,15 +160,6 @@ const data = reactive({
 });
 const { queryParams, form, rules } = toRefs(data);
 
-/**根据分类查询世界*/
-function findType(typeId:number) {
-  queryParams.value.wid=wid.value;
-  listAudit(globalProperties.addDateRange(queryParams.value, dateRange.value)).then(response => {
-    loading.value = false;
-    draftList.value = response.rows;
-    total.value = response.total;
-  });
-}
 /** 查询世界列表 */
 function getList() {
   if(queryParams.value.types != undefined && queryParams.value.types != '' ){
@@ -190,10 +181,10 @@ function handleAudit(row){
   dialogFormVisible.value=true;
 }
 function handleSee(row){
-  router.push("/admin/worldAuditPreview?wid="+wid.value+"&wname="+wname.value+"&deid="+row.id);
+  router.push("/admin/worldAuditPreview?wid="+wid.value+"&wname="+wname.value+"&deid="+row.id+"&temType="+row.softtype);
 }
 function handleDiff(row){
-  router.push("/admin/worldDiffPreview?wid="+row.wid+"&deid="+row.id+"&wname="+wname.value);
+  router.push("/admin/worldDiffPreview?wid="+row.wid+"&deid="+row.id+"&wname="+wname.value+"&temType="+row.softtype);
 }
 
 function handleAuditLog(){

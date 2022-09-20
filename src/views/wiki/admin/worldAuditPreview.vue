@@ -29,14 +29,13 @@
     <el-divider />
       <!--功能-->
       <div class="center" style="height: 80px;">
-        <el-button @click="handClean()">返回</el-button>
+        <el-button @click="handleReturn()">返回</el-button>
       </div>
     </div>
 </template>
 
 <script  lang="ts" setup>
 import {reactive, ref, shallowRef} from 'vue'
-import {FormInstance} from "element-plus";
 import {  getDraftDetailsAdmin ,updatePush} from "@/api/admin/draftElement";
 //接受参数
 import { useRoute ,useRouter}  from "vue-router";  // 引用vue-router
@@ -90,15 +89,9 @@ function getDraft(wid:number,deid:number) {
     worldElement.value = response.data
   });
 }
-function handClean(){
-  router.push("/admin/worldAudit?wid="+wid.value+"&wname="+wname.value)
+function handleReturn(){
+  router.back()
 }
-interface DomainItem {
-  key: number
-  title: string
-  value: string
-}
-
 getDraft(wid.value,deid.value);
 </script>
 

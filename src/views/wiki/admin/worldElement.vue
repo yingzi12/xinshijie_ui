@@ -209,7 +209,7 @@ const single = ref(true);
 const multiple = ref(true);
 const search = ref('')
 function handleUpdate (row)  {
-  router.push("/admin/elementEdit?eid="+row.id+"&wid=" + wid.value);
+  router.push("/admin/elementEdit?eid="+row.id+"&wid=" + wid.value+"&temType=" + row.softtype);
 }
 //添加新元素,需要登录权限
 function handleAddDialog(){
@@ -236,7 +236,7 @@ function handleDelete ( row){
 }
 
 function handleSee(row){
-  router.push("/element/details?wid="+row.wid+"&eid="+row.id);
+  router.push("/element/details?wid="+row.wid+"&eid="+row.id+"&eid="+row.softtype);
 }
 /** 选择条数  */
 function handleSelectionChange(selection) {

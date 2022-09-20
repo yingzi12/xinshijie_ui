@@ -31,7 +31,7 @@
       <div class="center" style="height: 80px;">
         <el-button v-if="worldElement.status == 0" @click="submitPush()">发布</el-button>
         <el-button v-if="worldElement.status == 0" @click="submitEdit()">继续编辑</el-button>
-        <el-button @click="handleClose()">退出</el-button>
+        <el-button @click="handleReturn()">返回</el-button>
       </div>
     </div>
   </div>
@@ -119,8 +119,8 @@ function submitPush(){
 function submitEdit(){
   router.push("/admin/draftEdit?wid="+ wid.value+"&deid=" +deid.value)
 }
-function handleClose(){
-  router.push("/admin/audit")
+function handleReturn(){
+  router.back()
 }
 const newContent=ref('');
 const oldContent=ref('');

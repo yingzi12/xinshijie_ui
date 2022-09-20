@@ -30,7 +30,7 @@
       <!--功能-->
     <div class="center" style="height: 80px;">
 <!--        <el-button v-if="element.status == 0" @click="submitPush()">发布</el-button>-->
-        <el-button @click="handleClose()">退出</el-button>
+        <el-button @click="handleReturn()">返回</el-button>
       </div>
     </div>
 <!--   弹出框-->
@@ -112,11 +112,8 @@ function getDraft(wid:number,deid:number) {
   });
 }
 
-// function submitEdit(){
-//   router.push("/admin/draftEdit?wid="+ wid.value+"&deid=" +deid.value)
-// }
-function handleClose(){
-  router.push("/admin/worldAudit?wid="+ wid.value+"&wname="+wname.value)
+function handleReturn(){
+  router.back()
 }
 const newContent=ref('');
 const oldContent=ref('');

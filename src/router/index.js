@@ -125,7 +125,7 @@ export const constantRoutes = [
         meta: { title: '元素列表', icon: 'element' }
       },{
         path: 'details',
-        component: () => import('@/views/wiki/element/details'),
+        component: () => import('@/views/wiki/element/index'),
         name: 'details',
         meta: { title: '元素详细', icon: 'element' }
       }
