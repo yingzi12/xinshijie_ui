@@ -9,38 +9,6 @@
       <el-menu-item index="1"><span style="font-size: 20px;font-weight:bold;">{{wname}}</span></el-menu-item>
     </el-menu>
   </div>
-  <!--        多选-->
-<!--        <div style="padding: 10px">-->
-<!--          <el-space wrap>-->
-<!--            <div v-for="i in 9" :key="i">-->
-<!--              <el-button text> Text{{i}} </el-button>-->
-<!--            </div>-->
-<!--          </el-space>-->
-<!--        </div>-->
-        <!--        统计-->
-<!--        <div style="background-color:#b0c4de;margin: auto;padding: 10px">-->
-<!--          <el-row>-->
-<!--            <el-col  :span="4">-->
-<!--              合计(65)-->
-<!--            </el-col >-->
-<!--            <el-col :span="20"  style="text-align: right;">-->
-<!--              <div style="text-align: right; font-size: 12px" class="toolbar">-->
-<!--                <el-dropdown>-->
-<!--                  <el-icon style="margin-right: 8px; margin-top: 1px"><setting/></el-icon>-->
-<!--                  <template #dropdown>-->
-<!--                    <el-dropdown-menu>-->
-<!--                      <el-dropdown-item>View</el-dropdown-item>-->
-<!--                      <el-dropdown-item>Add</el-dropdown-item>-->
-<!--                      <el-dropdown-item>Delete</el-dropdown-item>-->
-<!--                    </el-dropdown-menu>-->
-<!--                  </template>-->
-<!--                </el-dropdown>-->
-<!--                <span>Tom</span>-->
-<!--              </div>-->
-<!--            </el-col>-->
-<!--          </el-row>-->
-<!--        </div>-->
-        <!--        表格-->
         <div>
           <div style="background-color: #E5EAF3;height: 30px;margin: 0px;padding: 0px">
             <h1>编辑世界</h1>

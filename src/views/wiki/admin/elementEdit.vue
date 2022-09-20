@@ -34,76 +34,10 @@
       </div>
     </div>
     <!--  基本信息 -->
-    <div>
-      <div style="background-color: #E5EAF3">
-        <BootstrapIcon icon="card-checklist" size="1x" flip-v /><span>基本信息</span>
-      </div>
-      <div>
-        <el-form :model="element" label-width="120px">
-          <el-form-item label="名称">
-            <el-input v-model="element.title" />
-          </el-form-item>
-          <el-form-item label="简介">
-            <el-input v-model="element.intro" type="textarea" />
-          </el-form-item>
-        </el-form>
-      </div>
-    </div>
     <!-- 元素内容 -->
-    <div>
-      <div style="background-color: #E5EAF3">
-        <el-row >
-          <el-col :span="21">
-            <div class="biaoti">
-              <BootstrapIcon icon="pencil-square" size="1x" flip-v /><span>元素内容</span>
-            </div>
-          </el-col>
-          <el-col :span="3">
-            <div class="center">
-              <el-button type="info" @click="addDomain" round>添加内容小节</el-button>
-            </div>
-          </el-col>
-        </el-row>
-      </div>
-      <div v-for="(content, index) in element.contentList"
-            :key="content.key"
-            :label="'Content' + index"
-            :prop="'content.' + index + '.value'"
-            :rules="{
-        required: true,
-        message: 'domain can not be null',
-        trigger: 'blur',
-      }"
-      >
-        <el-form  :inline="true"  class="demo-form-inline">
-        <div style="background-color: #cccccc">
-          <el-row >
-            <el-col :span="19">
-              <div class="biaoti">
-                <BootstrapIcon icon="pencil-square" size="1x" flip-v />
-                <span v-if="content.isUpdate == 0">{{ content.title }}</span>
-                <el-input  style="width:100px" v-if="content.isUpdate == 1"  size="small" v-model="content.title" placeholder="小标题" />
-              </div>
-            </el-col>
-            <el-col :span="5">
-              <div class="center">
-<!--                <el-button v-if="content.isUpdate == 1" @click="submitForm(formRef)"><BootstrapIcon icon="save" size="1x" flip-v />保存</el-button>-->
-                <el-button v-if="content.isUpdate == 1" @click="handEditClean(content)"><BootstrapIcon icon="save" size="1x" flip-v />退出编辑</el-button>
-                <el-button v-if="content.isUpdate == 0" @click="handEdit(content)"><BootstrapIcon icon="pencil-square" size="1x" flip-v  />编辑</el-button>
-                <el-button v-if="content.isUpdate == 0" @click.prevent="removeDomain(content)"><BootstrapIcon icon="trash" size="1x" flip-v />删除</el-button>
-                <el-button v-if="content.status == 2" ><BootstrapIcon icon="lock" size="1x" flip-v />锁定</el-button>
-              </div>
-            </el-col>
-          </el-row>
-        </div>
-        <div>
-              <ckeditor :editorDisabled="true" @input="onEditorInput(content)" :editor="editor" v-model="content.content" :config="editorConfig"></ckeditor>
-        </div>
-        </el-form>
+    <component :is="temPage" ref="temElement" v-bind="element"></component>
 
-      </div>
-    </div>
-<!--    修改原因-->
+    <!--    修改原因-->
     <div>
       <el-radio-group v-model="causeNumber">
         <el-radio :label="2">其他</el-radio>
@@ -127,19 +61,49 @@
 </template>
 
 <script  lang="ts" setup>
-import {inject, reactive, ref} from 'vue'
+import {inject, markRaw, reactive, ref} from 'vue'
 import {ElMessage, ElTree, FormInstance} from "element-plus";
-import  Editor  from 'ckeditor5-custom-build/build/ckeditor';
 import {  getElementDetails } from "@/api/wiki/element";
 import {  updateElement } from "@/api/admin/element";
 import { getTree} from "@/api/wiki/category";
 import { getWorld} from "@/api/admin/world";
 
 //接受参数
-import { useRoute ,useRouter}  from "vue-router";  // 引用vue-router
+import { useRoute ,useRouter}  from "vue-router";
+import index from "../edit/index.vue";
+import role from "../edit/role.vue";
+import biologly from "../edit/biology.vue";
+import race from "../edit/race.vue";
+import goods from "../edit/goods.vue";  // 引用vue-router
+
 const router = useRouter()
 // 接收url里的参数
 const route = useRoute();
+
+const temTypesMap=new Map([
+  [1,markRaw(index)],
+  [2,markRaw(role)],
+  [3,markRaw(biologly)],
+  [4,markRaw(race)],
+  [5,markRaw(goods)],
+])
+
+const temType = ref(1);
+if(!route.query.temType || isNaN(route.query.temType)){
+  console.log("111:"+route.query.temType)
+  temType.value =1
+}else {
+  console.log("2222:"+route.query.temType)
+  temType.value =parseInt(route.query.temType);
+  if(temType.value>5 || temType.value<=0 ){
+    console.log("333:"+route.query.temType)
+    temType.value =1
+  }
+}
+const  temPage=temTypesMap.get(temType.value)
+const temElement=ref()
+
+
 //世界信息
 const eid = ref(null);
 const wid = ref(null);
@@ -175,61 +139,6 @@ interface Content {
   isNew: number
 }
 
-const editor = Editor
-const baseUrl = inject("$baseUrl")
-const imgUrl = inject("$imgUrl")
-
-const uploadImgUrl = ref(baseUrl + "/common/uploadImage"); // 上传的图片服务器地址
-const editorConfig ={
-  language:"zh-cn",
-  simpleUpload: {
-    // The URL the images are uploaded to.
-    uploadUrl: uploadImgUrl.value,
-  },
-}
-
-//章节模块
-const formRef = ref<FormInstance>()
-
-const removeDomain = (item: Content) => {
-  if(item.id != null){
-    item.status=4
-    element.value.contentIdList.push(item.id)
-  }
-  // //console.log("删除："+JSON.stringify(item))
-  const index = element.value.contentList.indexOf(item)
-  ////console.log("删除index："+index)
-  if (index !== -1) {
-    element.value.contentList.splice(index, 1)
-  }
-}
-
-const addDomain = () => {
-  element.value.contentList.push({
-    id:null,
-    key: Date.now(),
-    status:1,
-    title: '',
-    value: '',
-    isUpdate: 0,
-    isNew:1
-  })
-}
-function onEditorInput(content: Content){
-  content.isUpdate=1;
-  //只有正常状态下会改变
-    content.status = 3
-  ////console.log('onEditorInput!')
-  if(content.content.length>20000){
-     ElMessage.error("内容长度为"+content.content.length+"，已超过最大许可值2万")
-  }
-}
-const handEdit = (content: Content) => {
-  content.isUpdate=1;
-}
-const handEditClean = (content: Content) => {
-  content.isUpdate=0;
-}
 const submitForm = (formEl: FormInstance | undefined) => {
   if (!formEl) return
   formEl.validate((valid) => {
@@ -272,23 +181,15 @@ function getList() {
 }
 
 function  show(val){
-//let that = this ,将this保存在that中，再在函数中使用that均可
   dynamicTags.value=categoryList.value
-  // //console.log("选中的对象value1"+categoryList.value)
-  // //console.log("选中的对象treeRef"+JSON.stringify(treeRef.value))
-
   sleValue.value=new Array();
   dynamicTags.value=new Array();
   for(let i=0;i<=categoryList.value.length-1;i++){
     dynamicTags.value[i]=categoryList.value[i].split('$$')[1]
     sleValue.value[i]=categoryList.value[i].split('$$')[0]
   }
-  element.value.categoryList=sleValue;
-  // //console.log("选中的对象value2"+categoryList.value)
-  // //console.log("选中的对象sleValue2"+sleValue.value)
-  // //console.log("选中的对象element:"+JSON.stringify(element.value))
+  // element.value.categoryList=sleValue;
 }
-// const treeRef = ref<InstanceType<typeof ElTree>>()
 
 /** 查询世界详细 */
 function getElement(wid:number,eid:number) {
@@ -311,6 +212,12 @@ function getElement(wid:number,eid:number) {
 
 function submit(){
   var ok=true;
+
+  console.log(JSON.stringify(temElement))
+  element.value=temElement.value.element;
+  element.value.ext=JSON.stringify(temElement.value.basic);
+  element.value.categoryList=sleValue;
+
   if(!element.value.title ){
     ok=false;
     ElMessage.error('名称不能为空!')

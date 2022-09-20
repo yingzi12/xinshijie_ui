@@ -36,7 +36,7 @@
               </el-table-column>
               <el-table-column label="名称" align="center" key="title" prop="title">
                 <template #default="scope">
-                  <router-link :to="{path:'/element/details', query: {eid:scope.row.id,wid:scope.row.wid}}">{{ scope.row.title }}</router-link>
+                  <router-link :to="{path:'/element/details', query: {eid:scope.row.id,wid:scope.row.wid,temType:scope.row.softtype}}">{{ scope.row.title }}</router-link>
                 </template>
               </el-table-column>
               <el-table-column label="类型" align="center" :show-overflow-tooltip="true">
@@ -181,12 +181,7 @@ function handleAddDialog(){
 }
 //添加新元素,需要登录权限
 function handleAdd(){
-  if(temType.value==1) {
-    router.push("/admin/elementAddGeneral?wid=" + wid.value + "&temType=" + temType.value);
-  }
-  if(temType.value==2) {
-    router.push("/admin/elementAddRole?wid=" + wid.value + "&temType=" + temType.value);
-  }
+  router.push("/admin/elementAddGeneral?wid=" + wid.value + "&temType=" + temType.value);
 }
 function handFind(){
   queryParams.value.wid=wid.value;

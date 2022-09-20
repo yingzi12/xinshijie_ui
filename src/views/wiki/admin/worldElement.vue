@@ -221,12 +221,7 @@ function handleElementAdd ()  {
     if (count==0) {
       ElMessage.error("请先创建分类")
     }else {
-      if(temType.value==1) {
-        router.push("/admin/elementAddGeneral?wid=" + wid.value + "&temType=" + temType.value);
-      }
-      if(temType.value==2) {
-        router.push("/admin/elementAddRole?wid=" + wid.value + "&temType=" + temType.value);
-      }
+      router.push("/admin/elementAdd?wid=" + wid.value + "&temType=" + temType.value);
       // router.push("/admin/elementAdd?wid=" + wid.value);
     }
   })

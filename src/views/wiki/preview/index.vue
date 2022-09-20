@@ -1,0 +1,133 @@
+<template>
+      <!-- 元素内容 -->
+      <div>
+        <div v-for="(domain, index) in element.contentList"
+             :key="domain.key"
+             :label="'Domain' + index"
+             :prop="'domains.' + index + '.value'"
+             :rules="{  required: true,  message: 'domain can not be null', trigger: 'blur',}"
+             style="margin-bottom: 20px"
+        >
+          <div     class="smallTitle">
+            <el-row >
+              <el-col :span="19">
+                <div class="biaoti">
+                  <h3><el-icon><Tickets /></el-icon><span>{{domain.title  }}</span></h3>
+                </div>
+              </el-col>
+              <el-col :span="5">
+              </el-col>
+            </el-row>
+          </div>
+          <div   style="margin-left: 25px">
+            <div v-html="domain.content"> </div>
+          </div>
+        </div>
+      </div>
+</template>
+
+<script  lang="ts" setup>
+import { reactive, ref } from 'vue'
+import {FormInstance} from "element-plus";
+import {  getDraftDetails ,issue} from "@/api/admin/draftElement";
+//接受参数
+import { useRoute ,useRouter}  from "vue-router";  // 引用vue-router
+const router = useRouter()
+// 接收url里的参数
+const route = useRoute();
+//世界信息
+const deid = ref(null);
+const wid = ref(null);
+deid.value = route.query.deid;
+wid.value = route.query.wid;
+//console.log("元素deid="+deid.value);
+//console.log("世界id="+wid.value);
+
+const elementStatus = new Map([
+  [0, "草稿"],
+  [1, "待审核"],
+  [3, "审核不通过"],
+  [2, "通过审核"],
+  [4, "删除"]
+]);
+
+
+const element=ref({})
+/** 查询世界详细 */
+function getDraft(wid:number,deid:number) {
+  getDraftDetails(wid,deid,0).then(response => {
+    //console.log("查询世界详细:"+JSON.stringify(response))
+    element.value = response.data
+    //console.log("状态:"+element.value.status)
+    //console.log("状态:"+elementStatus.get(element.value.status))
+  });
+}
+function submitPush(){
+  issue(wid.value,deid.value).then(response => {
+    //console.log("发布成功")
+    element.value.status=1
+    if(response.data.types == 0){
+      router.push("/admin/draftPreview?wid="+ response.data.wid+"&deid=" +response.data.id)
+    }else{
+      router.push("/element/details?wid="+ response.data.wid+"&eid=" +response.data.id)
+    }
+  });
+}
+function submitEdit(){
+  router.push("/admin/draftEdit?wid="+ wid.value+"&deid=" +deid.value)
+}
+function handDiff(){
+  router.push("/admin/diffPreview?wid="+ wid.value+"&deid=" +deid.value)
+}
+function handClean(){
+  router.push("/admin/draft")
+}
+getDraft(wid.value,deid.value);
+
+
+</script>
+
+<style scoped>
+.center2 {
+  top: 50%;
+  width: 100%;
+  text-align: center;
+  font-size: 18px;
+}
+.center {
+  top: 50%;
+  width: 100%;
+  text-align: center;
+  font-size: 18px;
+}
+.lessen {
+  color: #a6a6a6;
+  font: 12px/20px PingFangSC-Regular,-apple-system,Simsun;
+  height: 20px;
+  overflow: hidden;
+}
+.smallTitle{
+  background: inherit;
+  background-color: rgba(249, 249, 249, 1);
+  box-sizing: border-box;
+  border-width: 1px;
+  border-style: solid;
+  border-color: rgba(233, 233, 233, 1);
+  border-radius: 0px;
+  -moz-box-shadow: none;
+  -webkit-box-shadow: none;
+  box-shadow: none;
+}
+.smallTitle h3{
+  font-family: 'PingFangSC-Semibold', 'PingFang SC Semibold', 'PingFang SC', sans-serif;
+  font-weight: 650;
+  font-size: 18px;
+}
+.title{
+  font-family: 'PingFangSC-Semibold', 'PingFang SC Semibold', 'PingFang SC', sans-serif;
+  font-weight: 650;
+  /* font-style: normal; */
+  font-size: 24px;
+  text-align: left;
+}
+</style>

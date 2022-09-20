@@ -2,7 +2,7 @@
   <div class="app-container">
     <!--  世界名称-->
     <div style="background-color: #E5EAF3">
-        <h2  class="center2">{{ world.name }}</h2>
+      <h2  class="center2">{{ world.name }}</h2>
     </div>
     <!--  分类管理 -->
     <div>
@@ -34,59 +34,97 @@
       </div>
     </div>
     <!--  基本信息 -->
-    <component :is="temPage" ref="temElement" v-bind="element"></component>
-    <!-- 元素内容 -->
-    <!--功能-->
-      <div class="center" style="height: 80px;">
-        <el-button @click="submit()">保存并预览</el-button>
-        <el-button @click="submitClear()">取消</el-button>
+    <div>
+      <div style="background-color: #E5EAF3">
+        <BootstrapIcon icon="card-checklist" size="1x" flip-v /><span>基本信息</span>
       </div>
+      <div>
+        <el-form :model="element" label-width="120px">
+          <el-form-item label="名称">
+            <el-input v-model="element.title" />
+          </el-form-item>
+          <el-form-item label="Activity form">
+            <el-input v-model="element.intro" type="textarea" />
+          </el-form-item>
+        </el-form>
+      </div>
+    </div>
+    <!-- 元素内容 -->
+    <div>
+      <div style="background-color: #E5EAF3">
+        <el-row >
+          <el-col :span="21">
+            <div class="biaoti">
+              <BootstrapIcon icon="pencil-square" size="1x" flip-v /><span>元素内容</span>
+            </div>
+          </el-col>
+          <el-col :span="3">
+            <div class="center">
+              <el-button type="info" @click="addDomain" round>添加内容小节</el-button>
+            </div>
+          </el-col>
+        </el-row>
+      </div>
+      <div v-for="(content, index) in element.contentList"
+           :key="content.key"
+           :label="'Content' + index"
+           :prop="'content.' + index + '.value'"
+           :rules="{
+        required: true,
+        message: 'domain can not be null',
+        trigger: 'blur',
+      }"
+      >
+        <el-form :inline="true"  class="demo-form-inline">
+          <div style="background-color: #cccccc">
+            <el-row >
+              <el-col :span="19">
+                <div class="biaoti">
+                  <BootstrapIcon icon="pencil-square" size="1x" flip-v />
+                  <span v-if="content.isUpdate != 1">{{ content.title }}</span>
+                  <el-input  style="width:100px" v-if="content.isUpdate == 1"  size="small" v-model="content.title"  />
+                </div>
+              </el-col>
+              <el-col :span="5">
+                <div class="center">
+                  <!--                <el-button v-if="content.isUpdate == 1" @click="submitForm(formRef)"><BootstrapIcon icon="save" size="1x" flip-v />保存</el-button>-->
+                  <el-button v-if="content.isUpdate == 1" @click="handEditClean(content)"><BootstrapIcon icon="save" size="1x" flip-v />退出编辑</el-button>
+                  <el-button v-if="content.isUpdate != 1" @click="handEdit(content)"><BootstrapIcon icon="pencil-square" size="1x" flip-v  />编辑</el-button>
+                  <el-button v-if="content.isUpdate != 1" @click.prevent="removeDomain(content)"><BootstrapIcon icon="trash" size="1x" flip-v />删除</el-button>
+                  <el-button v-if="content.status == 2" ><BootstrapIcon icon="lock" size="1x" flip-v />锁定</el-button>
+                </div>
+              </el-col>
+            </el-row>
+          </div>
+          <div>
+            <ckeditor    :editorDisabled="true" @input="onEditorInput(content)" :editor="editor" v-model="content.content" :config="editorConfig"></ckeditor>
+          </div>
+        </el-form>
+
+      </div>
+    </div>
+    <!--功能-->
+    <div class="center" style="height: 80px;">
+      <el-button @click="submit()">保存并预览</el-button>
+      <el-button @click="submitClear()">取消</el-button>
+    </div>
   </div>
 </template>
 
 <script  lang="ts" setup>
-import {inject, markRaw, reactive, ref} from 'vue'
+import {inject, reactive, ref} from 'vue'
 import {ElMessage, ElTree, FormInstance} from "element-plus";
 // import ClassicEditor from '@ckeditor/ckeditor5-build-classic';
 import  Editor  from 'ckeditor5-custom-build/build/ckeditor';
 import {  getDraftDetails,updateDraft } from "@/api/admin/draftElement";
-import { getTree } from "@/api/wiki/category";
-import { getWorld } from "@/api/admin/world";
+import { getTree} from "@/api/wiki/category";
+import { getWorld} from "@/api/admin/world";
 
 //接受参数
 import { useRoute ,useRouter}  from "vue-router";  // 引用vue-router
-import index from "../draftedit/index.vue";
-import role from "../draftedit/role.vue";
-import biologly from "../draftedit/biology.vue";
-import race from "../draftedit/race.vue";
-import goods from "../draftedit/goods.vue";  // 引用vue-router
-
 const router = useRouter()
 // 接收url里的参数
 const route = useRoute();
-
-const temTypesMap=new Map([
-  [1,markRaw(index)],
-  [2,markRaw(role)],
-  [3,markRaw(biologly)],
-  [4,markRaw(race)],
-  [5,markRaw(goods)],
-])
-
-const temType = ref(1);
-if(!route.query.temType || isNaN(route.query.temType)){
-  console.log("111:"+route.query.temType)
-  temType.value =1
-}else {
-  console.log("2222:"+route.query.temType)
-  temType.value =parseInt(route.query.temType);
-  if(temType.value>5 || temType.value<=0 ){
-    console.log("333:"+route.query.temType)
-    temType.value =1
-  }
-}
-const  temPage=temTypesMap.get(temType.value)
-const temElement=ref()
 //世界信息
 const deid = ref(null);
 const wid = ref(null);
@@ -96,7 +134,7 @@ wid.value = route.query.wid;
 //console.log("世界id="+wid.value);
 
 //基本信息
-interface WorldElement {
+interface Element {
   id:number,
   wid:String,
   title:string,
@@ -117,7 +155,6 @@ interface Content {
   isNew: number
 }
 
-
 const editor = Editor
 const baseUrl = inject("$baseUrl")
 const uploadImgUrl = ref(baseUrl + "/common/uploadImage"); // 上传的图片服务器地址
@@ -135,6 +172,9 @@ const elementStatus = new Map([
   [2, "通过审核"],
   [4, "删除"]
 ]);
+//章节模块
+const formRef = ref<FormInstance>()
+
 const removeDomain = (item: Content) => {
   if(item.id != null){
     item.status=4
@@ -195,7 +235,7 @@ const dynamicTags = ref([])
 //分类选择
 const treeRef = ref<InstanceType<typeof ElTree>>()
 //基础信息
-const element = ref<InstanceType<WorldElement>>({})
+const element = ref<InstanceType<Element>>({})
 //原始的选中的value
 const sleValue=ref({})
 

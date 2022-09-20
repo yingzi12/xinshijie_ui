@@ -287,15 +287,9 @@ export const constantRoutes = [
         meta: { title: '元素修改差异', icon: 'wiki' }
       },
       {
-        path: 'elementAddGeneral',
-        component: () => import('@/views/wiki/template/index'),
-        name: 'elementAddGeneral',
-        meta: { title: '管理员添加元素', icon: 'wiki' }
-      },
-      {
-        path: 'elementAddRole',
-        component: () => import('@/views/wiki/template/role'),
-        name: 'elementAddRole',
+        path: 'elementAdd',
+        component: () => import('@/views/wiki/admin/elementAdd'),
+        name: 'elementAdd',
         meta: { title: '管理员添加元素', icon: 'wiki' }
       },
       {
@@ -315,6 +309,12 @@ export const constantRoutes = [
         component: () => import('@/views/wiki/admin/elementContent'),
         name: 'elementContent',
         meta: { title: '管理员查看元素', icon: 'wiki' }
+      },
+      {
+        path: 'test2',
+        component: () => import('@/views/wiki/template/index'),
+        name: 'auditElementPreview',
+        meta: { title: '元素修改差异记录', icon: 'wiki' }
       }
     ]
   },
