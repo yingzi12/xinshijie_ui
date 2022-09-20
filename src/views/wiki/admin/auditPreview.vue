@@ -13,49 +13,19 @@
     <div style="border-style:solid;">
     <!--  世界名称-->
     <div >
-        <h1>{{ element.title }}</h1>
-      <span>更新时间:</span><el-tag>{{element.updateTime}}</el-tag>
-        <span>分类:</span> <el-tag v-for="category in element.categoryList">
+        <h1>{{ worldElement.title }}</h1>
+      <span>更新时间:</span><el-tag>{{worldElement.updateTime}}</el-tag>
+        <span>分类:</span> <el-tag v-for="category in worldElement.categoryList">
         {{category.label}}
       </el-tag>
     </div>
     <el-divider />
     <!--  基本信息 -->
     <div style="margin-bottom: 20px">
-      <div v-html="element.intro"> </div>
+      <div v-html="worldElement.intro"> </div>
     </div>
-<!--    内容简介-->
-    <div>
-  </div>
     <!-- 元素内容 -->
-    <div>
-      <div v-for="(domain, index) in element.contentList"
-            :key="domain.key"
-            :label="'Domain' + index"
-            :prop="'domains.' + index + '.value'"
-            :rules="{
-        required: true,
-        message: 'domain can not be null',
-        trigger: 'blur',
-      }"
-           style="margin-bottom: 20px"
-      >
-        <div style="background-color: #cccccc;height:50px ;margin-bottom:10px">
-          <el-row >
-            <el-col :span="19">
-              <div class="biaoti">
-               <h3><BootstrapIcon icon="caret-down-fill" size="1x" flip-v /><span>{{domain.title  }}</span></h3>
-              </div>
-            </el-col>
-            <el-col :span="5">
-            </el-col>
-          </el-row>
-        </div>
-        <div>
-          <div v-html="domain.content"> </div>
-        </div>
-      </div>
-    </div>
+    <component :is="temPage"  v-bind="worldElement" ></component>
     <el-divider />
       <!--功能-->
       <div class="center" style="height: 80px;">
@@ -66,29 +36,55 @@
 </template>
 
 <script  lang="ts" setup>
-import { reactive, ref } from 'vue'
+import {reactive, ref, shallowRef} from 'vue'
 import {FormInstance} from "element-plus";
 import {  getDraftDetails ,updatePush} from "@/api/admin/draftElement";
 //接受参数
 import { useRoute ,useRouter}  from "vue-router";  // 引用vue-router
+
+import biologly from '../preview/biology'
+import goods from '../preview/goods'
+import index from '../preview/index'
+import race from '../preview/race'
+import role from '../preview/role'
+
+const temTypesMap=new Map([
+  [1,shallowRef(index)],
+  [2,shallowRef(role)],
+  [3,shallowRef(biologly)],
+  [4,shallowRef(race)],
+  [5,shallowRef(goods)],
+
+])
+
 const router = useRouter()
 // 接收url里的参数
 const route = useRoute();
+
+const temType = ref(1);
+if(!route.query.temType || isNaN(route.query.temType)){
+  console.log("111:"+route.query.temType)
+  temType.value =1
+}else {
+  console.log("2222:"+route.query.temType)
+  temType.value =route.query.temType;
+  if(temType.value>5 || temType.value<=0 ){
+    temType.value =1
+  }
+}
+const  temPage=temTypesMap.get(temType.value)
+const worldElement=ref({})
 //世界信息
 const deid = ref(null);
 const wid = ref(null);
 deid.value = route.query.deid;
 wid.value = route.query.wid;
-//console.log("元素deid="+deid.value);
-//console.log("世界id="+wid.value);
 
-
-const element=ref({})
 /** 查询草稿详细 */
 function getDraft(wid:number,deid:number) {
   getDraftDetails(wid,deid,0).then(response => {
     //console.log("查询草稿详细:"+JSON.stringify(response))
-    element.value = response.data
+    worldElement.value = response.data
   });
 }
 function submitPush(){

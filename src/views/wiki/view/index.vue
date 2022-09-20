@@ -1,6 +1,6 @@
 <template>
-      <!-- 元素内容 -->
-      <div>
+  <!-- 元素内容 -->
+  <div>
         <div v-for="(content, index) in props.contentList"
              :key="content.id"
              :label="'Content' + index"
@@ -32,6 +32,8 @@ interface WorldElement {
   title:string,
   intro:String,
   softtype: number,
+  updateTime:String,
+  categoryList:Category[],
   contentList:Content[]
 }
 interface Content {
@@ -40,7 +42,10 @@ interface Content {
   status: number,
   content: string,
 }
-
+interface Category{
+  label: string
+  value: string
+}
 const props = defineProps<WorldElement>()
 
 // const element=props

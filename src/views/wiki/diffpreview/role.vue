@@ -1,18 +1,18 @@
 <template>
   <div class="app-container" >
     <div>
-      <el-breadcrumb separator="/">
-        <el-breadcrumb-item :to="{ path: '/world/index' }">首页</el-breadcrumb-item>
-        <el-breadcrumb-item><a href="/world/list">世界树</a></el-breadcrumb-item>
-        <el-breadcrumb-item :to="{ path: '/world/details', query: {wid:wid} }">{{world.name}}</el-breadcrumb-item>
-        <el-breadcrumb-item :to="{ path: '/element/list', query: {wid:wid} }">元素列表</el-breadcrumb-item>
-        <el-breadcrumb-item>元素详情</el-breadcrumb-item>
-      </el-breadcrumb>
+      <el-menu
+          :default-active="1"
+          mode="horizontal"
+          style="margin:0px;pardding:0px"
+      >
+        <el-menu-item index="1" style="margin:0px;pardding:0px"><span style="font-size: 20px;font-weight:bold;">元素详细</span></el-menu-item>
+      </el-menu>
     </div>
     <div >
       <!--  世界名称-->
       <div >
-        <h1 class="title">{{ element.title }}</h1>
+        <span style="margin-bottom: 5px;font-size: 25px">{{ element.title }}</span><el-tag size="small">{{elementStatus.get(element.status)}}</el-tag>
         <div class="lessen"><span>分类:</span> <el-tag size="small" v-for="category in element.categoryList">
           {{category.label}}
         </el-tag></div>
@@ -32,17 +32,21 @@
              :key="domain.key"
              :label="'Domain' + index"
              :prop="'domains.' + index + '.value'"
-             :rules="{
-        required: true,
-        message: 'domain can not be null',
-        trigger: 'blur',
-      }"
+             :rules="{  required: true,  message: 'domain can not be null', trigger: 'blur',}"
              style="margin-bottom: 20px"
         >
-          <div class="smallTitle">
-            <h3><el-icon><Tickets /></el-icon>{{domain.title  }}</h3>
+          <div     class="smallTitle">
+            <el-row >
+              <el-col :span="19">
+                <div class="biaoti">
+                  <h3><el-icon><Tickets /></el-icon><span>{{domain.title  }}</span></h3>
+                </div>
+              </el-col>
+              <el-col :span="5">
+              </el-col>
+            </el-row>
           </div>
-          <div style="margin-left: 25px">
+          <div   style="margin-left: 25px">
             <div v-html="domain.content"> </div>
           </div>
         </div>
@@ -50,56 +54,75 @@
       <el-divider />
       <!--功能-->
       <div class="center" style="height: 80px;">
-        <el-button @click="handleList()" text type="success" style="width: 100px;">返回</el-button>
-        <el-button @click="handleEdit()" text type="success" style="width: 100px;">编辑</el-button>
+        <el-button v-if="element.status == 0 " @click="submitPush()">发布</el-button>
+        <el-button  @click="handDiff()">查看差异</el-button>
+        <el-button v-if="element.status == 0 " @click="submitEdit()">继续编辑</el-button>
+        <el-button @click="handClean()">退出</el-button>
       </div>
     </div>
+
   </div>
 </template>
 
 <script  lang="ts" setup>
 import { reactive, ref } from 'vue'
-import {  getElementDetails } from "@/api/wiki/element";
-import {  getWorld } from "@/api/wiki/world";
-
+import {FormInstance} from "element-plus";
+import {  getDraftDetails ,issue} from "@/api/admin/draftElement";
 //接受参数
 import { useRoute ,useRouter}  from "vue-router";  // 引用vue-router
 const router = useRouter()
 // 接收url里的参数
 const route = useRoute();
 //世界信息
-const eid = ref(null);
+const deid = ref(null);
 const wid = ref(null);
-eid.value = route.query.eid;
+deid.value = route.query.deid;
 wid.value = route.query.wid;
-//console.log("元素id="+eid.value);
+//console.log("元素deid="+deid.value);
 //console.log("世界id="+wid.value);
+
+const elementStatus = new Map([
+  [0, "草稿"],
+  [1, "待审核"],
+  [3, "审核不通过"],
+  [2, "通过审核"],
+  [4, "删除"]
+]);
 
 
 const element=ref({})
 /** 查询世界详细 */
-function getElement(wid:number,eid:number) {
-  getElementDetails(wid,eid).then(response => {
+function getDraft(wid:number,deid:number) {
+  getDraftDetails(wid,deid,0).then(response => {
     //console.log("查询世界详细:"+JSON.stringify(response))
     element.value = response.data
+    //console.log("状态:"+element.value.status)
+    //console.log("状态:"+elementStatus.get(element.value.status))
   });
 }
-function handleList(){
-  router.push("/element/list?wid="+ wid.value+"&deid=" +eid.value)
-}
-function handleEdit(){
-  router.push("/admin/elementEdit?wid="+ wid.value+"&eid=" +eid.value)
-}
-const world=ref({})
-/** 查询世界详细 */
-function handWorld() {
-  getWorld(wid.value).then(response => {
-    //console.log("查询世界详细:"+JSON.stringify(response))
-    world.value = response.data
+function submitPush(){
+  issue(wid.value,deid.value).then(response => {
+    //console.log("发布成功")
+    element.value.status=1
+    if(response.data.types == 0){
+      router.push("/admin/draftPreview?wid="+ response.data.wid+"&deid=" +response.data.id)
+    }else{
+      router.push("/element/details?wid="+ response.data.wid+"&eid=" +response.data.id)
+    }
   });
 }
-handWorld()
-getElement(wid.value,eid.value);
+function submitEdit(){
+  router.push("/admin/draftEdit?wid="+ wid.value+"&deid=" +deid.value)
+}
+function handDiff(){
+  router.push("/admin/diffPreview?wid="+ wid.value+"&deid=" +deid.value)
+}
+function handClean(){
+  router.push("/admin/draft")
+}
+getDraft(wid.value,deid.value);
+
+
 </script>
 
 <style scoped>

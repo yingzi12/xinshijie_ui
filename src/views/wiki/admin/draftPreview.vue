@@ -10,53 +10,27 @@
       </el-menu>
     </div>
     <div >
-    <!--  世界名称-->
-    <div >
-        <span style="margin-bottom: 5px;font-size: 25px">{{ element.title }}</span><el-tag size="small">{{elementStatus.get(element.status)}}</el-tag>
-      <div class="lessen"><span>分类:</span> <el-tag size="small" v-for="category in element.categoryList">
+      <!--  元素名称-->
+      <div >
+        <h1>{{ worldElement.title }}</h1>
+        <span>更新时间:</span><el-tag>{{worldElement.updateTime}}</el-tag>
+        <span>分类:</span> <el-tag v-for="category in worldElement.categoryList">
         {{category.label}}
-      </el-tag></div>
-        <div class="lessen"><span>更新时间:</span><el-tag size="small">{{element.updateTime}}</el-tag></div>
-    </div>
-    <el-divider />
-    <!--  基本信息 -->
-    <div style="margin-bottom: 20px;margin-left: 25px">
-      <div v-html="element.intro"> </div>
-    </div>
-<!--    内容简介-->
-    <div>
-  </div>
-    <!-- 元素内容 -->
-    <div>
-      <div v-for="(domain, index) in element.contentList"
-            :key="domain.key"
-            :label="'Domain' + index"
-            :prop="'domains.' + index + '.value'"
-            :rules="{  required: true,  message: 'domain can not be null', trigger: 'blur',}"
-           style="margin-bottom: 20px"
-      >
-        <div     class="smallTitle">
-          <el-row >
-            <el-col :span="19">
-              <div class="biaoti">
-               <h3><el-icon><Tickets /></el-icon><span>{{domain.title  }}</span></h3>
-              </div>
-            </el-col>
-            <el-col :span="5">
-            </el-col>
-          </el-row>
-        </div>
-        <div   style="margin-left: 25px">
-          <div v-html="domain.content"> </div>
-        </div>
+      </el-tag>
       </div>
-    </div>
+      <el-divider />
+      <!--  元素简介 -->
+      <div style="margin-bottom: 20px">
+        <div v-html="worldElement.intro"> </div>
+      </div>
+    <!--    内容简介-->
+    <component :is="temPage"  v-bind="worldElement" ></component>
     <el-divider />
       <!--功能-->
       <div class="center" style="height: 80px;">
-        <el-button v-if="element.status == 0 " @click="submitPush()">发布</el-button>
+        <el-button v-if="worldElement.status == 0 " @click="submitPush()">发布</el-button>
         <el-button  @click="handDiff()">查看差异</el-button>
-        <el-button v-if="element.status == 0 " @click="submitEdit()">继续编辑</el-button>
+        <el-button v-if="worldElement.status == 0 " @click="submitEdit()">继续编辑</el-button>
         <el-button @click="handClean()">退出</el-button>
       </div>
     </div>
@@ -65,14 +39,44 @@
 </template>
 
 <script  lang="ts" setup>
-import { reactive, ref } from 'vue'
-import {FormInstance} from "element-plus";
+import {reactive, ref, shallowRef} from 'vue'
 import {  getDraftDetails ,issue} from "@/api/admin/draftElement";
 //接受参数
 import { useRoute ,useRouter}  from "vue-router";  // 引用vue-router
+
+import biologly from '../preview/biology'
+import goods from '../preview/goods'
+import index from '../preview/index'
+import race from '../preview/race'
+import role from '../preview/role'
+
+const temTypesMap=new Map([
+  [1,shallowRef(index)],
+  [2,shallowRef(role)],
+  [3,shallowRef(biologly)],
+  [4,shallowRef(race)],
+  [5,shallowRef(goods)],
+
+])
+
 const router = useRouter()
 // 接收url里的参数
 const route = useRoute();
+
+const temType = ref(1);
+if(!route.query.temType || isNaN(route.query.temType)){
+  console.log("111:"+route.query.temType)
+  temType.value =1
+}else {
+  console.log("2222:"+route.query.temType)
+  temType.value =route.query.temType;
+  if(temType.value>5 || temType.value<=0 ){
+    temType.value =1
+  }
+}
+const  temPage=temTypesMap.get(temType.value)
+const worldElement=ref({})
+
 //世界信息
 const deid = ref(null);
 const wid = ref(null);
@@ -89,13 +93,11 @@ const elementStatus = new Map([
   [4, "删除"]
 ]);
 
-
-const element=ref({})
 /** 查询世界详细 */
 function getDraft(wid:number,deid:number) {
   getDraftDetails(wid,deid,0).then(response => {
     //console.log("查询世界详细:"+JSON.stringify(response))
-    element.value = response.data
+    worldElement.value = response.data
     //console.log("状态:"+element.value.status)
     //console.log("状态:"+elementStatus.get(element.value.status))
   });
@@ -103,7 +105,7 @@ function getDraft(wid:number,deid:number) {
 function submitPush(){
   issue(wid.value,deid.value).then(response => {
     //console.log("发布成功")
-    element.value.status=1
+    worldElement.value.status=1
     if(response.data.types == 0){
       router.push("/admin/draftPreview?wid="+ response.data.wid+"&deid=" +response.data.id)
     }else{
@@ -121,8 +123,6 @@ function handClean(){
   router.push("/admin/draft")
 }
 getDraft(wid.value,deid.value);
-
-
 </script>
 
 <style scoped>

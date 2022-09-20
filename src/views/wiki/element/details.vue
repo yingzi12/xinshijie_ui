@@ -10,7 +10,7 @@
       </el-breadcrumb>
     </div>
     <div >
-      <!--  世界名称-->
+      <!--  元素名称-->
       <div >
         <h1 class="title">{{ worldElement.title }}</h1>
         <div class="lessen"><span>分类:</span> <el-tag size="small" v-for="category in worldElement.categoryList">
@@ -19,16 +19,12 @@
         <div class="lessen"><span>更新时间:</span><el-tag size="small">{{worldElement.updateTime}}</el-tag></div>
       </div>
       <el-divider />
-      <!--  基本信息 -->
+      <!--  简介 -->
       <div style="margin-bottom: 20px;margin-left: 25px">
         <div v-html="worldElement.intro"> </div>
       </div>
-      <!--    内容简介-->
-      <!--  基本信息 -->
-      <!--    内容简介-->
-      <component :is="temPage"  v-bind="worldElement" ></component>
-
       <!-- 元素内容 -->
+      <component :is="temPage"  v-bind="worldElement" ></component>
       <el-divider />
       <!--功能-->
       <div class="center" style="height: 80px;">
@@ -41,6 +37,11 @@
 
 <script  lang="ts" setup>
 import {markRaw, reactive, ref, shallowRef} from 'vue'
+import {  getElementDetails } from "@/api/wiki/element";
+import {  getWorld } from "@/api/wiki/world";
+//接受参数
+import { useRoute ,useRouter}  from "vue-router";
+
 import biologly from '../view/biology'
 import goods from '../view/goods'
 import index from '../view/index'
@@ -56,20 +57,10 @@ const temTypesMap=new Map([
 
 ])
 
-import {  getElementDetails } from "@/api/wiki/element";
-import {  getWorld } from "@/api/wiki/world";
-
-//接受参数
-import { useRoute ,useRouter}  from "vue-router";
-
 const router = useRouter()
 // 接收url里的参数
 const route = useRoute();
-//世界信息
-const eid = ref(null);
-const wid = ref(null);
-eid.value = route.query.eid;
-wid.value = route.query.wid;
+
 const temType = ref(1);
 if(!route.query.temType || isNaN(route.query.temType)){
   console.log("111:"+route.query.temType)
@@ -83,6 +74,12 @@ if(!route.query.temType || isNaN(route.query.temType)){
 }
 const  temPage=temTypesMap.get(temType.value)
 const worldElement=ref({})
+
+//世界信息
+const eid = ref(null);
+const wid = ref(null);
+eid.value = route.query.eid;
+wid.value = route.query.wid;
 worldElement.value.wid=1
 
 /** 查询元素详细 */
