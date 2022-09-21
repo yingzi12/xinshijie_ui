@@ -1,83 +1,19 @@
 <template>
-<!--  角色-->
+  <!--  势力-->
   <!--  基本信息 -->
   <div>
     <div style="background-color: #E5EAF3">
-      <BootstrapIcon icon="card-checklist" size="1x" flip-v /><span>扩展信息</span>
+      <BootstrapIcon icon="card-checklist" size="1x" flip-v /><span>基本信息</span>
     </div>
     <div>
       <el-form :model="element" label-width="120px">
-        <el-form-item label="角色名">
+        <el-form-item label="名称">
           <el-input v-model="element.title" />
         </el-form-item>
         <el-form-item label="简介">
           <el-input v-model="element.intro" type="textarea" />
         </el-form-item>
       </el-form>
-    </div>
-  </div>
-<!--  扩展信息-->
-  <div>
-    <div style="background-color: #E5EAF3">
-      <BootstrapIcon icon="card-checklist" size="1x" flip-v /><span>扩展信息</span>
-    </div>
-    <div style="margin: 10px">
-      <el-row >
-        <el-col  :span="2"><span>照片</span></el-col>
-        <el-col  :span="22">
-          <el-upload
-              class="avatar-uploader"
-              :action="uploadImgUrl"
-              name="upload"
-              :show-file-list="false"
-              :on-success="handleAvatarSuccess"
-              :before-upload="beforeAvatarUpload"
-          >
-            <el-avatar v-if="imageUrl" :size="50" :src="imageUrl" />
-            <el-icon v-else class="avatar-uploader-icon"><Plus /></el-icon>
-          </el-upload>
-        </el-col>
-        <el-col  :span="2"><span>别名</span></el-col>
-        <el-col  :span="6"><el-input v-model="basic.nickName"  style="width: 150px"/></el-col>
-        <el-col  :span="2"> <span>性别</span></el-col>
-        <el-col  :span="6"><el-input v-model="basic.sex" style="width: 150px"/></el-col >
-        <el-col :span="2"><span>种族</span></el-col>
-        <el-col  :span="6"><el-input v-model="basic.race" style="width: 150px"/></el-col>
-
-        <el-col :span="2"><span>势力</span></el-col>
-        <el-col  :span="6"><el-input v-model="basic.force" style="width: 150px"/></el-col>
-        <el-col :span="2"><span>性格</span></el-col>
-        <el-col  :span="6"><el-input v-model="basic.character" style="width: 150px"/></el-col>
-        <el-col :span="2"><span>信仰</span></el-col>
-        <el-col  :span="6"><el-input v-model="basic.belief" style="width: 150px"/></el-col>
-
-        <el-col :span="2"><span>出生-逝世</span></el-col>
-        <el-col  :span="6"><el-input v-model="basic.birth" style="width: 70px"/>-<el-input v-model="basic.die" style="width: 70px"/></el-col>
-        <el-col :span="2"><span>成就</span></el-col>
-        <el-col  :span="6"><el-input v-model="basic.other" style="width: 150px"/></el-col>
-        <el-col :span="2"><span>称号</span></el-col>
-        <el-col  :span="6"><el-input v-model="basic.r3" style="width: 150px"/></el-col>
-
-        <el-col :span="2"><span>父母</span></el-col>
-        <el-col  :span="6"><el-input autosize v-model="basic.parent" type="textarea"   /></el-col>
-        <el-col :span="2"><span>配偶</span></el-col>
-        <el-col  :span="6"><el-input autosize v-model="basic.mate" type="textarea"   /></el-col>
-        <el-col :span="2"><span>子女</span></el-col>
-        <el-col  :span="6"><el-input autosize v-model="basic.children" type="textarea"   /></el-col>
-
-        <el-col :span="2"><span>朋友</span></el-col>
-        <el-col  :span="10"><el-input autosize v-model="basic.friend" type="textarea"   /></el-col>
-        <el-col :span="2"><span>仇敌</span></el-col>
-        <el-col  :span="10"><el-input autosize v-model="basic.enemy" type="textarea"   /></el-col>
-
-        <el-col :span="2"><span>最喜欢的</span></el-col>
-        <el-col  :span="10"><el-input v-model="basic.r8" style="width: 150px"/></el-col>
-        <el-col :span="2"><span>最讨厌的</span></el-col>
-        <el-col  :span="10"><el-input v-model="basic.r9" style="width: 150px"/></el-col>
-
-        <el-col :span="2"><span>特征</span></el-col>
-        <el-col  :span="22"><el-input autosize v-model="basic.trait" type="textarea"   /></el-col>
-      </el-row>
     </div>
   </div>
   <!-- 元素内容 -->
@@ -138,7 +74,7 @@
 
 <script  lang="ts" setup>
 import {getCurrentInstance, inject, reactive, ref} from 'vue'
-import {FormInstance, ElInput, ElMessage, UploadProps} from "element-plus";
+import {FormInstance, ElInput, ElMessage} from "element-plus";
 import  Editor  from 'ckeditor5-custom-build/build/ckeditor';
 
 const editor = Editor
@@ -156,30 +92,6 @@ const editorConfig ={
 const {  appContext : { config: { globalProperties } }  } = getCurrentInstance();
 const {  proxy  } = getCurrentInstance();
 
-const imageUrlPath = ref('')
-const imageUrl=ref('')
-
-const handleAvatarSuccess: UploadProps['onSuccess'] = (
-    response,
-    uploadFile
-) => {
-  imageUrl.value = URL.createObjectURL(uploadFile.raw!)
-  imageUrlPath.value=uploadFile.response.fileName
-  element.imageUrl=response.fileName
-}
-
-const beforeAvatarUpload: UploadProps['beforeUpload'] = (rawFile) => {
-  if (rawFile.type !== 'image/jpeg') {
-    ElMessage.error('Avatar picture must be JPG format!')
-    return false
-  } else if (rawFile.size / 1024 / 1024 > 2) {
-    ElMessage.error('Avatar picture size can not exceed 2MB!')
-    return false
-  }
-  return true
-}
-//扩充
-const basic=ref({});
 //基础信息
 const element = reactive<InstanceType<Element>>({
   title:'',
@@ -188,28 +100,15 @@ const element = reactive<InstanceType<Element>>({
   contentList: [
     {
       key: 1,
-      title:'形象',
-      status: 0,
-      isUpdate: 0,
-      content: '',
-    },
-    {
-      key: 2,
-      title:'人际关系',
-      status: 0,
-      isUpdate: 0,
-      content: '',
-    },
-    {
-      key: 3,
-      title:'经历',
+      title:'标题',
       status: 0,
       isUpdate: 0,
       content: '',
     },
   ]
 })
-
+//扩充
+const basic=ref({});
 //章节模块
 const ruleFormRef = ref<FormInstance>()
 interface Content {
@@ -230,6 +129,7 @@ interface Element {
 }
 
 function onEditorInput(content: Content){
+  //console.log('onEditorInput!')
   if(content.content.length>20000){
     ElMessage.error("内容长度为"+content.content.length+"，已超过最大许可值2万")
   }

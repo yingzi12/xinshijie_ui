@@ -55,9 +55,9 @@ if(!userStore.name){
 const { width, height } = useWindowSize();
 const WIDTH = 992; // refer to Bootstrap's responsive design
 
-const tagsViewStore = useTagsViewStore()
+// const tagsViewStore = useTagsViewStore()
 const route = useRoute()
-tagsViewStore.addCachedView(route)
+// tagsViewStore.addCachedView(route)
 
 function logout() {
   ElMessageBox.confirm('确定注销并退出系统吗？', '提示', {

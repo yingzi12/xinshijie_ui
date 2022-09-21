@@ -1,4 +1,5 @@
 <template>
+<!--  通用-->
     <!--  基本信息 -->
     <div>
       <div style="background-color: #E5EAF3">
