@@ -94,7 +94,7 @@ const data = reactive({
   },
   rules: {
     name: [{ required: true, message: '请输入世界名字', trigger: 'blur' },
-      { min: 1, max: 80, message: 'Length should be 1 to 80', trigger: 'blur' }
+      { min: 1, max: 80, message: '世界名字长度在  1 至 80', trigger: 'blur' }
     ],
     types: [{
       required: true,
@@ -109,9 +109,9 @@ const data = reactive({
     }
     ],
     intro: [ { required: true, message: '请输入世界简介', trigger: 'blur' },
-      { min: 10, max: 255, message: 'Length should be 5 to 255', trigger: 'blur' }],
+      { min: 10, max: 300, message: '世界名字长度在  10 至 300', trigger: 'blur' }],
     description: [ { required: true, message: '请输入世界描述', trigger: 'blur' },
-      { min: 10, max: 1000, message: 'Length should be 10 to 1000', trigger: 'blur' }],
+      { min: 10, max: 1000, message: '世界名字长度在  10 至 1000', trigger: 'blur' }],
   }
 });
 

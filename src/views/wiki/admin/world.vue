@@ -41,7 +41,7 @@
               </el-table-column>
               <el-table-column label="名称" align="center" key="name" prop="name"  :show-overflow-tooltip="true">
                 <template #default="scope">
-                  <router-link  :to="{path:'/admin/worldInfo', query: {wid:scope.row.id,wname:scope.row.name}}">{{scope.row.name}}</router-link>
+                  <router-link  :to="{path:'/admin/worldInfo', query: {wid:scope.row.id,wname:scope.row.name}}"><el-tag v-if="scope.row.source=='原创'">原创</el-tag>{{scope.row.name}}</router-link>
                 </template>
               </el-table-column>
               <el-table-column label="等级" align="center" key="ranks" prop="ranks"   width="50"/>

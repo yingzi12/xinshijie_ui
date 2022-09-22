@@ -19,7 +19,7 @@
         <el-card class="dddd" :body-style="{ padding: '0px',width:'100%' }">
           <el-image style="width:100%; height: 100px" :src="imgUrl+world.imgUrl" fit="fill" @click="handleSee(world.id)"/>
           <div style="padding: 1px;margin: 0px;text-align: center">
-            <p class="biaoti" style="font-size:16px;line-height:28px;margin: 0px" @click="handleSee(world.id)"><span style="font-family:'PingFangSC-Semibold', 'PingFang SC Semibold', 'PingFang SC', sans-serif;font-weight:650;" >{{ world.name }}</span></p>
+            <p class="biaoti" style="font-size:16px;line-height:28px;margin: 0px" @click="handleSee(world.id)"><span style="font-family:'PingFangSC-Semibold', 'PingFang SC Semibold', 'PingFang SC', sans-serif;font-weight:650;" >{{ world.name }}<el-tag v-if="world.source=='原创'">原创</el-tag></span></p>
             <p class="shuoming" style="font-size:14px;line-height:28px;margin: 0px;"><span style="font-family:'PingFangSC-Regular', 'PingFang SC', sans-serif;font-weight:400;color:#999999;font-size: x-small;">{{ world.intro }}</span></p>
           </div>
         </el-card>
@@ -53,7 +53,7 @@
             </div>
             <div >
               <div id="u10366-1_text" class="text u10366_text" style="/* visibility: inherit; */">
-                <p class="biaoti" @click="handleSee(world.id)" ><span style="font-family:'PingFangSC-Regular', 'PingFang SC', sans-serif;color:#333333;">{{ world.name }}</span></p>
+                <p class="biaoti" @click="handleSee(world.id)" ><span style="font-family:'PingFangSC-Regular', 'PingFang SC', sans-serif;color:#333333;">{{ world.name }}<el-tag v-if="world.source=='原创'">原创</el-tag></span></p>
                 <p class="shuoming"><span style="font-family:'PingFangSC-Regular', 'PingFang SC', sans-serif;  color:#999999; font-size: x-small;">{{ world.intro }}</span></p>
               </div>
             </div>
@@ -131,7 +131,7 @@
                     <el-image style="width: 66px; height: 88px" :src="imgUrl+world.imgUrl" fit="fill" @click="handleSee(world.id)" />
                   </el-col>
                   <el-col :span="16">
-                    <h3 class="biaoti" @click="handleSee(world.id)" >{{ world.name }}</h3>
+                    <h3 class="biaoti" @click="handleSee(world.id)" >{{ world.name }}<el-tag v-if="world.source=='原创'">原创</el-tag></h3>
                     <p class="zuozhe">{{ world.createTime }}</p>
                     <p class="zuozhe">{{ world.createName }}</p>
                   </el-col>

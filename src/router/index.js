@@ -311,21 +311,18 @@ export const constantRoutes = [
         name: 'Users',
         meta: { title: '基础信息', icon: 'user' }
       },{
-        path: 'check',
+        path: 'email',
         component: () => import('@/views/wiki/user/checkemail'),
-        name: 'check',
         meta: { title: '邮箱', icon: 'user' }
       }
       ,{
         path: 'edit',
         component: () => import('@/views/wiki/user/edit'),
-        name: 'edit',
         meta: { title: '修改', icon: 'user' }
       }
       ,{
         path: 'password',
         component: () => import('@/views/wiki/user/password'),
-        name: 'password',
         meta: { title: '修改密码', icon: 'user' }
       }
       ]
