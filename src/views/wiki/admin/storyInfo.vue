@@ -11,12 +11,12 @@
   <!--        多选-->
   <div style="padding: 10px">
     <el-space wrap>
-      <el-button text > <router-link :to="{path:'/admin/storyInfo', query: {wid:wid,wname:wname}}">简介</router-link></el-button>
-      <el-button text type="primary">  <router-link :to="{path:'/admin/storyAuthor', query: {wid:wid,wname:wname}}">作者列表</router-link></el-button>
-      <el-button text>  <router-link :to="{path:'/admin/storyReel', query: {wid:wid,wname:wname}}">章节目录</router-link></el-button>
-      <el-button text>  <router-link :to="{path:'/admin/storyAudit', query: {wid:wid,wname:wname}}">章节审核</router-link></el-button>
-      <el-button text>  <router-link :to="{path:'/admin/storyComment', query: {wid:wid,wname:wname}}">评论管理</router-link></el-button>
-      <el-button text>  <router-link :to="{path:'/admin/storyDiscuss', query: {wid:wid,wname:wname}}">讨论管理</router-link></el-button>
+      <el-button text type="primary"> <router-link :to="{path:'/admin/storyInfo', query: {sid:sid,sname:sname}}">简介</router-link></el-button>
+      <el-button text>  <router-link :to="{path:'/admin/storyAuthor', query: {sid:sid,sname:sname}}">作者列表</router-link></el-button>
+      <el-button text>  <router-link :to="{path:'/admin/storyReel', query: {sid:sid,sname:sname}}">章节目录</router-link></el-button>
+      <el-button text>  <router-link :to="{path:'/admin/storyAudit', query: {sid:sid,sname:sname}}">章节审核</router-link></el-button>
+      <el-button text>  <router-link :to="{path:'/admin/storyComment', query: {sid:sid,sname:sname}}">评论管理</router-link></el-button>
+      <el-button text>  <router-link :to="{path:'/admin/storyDiscuss', query: {sid:sid,sname:sname}}">讨论管理</router-link></el-button>
     </el-space>
   </div>
   <!--   内容区-->
@@ -69,12 +69,14 @@
 </template>
 
 <script lang="ts" setup>
-import {inject, ref} from 'vue'
+import {inject, markRaw, ref} from 'vue'
 import {Flag, Edit,Menu as IconMenu, Message, Setting} from '@element-plus/icons-vue'
 import type { TabsPaneContext } from 'element-plus'
 import {  getStory } from "@/api/admin/story";
 //接受参数
 import { useRoute,useRouter }  from "vue-router";  // 引用vue-router
+
+
 const router = useRouter()
 // 接收url里的参数
 const route = useRoute();
@@ -87,11 +89,13 @@ const storyStatus = new Map([
 ]);
 //世界信息
 const story=ref({})
-const wid = ref(null);
-wid.value = route.query.wid;
-story.value.id = route.query.wid;
+const sid = ref(null);
+const sname = ref('');
+sid.value = route.query.sid;
+sname.value = <string>route.query.sname;
+// story.value.id = route.query.sid;
 //console.log("世界id="+story.value.id);
-const baseUrl = inject("$baseUrl")
+// const baseUrl = inject("$baseUrl")
 const imgUrl = inject("$imgUrl")
 
 const imageUrl=ref('')
@@ -99,23 +103,22 @@ const activeIndex = ref('1')
 const fits = ['世界', '粉丝', '关注']
 //编辑世界
 function handleEdit(){
-  router.push("/admin/storyEdit?wid="+story.value.id);
+  router.push("/admin/storyEdit?sid="+story.value.id);
 }
 /** 查询世界详细 */
-function handleStory(id:number) {
-  getStory(id).then(response => {
+function handleStory() {
+  getStory(sid.value).then(response => {
     //console.log("查询世界详细:"+JSON.stringify(response))
     story.value = response.data
     imageUrl.value=imgUrl+response.data.imgUrl;
 
   });
-
 }
 
 function format(percentage){
   return percentage === 100 ? '100' : `7000/10000`;
 }
-handleStory(story.value.id);
+handleStory();
 </script>
 
 <style scoped>

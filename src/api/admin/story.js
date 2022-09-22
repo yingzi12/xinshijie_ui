@@ -53,7 +53,7 @@ export function delStory(id) {
 // 发布
 export function issue(wid) {
   return request({
-    url: '/admin/story/issue?wid=' + wid,
+    url: '/admin/story/issue?sid=' + wid,
     method: 'get'
   })
 }

@@ -1,184 +1,169 @@
 <template>
-        <!--        标题-->
   <div>
     <el-menu
         :default-active="1"
         mode="horizontal"
         style="margin:0px;pardding:0px"
     >
-      <el-menu-item index="1"><span style="font-size: 20px;font-weight:bold;">{{wname}}</span></el-menu-item>
+      <el-menu-item index="1"><span style="font-size: 20px;font-weight:bold;">修改故事</span></el-menu-item>
     </el-menu>
   </div>
-        <div>
-          <div style="background-color: #E5EAF3;height: 30px;margin: 0px;padding: 0px">
-            <h1>编辑世界</h1>
-          </div>
-          <div>
-            <el-form
-                ref="worldRef"
-                :model="form"
-                :rules="rules"
-                label-width="120px"
-                class="demo-ruleForm"
-                :size="formSize"
-                status-icon
-            >
-              <el-form-item label="照 片" prop="name">
-                <el-upload
-                    class="avatar-uploader"
-                    :action="uploadImgUrl"
-                    name="upload"
-                    :show-file-list="false"
-                    :on-success="handleAvatarSuccess"
-                    :before-upload="beforeAvatarUpload"
-                >
-                  <img v-if="imageUrl" :src="imageUrl" class="avatar" />
-                  <el-icon v-else class="avatar-uploader-icon"><Plus /></el-icon>
-                </el-upload>
-              </el-form-item>
-              <el-form-item label="名 称" prop="name">
-                <el-input v-model="form.name" placeholder="请输入世界名称" maxlength="30"   />
-              </el-form-item>
-              <el-form-item label="分 类" prop="types">
-                <el-select v-model="form.types" placeholder="请选择世界类型">
-                  <el-option
-                      v-for="item in storyTypes"
-                      :key="item.id"
-                      :label="item.name"
-                      :value="item.id"
-                  />
-                </el-select>
-              </el-form-item>
-              <el-form-item label="来 源" prop="checkList">
-                <el-checkbox-group v-model="form.checkList" @change="handleSurce">
-                  <el-checkbox label="原创" v-if="ischeck==0 || ischeck==1" />
-                  <el-checkbox label="游戏"  v-if="ischeck==0 || ischeck==2"/>
-                  <el-checkbox label="小说" v-if="ischeck==0 || ischeck==2" />
-                  <el-checkbox label="电影"  v-if="ischeck==0 || ischeck==2"  />
-                  <el-checkbox label="动漫"  v-if="ischeck==0 || ischeck==2"  />
-                  <el-checkbox label="电视剧"  v-if="ischeck==0 || ischeck==2"  />
-                  <el-checkbox label="其他"  v-if="ischeck==0 || ischeck==2"  />
-                </el-checkbox-group>
-              </el-form-item>
-              <el-form-item label="简 介" prop="intro">
-                <el-input v-model="form.intro" type="textarea" placeholder="请选择世界简介"/>
-              </el-form-item>
-              <el-form-item label="描 述" prop="description">
-                <el-input v-model="form.description" type="textarea" rows="10"  placeholder="请输入世界说明"/>
-              </el-form-item>
-              <el-form-item>
-                <el-button type="primary" @click="submitForm(ruleFormRef)">修改</el-button>
-                <el-button @click="reset()">返回</el-button>
-              </el-form-item>
-            </el-form>
-          </div>
-        </div>
+  <div>
+    <el-form
+        ref="ruleFormRef"
+        :model="form"
+        :rules="rules"
+        label-width="120px"
+        class="demo-ruleForm"
+        status-icon
+    >
+      <el-form-item label="照 片" prop="image">
+        <el-upload
+            class="avatar-uploader"
+            :action="uploadImgUrl"
+            name="upload"
+            :show-file-list="false"
+            :on-success="handleAvatarSuccess"
+            :before-upload="beforeAvatarUpload"
+        >
+          <img v-if="imageUrl" :src="imageUrl" class="avatar" />
+          <el-icon v-else class="avatar-uploader-icon"><Plus /></el-icon>
+        </el-upload>
+      </el-form-item>
+      <el-form-item label="名 称" prop="name">
+        <el-input v-model="form.name" placeholder="请输入故事名称" maxlength="30"   />
+      </el-form-item>
+      <el-form-item label="所属世界编号" prop="wid">
+        <el-input v-model="form.wid" placeholder="请输入世界编号" maxlength="30" disabled />
+      </el-form-item>
+      <el-form-item label="所属世界名称" prop="wname">
+        <el-input v-model="form.wname" placeholder="请输入世界编号" maxlength="30"  disabled  />
+        <div>{{intro}}</div>
+      </el-form-item>
+      <el-form-item label="分 类" prop="types">
+        <el-select v-model="form.types" placeholder="请选择世界类型">
+          <el-option
+              v-for="item in storyTypes"
+              :key="item.id"
+              :label="item.name"
+              :value="item.id"
+          />
+        </el-select>
+      </el-form-item>
+      <el-form-item label="来 源" prop="checkList">
+        <el-checkbox-group v-model="form.checkList" @change="handleSurce">
+          <el-checkbox label="原创" v-if="ischeck==0 || ischeck==1" />
+          <el-checkbox label="游戏"  v-if="ischeck==0 || ischeck==2"/>
+          <el-checkbox label="小说" v-if="ischeck==0 || ischeck==2" />
+          <el-checkbox label="电影"  v-if="ischeck==0 || ischeck==2"  />
+          <el-checkbox label="动漫"  v-if="ischeck==0 || ischeck==2"  />
+          <el-checkbox label="电视剧"  v-if="ischeck==0 || ischeck==2"  />
+          <el-checkbox label="其他"  v-if="ischeck==0 || ischeck==2"  />
+        </el-checkbox-group>
+      </el-form-item>
+      <el-form-item label="简 介" prop="intro">
+        <el-input v-model="form.intro" type="textarea" placeholder="请输入故事简介"/>
+      </el-form-item>
+      <el-form-item label="描 述" prop="description">
+        <el-input v-model="form.description" type="textarea" rows="10"  placeholder="请输入故事描述"/>
+      </el-form-item>
+      <el-form-item>
+        <el-button type="primary" @click="submitForm(ruleFormRef)">修改</el-button>
+        <el-button @click="reset()">返回</el-button>
+      </el-form-item>
+    </el-form>
+  </div>
 </template>
 
 <script lang="ts" setup>
-import {getCurrentInstance, inject, reactive, ref, toRefs} from 'vue'
-import { Menu as IconMenu, Message, Setting } from '@element-plus/icons-vue'
-import { useRoute,useRouter }  from "vue-router";  // 引用vue-router
+import {getCurrentInstance, inject, markRaw, reactive, ref, toRefs} from 'vue'
 import {  updateStory,getStory } from "@/api/admin/story";
-import {ElMessage, FormInstance, UploadProps} from "element-plus";
-const {  appContext : { config: { globalProperties } }  } = getCurrentInstance();
-const {  proxy  } = getCurrentInstance();
+import {   getWorld } from "@/api/wiki/world";
+import {useRoute, useRouter} from "vue-router";
+import {ElMessage, FormInstance} from "element-plus";
+import {UploadProps} from "element-plus/es";
+// import edit from "../image/eidt.vue";
+// const  temPage=markRaw(edit)
+// const  tem=ref()
+
 const router = useRouter()
 // 接收url里的参数
 const route = useRoute();
-const wid = ref(null);
+//console.log(route.query.wid,"参数");
+const sid = ref(null);
+sid.value = route.query.sid;
 
-//世界信息
-const story=ref({})
-wid.value = route.query.wid;
-story.value.id = wid.value
-//console.log("世界id="+story.value.id);
-const baseUrl = inject("$baseUrl")
-const imgUrl = inject("$imgUrl")
-
-const imageUrl=ref('')
-const uploadImgUrl = ref(baseUrl + "/common/uploadImage"); // 上传的图片服务器地址
-const imageUrlPath = ref('')
-const formSize = ref('default')
-const ruleFormRef = ref<FormInstance>()
-const activeIndex = ref('1')
-const storyTypes=reactive([{id:6,name:"科学"},{id:1,name:"武侠"},{id:2,name:"仙侠"},{id:3,name:"魔幻"},{id:4,name:"奇幻"},{id:5,name:"其他"}])
+const {  appContext : { config: { globalProperties } }  } = getCurrentInstance();
+const {  proxy  } = getCurrentInstance();
+class Story {
+  id: number
+  name: string
+  types: string
+  intro: string
+  createTime:string
+}
+const storyStatus = new Map([
+  [0, "正常"],
+  [1, "待发布"],
+  [2, "锁定"],
+  [3, "删除"]
+]);
 const storyTypesMap=new Map([
   [6,"科学"],
   [1,"武侠"],
   [2,"仙侠"],
   [3,"魔幻"],
   [4,"奇幻"],
-  [5,"其他"],
+  [5,"其他"]
 ])
+const storyTypes=reactive([{id:6,name:"科学"},{id:1,name:"武侠"},{id:2,name:"仙侠"},{id:3,name:"魔幻"},{id:4,name:"奇幻"},{id:5,name:"其他"}])
+
+const ruleFormRef = ref<FormInstance>()
+
 const data = reactive({
-  form: {
+  form: {},
+  queryParams: {
+    pageNum: 1,
+    pageSize: 10,
+    name: '',
+    types: undefined,
   },
   rules: {
-    name: [{ required: true, message: '请输入世界名字', trigger: 'blur' },
-      { min: 1, max: 80, message: 'Length should be 1 to 80', trigger: 'blur' }
-    ],
-    types: [{
-      required: true,
-      message: '请选择世界类型',
-      trigger: 'change',
-    }
-    ],
-    checkList: [{
-      required: true,
-      message: '请选择世界来源',
-      trigger: 'change',
-    }
-    ],
-    intro: [ { required: true, message: '请输入世界简介', trigger: 'blur' },
-      { min: 10, max: 255, message: 'Length should be 10 to 255', trigger: 'blur' }],
-    description: [ { required: true, message: '请输入世界描述', trigger: 'blur' },
-      { min: 10, max: 1000, message: 'Length should be 10 to 1000', trigger: 'blur' }],
+    name: [{ required: true, message: "故事名称不能为空", trigger: "blur" }, { min: 1, max: 100, message: "故事名称长度必须介于 1 和 100 之间", trigger: "blur" }],
+    wid: [{ required: true, message: "世界编号不能为空", trigger: "blur" }],
+    wname: [{ required: true, message: "世界名称不能为空", trigger: "blur" }],
+    types: [{ required: true, message: "必须选择分类", trigger: "blur" }],
+    checkList: [{ required: true, message: "必须选择分类", trigger: "blur" }],
+    intro: [{ required: true, message: "故事简介不能为空", trigger: "blur" }, { min: 10, max: 300, message: "故事简介长度必须介于 10 和 300 之间", trigger: "blur" }],
+    description: [{ required: true, message: "故事描述不能为空", trigger: "blur" }, { min: 10, max:1000, message: "故事描述长度必须介于 2 和 1000 之间", trigger: "blur" }],
+
   }
 });
-const {  form, rules } = toRefs(data);
+const { queryParams, form, rules } = toRefs(data);
 
+const  intro=ref('')
 
-//上传图片
-// const imageUrl = ref('')
-/** 查询世界详细 */
-function handleStory(id:number) {
-  getStory(id).then(response => {
-    //console.log("查询世界详细:"+JSON.stringify(response))
-    form.value = response.data;
-    form.value.checkList=form.value.source.split(';')
-    handleSurce();
-    imageUrl.value=imgUrl+response.data.imgUrl;
-    imageUrlPath.value=response.data.imgUrl;
-    // form.value.imgUrl='https://fuss10.elemecdn.com/e/5d/4a731a90594a4af544c0c25941171jpeg.jpeg'
-    //console.log("查询世界详细:"+JSON.stringify(story.value))
-  });
-}
-
-const submitForm = async (formEl: FormInstance | undefined) => {
-  proxy.$refs["storyRef"].validate(valid => {
-    //console.log("查询世界详细storyRef valid:"+JSON.stringify(valid))
-    if (valid) {
-      if (form.value.id != undefined) {
-        form.value.source=form.value.checkList.map(String).join(';')
-        form.value.imgUrl=imageUrlPath.value
-        updateStory(form.value).then(response => {
-          globalProperties.$modal.msgSuccess("修改成功");
-          router.push("/admin/storyInfo?wid="+wid.value);
-        });
-      }else {
-        globalProperties.$modal.msgError("非法操作");
-      }
+const ischeck=ref(0)
+function handleSurce(){
+  if(form.value.checkList.length==0){
+    ischeck.value=0;
+  }else {
+    if (form.value.checkList.indexOf("原创") != -1) {
+      ischeck.value = 1;
+    } else {
+      ischeck.value = 2;
     }
-  });
-  //console.log("查询世界详细formEl:"+JSON.stringify(formEl))
+  }
 }
 
-const reset = () => {
-  router.push("/admin/storyInfo?wid="+wid.value);
-}
+// 图片
+const baseUrl = inject("$baseUrl")
+const imgUrl = inject("$imgUrl")
 
+const imageUrl = ref('')
+const imageUrlPath = ref('')
 
+const uploadImgUrl = ref(baseUrl + "/common/uploadImage"); // 上传的图片服务器地址
 
 const handleAvatarSuccess: UploadProps['onSuccess'] = (
     response,
@@ -186,6 +171,7 @@ const handleAvatarSuccess: UploadProps['onSuccess'] = (
 ) => {
   imageUrl.value = URL.createObjectURL(uploadFile.raw!)
   imageUrlPath.value=uploadFile.response.fileName
+  form.value.imgUrl=uploadFile.response.fileName
 }
 
 const beforeAvatarUpload: UploadProps['beforeUpload'] = (rawFile) => {
@@ -199,71 +185,51 @@ const beforeAvatarUpload: UploadProps['beforeUpload'] = (rawFile) => {
   return true
 }
 
-const ischeck=ref(0)
-function handleSurce(){
-  //console.log("原创"+form.value.checkList.indexOf("原创"))
-  //console.log("原创长度"+form.value.checkList.length)
-  //console.log("原创长度"+JSON.stringify(form.value.checkList))
-  if(form.value.checkList.length==0){
-    ischeck.value=0;
-  }else {
-    if (form.value.checkList.indexOf("原创") != -1) {
-      ischeck.value = 1;
+const submitForm = async (formEl: FormInstance | undefined) => {
+  if (!formEl) return
+  await formEl.validate((valid, fields) => {
+    if (valid) {
+      //console.log('submit!')
+      form.value.source=form.value.checkList.map(String).join(';')
+      // form.value.imgUrl=tem.value.imageUrlPath
+      updateStory(form.value).then(response => {
+        console.log("修改成功:"+    JSON.stringify(response))
+        router.push("/admin/storyInfo?sid="+form.id+"&sname"+form.name);
+      })
     } else {
-      ischeck.value = 2;
+      //console.log('error submit!', fields)
     }
-  }
-
+  })
 }
+// const story=ref({})
 
-handleStory(wid.value);
+// const  imgUrl=ref('')
+/** 查询世界详细 */
+function handleStory() {
+  getStory(sid.value).then(response => {
+      form.value = response.data
+      form.value.checkList=form.value.source.split(';')
+      imageUrl.value=imgUrl+response.data.imgUrl
+      getWorld(form.value.wid).then(response => {
+         form.value.wid= response.data.id;
+         form.value.wname= response.data.name;
+         intro.value=response.data.intro
+     });
+    handleSurce()
+
+  });
+  console.log(JSON.stringify(form))
+}
+handleStory();
+
+
+
 </script>
 
 <style scoped>
-.layout-container-demo .el-aside {
-  color: var(--el-text-color-primary);
-  background: var(--el-color-primary-light-8);
-}
-.layout-container-demo .el-menu {
-  border-right: none;
-}
-.layout-container-demo .el-main {
-  padding: 0;
-}
-.layout-container-demo .toolbar {
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-  height: 100%;
-  right: 20px;
-}
 .center {
   display: flex;
   justify-content: center;
   align-items: center;
-}
-
-.demo-count .block {
-  padding: 0px 0;
-  text-align: center;
-  border-right: solid 1px var(--el-border-color);
-  display: inline-block;
-  width: 33%;
-  box-sizing: border-box;
-  vertical-align: top;
-}
-.demo-count .block:last-child {
-  border-right: none;
-}
-.demo-count .demonstration {
-  display: block;
-  color: var(--el-text-color-secondary);
-  font-size: 9px;
-  margin-bottom: 0px;
-}
-.avatar-uploader .avatar {
-  width: 178px;
-  height: 178px;
-  display: block;
 }
 </style>

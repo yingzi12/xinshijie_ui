@@ -1,16 +1,16 @@
 import request from '@/utils/request'
 
-export function getWorldAuthor(id) {
+export function getStoryAuthor(id) {
   return request({
-    url: '/admin/author/getWorldAuthor?wid=' + id,
+    url: '/admin/author/getStoryAuthor?sid=' + id,
     method: 'get'
   })
 }
 
 //
-export function getInfo(wid) {
+export function getInfo(sid) {
   return request({
-    url: '/admin/author/getInfo?wid='+wid,
+    url: '/admin/author/getInfo?sid='+sid,
     method: 'get'
   })
 }
@@ -34,9 +34,9 @@ export function updateAuthor(data) {
 }
 
 //Manage
-export function delAuthor(id,wid) {
+export function delAuthor(id,sid) {
   return request({
-    url: '/admin/author/remove?id=' + id+'&wid='+wid,
+    url: '/admin/author/remove?id=' + id+'&sid='+sid,
     method: 'delete'
   })
 }

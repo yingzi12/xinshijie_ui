@@ -27,7 +27,22 @@
   <div style="background-color:#b0c4de;margin: auto;padding: 10px">
     <el-row>
       <el-col :span="20">
-        <el-tree-select v-model="queryParams.types" :data="dataStree" check-strictly :render-after-expand="false" clearable />
+        <el-select v-model="queryParams.types" clearable  placeholder="请选择">
+          <el-option
+              v-for="item in storyTypes"
+              :key="item.id"
+              :label="item.name"
+              :value="item.id">
+          </el-option>
+        </el-select>
+        <el-select v-model="queryParams.status" clearable placeholder="请选择">
+          <el-option
+              v-for="item in storyStatus"
+              :key="item.id"
+              :label="item.name"
+              :value="item.id">
+          </el-option>
+        </el-select>
         <el-input v-model="queryParams.title" placeholder="请输入元素名" class="input-with-select" style="width: 250px"/>
         <el-button :icon="Search" circle @click="getList"/>
       </el-col>
@@ -41,13 +56,13 @@
   <!--        表格-->
   <div>
     <el-scrollbar>
-      <el-table v-loading="loading" :data="elementList" >
+      <el-table v-loading="loading" :data="storyList" >
         <el-table-column label="序号" width="50">
           <template #default="scope">
             {{ scope.$index + 1 + (queryParams.pageNum - 1) * 10 }}
           </template>
         </el-table-column>
-        <el-table-column label="故事名" align="center" key="title" prop="title" :show-overflow-tooltip="true"/>
+        <el-table-column label="故事名" align="center" key="name" prop="name" :show-overflow-tooltip="true"/>
         <el-table-column label="状态" align="center"  >
           <template #default="scope">
             <span>{{storyStatusMap.get(scope.row.status)}}</span>
@@ -71,12 +86,11 @@
                   @click="handleSee(scope.row)"
               ></el-button>
             </el-tooltip>
-            <el-tooltip content="审核" placement="top">
+            <el-tooltip v-if="scope.row.status==2" content="审核" placement="top">
               <el-button
                   type="text"
-                  icon="Edit"
                   @click="handleAudit(scope.row)"
-              ></el-button>
+              >审核</el-button>
             </el-tooltip>
 <!--            <el-tooltip content="删除" placement="top">-->
 <!--              <el-button-->
@@ -109,9 +123,13 @@ import {Search} from '@element-plus/icons-vue'
 const fits = ['世界', '粉丝', '关注']
 const activeIndex = ref('1')
 const storyStatusMap = new Map([
-  [1, "正常"],
-  [2, "锁定"],
-  [4, "删除"]
+  [1, "草稿"],
+  [2, "待审核"],
+  [3, "审核通过正常"],
+  [4, "删除"],
+  [5, "审核不通过"],
+  [6, "隐藏"],
+  [7, "锁定"],
 ]);
 
 const storyTypesMap=new Map([
@@ -122,6 +140,18 @@ const storyTypesMap=new Map([
   [4,"奇幻"],
   [5,"其他"]
 ])
+const storyTypes=reactive([{id:6,name:"科学"},{id:1,name:"武侠"},{id:2,name:"仙侠"},{id:3,name:"魔幻"},{id:4,name:"奇幻"},{id:5,name:"其他"}])
+const storyStatus=reactive([
+  {id:2,name:"待审核"},
+  {id:3,name:"审核通过正常"},
+  {id:4,name:"删除"},
+  {id:5,name:"审核不通过"},
+  {id:6,name:"隐藏"},
+  {id:7,name:"锁定"}
+
+])
+
+
 const temType = ref(1)
 // 接收url里的参数
 const route = useRoute();
@@ -152,7 +182,8 @@ const data = reactive({
     pageSize: 10,
     title: undefined,
     types: '',
-    wid:wid.value
+    wid:wid.value,
+    status:2,
   },
   rules: {
     // userName: [{ required: true, message: "用户名称不能为空", trigger: "blur" }, { min: 2, max: 20, message: "用户名称长度必须介于 2 和 20 之间", trigger: "blur" }],
@@ -170,15 +201,6 @@ function handleAudit (row)  {
 function handleAdd()  {
   router.push("/admin/storyAdd?wname="+wname.value+"&wid=" + wid.value);
 }
-
-// function handleDelete ( row){
-//   globalProperties.$modal.confirm('是否确认删除世界名称为"' + row.title + '"的数据？').then(function () {
-//     return delElement(row.wid,row.id);
-//   }).then(() => {
-//     getList();
-//     globalProperties.$modal.msgSuccess("删除成功");
-//   }).catch(() => {});
-// }
 
 function handleSee(row){
   router.push("/element/details?wid="+row.wid+"&eid="+row.id);

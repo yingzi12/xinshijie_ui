@@ -39,9 +39,14 @@
             {{scope.$index+1+(queryParams.pageNum-1)*10}}
           </template>
         </el-table-column>
-        <el-table-column label="名称" align="center" key="name" prop="name"  :show-overflow-tooltip="true">
+        <el-table-column label="故事" align="center" key="name" prop="name"  :show-overflow-tooltip="true">
           <template #default="scope">
-            <router-link  :to="{path:'/admin/storyInfo', query: {wid:scope.row.id,wname:scope.row.name}}"><el-tag v-if="scope.row.source=='原创'">原创</el-tag>{{scope.row.name}}</router-link>
+            <router-link  :to="{path:'/admin/storyInfo', query: {sid:scope.row.id,sname:scope.row.name}}"><el-tag v-if="scope.row.source=='原创'">原创</el-tag>{{scope.row.name}}</router-link>
+          </template>
+        </el-table-column>
+        <el-table-column label="世界" align="center" key="name" prop="name"  :show-overflow-tooltip="true">
+          <template #default="scope">
+            <router-link  :to="{path:'/admin/worldInfo', query: {wid:scope.row.wid,wname:scope.row.wname}}">{{scope.row.wname}}</router-link>
           </template>
         </el-table-column>
         <el-table-column label="等级" align="center" key="ranks" prop="ranks"   width="50"/>
@@ -165,7 +170,7 @@ const single = ref(true);
 const multiple = ref(true);
 const search = ref('')
 function handleUpdate (row)  {
-  router.push("/admin/storyEdit?wid="+row.id);
+  router.push("/admin/storyEdit?sid="+row.id);
 }
 function handleAdd ()  {
   router.push("/story/add");
@@ -182,7 +187,7 @@ function handleDelete ( row){
 }
 
 function handleSee(row){
-  router.push("/admin/storyInfo?wid="+row.id);
+  router.push("/admin/storyInfo?sid="+row.id);
 }
 function handleIssue(row){
   //console.log("发布："+JSON.stringify(row))

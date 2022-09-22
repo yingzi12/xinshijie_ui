@@ -6,20 +6,20 @@
               mode="horizontal"
               style="margin:0px;pardding:0px"
           >
-            <el-menu-item index="1">{{wname}}</el-menu-item>
+            <el-menu-item index="1">{{sname}}</el-menu-item>
           </el-menu>
         </div>
         <!--        多选-->
-        <div style="padding: 10px">
-          <el-space wrap>
-            <el-button text > <router-link :to="{path:'/admin/storyInfo', query: {wid:wid,wname:wname}}">简介</router-link></el-button>
-            <el-button text type="primary">  <router-link :to="{path:'/admin/storyAuthor', query: {wid:wid,wname:wname}}">作者列表</router-link></el-button>
-            <el-button text>  <router-link :to="{path:'/admin/storyReel', query: {wid:wid,wname:wname}}">章节目录</router-link></el-button>
-            <el-button text>  <router-link :to="{path:'/admin/storyAudit', query: {wid:wid,wname:wname}}">章节审核</router-link></el-button>
-            <el-button text>  <router-link :to="{path:'/admin/storyComment', query: {wid:wid,wname:wname}}">评论管理</router-link></el-button>
-            <el-button text>  <router-link :to="{path:'/admin/storyDiscuss', query: {wid:wid,wname:wname}}">讨论管理</router-link></el-button>
-          </el-space>
-        </div>
+  <div style="padding: 10px">
+    <el-space wrap>
+      <el-button text> <router-link :to="{path:'/admin/storyInfo', query: {sid:sid,sname:sname}}">简介</router-link></el-button>
+      <el-button text type="primary">  <router-link :to="{path:'/admin/storyAuthor', query: {sid:sid,sname:sname}}">作者列表</router-link></el-button>
+      <el-button text>  <router-link :to="{path:'/admin/storyReel', query: {sid:sid,sname:sname}}">章节目录</router-link></el-button>
+      <el-button text>  <router-link :to="{path:'/admin/storyAudit', query: {sid:sid,sname:sname}}">章节审核</router-link></el-button>
+      <el-button text>  <router-link :to="{path:'/admin/storyComment', query: {sid:sid,sname:sname}}">评论管理</router-link></el-button>
+      <el-button text>  <router-link :to="{path:'/admin/storyDiscuss', query: {sid:sid,sname:sname}}">讨论管理</router-link></el-button>
+    </el-space>
+  </div>
         <!--        统计-->
         <div style="background-color:#b0c4de;margin: auto;padding: 10px">
           <el-row>
@@ -28,14 +28,14 @@
             </el-col >
             <el-col :span="20"  style="text-align: right;">
               <div style="text-align: right; font-size: 12px" class="toolbar">
-                <el-button v-if="types == 1" type="primary" size="small" :icon="CirclePlus" @click="handleAdd"  >新增</el-button>
+                <el-button v-if="types == 3" type="primary" size="small" :icon="CirclePlus" @click="handleAdd"  >新增</el-button>
               </div>
             </el-col>
           </el-row>
         </div>
         <div>
           <el-scrollbar>
-            <el-table v-loading="loading" :data="storyList">
+            <el-table v-loading="loading" :data="authorList">
               <el-table-column label="序号" width="50" >
                 <template #default="scope">
                   {{scope.$index+1+(queryParams.pageNum-1)*10}}
@@ -46,7 +46,7 @@
               <el-table-column label="签名" align="center" key="sign" prop="sign"  :show-overflow-tooltip="true" />
               <el-table-column label="创建人" align="center" key="createName" prop="createName"  :show-overflow-tooltip="true" />
               <el-table-column label="更新时间" align="center" prop="updateTime"  width="160" :show-overflow-tooltip="true" />
-              <el-table-column   v-if="types == 1"  label="操作" align="center" width="150" class-name="small-padding fixed-width">
+              <el-table-column   v-if="types == 3"  label="操作" align="center" width="150" class-name="small-padding fixed-width">
                 <template #default="scope">
                   <el-tooltip content="取消" placement="top" >
                     <el-button
@@ -94,10 +94,10 @@ const router = useRouter()
 // 接收url里的参数
 const route = useRoute();
 
-const wid = ref();
- wid.value =route.query.wid;
-const wname = ref('');
-wname.value = <string>route.query.wname;
+const sid = ref();
+ sid.value =route.query.sid;
+const sname = ref('');
+sname.value = <string>route.query.sname;
 //console.log("世界id="+wid.value);
 
 const {  appContext : { config: { globalProperties } }  } = getCurrentInstance();
@@ -111,7 +111,7 @@ class Story {
 }
 const open = ref(false);
 const loading = ref(true);
-const storyList = ref([]);
+const authorList = ref([]);
 const total = ref(0);
 
 const data = reactive({
@@ -121,7 +121,7 @@ const data = reactive({
     pageSize: 10,
     name: undefined,
     types: undefined,
-    wid: wid.value,
+    sid: sid.value,
   },
   rules: {
     userId: [{ required: true, message: "用户id不能为空", trigger: "blur" }, { min: 1, max: 20, message: "用户名称长度必须介于 2 和 20 之间", trigger: "blur" }],
@@ -148,7 +148,7 @@ function handleDelete ( row){
 /** 新增按钮操作 */
 function handleAdd() {
   //console.log("handleAdd 世界id:"+wid.value)
-  form.value.wid=wid.value;
+  form.value.sid=sid.value;
      open.value=true;
 };
 /** 提交按钮 */
@@ -189,16 +189,16 @@ function reset() {
 /** 查询管理员列表 */
 function getList() {
   //console.log("getList 世界id:"+wid.value)
-  getStoryAuthor(wid.value).then(response => {
+  getStoryAuthor(sid.value).then(response => {
     loading.value = false;
-    storyList.value = response.rows;
-    total.value = response.total;
+    authorList.value = response.data;
+    total.value = response.data.length;
   });
 }
 const types=ref(0)
 function getAuthor() {
   //console.log("getManage 世界id:"+wid.value)
-  getInfo(wid.value).then(response => {
+  getInfo(sid.value).then(response => {
     types.value = response.data.types;
     //console.log("types 世界id:"+types.value)
   });

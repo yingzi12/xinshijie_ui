@@ -69,13 +69,21 @@
 import {getCurrentInstance, markRaw, reactive, ref, toRefs} from 'vue'
 import {  addStory } from "@/api/admin/story";
 import {   getWorld } from "@/api/wiki/world";
-import { useRouter} from "vue-router";
+import {useRoute, useRouter} from "vue-router";
 import {ElMessage, FormInstance} from "element-plus";
-import index from "../image/image.vue";
+import index from "../image/add.vue";
 const  temPage=markRaw(index)
 const tem=ref()
 
 const router = useRouter()
+// 接收url里的参数
+const route = useRoute();
+//console.log(route.query.wid,"参数");
+const wid = ref(null);
+const wname = ref('');
+wname.value = <string>route.query.wname;
+wid.value = route.query.wid;
+
 const {  appContext : { config: { globalProperties } }  } = getCurrentInstance();
 const {  proxy  } = getCurrentInstance();
 class Story {
@@ -112,19 +120,26 @@ const data = reactive({
     types: undefined,
   },
   rules: {
-    name: [{ required: true, message: "故事名称不能为空", trigger: "blur" }, { min: 1, max: 20, message: "故事名称长度必须介于 1 和 20 之间", trigger: "blur" }],
+    name: [{ required: true, message: "故事名称不能为空", trigger: "blur" }, { min: 1, max: 100, message: "故事名称长度必须介于 1 和 100 之间", trigger: "blur" }],
     wid: [{ required: true, message: "世界编号不能为空", trigger: "blur" }],
     wname: [{ required: true, message: "世界名称不能为空", trigger: "blur" }],
     types: [{ required: true, message: "必须选择分类", trigger: "blur" }],
     checkList: [{ required: true, message: "必须选择分类", trigger: "blur" }],
-    intro: [{ required: true, message: "故事简介不能为空", trigger: "blur" }, { min: 10, max: 30, message: "故事简介长度必须介于 10 和 30 之间", trigger: "blur" }],
+    intro: [{ required: true, message: "故事简介不能为空", trigger: "blur" }, { min: 10, max: 300, message: "故事简介长度必须介于 10 和 300 之间", trigger: "blur" }],
     description: [{ required: true, message: "故事描述不能为空", trigger: "blur" }, { min: 10, max:1000, message: "故事描述长度必须介于 2 和 1000 之间", trigger: "blur" }],
 
   }
 });
 const { queryParams, form, rules } = toRefs(data);
 
-
+if(!isNaN(wid.value)){
+  form.value.wid = wid.value
+  getWorld(form.value.wid).then(response => {
+    form.value.wid= response.data.id;
+    form.value.wname= response.data.name;
+    intro.value=response.data.intro
+  });
+}
 const  intro=ref('')
 function handleWorldInfo(){
   var n = Number(form.value.wid);
@@ -165,8 +180,8 @@ const submitForm = async (formEl: FormInstance | undefined) => {
       form.value.source=form.value.checkList.map(String).join(';')
       form.value.imgUrl=tem.value.imageUrlPath
       addStory(form.value).then(response => {
-        //console.log("添加成功")
-        router.push("/admin/storyInfo?sid="+response.data.id);
+        console.log("添加成功:"+    JSON.stringify(response))
+        router.push("/admin/storyInfo?sid="+response.data.id+"&sname"+response.data.name);
       })
     } else {
       //console.log('error submit!', fields)

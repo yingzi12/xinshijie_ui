@@ -150,8 +150,6 @@ function handleWorld(id:number) {
     handleSurce();
     imageUrl.value=imgUrl+response.data.imgUrl;
     imageUrlPath.value=response.data.imgUrl;
-    // form.value.imgUrl='https://fuss10.elemecdn.com/e/5d/4a731a90594a4af544c0c25941171jpeg.jpeg'
-    //console.log("查询世界详细:"+JSON.stringify(world.value))
   });
 }
 
@@ -201,9 +199,6 @@ const beforeAvatarUpload: UploadProps['beforeUpload'] = (rawFile) => {
 
 const ischeck=ref(0)
 function handleSurce(){
-  //console.log("原创"+form.value.checkList.indexOf("原创"))
-  //console.log("原创长度"+form.value.checkList.length)
-  //console.log("原创长度"+JSON.stringify(form.value.checkList))
   if(form.value.checkList.length==0){
     ischeck.value=0;
   }else {
