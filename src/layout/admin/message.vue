@@ -49,9 +49,13 @@
                 <el-icon><icon-menu /></el-icon>
                 <template #title>元素草稿</template>
               </el-menu-item>
-              <el-menu-item index="/admin/audit">
+              <el-menu-item index="/admin/story">
                 <el-icon><icon-menu /></el-icon>
-                <template #title>已发布元素</template>
+                <template #title>故事管理</template>
+              </el-menu-item>
+              <el-menu-item index="/admin/draftChapter">
+                <el-icon><icon-menu /></el-icon>
+                <template #title>章节草稿</template>
               </el-menu-item>
               <el-menu-item index="/admin/discuss">
                 <el-icon><icon-menu /></el-icon>

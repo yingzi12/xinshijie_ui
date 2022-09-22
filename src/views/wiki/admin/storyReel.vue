@@ -10,30 +10,27 @@
           </el-menu>
         </div>
         <!--        多选-->
-        <div style="padding: 10px">
-          <el-space wrap>
-            <el-button text > <router-link :to="{path:'/admin/worldInfo', query: {wid:wid,wname:wname}}">简介</router-link></el-button>
-            <el-button text>  <router-link :to="{path:'/admin/worldManage', query: {wid:wid,wname:wname}}">造物主列表</router-link></el-button>
-            <el-button text type="primary">  <router-link :to="{path:'/admin/worldElement', query: {wid:wid,wname:wname}}">元素列表</router-link></el-button>
-            <el-button text>  <router-link :to="{path:'/admin/worldCategory', query: {wid:wid,wname:wname}}">分类管理</router-link></el-button>
-            <el-button text>  <router-link :to="{path:'/admin/worldAudit', query: {wid:wid,wname:wname}}">元素审核</router-link></el-button>
-            <el-button text>  <router-link :to="{path:'/admin/worldStory', query: {wid:wid,wname:wname}}">故事管理</router-link></el-button>
-            <el-button text>  <router-link :to="{path:'/admin/worldRedident', query: {wid:wid,wname:wname}}">居民管理</router-link></el-button>
-            <el-button text>  <router-link :to="{path:'/admin/worldComment', query: {wid:wid,wname:wname}}">评论管理</router-link></el-button>
-            <el-button text>  <router-link :to="{path:'/admin/worldDiscuss', query: {wid:wid,wname:wname}}">讨论管理</router-link></el-button>
-          </el-space>
-        </div>
+  <div style="padding: 10px">
+    <el-space wrap>
+      <el-button text > <router-link :to="{path:'/admin/storyInfo', query: {wid:wid,wname:wname}}">简介</router-link></el-button>
+      <el-button text type="primary">  <router-link :to="{path:'/admin/storyAuthor', query: {wid:wid,wname:wname}}">作者列表</router-link></el-button>
+      <el-button text>  <router-link :to="{path:'/admin/storyReel', query: {wid:wid,wname:wname}}">章节目录</router-link></el-button>
+      <el-button text>  <router-link :to="{path:'/admin/storyAudit', query: {wid:wid,wname:wname}}">章节审核</router-link></el-button>
+      <el-button text>  <router-link :to="{path:'/admin/storyComment', query: {wid:wid,wname:wname}}">评论管理</router-link></el-button>
+      <el-button text>  <router-link :to="{path:'/admin/storyDiscuss', query: {wid:wid,wname:wname}}">讨论管理</router-link></el-button>
+    </el-space>
+  </div>
         <!--        统计-->
         <div style="background-color:#b0c4de;margin: auto;padding: 10px">
           <el-row>
             <el-col :span="20">
-              <el-tree-select v-model="queryParams.types" :data="dataStree" check-strictly :render-after-expand="false" clearable />
-              <el-input v-model="queryParams.title" placeholder="请输入元素名" class="input-with-select" style="width: 250px"/>
-              <el-button :icon="Search" circle @click="getList"/>
+<!--              <el-tree-select v-model="queryParams.types" :data="dataStree" check-strictly :render-after-expand="false" clearable />-->
+<!--              <el-input v-model="queryParams.title" placeholder="请输入元素名" class="input-with-select" style="width: 250px"/>-->
+<!--              <el-button :icon="Search" circle @click="getList"/>-->
             </el-col>
             <el-col :span="4" style="text-align: right;">
               <div style="text-align: right; font-size: 12px" class="toolbar">
-                <el-button text @click="handleAddDialog">创建元素</el-button>
+                <el-button text @click="handleAddDialog">创建分卷</el-button>
               </div>
             </el-col>
           </el-row>
@@ -66,21 +63,21 @@
               <el-table-column label="更新时间" align="center" prop="updateTime" width="160" :show-overflow-tooltip="true" />
               <el-table-column label="操作" align="center" width="150" class-name="small-padding fixed-width">
                 <template #default="scope">
-                  <el-tooltip content="详情" placement="top">
-                    <el-button
-                        type="text"
-                        icon="View"
-                        @click="handleSee(scope.row)"
-                    ></el-button>
-                  </el-tooltip>
-                  <el-tooltip content="修改" placement="top">
+                  <el-tooltip content="修改名称" placement="top">
                     <el-button
                         type="text"
                         icon="Edit"
                         @click="handleUpdate(scope.row)"
                     ></el-button>
                   </el-tooltip>
-                  <el-tooltip content="删除" placement="top">
+                  <el-tooltip content="删除分卷" placement="top">
+                    <el-button
+                        type="text"
+                        icon="Delete"
+                        @click="handleDelete(scope.row)"
+                    ></el-button>
+                  </el-tooltip>
+                  <el-tooltip content="章节管理" placement="top">
                     <el-button
                         type="text"
                         icon="Delete"
@@ -178,7 +175,7 @@ wname.value = <string>route.query.wname;
 //console.log("世界id="+wid.value);
 const {  appContext : { config: { globalProperties } }  } = getCurrentInstance();
 const {  proxy  } = getCurrentInstance();
-class World {
+class Story {
   id: number
   name: string
   types: string
@@ -237,7 +234,7 @@ function handleDelete ( row){
 }
 
 function handleSee(row){
-  router.push("/element/details?wid="+row.wid+"&eid="+row.id+"&temType="+row.softtype);
+  router.push("/element/details?wid="+row.wid+"&eid="+row.id+"&eid="+row.softtype);
 }
 /** 选择条数  */
 function handleSelectionChange(selection) {

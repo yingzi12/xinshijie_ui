@@ -12,15 +12,12 @@
         <!--        多选-->
         <div style="padding: 10px">
           <el-space wrap>
-            <el-button text > <router-link :to="{path:'/admin/worldInfo', query: {wid:wid,wname:wname}}">简介</router-link></el-button>
-            <el-button text type="primary">  <router-link :to="{path:'/admin/worldManage', query: {wid:wid,wname:wname}}">造物主列表</router-link></el-button>
-            <el-button text>  <router-link :to="{path:'/admin/worldElement', query: {wid:wid,wname:wname}}">元素列表</router-link></el-button>
-            <el-button text>  <router-link :to="{path:'/admin/worldCategory', query: {wid:wid,wname:wname}}">分类管理</router-link></el-button>
-            <el-button text>  <router-link :to="{path:'/admin/worldAudit', query: {wid:wid,wname:wname}}">元素审核</router-link></el-button>
-            <el-button text>  <router-link :to="{path:'/admin/worldStory', query: {wid:wid,wname:wname}}">故事管理</router-link></el-button>
-            <el-button text>  <router-link :to="{path:'/admin/worldRedident', query: {wid:wid,wname:wname}}">居民管理</router-link></el-button>
-            <el-button text>  <router-link :to="{path:'/admin/worldComment', query: {wid:wid,wname:wname}}">评论管理</router-link></el-button>
-            <el-button text>  <router-link :to="{path:'/admin/worldDiscuss', query: {wid:wid,wname:wname}}">讨论管理</router-link></el-button>
+            <el-button text > <router-link :to="{path:'/admin/storyInfo', query: {wid:wid,wname:wname}}">简介</router-link></el-button>
+            <el-button text type="primary">  <router-link :to="{path:'/admin/storyAuthor', query: {wid:wid,wname:wname}}">作者列表</router-link></el-button>
+            <el-button text>  <router-link :to="{path:'/admin/storyReel', query: {wid:wid,wname:wname}}">章节目录</router-link></el-button>
+            <el-button text>  <router-link :to="{path:'/admin/storyAudit', query: {wid:wid,wname:wname}}">章节审核</router-link></el-button>
+            <el-button text>  <router-link :to="{path:'/admin/storyComment', query: {wid:wid,wname:wname}}">评论管理</router-link></el-button>
+            <el-button text>  <router-link :to="{path:'/admin/storyDiscuss', query: {wid:wid,wname:wname}}">讨论管理</router-link></el-button>
           </el-space>
         </div>
         <!--        统计-->
@@ -38,7 +35,7 @@
         </div>
         <div>
           <el-scrollbar>
-            <el-table v-loading="loading" :data="worldList">
+            <el-table v-loading="loading" :data="storyList">
               <el-table-column label="序号" width="50" >
                 <template #default="scope">
                   {{scope.$index+1+(queryParams.pageNum-1)*10}}
@@ -88,7 +85,7 @@
 import { getCurrentInstance, reactive, ref, toRefs} from 'vue'
 import {useRoute, useRouter} from "vue-router";
 import { Menu as IconMenu,CirclePlus, Message, Setting } from '@element-plus/icons-vue'
-import { getWorldManage ,delManage,addManage,getInfo } from "@/api/admin/manage";
+import { getStoryAuthor ,delAuthor,addAuthor,getInfo } from "@/api/admin/author";
 
 const fits = ['世界', '粉丝', '关注']
 const activeIndex = ref('1')
@@ -105,7 +102,7 @@ wname.value = <string>route.query.wname;
 
 const {  appContext : { config: { globalProperties } }  } = getCurrentInstance();
 const {  proxy  } = getCurrentInstance();
-class World {
+class Story {
   id: number
   name: string
   types: string
@@ -114,7 +111,7 @@ class World {
 }
 const open = ref(false);
 const loading = ref(true);
-const worldList = ref([]);
+const storyList = ref([]);
 const total = ref(0);
 
 const data = reactive({
@@ -131,7 +128,7 @@ const data = reactive({
     userName: [{ required: true, message: "用户名称不能为空", trigger: "blur" }, { min: 2, max: 20, message: "用户名称长度必须介于 2 和 20 之间", trigger: "blur" }],
   }
 });
-const worldTypes=reactive([{id:6,name:"科学"},{id:1,name:"武侠"},{id:2,name:"仙侠"},{id:3,name:"魔幻"},{id:4,name:"奇幻"},{id:5,name:"其他"}])
+const storyTypes=reactive([{id:6,name:"科学"},{id:1,name:"武侠"},{id:2,name:"仙侠"},{id:3,name:"魔幻"},{id:4,name:"奇幻"},{id:5,name:"其他"}])
 const { queryParams, form, rules } = toRefs(data);
 const dateRange = ref([]);
 const ids = ref([]);
@@ -141,7 +138,7 @@ const search = ref('')
 function handleDelete ( row){
   const id = row.id ;
   globalProperties.$modal.confirm('是否确认取消管理员名称为"' + row.userName + '"的权限？').then(function () {
-    return delManage(id,row.wid);
+    return delAuthor(id,row.wid);
   }).then(() => {
     getList();
     globalProperties.$modal.msgSuccess("删除成功");
@@ -158,7 +155,7 @@ function handleAdd() {
 function submitForm() {
   proxy.$refs["manageRef"].validate(valid => {
     if (valid) {
-        addManage(form.value).then(response => {
+        addAuthor(form.value).then(response => {
           globalProperties.$modal.msgSuccess("添加成功");
           open.value = false;
           getList();
@@ -192,21 +189,21 @@ function reset() {
 /** 查询管理员列表 */
 function getList() {
   //console.log("getList 世界id:"+wid.value)
-  getWorldManage(wid.value).then(response => {
+  getStoryAuthor(wid.value).then(response => {
     loading.value = false;
-    worldList.value = response.rows;
+    storyList.value = response.rows;
     total.value = response.total;
   });
 }
 const types=ref(0)
-function getManage() {
+function getAuthor() {
   //console.log("getManage 世界id:"+wid.value)
   getInfo(wid.value).then(response => {
     types.value = response.data.types;
     //console.log("types 世界id:"+types.value)
   });
 }
-getManage()
+getAuthor()
 getList();
 </script>
 

@@ -12,15 +12,14 @@
         <!--        多选-->
         <div style="padding: 10px">
           <el-space wrap>
-            <el-button text > <router-link :to="{path:'/admin/worldInfo', query: {wid:wid,wname:wname}}">简介</router-link></el-button>
-            <el-button text>  <router-link :to="{path:'/admin/worldManage', query: {wid:wid,wname:wname}}">造物主列表</router-link></el-button>
-            <el-button text type="primary">  <router-link :to="{path:'/admin/worldElement', query: {wid:wid,wname:wname}}">元素列表</router-link></el-button>
-            <el-button text>  <router-link :to="{path:'/admin/worldCategory', query: {wid:wid,wname:wname}}">分类管理</router-link></el-button>
-            <el-button text>  <router-link :to="{path:'/admin/worldAudit', query: {wid:wid,wname:wname}}">元素审核</router-link></el-button>
-            <el-button text>  <router-link :to="{path:'/admin/worldStory', query: {wid:wid,wname:wname}}">故事管理</router-link></el-button>
-            <el-button text>  <router-link :to="{path:'/admin/worldRedident', query: {wid:wid,wname:wname}}">居民管理</router-link></el-button>
-            <el-button text>  <router-link :to="{path:'/admin/worldComment', query: {wid:wid,wname:wname}}">评论管理</router-link></el-button>
-            <el-button text>  <router-link :to="{path:'/admin/worldDiscuss', query: {wid:wid,wname:wname}}">讨论管理</router-link></el-button>
+            <el-button text > <router-link :to="{path:'/admin/storyInfo', query: {wid:wid,wname:wname}}">简介</router-link></el-button>
+            <el-button text>  <router-link :to="{path:'/admin/storyManage', query: {wid:wid,wname:wname}}">造物主列表</router-link></el-button>
+            <el-button text type="primary">  <router-link :to="{path:'/admin/storyElement', query: {wid:wid,wname:wname}}">元素列表</router-link></el-button>
+            <el-button text>  <router-link :to="{path:'/admin/storyCategory', query: {wid:wid,wname:wname}}">分类管理</router-link></el-button>
+            <el-button text>  <router-link :to="{path:'/admin/storyAudit', query: {wid:wid,wname:wname}}">元素审核</router-link></el-button>
+            <el-button text>  <router-link :to="{path:'/admin/storyRedident', query: {wid:wid,wname:wname}}">居民管理</router-link></el-button>
+            <el-button text>  <router-link :to="{path:'/admin/storyComment', query: {wid:wid,wname:wname}}">评论管理</router-link></el-button>
+            <el-button text>  <router-link :to="{path:'/admin/storyDiscuss', query: {wid:wid,wname:wname}}">讨论管理</router-link></el-button>
           </el-space>
         </div>
         <!--        统计-->
@@ -28,12 +27,12 @@
           <el-row>
             <el-col :span="20">
               <el-tree-select v-model="queryParams.types" :data="dataStree" check-strictly :render-after-expand="false" clearable />
-              <el-input v-model="queryParams.title" placeholder="请输入元素名" class="input-with-select" style="width: 250px"/>
+              <el-input v-model="queryParams.title" placeholder="请输入章节名" class="input-with-select" style="width: 250px"/>
               <el-button :icon="Search" circle @click="getList"/>
             </el-col>
             <el-col :span="4" style="text-align: right;">
               <div style="text-align: right; font-size: 12px" class="toolbar">
-                <el-button text @click="handleAddDialog">创建元素</el-button>
+                <el-button text @click="handleAddDialog">创建章节</el-button>
               </div>
             </el-col>
           </el-row>
@@ -178,7 +177,7 @@ wname.value = <string>route.query.wname;
 //console.log("世界id="+wid.value);
 const {  appContext : { config: { globalProperties } }  } = getCurrentInstance();
 const {  proxy  } = getCurrentInstance();
-class World {
+class Story {
   id: number
   name: string
   types: string
@@ -237,7 +236,7 @@ function handleDelete ( row){
 }
 
 function handleSee(row){
-  router.push("/element/details?wid="+row.wid+"&eid="+row.id+"&temType="+row.softtype);
+  router.push("/element/details?wid="+row.wid+"&eid="+row.id+"&eid="+row.softtype);
 }
 /** 选择条数  */
 function handleSelectionChange(selection) {

@@ -1,5 +1,5 @@
 <template>
-<!--        标题-->
+        <!--        标题-->
         <div>
           <el-menu
               :default-active="1"
@@ -17,7 +17,6 @@
             <el-button text>  <router-link :to="{path:'/admin/worldElement', query: {wid:wid,wname:wname}}">元素列表</router-link></el-button>
             <el-button text>  <router-link :to="{path:'/admin/worldCategory', query: {wid:wid,wname:wname}}">分类管理</router-link></el-button>
             <el-button text  type="primary">  <router-link :to="{path:'/admin/worldAudit', query: {wid:wid,wname:wname}}">元素审核</router-link></el-button>
-            <el-button text>  <router-link :to="{path:'/admin/worldStory', query: {wid:wid,wname:wname}}">故事管理</router-link></el-button>
             <el-button text>  <router-link :to="{path:'/admin/worldRedident', query: {wid:wid,wname:wname}}">居民管理</router-link></el-button>
             <el-button text>  <router-link :to="{path:'/admin/worldComment', query: {wid:wid,wname:wname}}">评论管理</router-link></el-button>
             <el-button text>  <router-link :to="{path:'/admin/worldDiscuss', query: {wid:wid,wname:wname}}">讨论管理</router-link></el-button>
@@ -33,7 +32,7 @@
             </el-col >
             <el-col :span="4"  style="text-align: right;">
               <div style="text-align: right; font-size: 12px" class="toolbar">
-                <el-button text @click="handleAuditLog">查看历史记录</el-button>
+                <el-button text @click="handleAudit">返回</el-button>
               </div>
             </el-col>
           </el-row>
@@ -42,26 +41,29 @@
         <div>
           <el-scrollbar>
             <el-table :data="draftList">
-              <el-table-column label="序号"  width="50">
+              <el-table-column label="序号"  width="50" >
                 <template #default="scope">
                   {{scope.$index+1}}
                 </template>
               </el-table-column>
-              <el-table-column prop="title" label="元素" width="140" :show-overflow-tooltip="true" />
-              <el-table-column label="状态" align="center"  >
+              <el-table-column prop="title" label="元素" width="140" :show-overflow-tooltip="true"/>
+              <el-table-column label="状态" align="center" :show-overflow-tooltip="true" >
                 <template #default="scope">
                   <span>{{elementStatus.get(scope.row.status)}}</span>
                 </template>
               </el-table-column>
-              <el-table-column prop="createTime" label="修改时间" :show-overflow-tooltip="true" />
-              <el-table-column prop="causeNumber" label="修改原因" :show-overflow-tooltip="true"/>
-              <el-table-column prop="causeContent" label="修改说明" :show-overflow-tooltip="true" />
+              <el-table-column prop="createTime" label="修改时间" :show-overflow-tooltip="true"/>
+              <el-table-column prop="causeNumber" label="修改原因" :show-overflow-tooltip="true" />
+              <el-table-column prop="causeContent" label="修改说明" :show-overflow-tooltip="true"/>
               <el-table-column prop="createName" label="修改人" :show-overflow-tooltip="true"/>
+              <el-table-column prop="updateTime" label="审核时间"  :show-overflow-tooltip="true"/>
+              <el-table-column prop="updateName" label="审核人" :show-overflow-tooltip="true" />
+              <el-table-column prop="auditContent" label="审核理由" :show-overflow-tooltip="true"/>
               <el-table-column fixed="right" label="操作" width="220">
                 <template #default="scope">
                   <el-button link type="primary" size="small" @click="handleSee(scope.row)">详细</el-button>
                   <el-button link type="primary" size="small" @click="handleDiff(scope.row)">差异</el-button>
-                  <el-button link type="primary" size="small" @click="handleOpen(scope.row)">审核</el-button>
+                  <el-button link type="primary" size="small" @click="handleAuditDetial(scope.row)">审核</el-button>
                 </template>
               </el-table-column>
             </el-table>
@@ -76,36 +78,13 @@
               v-model:limit="queryParams.pageSize"
               @pagination="getList"/>
         </div>
-      <!--      审核弹出框-->
-      <el-dialog v-model="dialogFormVisible" title="审核">
-        <el-form :model="form"
-                 :rules="rules"
-                 ref="ruleFormRef"
-        >
-          <el-form-item label="审核" :label-width="formLabelWidth"  prop="auditStatus">
-            <el-select v-model="form.auditStatus" placeholder="请选择审核结果" >
-              <el-option label="不通过" value="0" />
-              <el-option label="通过" value="1" />
-            </el-select>
-          </el-form-item>
-          <el-form-item label="说明" :label-width="formLabelWidth" prop="auditContent">
-            <el-input v-model="form.auditContent" autocomplete="off" />
-          </el-form-item>
-        </el-form>
-        <template #footer>
-      <span class="dialog-footer">
-        <el-button @click="dialogFormVisible = false">取消</el-button>
-        <el-button type="primary" @click="onSudmit(ruleFormRef)">确认</el-button>
-      </span>
-        </template>
-      </el-dialog>
 </template>
 
 <script lang="ts" setup>
 import {getCurrentInstance, reactive, ref, toRefs} from 'vue'
 import {useRoute, useRouter} from "vue-router";
 import { Menu as IconMenu,CirclePlus, Message, Setting } from '@element-plus/icons-vue'
-import { listAudit,auditDraft } from "@/api/admin/draftElement";
+import { listAudit } from "@/api/admin/draftElement";
 import { getTree} from "@/api/wiki/category";
 const router = useRouter()
 
@@ -113,15 +92,14 @@ const router = useRouter()
 const route = useRoute();
 //console.log(route.query.wid,"参数");
 const wid = ref(null);
+wid.value = route.query.wid;
 const wname = ref('');
 wname.value = <string>route.query.wname;
-wid.value = route.query.wid;
-
 const elementStatus = new Map([
   [0, "草稿"],
   [1, "待审核"],
-  [3, "审核不通过"],
-  [2, "通过审核"],
+  [3, "不通过"],
+  [2, "通过"],
   [4, "删除"],
   [5, "超时发布自动拒绝"],
   [6, "超时审核自动通过"],
@@ -130,10 +108,8 @@ const activeIndex = ref('1')
 //弹出框
 const dialogFormVisible = ref(false)
 const formLabelWidth = '140px'
-
 //搜索框
 import { Search } from '@element-plus/icons-vue'
-import {ElMessage, FormInstance} from "element-plus";
 const input3 = ref('')
 
 const {  appContext : { config: { globalProperties } }  } = getCurrentInstance();
@@ -150,15 +126,13 @@ const data = reactive({
   queryParams: {
     pageNum: 1,
     pageSize: 10,
-    auditStatus:0,
+    auditStatus:1,
     title: undefined,
     types: '',
     wid:wid.value,
   },
   rules: {
-    auditStatus: [{ required: true, message: "类别不能为空", trigger: "blur" }],
-    auditContent: [{ required: true, message: "说明不能为空", trigger: "blur" }, { min: 10, max: 200, message: "说明长度必须介于 10 和 200 之间", trigger: "blur" }],
-
+    // userName: [{ required: true, message: "用户名称不能为空", trigger: "blur" }, { min: 2, max: 20, message: "用户名称长度必须介于 2 和 20 之间", trigger: "blur" }],
   }
 });
 const { queryParams, form, rules } = toRefs(data);
@@ -180,43 +154,17 @@ function getCategoryTree() {
     dataStree.value = response.data
   });
 }
-function handleAudit(row){
+function handleAuditDetial(row){
   dialogFormVisible.value=true;
 }
 function handleSee(row){
   router.push("/admin/worldAuditPreview?wid="+wid.value+"&wname="+wname.value+"&deid="+row.id+"&temType="+row.softtype);
 }
+function handleAudit(){
+  router.push("/admin/worldAudit?wid="+wid.value+"&wname="+wname.value);
+}
 function handleDiff(row){
-  router.push("/admin/worldDiffPreview?wid="+row.wid+"&deid="+row.id+"&wname="+wname.value+"&temType="+row.softtype);
-}
-
-function handleAuditLog(){
-  router.push("/admin/worldAuditLog?wid="+wid.value+"&wname="+wname.value);
-}
-const ruleFormRef = ref<FormInstance>()
-function handleOpen(row){
-  dialogFormVisible.value=true
-  form.value.deid=row.id
-  form.value.wid=wid.value
-  form.value.auditStatus=undefined
-  form.value.auditNumber=0
-  form.value.auditContent=''
-}
-
-const onSudmit = async (formEl: FormInstance | undefined) => {
-  if (!formEl) return
-  await formEl.validate((valid, fields) => {
-    if (valid) {
-      //console.log('submit!')
-      auditDraft(form.value).then(response => {
-        dialogFormVisible.value=false
-        ElMessage.success("处理成功")
-        getList();
-      })
-    } else {
-      //console.log('error submit!', fields)
-    }
-  })
+  router.push("/admin/worldDiffPreview?wid="+row.wid+"&deid="+row.id+"&temType="+row.softtype);
 }
 getCategoryTree();
 getList();

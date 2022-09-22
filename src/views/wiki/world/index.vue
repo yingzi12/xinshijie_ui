@@ -8,13 +8,26 @@
       </el-carousel-item>
     </el-carousel>
   </div>
-  <!--  广告-->
+  <!--  原创推荐-->
   <div style="margin-bottom: 10px">
+    <div style="margin:10px;margin-top:15px;">
+      <el-row :gutter="24">
+        <el-col :span="16">
+          <el-button round>原创推荐</el-button>
+          <el-button type="primary" round @click="handleList">原创精品</el-button>
+          <el-button type="success"  round @click="handleList">原创最新</el-button>
+        </el-col>
+        <el-col :span="8">
+          <el-button type="success" round style="float:right;" @click="handleList">更多</el-button>
+        </el-col>
+      </el-row>
+    </div>
+
     <el-row :gutter="20">
       <el-col
           v-for="(world, index) in worldRedact"
           :key="world"
-          :span="6"
+          :span="4"
       >
         <el-card class="dddd" :body-style="{ padding: '0px',width:'100%' }">
           <el-image style="width:100%; height: 100px" :src="imgUrl+world.imgUrl" fit="fill" @click="handleSee(world.id)"/>
@@ -210,7 +223,7 @@ const worldTypesMap=new Map([
 const worldTypes=reactive([{id:6,name:"科学"},{id:1,name:"武侠"},{id:2,name:"仙侠"},{id:3,name:"魔幻"},{id:4,name:"奇幻"},{id:5,name:"其他"}])
 const wname=ref('');
 const loading = ref(true);
-//编辑推荐 4个
+//编辑推荐 6个
 const worldRedact = ref([]);
 //随机推荐 18个
 const worldRandom = ref([]);
@@ -252,11 +265,13 @@ function handleList(){
 /** 查询世界列表 */
 function getRedactList() {
   queryParams.value.pageSize=4
+  queryParams.value.source="原创";
   listWorld(globalProperties.addDateRange(queryParams.value, dateRange.value)).then(response => {
     loading.value = false;
     worldRedact.value = response.rows;
     total.value = response.total;
   });
+  queryParams.value=ref({})
 }
 function getRandomList() {
   queryParams.value.pageSize=18

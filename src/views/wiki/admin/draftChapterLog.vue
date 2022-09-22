@@ -1,9 +1,9 @@
 <template>
   <div>
     <el-menu
-        default-active="4"
-        mode="horizontal"
+        default-active="2"
         :router="true"
+        mode="horizontal"
         style="margin:0px;pardding:0px"
     >
       <el-menu-item index="1" route="/admin/draft"><span style="font-size: 20px;font-weight:bold;">待发布</span></el-menu-item>
@@ -12,7 +12,8 @@
       <el-menu-item index="4" route="/admin/draftLog"><span style="font-size: 20px;font-weight:bold;">所有</span></el-menu-item>
     </el-menu>
   </div>
-        <!--        统计-->
+
+  <!--        统计-->
         <div style="background-color:#b0c4de;margin: auto;padding: 10px">
           <el-row>
             <el-col :span="20">
@@ -21,7 +22,7 @@
             </el-col>
             <el-col :span="4" style="text-align: right;">
               <div style="text-align: right; font-size: 12px" class="toolbar">
-                <el-button text @click="handleDraft">返回</el-button>
+                <el-button text @click="handleSeeLog">历史记录</el-button>
               </div>
             </el-col>
           </el-row>
@@ -35,16 +36,16 @@
                   {{ scope.$index + 1 + (queryParams.pageNum - 1) * 10 }}
                 </template>
               </el-table-column>
-              <el-table-column label="元素" align="center" key="title" prop="title" :show-overflow-tooltip="true"/>
-              <el-table-column prop="wname" label="世界" width="140" />
+              <el-table-column label="名称" align="center" key="title" prop="title" :show-overflow-tooltip="true"/>
+              <el-table-column label="世界" align="center" key="wname" prop="wname" :show-overflow-tooltip="true"/>
               <el-table-column label="类型" align="center" :show-overflow-tooltip="true">
-                <template #default="scope">
-                  <el-tag v-for='idLabel in scope.row.idLabels.split(",")'>
-                    {{idLabel.split("$$")[1]}}
-                  </el-tag>
-                </template>
+              <template #default="scope">
+                <el-tag v-for='idLabel in scope.row.idLabels.split(",")'>
+                  {{idLabel.split("$$")[1]}}
+                </el-tag>
+              </template>
               </el-table-column>
-              <el-table-column label="状态" align="center"  :show-overflow-tooltip="true" >
+              <el-table-column label="状态" align="center"  >
                 <template #default="scope">
                   <span>{{elementStatus.get(scope.row.status)}}</span>
                 </template>
@@ -62,6 +63,20 @@
                         type="text"
                         icon="View"
                         @click="handleSee(scope.row)"
+                    ></el-button>
+                  </el-tooltip>
+                  <el-tooltip content="修改" placement="top">
+                    <el-button
+                        type="text"
+                        icon="Edit"
+                        @click="handleUpdate(scope.row)"
+                    ></el-button>
+                  </el-tooltip>
+                  <el-tooltip content="删除" placement="top">
+                    <el-button
+                        type="text"
+                        icon="Delete"
+                        @click="handleDelete(scope.row)"
                     ></el-button>
                   </el-tooltip>
                 </template>
@@ -83,19 +98,13 @@
 
 <script lang="ts" setup>
 import { getCurrentInstance, reactive, ref, toRefs} from 'vue'
-import {  listDraft } from "@/api/admin/draftElement";
+import {  listDraft,delDraft,issue } from "@/api/admin/draftElement";
+// import { getTree} from "@/api/wiki/category";
 import {useRoute, useRouter} from "vue-router";
-import { Menu as IconMenu, Message, Setting ,Search} from '@element-plus/icons-vue'
-
+import { Menu as IconMenu, Search,Message, Setting } from '@element-plus/icons-vue'
 const fits = ['世界', '粉丝', '关注']
 const activeIndex = ref('1')
-const elementStatus = new Map([
-  [0, "草稿"],
-  [1, "待审核"],
-  [3, "不通过"],
-  [2, "通过"],
-  [4, "删除"]
-]);
+
 // 接收url里的参数
 const route = useRoute();
 const router = useRouter()
@@ -111,8 +120,14 @@ class World {
   intro: string
   createTime:string
 }
-//分类选项
-const dataStree = ref([])
+const elementStatus = new Map([
+  [0, "草稿"],
+  [1, "发布"],
+  [3, "审核不通过"],
+  [2, "通过审核"],
+  [4, "删除"]
+]);
+
 const loading = ref(true);
 const elementList = ref([]);
 const total = ref(0);
@@ -123,6 +138,7 @@ const data = reactive({
     pageSize: 10,
     title: undefined,
     types: undefined,
+    status:0,
   },
   rules: {
     // userName: [{ required: true, message: "用户名称不能为空", trigger: "blur" }, { min: 2, max: 20, message: "用户名称长度必须介于 2 和 20 之间", trigger: "blur" }],
@@ -135,11 +151,37 @@ const single = ref(true);
 const multiple = ref(true);
 const search = ref('')
 
-function handleDraft(){
-  router.push("/admin/draft");
+function handleDelete ( row){
+  globalProperties.$modal.confirm('是否确认删除元素名称为"' + row.title + '"的草稿数据？').then(function () {
+    return delDraft(row.wid,row.id);
+  }).then(() => {
+    getList();
+    globalProperties.$modal.msgSuccess("删除成功");
+  }).catch(() => {});
+}
+function handleUpdate (row)  {
+  router.push("/admin/draftEdit?wid="+row.wid+"&deid="+row.id);
+}
+function handleSeeLog(row){
+  router.push("/admin/draftLog?wid="+row.wid+"&deid="+row.id);
 }
 function handleSee(row){
   router.push("/admin/draftPreview?wid="+row.wid+"&deid="+row.id);
+}
+function handleIssue(row){
+  //console.log("发布："+JSON.stringify(row))
+  issue(row.id).then(response => {
+    getList();
+  });
+}
+/**根据分类查询世界*/
+function findType(typeId:number) {
+  // queryParams.value.wid=wid.value;
+  listDraft(globalProperties.addDateRange(queryParams.value, dateRange.value)).then(response => {
+    loading.value = false;
+    elementList.value = response.rows;
+    total.value = response.total;
+  });
 }
 /** 查询元素列表 */
 function getList() {
@@ -150,10 +192,13 @@ function getList() {
   });
 }
 getList();
-//搜索
+
+
 const value = ref()
+
 const input3 = ref('')
 const dialogFormVisible = ref(false)
+
 </script>
 
 <style scoped>

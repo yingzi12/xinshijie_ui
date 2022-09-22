@@ -12,15 +12,14 @@
         <!--        多选-->
         <div style="padding: 10px">
           <el-space wrap>
-            <el-button text > <router-link :to="{path:'/admin/worldInfo', query: {wid:wid,wname:wname}}">简介</router-link></el-button>
-            <el-button text>  <router-link :to="{path:'/admin/worldManage', query: {wid:wid,wname:wname}}">造物主列表</router-link></el-button>
-            <el-button text>  <router-link :to="{path:'/admin/worldElement', query: {wid:wid,wname:wname}}">元素列表</router-link></el-button>
-            <el-button text>  <router-link :to="{path:'/admin/worldCategory', query: {wid:wid,wname:wname}}">分类管理</router-link></el-button>
-            <el-button text  type="primary">  <router-link :to="{path:'/admin/worldAudit', query: {wid:wid,wname:wname}}">元素审核</router-link></el-button>
-            <el-button text>  <router-link :to="{path:'/admin/worldStory', query: {wid:wid,wname:wname}}">故事管理</router-link></el-button>
-            <el-button text>  <router-link :to="{path:'/admin/worldRedident', query: {wid:wid,wname:wname}}">居民管理</router-link></el-button>
-            <el-button text>  <router-link :to="{path:'/admin/worldComment', query: {wid:wid,wname:wname}}">评论管理</router-link></el-button>
-            <el-button text>  <router-link :to="{path:'/admin/worldDiscuss', query: {wid:wid,wname:wname}}">讨论管理</router-link></el-button>
+            <el-button text > <router-link :to="{path:'/admin/storyInfo', query: {wid:wid,wname:wname}}">简介</router-link></el-button>
+            <el-button text>  <router-link :to="{path:'/admin/storyManage', query: {wid:wid,wname:wname}}">造物主列表</router-link></el-button>
+            <el-button text>  <router-link :to="{path:'/admin/storyElement', query: {wid:wid,wname:wname}}">元素列表</router-link></el-button>
+            <el-button text>  <router-link :to="{path:'/admin/storyCategory', query: {wid:wid,wname:wname}}">分类管理</router-link></el-button>
+            <el-button text  type="primary">  <router-link :to="{path:'/admin/storyAudit', query: {wid:wid,wname:wname}}">元素审核</router-link></el-button>
+            <el-button text>  <router-link :to="{path:'/admin/storyRedident', query: {wid:wid,wname:wname}}">居民管理</router-link></el-button>
+            <el-button text>  <router-link :to="{path:'/admin/storyComment', query: {wid:wid,wname:wname}}">评论管理</router-link></el-button>
+            <el-button text>  <router-link :to="{path:'/admin/storyDiscuss', query: {wid:wid,wname:wname}}">讨论管理</router-link></el-button>
           </el-space>
         </div>
         <!--        统计-->
@@ -184,14 +183,14 @@ function handleAudit(row){
   dialogFormVisible.value=true;
 }
 function handleSee(row){
-  router.push("/admin/worldAuditPreview?wid="+wid.value+"&wname="+wname.value+"&deid="+row.id+"&temType="+row.softtype);
+  router.push("/admin/storyAuditPreview?wid="+wid.value+"&wname="+wname.value+"&deid="+row.id+"&temType="+row.softtype);
 }
 function handleDiff(row){
-  router.push("/admin/worldDiffPreview?wid="+row.wid+"&deid="+row.id+"&wname="+wname.value+"&temType="+row.softtype);
+  router.push("/admin/storyDiffPreview?wid="+row.wid+"&deid="+row.id+"&wname="+wname.value+"&temType="+row.softtype);
 }
 
 function handleAuditLog(){
-  router.push("/admin/worldAuditLog?wid="+wid.value+"&wname="+wname.value);
+  router.push("/admin/storyAuditLog?wid="+wid.value+"&wname="+wname.value);
 }
 const ruleFormRef = ref<FormInstance>()
 function handleOpen(row){

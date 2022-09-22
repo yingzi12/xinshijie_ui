@@ -1,13 +1,18 @@
 <template>
-        <div>
-          <el-menu
-              :default-active="1"
-              mode="horizontal"
-              style="margin:0px;pardding:0px"
-          >
-            <el-menu-item index="1"><span style="font-size: 20px;font-weight:bold;">草稿管理</span></el-menu-item>
-          </el-menu>
-        </div>
+  <div>
+    <el-menu
+        default-active="1"
+        mode="horizontal"
+        :router="true"
+        @select="handleSelect"
+        style="margin:0px;pardding:0px"
+    >
+      <el-menu-item index="1" route="/admin/draft"><span style="font-size: 20px;font-weight:bold;">待发布</span></el-menu-item>
+      <el-menu-item index="2" route="/admin/audit"><span style="font-size: 20px;font-weight:bold;">待审核</span></el-menu-item>
+      <el-menu-item index="3" route="/admin/auditLog"><span style="font-size: 20px;font-weight:bold;">已审核</span></el-menu-item>
+      <el-menu-item index="4" route="/admin/draftLog"><span style="font-size: 20px;font-weight:bold;">所有</span></el-menu-item>
+    </el-menu>
+  </div>
         <!--        统计-->
         <div style="background-color:#b0c4de;margin: auto;padding: 10px">
           <el-row>

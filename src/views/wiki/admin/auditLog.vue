@@ -1,14 +1,19 @@
 <template>
         <div>
-          <el-menu
-              default-active="2"
-              mode="horizontal"
-              @select="handleSelect"
-              style="margin:0px;pardding:0px"
-          >
-            <el-menu-item index="1" ><span style="font-size: 20px;font-weight:bold;">待审核元素</span></el-menu-item>
-            <el-menu-item index="2"><span style="font-size: 20px;font-weight:bold;">已审核元素</span></el-menu-item>
-          </el-menu>
+          <div>
+            <el-menu
+                default-active="3"
+                mode="horizontal"
+                :router="true"
+                @select="handleSelect"
+                style="margin:0px;pardding:0px"
+            >
+              <el-menu-item index="1" route="/admin/draft"><span style="font-size: 20px;font-weight:bold;">待发布</span></el-menu-item>
+              <el-menu-item index="2" route="/admin/audit"><span style="font-size: 20px;font-weight:bold;">待审核</span></el-menu-item>
+              <el-menu-item index="3" route="/admin/auditLog"><span style="font-size: 20px;font-weight:bold;">已审核</span></el-menu-item>
+              <el-menu-item index="4" route="/admin/draftLog"><span style="font-size: 20px;font-weight:bold;">所有</span></el-menu-item>
+            </el-menu>
+          </div>
         </div>
         <!--        多选-->
         <!--        统计-->
@@ -102,7 +107,10 @@ const elementStatus = new Map([
   [1, "发布"],
   [3, "不通过"],
   [2, "通过"],
-  [4, "删除"]
+  [4, "删除"],
+  [5, "超时发布自动拒绝"],
+  [6, "超时审核自动通过"],
+
 ]);
 // 接收url里的参数
 const route = useRoute();
@@ -155,9 +163,9 @@ function getList() {
 //   });
 // }
 function handleSelect(index:String,indexPath:String){
-  if(index =='1'){
-    router.push("/admin/audit");
-  }
+  // if(index =='1'){
+  //   router.push("/admin/audit");
+  // }
   //console.log(indexPath)
 }
 function handleAudit(row){

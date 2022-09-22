@@ -221,6 +221,12 @@ export const constantRoutes = [
         meta: { title: '讨论管理', icon: 'wiki' }
       },
       {
+        path: 'worldStory',
+        component: () => import('@/views/wiki/admin/worldStory'),
+        name: 'worldStory',
+        meta: { title: '故事管理', icon: 'wiki' }
+      },
+      {
         path: 'diff',
         component: () => import('@/views/wiki/admin/diff'),
         name: 'diff',
@@ -297,6 +303,78 @@ export const constantRoutes = [
         component: () => import('@/views/wiki/admin/elementEdit'),
         name: 'elementEdit',
         meta: { title: '管理员修改元素', icon: 'wiki' }
+      },
+      {
+        path: 'story',
+        component: () => import('@/views/wiki/admin/story'),
+        name: 'story',
+        meta: { title: '管理员修改元素', icon: 'wiki' }
+      },
+      {
+        path: 'storyInfo',
+        component: () => import('@/views/wiki/admin/storyInfo'),
+        name: 'storyInfo',
+        meta: { title: '管理员修改元素', icon: 'wiki' }
+      },
+      {
+        path: 'storyAdd',
+        component: () => import('@/views/wiki/admin/storyAdd'),
+        name: 'storyAdd',
+        meta: { title: '添加新故事', icon: 'wiki' }
+      },
+      {
+        path: 'storyEdit',
+        component: () => import('@/views/wiki/admin/storyEdit'),
+        name: 'storyEdit',
+        meta: { title: '管理员修改元素', icon: 'wiki' }
+      },
+      {
+        path: 'storyReel',
+        component: () => import('@/views/wiki/admin/storyReel'),
+        name: 'storyReel',
+        meta: { title: '管理员修改元素', icon: 'wiki' }
+      },
+      {
+        path: 'storyChapter',
+        component: () => import('@/views/wiki/admin/storyChapter'),
+        name: 'storyChapter',
+        meta: { title: '管理员修改元素', icon: 'wiki' }
+      },
+      {
+        path: 'storyAudit',
+        component: () => import('@/views/wiki/admin/storyAudit'),
+        name: 'storyAudit',
+        meta: { title: '管理员修改元素', icon: 'wiki' }
+      },
+      {
+        path: 'storyAuditLog',
+        component: () => import('@/views/wiki/admin/storyAuditLog'),
+        name: 'storyAuditLog',
+        meta: { title: '管理员修改元素', icon: 'wiki' }
+      },
+      {
+        path: 'storyAuthor',
+        component: () => import('@/views/wiki/admin/storyAuthor'),
+        name: 'storyAuthor',
+        meta: { title: '管理员修改元素', icon: 'wiki' }
+      },
+      {
+        path: 'draftChapter',
+        component: () => import('@/views/wiki/admin/draftChapter'),
+        name: 'draftChapter',
+        meta: { title: '元素草稿', icon: 'wiki' }
+      },
+      {
+        path: 'draftChapterAudit',
+        component: () => import('@/views/wiki/admin/draftChapterAudit'),
+        name: 'draftChapterAudit',
+        meta: { title: '管理员修改元素', icon: 'wiki' }
+      },
+      {
+        path: 'draftChapterLog',
+        component: () => import('@/views/wiki/admin/draftChapterLog'),
+        name: 'draftChapterLog',
+        meta: { title: '所有记录', icon: 'wiki' }
       }
     ]
   },
@@ -341,6 +419,22 @@ export const constantRoutes = [
         path: 'password',
         component: () => import('@/views/wiki/check/password'),
         name: 'password',
+        meta: { title: '修改密码', icon: 'user' }
+      }
+    ]
+  },
+  {
+    path: '/job',
+    component: LayoutWiki,
+    hidden: true,
+    children:[
+      {
+        path: 'index',
+        component: () => import('@/views/monitor/job/index'),
+        meta: { title: '基础信息', icon: 'user' }
+      },{
+        path: 'log',
+        component: () => import('@/views/monitor/job/log'),
         meta: { title: '修改密码', icon: 'user' }
       }
     ]
