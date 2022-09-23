@@ -50,11 +50,11 @@ import { getTree} from "@/api/wiki/category";
 import { addElement} from "@/api/admin/element";
 import { getWorld} from "@/api/wiki/world";
 import {useRoute, useRouter} from "vue-router";
-import biologly from '../add/biology'
-import goods from '../add/goods'
-import index from '../add/index'
-import race from '../add/race'
-import role from '../add/role'
+import biologly from '../../add/biology.vue'
+import goods from '../../add/goods.vue'
+import index from '../../add/index.vue'
+import race from '../../add/race.vue'
+import role from '../../add/role.vue'
 
 // 接收url里的参数
 const route = useRoute();

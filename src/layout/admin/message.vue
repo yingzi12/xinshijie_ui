@@ -49,11 +49,11 @@
                 <el-icon><icon-menu /></el-icon>
                 <template #title>元素草稿</template>
               </el-menu-item>
-              <el-menu-item index="/admin/story">
+              <el-menu-item index="/admin/story" disabled>
                 <el-icon><icon-menu /></el-icon>
                 <template #title>故事管理</template>
               </el-menu-item>
-              <el-menu-item index="/admin/draftChapter">
+              <el-menu-item index="/admin/draftChapter" disabled>
                 <el-icon><icon-menu /></el-icon>
                 <template #title>章节草稿</template>
               </el-menu-item>

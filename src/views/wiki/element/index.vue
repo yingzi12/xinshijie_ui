@@ -54,7 +54,6 @@ const temTypesMap=new Map([
   [3,shallowRef(biologly)],
   [4,shallowRef(race)],
   [5,shallowRef(goods)],
-
 ])
 
 const router = useRouter()
@@ -63,16 +62,14 @@ const route = useRoute();
 
 const temType = ref(1);
 if(!route.query.temType || isNaN(route.query.temType)){
-  console.log("111:"+route.query.temType)
   temType.value =1
 }else {
-  console.log("2222:"+route.query.temType)
   temType.value =route.query.temType;
   if(temType.value>5 || temType.value<=0 ){
     temType.value =1
   }
 }
-const  temPage=temTypesMap.get(temType.value)
+const  temPage=temTypesMap.get(parseInt(temType.value))
 const worldElement=ref({})
 
 //世界信息
@@ -90,8 +87,6 @@ function getElement() {
     console.log("父组件值传递2:"+JSON.stringify(worldElement))
   });
 }
-getElement();
-console.log("父组件值传递1:"+JSON.stringify(worldElement))
 
 function handleList(){
   router.push("/element/list?wid="+ wid.value+"&deid=" +eid.value)
@@ -111,8 +106,8 @@ function handWorld() {
   });
 }
 handWorld()
+getElement();
 
-console.log("sss:"+JSON.stringify(worldElement))
 </script>
 
 <style scoped>

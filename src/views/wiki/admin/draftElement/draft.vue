@@ -177,7 +177,7 @@ function handleSee(row){
 }
 function handleIssue(row){
   //console.log("发布："+JSON.stringify(row))
-  issue(row.id).then(response => {
+  issue(row.wid,row.id).then(response => {
     getList();
   });
 }

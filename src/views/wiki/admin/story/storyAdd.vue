@@ -71,7 +71,7 @@ import {  addStory } from "@/api/admin/story";
 import {   getWorld } from "@/api/wiki/world";
 import {useRoute, useRouter} from "vue-router";
 import {ElMessage, FormInstance} from "element-plus";
-import index from "../image/add.vue";
+import index from "../../image/add.vue";
 const  temPage=markRaw(index)
 const tem=ref()
 

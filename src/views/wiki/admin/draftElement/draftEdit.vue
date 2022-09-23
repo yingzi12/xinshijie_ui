@@ -55,11 +55,11 @@ import { getWorld } from "@/api/admin/world";
 
 //接受参数
 import { useRoute ,useRouter}  from "vue-router";  // 引用vue-router
-import index from "../draftedit/index.vue";
-import role from "../draftedit/role.vue";
-import biologly from "../draftedit/biology.vue";
-import race from "../draftedit/race.vue";
-import goods from "../draftedit/goods.vue";  // 引用vue-router
+import index from "../../draftedit/index.vue";
+import role from "../../draftedit/role.vue";
+import biologly from "../../draftedit/biology.vue";
+import race from "../../draftedit/race.vue";
+import goods from "../../draftedit/goods.vue";  // 引用vue-router
 
 const router = useRouter()
 // 接收url里的参数

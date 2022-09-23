@@ -1,57 +1,26 @@
 <template>
-  <div class="app-container" >
-    <div>
-      <el-breadcrumb separator="/">
-        <el-breadcrumb-item :to="{ path: '/world/index' }">首页</el-breadcrumb-item>
-        <el-breadcrumb-item><a href="/world/list">世界树</a></el-breadcrumb-item>
-        <el-breadcrumb-item :to="{ path: '/world/details', query: {wid:wid} }">{{world.name}}</el-breadcrumb-item>
-        <el-breadcrumb-item :to="{ path: '/element/list', query: {wid:wid} }">元素列表</el-breadcrumb-item>
-        <el-breadcrumb-item>元素详情</el-breadcrumb-item>
-      </el-breadcrumb>
-    </div>
-    <div >
-      <!--  世界名称-->
-      <div >
-        <h1 class="title">{{ element.title }}</h1>
-        <div class="lessen"><span>分类:</span> <el-tag size="small" v-for="category in element.categoryList">
-          {{category.label}}
-        </el-tag></div>
-        <div class="lessen"><span>更新时间:</span><el-tag size="small">{{element.updateTime}}</el-tag></div>
+  <!-- 元素内容 -->
+  <div>
+    <div v-for="(domain, index) in element.contentList"
+         :key="domain.key"
+         :label="'Domain' + index"
+         :prop="'domains.' + index + '.value'"
+         :rules="{  required: true,  message: 'domain can not be null', trigger: 'blur',}"
+         style="margin-bottom: 20px"
+    >
+      <div     class="smallTitle">
+        <el-row >
+          <el-col :span="19">
+            <div class="biaoti">
+              <h3><el-icon><Tickets /></el-icon><span>{{domain.title  }}</span></h3>
+            </div>
+          </el-col>
+          <el-col :span="5">
+          </el-col>
+        </el-row>
       </div>
-      <el-divider />
-      <!--  基本信息 -->
-      <div style="margin-bottom: 20px;margin-left: 25px">
-        <div v-html="element.intro"> </div>
-      </div>
-      <!--    内容简介-->
-      <div>
-      </div>
-      <!-- 元素内容 -->
-      <div>
-        <div v-for="(domain, index) in element.contentList"
-             :key="domain.key"
-             :label="'Domain' + index"
-             :prop="'domains.' + index + '.value'"
-             :rules="{
-        required: true,
-        message: 'domain can not be null',
-        trigger: 'blur',
-      }"
-             style="margin-bottom: 20px"
-        >
-          <div class="smallTitle">
-            <h3><el-icon><Tickets /></el-icon>{{domain.title  }}</h3>
-          </div>
-          <div style="margin-left: 25px">
-            <div v-html="domain.content"> </div>
-          </div>
-        </div>
-      </div>
-      <el-divider />
-      <!--功能-->
-      <div class="center" style="height: 80px;">
-        <el-button @click="handleList()" text type="success" style="width: 100px;">返回</el-button>
-        <el-button @click="handleEdit()" text type="success" style="width: 100px;">编辑</el-button>
+      <div   style="margin-left: 25px">
+        <div v-html="domain.content"> </div>
       </div>
     </div>
   </div>
@@ -59,47 +28,39 @@
 
 <script  lang="ts" setup>
 import { reactive, ref } from 'vue'
-import {  getElementDetails } from "@/api/wiki/element";
-import {  getWorld } from "@/api/wiki/world";
-
 //接受参数
 import { useRoute ,useRouter}  from "vue-router";  // 引用vue-router
-const router = useRouter()
-// 接收url里的参数
-const route = useRoute();
-//世界信息
-const eid = ref(null);
-const wid = ref(null);
-eid.value = route.query.eid;
-wid.value = route.query.wid;
-//console.log("元素id="+eid.value);
-//console.log("世界id="+wid.value);
 
+const elementStatus = new Map([
+  [0, "草稿"],
+  [1, "待审核"],
+  [3, "审核不通过"],
+  [2, "通过审核"],
+  [4, "删除"]
+]);
 
-const element=ref({})
-/** 查询世界详细 */
-function getElement(wid:number,eid:number) {
-  getElementDetails(wid,eid).then(response => {
-    //console.log("查询世界详细:"+JSON.stringify(response))
-    element.value = response.data
-  });
+//基本信息
+interface WorldElement {
+  id:String,
+  wid:String,
+  title:string,
+  intro:String,
+  softtype: number,
+  updateTime:String,
+  categoryList:Category[],
+  contentList:Content[]
 }
-function handleList(){
-  router.push("/element/list?wid="+ wid.value+"&deid=" +eid.value)
+interface Content {
+  id: number
+  title: string
+  status: number,
+  content: string,
 }
-function handleEdit(){
-  router.push("/admin/elementEdit?wid="+ wid.value+"&eid=" +eid.value)
+interface Category{
+  label: string
+  value: string
 }
-const world=ref({})
-/** 查询世界详细 */
-function handWorld() {
-  getWorld(wid.value).then(response => {
-    //console.log("查询世界详细:"+JSON.stringify(response))
-    world.value = response.data
-  });
-}
-handWorld()
-getElement(wid.value,eid.value);
+const element = defineProps<WorldElement>()
 </script>
 
 <style scoped>

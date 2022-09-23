@@ -70,11 +70,11 @@ import { getWorld} from "@/api/admin/world";
 
 //接受参数
 import { useRoute ,useRouter}  from "vue-router";
-import index from "../edit/index.vue";
-import role from "../edit/role.vue";
-import biologly from "../edit/biology.vue";
-import race from "../edit/race.vue";
-import goods from "../edit/goods.vue";  // 引用vue-router
+import index from "../../edit/index.vue";
+import role from "../../edit/role.vue";
+import biologly from "../../edit/biology.vue";
+import race from "../../edit/race.vue";
+import goods from "../../edit/goods.vue";  // 引用vue-router
 
 const router = useRouter()
 // 接收url里的参数

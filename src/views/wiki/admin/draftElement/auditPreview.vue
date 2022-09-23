@@ -42,11 +42,11 @@ import {  getDraftDetails ,updatePush} from "@/api/admin/draftElement";
 //接受参数
 import { useRoute ,useRouter}  from "vue-router";  // 引用vue-router
 
-import biologly from '../preview/biology'
-import goods from '../preview/goods'
-import index from '../preview/index'
-import race from '../preview/race'
-import role from '../preview/role'
+import biologly from '../../preview/biology.vue'
+import goods from '../../preview/goods.vue'
+import index from '../../preview/index.vue'
+import race from '../../preview/race.vue'
+import role from '../../preview/role.vue'
 
 const temTypesMap=new Map([
   [1,shallowRef(index)],
@@ -63,16 +63,14 @@ const route = useRoute();
 
 const temType = ref(1);
 if(!route.query.temType || isNaN(route.query.temType)){
-  console.log("111:"+route.query.temType)
   temType.value =1
 }else {
-  console.log("2222:"+route.query.temType)
   temType.value =route.query.temType;
   if(temType.value>5 || temType.value<=0 ){
     temType.value =1
   }
 }
-const  temPage=temTypesMap.get(temType.value)
+const  temPage=temTypesMap.get(parseInt(temType.value))
 const worldElement=ref({})
 //世界信息
 const deid = ref(null);
