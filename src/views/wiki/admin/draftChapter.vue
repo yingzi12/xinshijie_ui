@@ -1,7 +1,7 @@
 <template>
   <div>
     <el-menu
-        default-active="2"
+        default-active="1"
         :router="true"
         mode="horizontal"
         style="margin:0px;pardding:0px"
@@ -98,7 +98,7 @@
 
 <script lang="ts" setup>
 import { getCurrentInstance, reactive, ref, toRefs} from 'vue'
-import {  listDraft,delDraft,issue } from "@/api/admin/draftElement";
+import {  listDraftChapter,delDraftChapter,issue } from "@/api/admin/draftChapter";
 // import { getTree} from "@/api/wiki/category";
 import {useRoute, useRouter} from "vue-router";
 import { Menu as IconMenu, Search,Message, Setting } from '@element-plus/icons-vue'
@@ -108,9 +108,6 @@ const activeIndex = ref('1')
 // 接收url里的参数
 const route = useRoute();
 const router = useRouter()
-// const wid = ref(null);
-// wid.value = route.query.wid;
-// //console.log("世界id="+wid.value);
 const {  appContext : { config: { globalProperties } }  } = getCurrentInstance();
 const {  proxy  } = getCurrentInstance();
 class World {
@@ -129,7 +126,7 @@ const elementStatus = new Map([
 ]);
 
 const loading = ref(true);
-const elementList = ref([]);
+const chapterList = ref([]);
 const total = ref(0);
 const data = reactive({
   form: {},
@@ -152,15 +149,15 @@ const multiple = ref(true);
 const search = ref('')
 
 function handleDelete ( row){
-  globalProperties.$modal.confirm('是否确认删除元素名称为"' + row.title + '"的草稿数据？').then(function () {
-    return delDraft(row.wid,row.id);
+  globalProperties.$modal.confirm('是否确认删除章节名称为"' + row.title + '"的草稿数据？').then(function () {
+    return delDraftChapter(row.sid,row.id);
   }).then(() => {
     getList();
     globalProperties.$modal.msgSuccess("删除成功");
   }).catch(() => {});
 }
 function handleUpdate (row)  {
-  router.push("/admin/draftEdit?wid="+row.wid+"&deid="+row.id);
+  router.push("/admin/draftChapterEdit?wid="+row.wid+"&deid="+row.id);
 }
 function handleSeeLog(row){
   router.push("/admin/draftLog?wid="+row.wid+"&deid="+row.id);
@@ -174,31 +171,15 @@ function handleIssue(row){
     getList();
   });
 }
-/**根据分类查询世界*/
-function findType(typeId:number) {
-  // queryParams.value.wid=wid.value;
-  listDraft(globalProperties.addDateRange(queryParams.value, dateRange.value)).then(response => {
-    loading.value = false;
-    elementList.value = response.rows;
-    total.value = response.total;
-  });
-}
 /** 查询元素列表 */
 function getList() {
-  listDraft(globalProperties.addDateRange(queryParams.value, dateRange.value)).then(response => {
+  listDraftChapter(globalProperties.addDateRange(queryParams.value, dateRange.value)).then(response => {
     loading.value = false;
-    elementList.value = response.rows;
+    chapterList.value = response.rows;
     total.value = response.total;
   });
 }
 getList();
-
-
-const value = ref()
-
-const input3 = ref('')
-const dialogFormVisible = ref(false)
-
 </script>
 
 <style scoped>

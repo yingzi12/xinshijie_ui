@@ -34,7 +34,7 @@
         <el-input v-model="form.name" placeholder="请输入故事名称" maxlength="30"   />
       </el-form-item>
       <el-form-item label="所属世界编号" prop="wid">
-        <el-input v-model="form.wid" placeholder="请输入世界编号" maxlength="30" disabled />
+        <el-input v-model.number="form.wid" placeholder="请输入世界编号" maxlength="30" disabled />
       </el-form-item>
       <el-form-item label="所属世界名称" prop="wname">
         <el-input v-model="form.wname" placeholder="请输入世界编号" maxlength="30"  disabled  />

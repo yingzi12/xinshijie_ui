@@ -228,7 +228,7 @@ function handleElementAdd ()  {
   })
 }
 function handleDelete ( row){
-  globalProperties.$modal.confirm('是否确认删除世界名称为"' + row.title + '"的数据？').then(function () {
+  globalProperties.$modal.confirm('是否确认删除元素名称为"' + row.title + '"的数据？').then(function () {
     return delElement(row.wid,row.id);
   }).then(() => {
     getList();
