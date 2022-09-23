@@ -90,7 +90,7 @@ import { Menu as IconMenu, Message, Setting ,Search} from '@element-plus/icons-v
 const fits = ['世界', '粉丝', '关注']
 const activeIndex = ref('1')
 const elementStatus = new Map([
-  [0, "草稿"],
+  [7, "草稿"],
   [1, "待审核"],
   [3, "不通过"],
   [2, "通过"],

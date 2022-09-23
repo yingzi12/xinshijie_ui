@@ -1,27 +1,25 @@
 <template>
-        <!--        标题-->
+<!--        标题-->
         <div>
           <el-menu
               :default-active="1"
               mode="horizontal"
               style="margin:0px;pardding:0px"
           >
-            <el-menu-item index="1">{{wname}}</el-menu-item>
+            <el-menu-item index="1">{{sname}}</el-menu-item>
           </el-menu>
         </div>
         <!--        多选-->
-        <div style="padding: 10px">
-          <el-space wrap>
-            <el-button text > <router-link :to="{path:'/admin/worldInfo', query: {wid:wid,wname:wname}}">简介</router-link></el-button>
-            <el-button text>  <router-link :to="{path:'/admin/worldManage', query: {wid:wid,wname:wname}}">造物主列表</router-link></el-button>
-            <el-button text>  <router-link :to="{path:'/admin/worldElement', query: {wid:wid,wname:wname}}">元素列表</router-link></el-button>
-            <el-button text>  <router-link :to="{path:'/admin/worldCategory', query: {wid:wid,wname:wname}}">分类管理</router-link></el-button>
-            <el-button text  type="primary">  <router-link :to="{path:'/admin/worldAudit', query: {wid:wid,wname:wname}}">元素审核</router-link></el-button>
-            <el-button text>  <router-link :to="{path:'/admin/worldRedident', query: {wid:wid,wname:wname}}">居民管理</router-link></el-button>
-            <el-button text>  <router-link :to="{path:'/admin/worldComment', query: {wid:wid,wname:wname}}">评论管理</router-link></el-button>
-            <el-button text>  <router-link :to="{path:'/admin/worldDiscuss', query: {wid:wid,wname:wname}}">讨论管理</router-link></el-button>
-          </el-space>
-        </div>
+  <div style="padding: 10px">
+    <el-space wrap>
+      <el-button text > <router-link :to="{path:'/admin/storyInfo', query: {sid:sid,sname:sname}}">简介</router-link></el-button>
+      <el-button text>  <router-link :to="{path:'/admin/storyAuthor', query: {sid:sid,sname:sname}}">作者列表</router-link></el-button>
+      <el-button text >  <router-link :to="{path:'/admin/storyReel', query: {sid:sid,sname:sname}}">分卷/章节目录</router-link></el-button>
+      <el-button text type="primary">  <router-link :to="{path:'/admin/storyAudit', query: {sid:sid,sname:sname}}">章节审核</router-link></el-button>
+      <el-button text>  <router-link :to="{path:'/admin/storyComment', query: {sid:sid,sname:sname}}">评论管理</router-link></el-button>
+      <el-button text>  <router-link :to="{path:'/admin/storyDiscuss', query: {sid:sid,sname:sname}}">讨论管理</router-link></el-button>
+    </el-space>
+  </div>
         <!--        统计-->
         <div style="background-color:#b0c4de;margin: auto;padding: 10px">
           <el-row>
@@ -38,37 +36,47 @@
           </el-row>
         </div>
         <!--        表格-->
-        <div>
-          <el-scrollbar>
-            <el-table :data="draftList">
-              <el-table-column label="序号"  width="50" >
-                <template #default="scope">
-                  {{scope.$index+1}}
-                </template>
-              </el-table-column>
-              <el-table-column prop="title" label="元素" width="140" :show-overflow-tooltip="true"/>
-              <el-table-column label="状态" align="center" :show-overflow-tooltip="true" >
-                <template #default="scope">
-                  <span>{{elementStatus.get(scope.row.status)}}</span>
-                </template>
-              </el-table-column>
-              <el-table-column prop="createTime" label="修改时间" :show-overflow-tooltip="true"/>
-              <el-table-column prop="causeNumber" label="修改原因" :show-overflow-tooltip="true" />
-              <el-table-column prop="causeContent" label="修改说明" :show-overflow-tooltip="true"/>
-              <el-table-column prop="createName" label="修改人" :show-overflow-tooltip="true"/>
-              <el-table-column prop="updateTime" label="审核时间"  :show-overflow-tooltip="true"/>
-              <el-table-column prop="updateName" label="审核人" :show-overflow-tooltip="true" />
-              <el-table-column prop="auditContent" label="审核理由" :show-overflow-tooltip="true"/>
-              <el-table-column fixed="right" label="操作" width="220">
-                <template #default="scope">
-                  <el-button link type="primary" size="small" @click="handleSee(scope.row)">详细</el-button>
-                  <el-button link type="primary" size="small" @click="handleDiff(scope.row)">差异</el-button>
-                  <el-button link type="primary" size="small" @click="handleAuditDetial(scope.row)">审核</el-button>
-                </template>
-              </el-table-column>
-            </el-table>
-          </el-scrollbar>
-        </div>
+  <div>
+    <el-scrollbar>
+      <el-table v-loading="loading" :data="draftList" >
+        <el-table-column label="序号" width="50">
+          <template #default="scope">
+            {{ scope.$index + 1 + (queryParams.pageNum - 1) * 10 }}
+          </template>
+        </el-table-column>
+        <el-table-column label="名称" align="center" key="title" prop="title" :show-overflow-tooltip="true"/>
+        <el-table-column label="故事" align="center" key="sname" prop="sname" :show-overflow-tooltip="true"/>
+        <el-table-column label="分卷" align="center" key="pname" prop="pname" :show-overflow-tooltip="true"/>
+        <el-table-column label="状态" align="center"  >
+          <template #default="scope">
+            <span>{{elementStatus.get(scope.row.status)}}</span>
+          </template>
+        </el-table-column>
+        <el-table-column label="创建时间" align="center" prop="updateTime" width="160" :show-overflow-tooltip="true">
+          <template #default="scope">
+            <span>{{ scope.row.createTime }}</span>
+          </template>
+        </el-table-column>
+        <el-table-column label="发布时间" align="center" prop="updateTime" width="160" :show-overflow-tooltip="true">
+          <template #default="scope">
+            <span>{{ scope.row.updateTime }}</span>
+          </template>
+        </el-table-column>
+        <el-table-column prop="auditContent" label="审核理由" :show-overflow-tooltip="true"/>
+        <el-table-column label="操作" align="center" width="150" class-name="small-padding fixed-width">
+          <template #default="scope">
+            <el-tooltip content="详情" placement="top">
+              <el-button
+                  type="text"
+                  icon="View"
+                  @click="handleSee(scope.row)"
+              ></el-button>
+            </el-tooltip>
+          </template>
+        </el-table-column>
+      </el-table>
+    </el-scrollbar>
+  </div>
         <!--        分页-->
         <div style="float:right; position:relative; ">
           <pagination
@@ -84,22 +92,22 @@
 import {getCurrentInstance, reactive, ref, toRefs} from 'vue'
 import {useRoute, useRouter} from "vue-router";
 import { Menu as IconMenu,CirclePlus, Message, Setting } from '@element-plus/icons-vue'
-import { listAudit } from "@/api/admin/draftElement";
-import { getTree} from "@/api/wiki/category";
+import { listDraftChapterAdmin } from "@/api/admin/draftChapter";
 const router = useRouter()
 
 // 接收url里的参数
 const route = useRoute();
 //console.log(route.query.wid,"参数");
-const wid = ref(null);
-wid.value = route.query.wid;
-const wname = ref('');
-wname.value = <string>route.query.wname;
+const sid = ref(null);
+const sname = ref('');
+sname.value = <string>route.query.sname;
+sid.value = route.query.sid;
+
 const elementStatus = new Map([
   [0, "草稿"],
   [1, "待审核"],
-  [3, "不通过"],
-  [2, "通过"],
+  [3, "审核不通过"],
+  [2, "通过审核"],
   [4, "删除"],
   [5, "超时发布自动拒绝"],
   [6, "超时审核自动通过"],
@@ -108,8 +116,10 @@ const activeIndex = ref('1')
 //弹出框
 const dialogFormVisible = ref(false)
 const formLabelWidth = '140px'
+
 //搜索框
 import { Search } from '@element-plus/icons-vue'
+import {ElMessage, FormInstance} from "element-plus";
 const input3 = ref('')
 
 const {  appContext : { config: { globalProperties } }  } = getCurrentInstance();
@@ -128,88 +138,36 @@ const data = reactive({
     pageSize: 10,
     auditStatus:1,
     title: undefined,
-    types: '',
-    wid:wid.value,
+    sid:sid.value,
   },
   rules: {
-    // userName: [{ required: true, message: "用户名称不能为空", trigger: "blur" }, { min: 2, max: 20, message: "用户名称长度必须介于 2 和 20 之间", trigger: "blur" }],
+    auditStatus: [{ required: true, message: "类别不能为空", trigger: "blur" }],
+    auditContent: [{ required: true, message: "说明不能为空", trigger: "blur" }, { min: 10, max: 200, message: "说明长度必须介于 10 和 200 之间", trigger: "blur" }],
+
   }
 });
 const { queryParams, form, rules } = toRefs(data);
 
 /** 查询世界列表 */
 function getList() {
-  if(queryParams.value.types != undefined && queryParams.value.types != '' ){
-    queryParams.value.types=queryParams.value.types.split("$$")[0]
-  }
-  listAudit(globalProperties.addDateRange(queryParams.value, dateRange.value)).then(response => {
+  listDraftChapterAdmin(globalProperties.addDateRange(queryParams.value, dateRange.value)).then(response => {
     loading.value = false;
     draftList.value = response.rows;
     total.value = response.total;
   });
 }
-/** 查询分类列表 */
-function getCategoryTree() {
-  getTree(wid.value).then(response => {
-    dataStree.value = response.data
-  });
-}
-function handleAuditDetial(row){
-  dialogFormVisible.value=true;
-}
+
 function handleSee(row){
-  router.push("/admin/worldAuditPreview?wid="+wid.value+"&wname="+wname.value+"&deid="+row.id+"&temType="+row.softtype);
-}
-function handleAudit(){
-  router.push("/admin/worldAudit?wid="+wid.value+"&wname="+wname.value);
+  router.push("/admin/storyChapterView?sid="+sid.value+"&sname="+sname.value+"&dscid="+row.id+"&temType="+row.softtype);
 }
 function handleDiff(row){
-  router.push("/admin/worldDiffPreview?wid="+row.wid+"&deid="+row.id+"&temType="+row.softtype);
+  router.push("/admin/storyDiffPreview?sid="+row.sid+"&dscid="+row.id+"&sname="+sname.value+"&temType="+row.softtype);
 }
-getCategoryTree();
+function handleAudit(){
+  router.push("/admin/storyAudit?sid="+sid.value+"&sname="+sname.value);
+}
 getList();
 </script>
 
 <style scoped>
-.layout-container-demo .el-aside {
-  color: var(--el-text-color-primary);
-  background: var(--el-color-primary-light-8);
-}
-.layout-container-demo .el-menu {
-  border-right: none;
-}
-.layout-container-demo .el-main {
-  padding: 0;
-}
-.layout-container-demo .toolbar {
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-  height: 100%;
-  right: 20px;
-}
-.center {
-  display: flex;
-  justify-content: center;
-  align-items: center;
-}
-
-.demo-count .block {
-  padding: 0px 0;
-  text-align: center;
-  border-right: solid 1px var(--el-border-color);
-  display: inline-block;
-  width: 33%;
-  box-sizing: border-box;
-  vertical-align: top;
-}
-.demo-count .block:last-child {
-  border-right: none;
-}
-.demo-count .demonstration {
-  display: block;
-  color: var(--el-text-color-secondary);
-  font-size: 9px;
-  margin-bottom: 0px;
-}
 </style>

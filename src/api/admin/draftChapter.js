@@ -9,6 +9,15 @@ export function listDraftChapter(query) {
   })
 }
 
+// 查询元素列表
+export function listDraftChapterAdmin(query) {
+  return request({
+    url: '/admin/draftChapter/listAdmin',
+    method: 'get',
+    params: query
+  })
+}
+
 // 查询元素详细
 export function getDraftChapter(sid,dscid,isDel) {
   return request({
@@ -44,9 +53,9 @@ export function updateDraftChapter(data) {
 }
 
 // 删除元素
-export function delDraftChapter(wid,deid) {
+export function delDraftChapter(wid,dscid) {
   return request({
-    url: '/admin/draftChapter/delById?wid=' + wid+'&deid='+deid,
+    url: '/admin/draftChapter/delById?sid=' + wid+'&dscid='+dscid,
     method: 'get'
   })
 }
@@ -61,9 +70,9 @@ export function listAudit(query) {
 }
 
 // 查询元素详细
-export function getDraftChapterAdmin(wid,eid,isDel) {
+export function getDraftChapterAdmin(sid,dscid) {
   return request({
-    url: '/admin/draftChapter/getInfoAdmin?wid=' + wid+'&deid='+eid+'&isDel='+isDel,
+    url: '/admin/draftChapter/getInfoAdmin?sid=' + sid+'&dscid='+dscid,
     method: 'get'
   })
 }
@@ -75,15 +84,15 @@ export function audit(data) {
     data: data
   })
 }
-export function issueClose(wid,deid) {
+export function issueClose(sid,dscid) {
   return request({
-    url: '/admin/draftChapter/issueClose?wid=' + wid+'&deid='+deid,
+    url: '/admin/draftChapter/issueClose?sid=' + sid+'&dscid='+dscid,
     method: 'get'
   })
 }
-export function issue(wid,deid) {
+export function issue(sid,dscid) {
   return request({
-    url: '/admin/draftChapter/issue?wid=' + wid+'&deid='+deid,
+    url: '/admin/draftChapter/issue?sid=' + sid+'&dscid='+dscid,
     method: 'get'
   })
 }

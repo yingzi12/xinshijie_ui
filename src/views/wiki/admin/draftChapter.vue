@@ -6,10 +6,9 @@
         mode="horizontal"
         style="margin:0px;pardding:0px"
     >
-      <el-menu-item index="1" route="/admin/draft"><span style="font-size: 20px;font-weight:bold;">待发布</span></el-menu-item>
-      <el-menu-item index="2" route="/admin/audit"><span style="font-size: 20px;font-weight:bold;">待审核</span></el-menu-item>
-      <el-menu-item index="3" route="/admin/auditLog"><span style="font-size: 20px;font-weight:bold;">已审核</span></el-menu-item>
-      <el-menu-item index="4" route="/admin/draftLog"><span style="font-size: 20px;font-weight:bold;">所有</span></el-menu-item>
+      <el-menu-item index="1" route="/admin/draftChapter"><span style="font-size: 20px;font-weight:bold;">待发布</span></el-menu-item>
+      <el-menu-item index="2" route="/admin/draftChapterAudit"><span style="font-size: 20px;font-weight:bold;">待审核</span></el-menu-item>
+      <el-menu-item index="4" route="/admin/draftChapterLog"><span style="font-size: 20px;font-weight:bold;">所有</span></el-menu-item>
     </el-menu>
   </div>
 
@@ -21,39 +20,32 @@
               <el-button :icon="Search" circle @click="getList"/>
             </el-col>
             <el-col :span="4" style="text-align: right;">
-              <div style="text-align: right; font-size: 12px" class="toolbar">
-                <el-button text @click="handleSeeLog">历史记录</el-button>
-              </div>
+<!--              <div style="text-align: right; font-size: 12px" class="toolbar">-->
+<!--                <el-button text @click="handleSeeLog">历史记录</el-button>-->
+<!--              </div>-->
             </el-col>
           </el-row>
         </div>
         <!--        表格-->
         <div>
           <el-scrollbar>
-            <el-table v-loading="loading" :data="elementList" >
+            <el-table v-loading="loading" :data="chapterList" >
               <el-table-column label="序号" width="50">
                 <template #default="scope">
                   {{ scope.$index + 1 + (queryParams.pageNum - 1) * 10 }}
                 </template>
               </el-table-column>
               <el-table-column label="名称" align="center" key="title" prop="title" :show-overflow-tooltip="true"/>
-              <el-table-column label="世界" align="center" key="wname" prop="wname" :show-overflow-tooltip="true"/>
-              <el-table-column label="类型" align="center" :show-overflow-tooltip="true">
-              <template #default="scope">
-                <el-tag v-for='idLabel in scope.row.idLabels.split(",")'>
-                  {{idLabel.split("$$")[1]}}
-                </el-tag>
-              </template>
-              </el-table-column>
+              <el-table-column label="故事" align="center" key="sname" prop="sname" :show-overflow-tooltip="true"/>
+              <el-table-column label="分卷" align="center" key="pname" prop="pname" :show-overflow-tooltip="true"/>
               <el-table-column label="状态" align="center"  >
                 <template #default="scope">
                   <span>{{elementStatus.get(scope.row.status)}}</span>
                 </template>
               </el-table-column>
-              <el-table-column label="简介" align="center" key="intro" prop="intro" :show-overflow-tooltip="true"/>
-              <el-table-column label="更新时间" align="center" prop="updateTime" width="160" :show-overflow-tooltip="true">
+              <el-table-column label="创建时间" align="center" prop="updateTime" width="160" :show-overflow-tooltip="true">
                 <template #default="scope">
-                  <span>{{ scope.row.updateTime }}</span>
+                  <span>{{ scope.row.createTime }}</span>
                 </template>
               </el-table-column>
               <el-table-column label="操作" align="center" width="150" class-name="small-padding fixed-width">
@@ -70,6 +62,13 @@
                         type="text"
                         icon="Edit"
                         @click="handleUpdate(scope.row)"
+                    ></el-button>
+                  </el-tooltip>
+                  <el-tooltip content="发布" placement="top">
+                    <el-button
+                        type="text"
+                        icon="Position"
+                        @click="handleIssue(scope.row)"
                     ></el-button>
                   </el-tooltip>
                   <el-tooltip content="删除" placement="top">
@@ -99,9 +98,8 @@
 <script lang="ts" setup>
 import { getCurrentInstance, reactive, ref, toRefs} from 'vue'
 import {  listDraftChapter,delDraftChapter,issue } from "@/api/admin/draftChapter";
-// import { getTree} from "@/api/wiki/category";
 import {useRoute, useRouter} from "vue-router";
-import { Menu as IconMenu, Search,Message, Setting } from '@element-plus/icons-vue'
+import {  Search,Message } from '@element-plus/icons-vue'
 const fits = ['世界', '粉丝', '关注']
 const activeIndex = ref('1')
 
@@ -118,7 +116,7 @@ class World {
   createTime:string
 }
 const elementStatus = new Map([
-  [0, "草稿"],
+  [7, "草稿"],
   [1, "发布"],
   [3, "审核不通过"],
   [2, "通过审核"],
@@ -135,7 +133,7 @@ const data = reactive({
     pageSize: 10,
     title: undefined,
     types: undefined,
-    status:0,
+    status:7,
   },
   rules: {
     // userName: [{ required: true, message: "用户名称不能为空", trigger: "blur" }, { min: 2, max: 20, message: "用户名称长度必须介于 2 和 20 之间", trigger: "blur" }],
@@ -143,9 +141,7 @@ const data = reactive({
 });
 const { queryParams, form, rules } = toRefs(data);
 const dateRange = ref([]);
-const ids = ref([]);
-const single = ref(true);
-const multiple = ref(true);
+
 const search = ref('')
 
 function handleDelete ( row){
@@ -157,17 +153,14 @@ function handleDelete ( row){
   }).catch(() => {});
 }
 function handleUpdate (row)  {
-  router.push("/admin/draftChapterEdit?wid="+row.wid+"&deid="+row.id);
-}
-function handleSeeLog(row){
-  router.push("/admin/draftLog?wid="+row.wid+"&deid="+row.id);
+  router.push("/admin/draftChapterEdit?sid="+row.sid+"&dscid="+row.id);
 }
 function handleSee(row){
-  router.push("/admin/draftPreview?wid="+row.wid+"&deid="+row.id);
+  router.push("/admin/draftChapterView?sid="+row.sid+"&dscid="+row.id);
 }
 function handleIssue(row){
   //console.log("发布："+JSON.stringify(row))
-  issue(row.id).then(response => {
+  issue(row.sid,row.id).then(response => {
     getList();
   });
 }

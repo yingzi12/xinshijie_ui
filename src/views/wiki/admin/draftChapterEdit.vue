@@ -6,12 +6,12 @@ storyChapterEdit.vue<template>
         mode="horizontal"
         style="margin:0px;pardding:0px"
     >
-      <el-menu-item index="1">{{sname}} -{{scname}}-章节目录</el-menu-item>
+      <el-menu-item index="1">{{sname}} -{{form.pname}}-章节目录</el-menu-item>
     </el-menu>
   </div>
   <!--        表格-->
   <div>
-    <h1>所属分卷 --  {{scname}}</h1>
+    <h1>所属分卷 --  {{form.pname}}</h1>
     <el-form
         ref="ruleFormRef"
         :model="form"
@@ -55,8 +55,8 @@ const route = useRoute();
 const router = useRouter()
 const sid = ref(null);
 sid.value = route.query.sid;
-const scid = ref(null);
-scid.value = route.query.scid;
+const dscid = ref(null);
+dscid.value = route.query.dscid;
 const scname = ref('');
 scname.value = <string>route.query.scname;
 const sname = ref('');
@@ -79,7 +79,6 @@ const data = reactive({
     pageSize: 10,
     title: undefined,
     sid:sid.value,
-    pid:scid.value,
     level:1
   },
   rules: {
@@ -91,13 +90,11 @@ const { queryParams, form, rules } = toRefs(data);
 
 const handleReelAdd = async (formEl: FormInstance | undefined) => {
   if (!formEl) return
-
-  if (scid.value == undefined || scid.value == null || scid.value == '') {
+  if (dscid.value == undefined || dscid.value == null || dscid.value == '') {
     ElMessage.error("非法操作")
     return
   }
   form.value.sid=sid.value
-  form.value.pid=scid.value
   await formEl.validate((valid, fields) => {
     if (valid) {
       updateDraftChapter(form.value).then(response => {
@@ -111,7 +108,7 @@ const handleReelAdd = async (formEl: FormInstance | undefined) => {
   })
 }
 function handleInfo(){
-  getDraftChapter(sid.value,scid.value).then(response => {
+  getDraftChapter(sid.value,dscid.value).then(response => {
     form.value=response.data
   });
 }

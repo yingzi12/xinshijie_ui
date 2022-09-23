@@ -72,6 +72,13 @@
                         @click="handleUpdate(scope.row)"
                     ></el-button>
                   </el-tooltip>
+                  <el-tooltip content="发布" placement="top">
+                    <el-button
+                        type="text"
+                        icon="Position"
+                        @click="handleIssue(scope.row)"
+                    ></el-button>
+                  </el-tooltip>
                   <el-tooltip content="删除" placement="top">
                     <el-button
                         type="text"
@@ -121,7 +128,7 @@ class World {
   createTime:string
 }
 const elementStatus = new Map([
-  [0, "草稿"],
+  [7, "草稿"],
   [1, "发布"],
   [3, "审核不通过"],
   [2, "通过审核"],
@@ -138,7 +145,7 @@ const data = reactive({
     pageSize: 10,
     title: undefined,
     types: undefined,
-    status:0,
+    status:7,
   },
   rules: {
     // userName: [{ required: true, message: "用户名称不能为空", trigger: "blur" }, { min: 2, max: 20, message: "用户名称长度必须介于 2 和 20 之间", trigger: "blur" }],

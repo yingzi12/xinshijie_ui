@@ -35,7 +35,7 @@
         </div>
         <div>
           <el-scrollbar>
-            <el-table v-loading="loading" :data="authorList">
+            <el-table v-loading="loading" :data="chapterList">
               <el-table-column label="序号" width="50" >
                 <template #default="scope">
                   {{scope.$index+1+(queryParams.pageNum-1)*10}}
@@ -121,6 +121,7 @@ const data = reactive({
     pageSize: 10,
     name: undefined,
     types: undefined,
+    status:2,
     sid: sid.value,
   },
   rules: {

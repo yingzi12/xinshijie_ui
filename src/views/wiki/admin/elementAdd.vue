@@ -130,6 +130,7 @@ interface Tree {
 function submit(){
   console.log(JSON.stringify(temElement))
   element.value=temElement.value.element;
+  element.value.wid=wid.value
   element.value.ext=JSON.stringify(temElement.value.basic);
   element.value.categoryList=sleValue;
 

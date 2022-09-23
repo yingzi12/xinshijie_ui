@@ -353,6 +353,12 @@ export const constantRoutes = [
         meta: { title: '管理员修改元素', icon: 'wiki' }
       },
       {
+        path: 'storyChapterView',
+        component: () => import('@/views/wiki/admin/storyChapterView'),
+        name: 'storyChapterView',
+        meta: { title: '管理员修改元素', icon: 'wiki' }
+      },
+      {
         path: 'storyAudit',
         component: () => import('@/views/wiki/admin/storyAudit'),
         name: 'storyAudit',
@@ -386,6 +392,24 @@ export const constantRoutes = [
         path: 'draftChapterLog',
         component: () => import('@/views/wiki/admin/draftChapterLog'),
         name: 'draftChapterLog',
+        meta: { title: '所有记录', icon: 'wiki' }
+      },
+      {
+        path: 'draftChapterAdd',
+        component: () => import('@/views/wiki/admin/draftChapterAdd'),
+        name: 'draftChapterAdd',
+        meta: { title: '所有记录', icon: 'wiki' }
+      },
+      {
+        path: 'draftChapterEdit',
+        component: () => import('@/views/wiki/admin/draftChapterEdit'),
+        name: 'draftChapterEdit',
+        meta: { title: '所有记录', icon: 'wiki' }
+      },
+      {
+        path: 'draftChapterView',
+        component: () => import('@/views/wiki/admin/draftChapterView'),
+        name: 'draftChapterView',
         meta: { title: '所有记录', icon: 'wiki' }
       }
     ]
