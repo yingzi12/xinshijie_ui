@@ -32,7 +32,7 @@
                 </el-space>
               </div>
               <div style="margin-top: 5px" v-if="story.updateChapterId != null">
-                <span style="font-size:10px;color:#999999;">更新时间:</span><span style="font-size:10px;color:#999999;">{{ story.updateChapterIdTime }}</span><span style="font-size:10px;margin-left: 10px;color:#70B603;">{{ story.updateChapter }}</span>
+                <span style="font-size:10px;color:#999999;">更新时间:</span><span style="font-size:10px;color:#999999;">{{ story.updateChapterTime }}</span><span style="font-size:10px;margin-left: 10px;color:#70B603;">{{ story.updateChapter }}</span>
               </div>
               <div style="height: 52px;overflow:hidden">
                 <p style="font-size: 18px;color: #666666;margin: 5px 0px 0px 0px">{{ story.intro }}</p>
@@ -68,13 +68,9 @@
                 <router-link :to="{path:'/chapter/index', query: {scid:scope.row.id,wid:scope.row.wid,sid:sid,wname:scope.row.wname,sname:scope.row.sname}}">{{ scope.row.title }}</router-link>
               </template>
             </el-table-column>
-            <el-table-column label="分类" width="180"  :show-overflow-tooltip="true">
-              <template #default="scope">
-                  {{ scope.row.types }}
-              </template>
-            </el-table-column>
-            <el-table-column prop="intro" label="简介" width="250" :show-overflow-tooltip="true"/>
+            <el-table-column prop="createName" label="创建人" />
             <el-table-column prop="createTime" label="创建时间" />
+            <el-table-column prop="updateTime" label="更新时间" />
           </el-table>
           <el-button style="margin-top:10px" text  @click="handChapter">更多</el-button>
         </el-tab-pane>

@@ -134,10 +134,13 @@ class Story {
   createTime:string
 }
 const storyStatus = new Map([
-  [0, "正常"],
-  [1, "待发布"],
-  [2, "锁定"],
-  [3, "删除"]
+  [0, "草稿"],
+  [1, "待审核"],
+  [3, "审核不通过"],
+  [2, "正常"],
+  [4, "删除"],
+  [5, "超时发布自动拒绝"],
+  [6, "超时审核自动通过"],
 ]);
 const storyTypesMap=new Map([
   [6,"科学"],

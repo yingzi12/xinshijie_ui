@@ -62,7 +62,11 @@
             {{ scope.$index + 1 + (queryParams.pageNum - 1) * 10 }}
           </template>
         </el-table-column>
-        <el-table-column label="故事名" align="center" key="name" prop="name" :show-overflow-tooltip="true"/>
+        <el-table-column label="故事名" align="center" key="name" prop="name" :show-overflow-tooltip="true">
+          <template #default="scope">
+            <router-link  :to="{path:'/story/index', query: {sid:scope.row.id,sname:scope.row.name,wid:scope.row.wid,wname:scope.row.wname}}"><el-tag v-if="scope.row.source=='原创'">原创</el-tag>{{scope.row.name}}</router-link>
+          </template>
+        </el-table-column>
         <el-table-column label="状态" align="center"  >
           <template #default="scope">
             <span>{{storyStatusMap.get(scope.row.status)}}</span>
@@ -150,7 +154,7 @@ const activeIndex = ref('1')
 const storyStatusMap = new Map([
   [1, "草稿"],
   [2, "待审核"],
-  [3, "审核通过正常"],
+  [3, "正常"],
   [4, "删除"],
   [5, "审核不通过"],
   [6, "隐藏"],

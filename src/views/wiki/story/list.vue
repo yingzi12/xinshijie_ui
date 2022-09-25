@@ -118,7 +118,6 @@ const wid = ref(null);
 wid.value = route.query.wid;
 const wname = ref(null);
 wname.value = route.query.wname;
-const sname = ref('');
 const wtypes=ref(null);
 const loading = ref(true);
 const storyList = ref([]);
@@ -151,11 +150,6 @@ function handFind(types:number){
     queryParams.value.types =null;
   }else{
     queryParams.value.types =types;
-  }
-  if(sname.value != null && sname.value != '' && sname.value != undefined) {
-    queryParams.value.name=sname.value;
-  }else{
-    queryParams.value.name=null;
   }
   if(wid.value != null && wid.value != '' && wid.value != undefined) {
     queryParams.value.wid=wid.value;
