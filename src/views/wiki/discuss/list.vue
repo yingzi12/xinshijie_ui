@@ -24,7 +24,7 @@
         <el-row>
           <el-col :span="3" class="center">
             <el-row>
-              <el-col><el-avatar :size="50" :src="circleUrl" /></el-col>
+              <el-col><el-avatar :size="50" :src="imgUrl+circleUrl" /></el-col>
               <el-col><span class="demonstration">{{ username }}</span></el-col>
             </el-row>
           </el-col>
@@ -59,7 +59,7 @@
               <el-row>
                 <el-col :span="2">
                     <!--              头像-->
-                    <p style="margin: 0px;padding: 0px"><el-avatar :size="50" :src="discuss.circleUrl" /></p>
+                    <p style="margin: 0px;padding: 0px"><el-avatar :size="50" :src="imgUrl+discuss.circleUrl" /></p>
                     <p style="font-weight:bold;margin: 0px;padding: 0px;">{{ discuss.createName }}</p>
                 </el-col>
                 <el-col :span="22">
@@ -98,7 +98,7 @@
 </template>
 
 <script lang="ts" setup>
-import { getCurrentInstance, reactive, ref, toRefs} from 'vue'
+import {getCurrentInstance, inject, reactive, ref, toRefs} from 'vue'
 import { listDiscuss } from "@/api/wiki/discuss";
 import { addDiscuss } from "@/api/admin/discuss";
 import { getWorld } from "@/api/wiki/world";
@@ -119,6 +119,7 @@ const disabled=ref(true)
 
 const username=ref('')
 //console.log("userStore name:"+(userStore.name==''))
+const imgUrl = inject("$imgUrl")
 
 const eid = ref(null);
 const wid = ref(null);

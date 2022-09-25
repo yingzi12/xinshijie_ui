@@ -113,7 +113,7 @@
       <el-row>
         <el-col :span="2" class="center">
           <el-row>
-            <el-col><el-avatar :size="50" :src="circleUrl" /></el-col>
+            <el-col><el-avatar :size="50" :src="imgUrl+circleUrl" /></el-col>
             <el-col><span class="demonstration">{{username}}</span></el-col>
           </el-row>
         </el-col>
@@ -134,7 +134,7 @@
               <el-col :span="2">
                 <div  class="center">
                    <!--              头像-->
-                   <el-avatar :size="50" :src="circleUrl" />
+                   <el-avatar :size="50" :src="imgUrl+comment.circleUrl" />
                 </div>
               </el-col>
               <el-col :span="22">

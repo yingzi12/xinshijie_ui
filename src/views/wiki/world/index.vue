@@ -32,8 +32,8 @@
         <el-card class="dddd" :body-style="{ padding: '0px',width:'100%' }">
           <el-image style="width:100%; height: 100px" :src="imgUrl+world.imgUrl" fit="fill" @click="handleSee(world.id)"/>
           <div style="padding: 1px;margin: 0px;text-align: center">
-            <p class="biaoti" style="font-size:16px;line-height:28px;margin: 0px" @click="handleSee(world.id)"><span style="font-family:'PingFangSC-Semibold', 'PingFang SC Semibold', 'PingFang SC', sans-serif;font-weight:650;" >{{ world.name }}<el-tag v-if="world.source=='原创'">原创</el-tag></span></p>
-            <p class="shuoming" style="font-size:14px;line-height:28px;margin: 0px;"><span style="font-family:'PingFangSC-Regular', 'PingFang SC', sans-serif;font-weight:400;color:#999999;font-size: x-small;">{{ world.intro }}</span></p>
+            <p class="biaoti" style="font-size:16px;margin: 0px" @click="handleSee(world.id)"><span style="font-family:'PingFangSC-Semibold', 'PingFang SC Semibold', 'PingFang SC', sans-serif;font-weight:650;" >{{ world.name }}<el-tag v-if="world.source=='原创'">原创</el-tag></span></p>
+            <p class="shuoming" style="font-size:14px;margin: 0px;"><span style="font-family:'PingFangSC-Regular', 'PingFang SC', sans-serif;font-weight:400;color:#999999;font-size: x-small;">{{ world.intro }}</span></p>
           </div>
         </el-card>
       </el-col>

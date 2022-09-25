@@ -28,7 +28,11 @@
                   {{scope.$index+1}}
                 </template>
               </el-table-column>
-              <el-table-column prop="wname" label="名称" :show-overflow-tooltip="true" />
+              <el-table-column prop="wname" label="名称" :show-overflow-tooltip="true" >
+                <template #default="scope">
+                  <router-link  :to="{path:'/world/details', query: {wid:scope.row.wid,wname:scope.row.wname}}"><el-tag v-if="scope.row.source=='原创'">原创</el-tag>{{scope.row.wname}}</router-link>
+                </template>
+              </el-table-column>
               <el-table-column label="类别" align="center"   >
                 <template #default="scope">
                   <span>{{worldTypesMap.get(scope.row.types)}}</span>

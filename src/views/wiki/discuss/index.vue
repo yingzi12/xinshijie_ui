@@ -14,7 +14,7 @@
           <el-row>
             <el-col :span="2" class="center">
               <el-row>
-                <el-col><el-avatar :size="50" :src="circleUrl" /></el-col>
+                <el-col><el-avatar :size="50" :src="imgUrl+circleUrl" /></el-col>
                 <el-col><span class="demonstration">{{discuss.createName}}</span></el-col>
               </el-row>
             </el-col>
@@ -65,7 +65,7 @@
             <div v-for="comment in commentList">
               <el-row>
                 <el-col :span="2" class="center">
-                    <el-avatar :size="50" :src="comment.circleUrl" />
+                    <el-avatar :size="50" :src="imgUrl+omment.circleUrl" />
                 </el-col>
                 <el-col :span="22">
                   <div >
@@ -133,7 +133,7 @@
 </template>
 
 <script lang="ts" setup>
-import { getCurrentInstance, reactive, ref, toRefs} from 'vue'
+import {getCurrentInstance, inject, reactive, ref, toRefs} from 'vue'
 import { listDiscussComment } from "@/api/wiki/discussComment";
 import { getDiscuss } from "@/api/wiki/discuss";
 import { addDiscussComment } from "@/api/admin/discussComment";
@@ -148,6 +148,7 @@ const route = useRoute();
 const router = useRouter()
 const {  appContext : { config: { globalProperties } }  } = getCurrentInstance();
 const {  proxy  } = getCurrentInstance();
+const imgUrl = inject("$imgUrl")
 
 //获取用户信息
 const userStore = useUserStore()

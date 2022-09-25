@@ -15,7 +15,7 @@
         <el-row>
           <el-col :span="2" class="center">
             <el-row>
-              <el-col><el-avatar :size="50" :src="circleUrl" /></el-col>
+              <el-col><el-avatar :size="50" :src="imgUrl+circleUrl" /></el-col>
               <el-col>
                 <span   class="demonstration">{{username}}</span>
               </el-col>
@@ -30,44 +30,6 @@
         </el-row>
       </div>
       <!--    已经发布的的评论-->
-<!--      <div>-->
-<!--        <el-tabs v-model="commentActive"  >-->
-<!--          <el-tab-pane label="全部评论" name="allComm">-->
-<!--            <div v-for="comment in commentList">-->
-<!--              <el-row>-->
-<!--                <el-col :span="2">-->
-<!--                  <div  class="center">-->
-<!--                    &lt;!&ndash;              头像&ndash;&gt;-->
-<!--                    <el-avatar :size="50" :src="comment.circleUrl" />-->
-<!--                  </div>-->
-<!--                </el-col>-->
-<!--                <el-col :span="22">-->
-<!--                  <div >-->
-<!--                    <h3 style="font-weight:bold;">{{ comment.createName }}</h3>-->
-<!--                  </div>-->
-<!--                  <div v-html="comment.comment">-->
-<!--                  </div>-->
-<!--                  <div style="color:#A3A6AD">-->
-<!--                    <span>{{ comment.createTime }}</span>-->
-<!--                    <span><el-icon :size="15"><ChatDotRound /></el-icon>{{comment.countReply}} </span>-->
-<!--                    <span><el-icon :size="15"><Pointer /></el-icon>{{comment.countReply}}</span>-->
-<!--                  </div>-->
-<!--                </el-col>-->
-<!--              </el-row>-->
-<!--              <el-divider />-->
-<!--            </div>-->
-<!--            <div class="center">-->
-<!--              <pagination-->
-<!--                  v-show="total > 0"-->
-<!--                  :total="total"-->
-<!--                  v-model:page="queryParams.pageNum"-->
-<!--                  v-model:limit="queryParams.pageSize"-->
-<!--                  @pagination="getList"-->
-<!--              />-->
-<!--            </div>-->
-<!--          </el-tab-pane>-->
-<!--        </el-tabs>-->
-<!--      </div>-->
       <div>
         <el-tabs v-model="commentActive"  >
           <el-tab-pane label="全部评论" name="allComm">
@@ -76,7 +38,7 @@
                 <el-col :span="2">
                   <div  class="center">
                     <!--              头像-->
-                    <el-avatar :size="50" :src="circleUrl" />
+                    <el-avatar :size="50" :src="imgUrl+comment.circleUrl" />
                   </div>
                 </el-col>
                 <el-col :span="22">
@@ -114,7 +76,7 @@
 </template>
 
 <script lang="ts" setup>
-import {getCurrentInstance, reactive, ref, toRefs} from 'vue'
+import {getCurrentInstance, inject, reactive, ref, toRefs} from 'vue'
 import { addComment} from "@/api/admin/comment";
 import { listComment} from "@/api/wiki/comment";
 import {ElMessage} from "element-plus";
@@ -143,6 +105,7 @@ eid.value = route.query.eid;
 wid.value = route.query.wid;
 source.value = route.query.source;
 sid.value = route.query.sid;
+const imgUrl = inject("$imgUrl")
 
 //console.log("元素id="+eid.value);
 //console.log("世界id="+wid.value);
@@ -151,7 +114,7 @@ if(userStore.name==''){
   disabled.value=true;
 }else{
   username.value=userStore.name;
-  circleUrl.value=userStore.avatar;
+  circleUrl.value=imgUrl+userStore.avatar;
   disabled.value=false;
 }
 
