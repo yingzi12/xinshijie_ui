@@ -58,9 +58,17 @@ export function delStory(id) {
   })
 }
 // 发布
-export function issue(wid) {
+export function issue(sid) {
   return request({
-    url: '/admin/story/issue?sid=' + wid,
+    url: '/admin/story/issue?sid=' + sid,
     method: 'get'
+  })
+}
+// 发布
+export function audit(data) {
+  return request({
+    url: '/admin/story/audit',
+    method: 'post',
+    data: data
   })
 }

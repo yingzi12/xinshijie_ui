@@ -7,6 +7,7 @@
           <el-breadcrumb-item :to="{ path: '/world/index' }">首页</el-breadcrumb-item>
           <el-breadcrumb-item><a href="/world/list">世界树</a></el-breadcrumb-item>
           <el-breadcrumb-item :to="{ path: '/world/details', query: {wid:wid} }">{{story.wname}}</el-breadcrumb-item>
+          <el-breadcrumb-item :to="{ path: '/story/list', query: {wid:wid,wname:wname} }">故事列表</el-breadcrumb-item>
           <el-breadcrumb-item>详细</el-breadcrumb-item>
         </el-breadcrumb>
       </div>
@@ -61,10 +62,10 @@
           <p style="white-space: pre-wrap;">{{story.description}}</p>
         </el-tab-pane>
         <el-tab-pane label="章节" name="element">
-          <el-table :data="elementList" stripe style="width: 100%">
+          <el-table :data="chapterList" stripe style="width: 100%">
             <el-table-column prop="title" label="章节名" width="180" >
               <template #default="scope">
-                <router-link :to="{path:'/chapter/list', query: {eid:scope.row.id,wid:scope.row.wid,temType:scope.row.softtype}}">{{ scope.row.title }}</router-link>
+                <router-link :to="{path:'/chapter/index', query: {scid:scope.row.id,wid:scope.row.wid,sid:sid,wname:scope.row.wname,sname:scope.row.sname}}">{{ scope.row.title }}</router-link>
               </template>
             </el-table-column>
             <el-table-column label="分类" width="180"  :show-overflow-tooltip="true">
@@ -165,9 +166,11 @@ const router = useRouter()
 const route = useRoute();
 
 const sid = ref(null);
-const wid = ref(null);
 sid.value = route.query.sid;
+
+const wid = ref(null);
 wid.value = route.query.wid;
+
 
 //console.log(route.query.id,"参数");
 //世界信息
@@ -188,7 +191,7 @@ const data = reactive({
     pageSize: 10,
     wid: undefined,
     sid: sid.value,
-    pid: 0,
+    level: 1,
 
   },
   rules: {
@@ -206,7 +209,7 @@ function handChapter(){
   router.push("/chapter/list?sid="+sid.value+"&wid"+wid.value);
 }
 function handleDiscuss(){
-  router.push("/discuss/list?sid="+sid.value);
+  router.push("/discuss/list?sid="+sid.value+"&wid"+wid.value+"&source="+2);
 }
 function handleHarding(){
   addHarding(sid.value).then(response => {
@@ -218,12 +221,14 @@ function handStory() {
   getStory(sid.value).then(response => {
     //console.log("查询世界详细:"+JSON.stringify(response))
     story.value = response.data
+    wid.value = response.data.wid;
     imageUrl.value=imgUrl+response.data.imgUrl;
   });
 }
 //评论信息
 function getAllStoryComment() {
   queryParams.value.wid=wid.value;
+  queryParams.value.sid=sid.value;
   listComment(globalProperties.addDateRange(queryParams.value, dateRange.value)).then(response => {
     //console.log("查询世界详细:"+JSON.stringify(response))
     commentList.value = response.rows
@@ -291,9 +296,12 @@ function onSubmit(){
   }else{
     commentForm.value.sid=sid.value
   }
-  commentForm.value.sname=story.value.name
   commentForm.value.circleUrl=userStore.avatar
   if(disabled) {
+    commentForm.value.source=2
+    commentForm.value.sname=story.value.name
+    commentForm.value.wname=story.value.wname
+    commentForm.value.wid=story.value.wid
     addComment(commentForm.value).then(response => {
       ElMessage.success("评论成功")
       commentForm.value.comment = ''
@@ -304,7 +312,7 @@ function onSubmit(){
 }
 
 function handleComment(){
-  router.push("/story/comment?sid="+story.value.id+"&wid="+story.value.wid);
+  router.push("/story/comment?sid="+story.value.id+"&wid="+story.value.wid+"&source="+2);
 }
 
 //判断是否已经关注

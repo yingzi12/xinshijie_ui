@@ -6,7 +6,9 @@
         <el-breadcrumb-item><a href="/world/list">世界树</a></el-breadcrumb-item>
         <el-breadcrumb-item :to="{ path: '/world/details', query: {wid:story.wid} }">{{story.wname}}</el-breadcrumb-item>
         <el-breadcrumb-item :to="{ path: '/story/list', query: {wid:story.wid} }">故事列表</el-breadcrumb-item>
-        <el-breadcrumb-item>元素详情</el-breadcrumb-item>
+        <el-breadcrumb-item :to="{ path: '/story/index', query: {wid:story.wid,wname:story.wname,sid:story.id,sname:story.name} }">{{ story.name }}</el-breadcrumb-item>
+        <el-breadcrumb-item :to="{ path: '/chapter/index', query: {wid:story.wid,wname:story.wname,sid:story.id,sname:story.name} }">章节目录</el-breadcrumb-item>
+        <el-breadcrumb-item>章节详情</el-breadcrumb-item>
       </el-breadcrumb>
     </div>
     <div >
@@ -46,6 +48,8 @@ const scid = ref(null);
 const sid = ref(null);
 scid.value = route.query.scid;
 sid.value = route.query.sid;
+const wid = ref(null);
+wid.value = route.query.wid;
 
 const chapter=ref({})
 
@@ -58,10 +62,10 @@ function getInfo() {
 }
 
 function handleList(){
-  router.push("/chapter/list?sid="+ sid.value+"&scid=" +scid.value)
+  router.push("/chapter/list?sid="+ sid.value+"&scid=" +scid.value+"&sname=" +chapter.value.sname+"&wname=" +chapter.value.wname+"&wid=" +wid.value)
 }
 function handleEdit(){
-  router.push("/admin/storyChapterEdit?sid="+ sid.value+"&scid=" +scid.value)
+  router.push("/admin/storyChapterEdit?sid="+ sid.value+"&scid=" +scid.value+"&sname=" +chapter.value.sname+"&wname=" +chapter.value.wname+"&wid=" +wid.value)
 }
 function handleReturn(){
   router.back()

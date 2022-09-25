@@ -19,8 +19,8 @@
       <el-button text>  <router-link :to="{path:'/admin/worldAudit', query: {wid:wid,wname:wname}}">元素审核</router-link></el-button>
       <el-button text type="primary">  <router-link :to="{path:'/admin/worldStory', query: {wid:wid,wname:wname}}">故事管理</router-link></el-button>
       <el-button text>  <router-link :to="{path:'/admin/worldRedident', query: {wid:wid,wname:wname}}">居民管理</router-link></el-button>
-      <el-button text>  <router-link :to="{path:'/admin/worldComment', query: {wid:wid,wname:wname}}">评论管理</router-link></el-button>
-      <el-button text>  <router-link :to="{path:'/admin/worldDiscuss', query: {wid:wid,wname:wname}}">讨论管理</router-link></el-button>
+      <el-button text>  <router-link :to="{path:'/admin/worldComment', query: {wid:wid,wname:wname,source:1}}">评论管理</router-link></el-button>
+      <el-button text>  <router-link :to="{path:'/admin/worldDiscuss', query: {wid:wid,wname:wname,source:1}}">讨论管理</router-link></el-button>
     </el-space>
   </div>
   <!--        统计-->
@@ -113,6 +113,30 @@
         v-model:limit="queryParams.pageSize"
         @pagination="getList"/>
   </div>
+
+  <!--      审核弹出框-->
+  <el-dialog v-model="dialogFormVisible" title="审核">
+    <el-form :model="form"
+             :rules="rules"
+             ref="ruleFormRef"
+    >
+      <el-form-item label="审核" :label-width="formLabelWidth"  prop="auditStatus">
+        <el-select v-model="form.auditStatus" placeholder="请选择审核结果" >
+          <el-option label="不通过" value="0" />
+          <el-option label="通过" value="1" />
+        </el-select>
+      </el-form-item>
+      <el-form-item label="说明" :label-width="formLabelWidth" prop="auditContent">
+        <el-input v-model="form.auditContent" autocomplete="off" />
+      </el-form-item>
+    </el-form>
+    <template #footer>
+      <span class="dialog-footer">
+        <el-button @click="dialogFormVisible = false">取消</el-button>
+        <el-button type="primary" @click="onSudmit(ruleFormRef)">确认</el-button>
+      </span>
+    </template>
+  </el-dialog>
 </template>
 
 <script lang="ts" setup>
@@ -120,6 +144,7 @@ import { getCurrentInstance, reactive, ref, toRefs } from 'vue'
 import { listStoryAdmin,audit } from "@/api/admin/story";
 import { useRoute, useRouter } from "vue-router";
 import {Search} from '@element-plus/icons-vue'
+import {ElMessage, FormInstance} from "element-plus";
 const fits = ['世界', '粉丝', '关注']
 const activeIndex = ref('1')
 const storyStatusMap = new Map([
@@ -175,35 +200,65 @@ const dataStree = ref([])
 const loading = ref(true);
 const storyList = ref([]);
 const total = ref(0);
-const data = reactive({
-  form: {},
-  queryParams: {
-    pageNum: 1,
-    pageSize: 10,
-    title: undefined,
-    types: '',
-    wid:wid.value,
-    status:2,
-  },
-  rules: {
-    // userName: [{ required: true, message: "用户名称不能为空", trigger: "blur" }, { min: 2, max: 20, message: "用户名称长度必须介于 2 和 20 之间", trigger: "blur" }],
-  }
-});
-const { queryParams, form, rules } = toRefs(data);
+
+
 const dateRange = ref([]);
 const ids = ref([]);
 const single = ref(true);
 const multiple = ref(true);
 const search = ref('')
-function handleAudit (row)  {
-  // router.push("/admin/elementEdit?eid="+row.id+"&wid=" + wid.value+"&temType=" + row.softtype);
+
+const data = reactive({
+  form: {},
+  queryParams: {
+    pageNum: 1,
+    pageSize: 10,
+    auditStatus:0,
+    title: undefined,
+    types: '',
+    wid:wid.value,
+  },
+  rules: {
+    auditStatus: [{ required: true, message: "类别不能为空", trigger: "blur" }],
+    auditContent: [{ required: true, message: "说明不能为空", trigger: "blur" }, { min: 10, max: 200, message: "说明长度必须介于 10 和 200 之间", trigger: "blur" }],
+
+  }
+});
+const { queryParams, form, rules } = toRefs(data);
+const ruleFormRef = ref<FormInstance>()
+
+const dialogFormVisible=ref(false)
+
+function handleAudit(row){
+  dialogFormVisible.value=true;
+  form.value.sid=row.id;
+  form.value.wid=wid.value
+  form.value.auditStatus=undefined
+  form.value.auditNumber=0
+  form.value.auditContent=''
 }
+const onSudmit = async (formEl: FormInstance | undefined) => {
+  if (!formEl) return
+  await formEl.validate((valid, fields) => {
+    if (valid) {
+      //console.log('submit!')
+      audit(form.value).then(response => {
+        dialogFormVisible.value=false
+        ElMessage.success("处理成功")
+        getList();
+      })
+    } else {
+      //console.log('error submit!', fields)
+    }
+  })
+}
+
 function handleAdd()  {
   router.push("/admin/storyAdd?wname="+wname.value+"&wid=" + wid.value);
 }
 
 function handleSee(row){
-  router.push("/element/details?wid="+row.wid+"&eid="+row.id);
+  router.push("/story/index?wid="+row.wid+"&sid="+row.id);
 }
 
 /** 查询元素列表 */

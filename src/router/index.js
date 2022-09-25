@@ -409,6 +409,24 @@ export const constantRoutes = [
         meta: { title: '管理员修改元素', icon: 'wiki' }
       },
       {
+        path: 'storyComment',
+        component: () => import('@/views/wiki/admin/story/storyComment'),
+        name: 'storyComment',
+        meta: { title: '管理员修改元素', icon: 'wiki' }
+      },
+      {
+        path: 'storyDiscuss',
+        component: () => import('@/views/wiki/admin/story/storyDiscuss'),
+        name: 'storyDiscuss',
+        meta: { title: '管理员修改元素', icon: 'wiki' }
+      },
+      {
+        path: 'storyDiscussLog',
+        component: () => import('@/views/wiki/admin/story/storyDiscussLog'),
+        name: 'storyDiscussLog',
+        meta: { title: '管理员修改元素', icon: 'wiki' }
+      },
+      {
         path: 'draftChapter',
         component: () => import('@/views/wiki/admin/draftChapter/draftChapter'),
         name: 'draftChapter',

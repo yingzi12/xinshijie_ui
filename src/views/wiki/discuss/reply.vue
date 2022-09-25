@@ -20,7 +20,7 @@
             </el-col>
             <el-col :span="22">
               <div>
-                <span style="font-weight:bold;font-size:15px;"><router-link :to="{path:'/discuss/index',query: {wid:world.id,wname:world.name,did:discussComment.did}}">#{{ discussComment.title }}#</router-link></span>
+                <span style="font-weight:bold;font-size:15px;"><router-link :to="{path:'/discuss/index',query: {wid:world.id,wname:world.name,did:discussComment.did,source:source,sid:sid}}">#{{ discussComment.title }}#</router-link></span>
                 <p>{{discussComment.comment}}</p>
               </div>
               <div style="color:#A3A6AD">
@@ -123,10 +123,14 @@ const username=ref('')
 
 const did = ref(null);
 const wid = ref(null);
+const sid = ref(null);
 const dcid = ref(null);
+const source = ref(null);
+source.value = route.query.source;
 did.value = route.query.did;
 wid.value = route.query.wid;
 dcid.value = route.query.dcid;
+sid.value = route.query.sid;
 
 //console.log("元素id="+did.value);
 //console.log("世界id="+wid.value);
@@ -254,9 +258,18 @@ function sudmitReply(comment){
     ElMessage.error("回复内容需大于10小于200")
     return;
   }
+  if(sid.value == undefined){
+    form.value.sid=null
+  }else{
+    form.value.sid=sid.value
+  }
+  if(wid.value == undefined){
+    form.value.wid=null
+  }else{
+    form.value.wid=wid.value
+  }
   //console.log("添加回复:"+JSON.stringify(comment))
   form.value.did=did.value
-  form.value.wid=world.value.id
   form.value.wname=world.value.name
   form.value.circleUrl=userStore.avatar
   form.value.comment=comment.reply
@@ -272,6 +285,7 @@ function sudmitReply(comment){
   }else{
     form.value.pid = comment.pid
   }
+  form.value.source=source.value
   addDiscussComment(form.value).then(response => {
     // comment.replyList.push(response.data)
     comment.replyComment=""

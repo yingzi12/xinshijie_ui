@@ -64,7 +64,7 @@
                 </el-col>
                 <el-col :span="22">
                   <div >
-                    <span style="font-weight:bold;font-size:15px;"><router-link :to="{path:'/discuss/index',query: {wid:world.id,wname:world.name,did:discuss.id}}">{{ discuss.title }}</router-link></span>
+                    <span style="font-weight:bold;font-size:15px;"><router-link :to="{path:'/discuss/index',query: {wid:wid,wname:world.name,did:discuss.id,source:source,sid:sid}}">{{ discuss.title }}</router-link></span>
                     <el-tag>{{ discussTypesMap.get(discuss.types) }}</el-tag>
                     <el-tag>{{ discussStatusMap.get(discuss.status) }}</el-tag>
                   </div>
@@ -122,8 +122,13 @@ const username=ref('')
 
 const eid = ref(null);
 const wid = ref(null);
+const sid = ref(null);
+const source = ref(null);
+source.value = route.query.source;
 eid.value = route.query.eid;
 wid.value = route.query.wid;
+sid.value = route.query.sid;
+
 //console.log("元素id="+eid.value);
 //console.log("世界id="+wid.value);
 
@@ -231,22 +236,27 @@ function onSubmit(){
     ElMessage.error("讨论标题需大于5小于500")
     return;
   }
-  if(wid.value == undefined){
-    ElMessage.error("缺少必要参数")
-    return;
-  }else{
-    form.value.wid=world.value.id
-  }
   if(eid.value == undefined){
     form.value.eid=null
   }else{
     form.value.eid=eid.value
+  }
+  if(sid.value == undefined){
+    form.value.sid=null
+  }else{
+    form.value.sid=sid.value
+  }
+  if(wid.value == undefined){
+    form.value.wid=null
+  }else{
+    form.value.wid=wid.value
   }
   form.value.wname=world.value.name
   form.value.circleUrl=userStore.avatar
   form.value.types=disType.value
   form.value.comment=discuss.value
   form.value.title=title.value
+  form.value.source=source.value
   //console.log("添加主题")
   addDiscuss(form.value).then(response => {
     // ElMessage.info("评论成功")

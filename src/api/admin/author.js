@@ -1,6 +1,6 @@
 import request from '@/utils/request'
 
-export function getStoryAuthor(id) {
+export function listAuthor(id) {
   return request({
     url: '/admin/author/getStoryAuthor?sid=' + id,
     method: 'get'

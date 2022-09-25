@@ -7,7 +7,9 @@
             <el-breadcrumb-item :to="{ path: '/world/index' }">首页</el-breadcrumb-item>
             <el-breadcrumb-item><a href="/world/list">世界树</a></el-breadcrumb-item>
             <el-breadcrumb-item :to="{ path: '/world/details', query: {wid:story.wid} }">{{story.wname}}</el-breadcrumb-item>
-            <el-breadcrumb-item>元素列表</el-breadcrumb-item>
+            <el-breadcrumb-item :to="{ path: '/story/list', query: {wid:story.wid,wname:story.wname} }">故事列表</el-breadcrumb-item>
+            <el-breadcrumb-item :to="{ path: '/story/index', query: {wid:story.wid,wname:story.wname,sid:story.id,sname:story.name} }">{{ story.name }}</el-breadcrumb-item>
+            <el-breadcrumb-item>章节目录</el-breadcrumb-item>
           </el-breadcrumb>
         </el-col>
         <el-col :span="3">
@@ -40,7 +42,7 @@
               <div   style="margin-left: 25px">
                 <el-row :gutter="24">
                   <el-col :span="3" v-for="chap in reel.chapterList">
-                    <router-link  :to="{path:'/chapter/index', query: {sid:chap.sid,scid:chap.id}}">{{chap.title}}</router-link>
+                    <router-link  :to="{path:'/chapter/index', query: {sid:chap.sid,wid:chap.wid,sname:chap.sname,wname:chap.wname,scid:chap.id}}">{{chap.title}}</router-link>
                   </el-col>
                 </el-row>
               </div>
@@ -66,7 +68,8 @@ const route = useRoute();
 const router = useRouter()
 const sid = ref(null);
 sid.value = route.query.sid;
-
+const wid = ref(null);
+wid.value = route.query.wid;
 const data = reactive({
   form: {},
   queryParams: {
@@ -92,7 +95,7 @@ function handleSee(id:number,wid:number,softtype:number){
 
 //添加新元素,需要登录权限
 function handleAdd(){
-  router.push("/admin/storyChapterAdd?sid=" + sid.value );
+  router.push("/admin/storyChapterAdd?sid=" + sid.value +"&wid=" + wid.value);
 }
 
 const story=ref('')

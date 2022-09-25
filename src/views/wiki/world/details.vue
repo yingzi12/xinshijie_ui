@@ -88,7 +88,7 @@
             </el-table-column>
             <el-table-column label="分类" width="180"  :show-overflow-tooltip="true">
               <template #default="scope">
-                  {{idLabel.types}}
+                  {{scope.row.types}}
               </template>
             </el-table-column>
             <el-table-column prop="intro" label="简介" width="250" :show-overflow-tooltip="true"/>
@@ -214,14 +214,13 @@ const imgUrl = inject("$imgUrl")
 const imageUrl=ref('')
 
 function handElement(){
-  router.push("/element/list?wid="+world.value.id);
+  router.push("/story/list?wid="+world.value.id+"&wname="+world.value.name);
 }
 function handleDiscuss(){
-  router.push("/discuss/list?wid="+world.value.id);
+  router.push("/discuss/list?wid="+world.value.id+"&wname="+world.value.name+"&source="+1);
 }
 function handleFllow(){
     addFllow(wid.value).then(response => {
-
       ElMessage.success("关注成功");
     });
 }
@@ -278,7 +277,7 @@ function getStoryList() {
 //获取用户信息
 const userStore = useUserStore()
 const circleUrl=ref('')
-const disabled=ref(true)
+const disabled=ref(false)
 
 const username=ref('')
 //console.log("userStore name:"+(userStore.name==''))
@@ -310,6 +309,7 @@ function onSubmit(){
   }else{
     commentForm.value.wid=wid.value
   }
+  commentForm.value.source=1
   commentForm.value.wname=world.value.name
   commentForm.value.circleUrl=userStore.avatar
   addComment(commentForm.value).then(response => {
@@ -321,12 +321,15 @@ function onSubmit(){
 }
 
 function handleComment(){
-  router.push("/world/comment?wid="+world.value.id);
+  router.push("/world/comment?wid="+world.value.id+"&source="+1);
 }
 
 //判断是否已经关注
 const isFllow=ref(false)
 function handleIsFllow(){
+  if(!disabled){
+    return;
+  }
   getInfoByWid(wid.value).then(response => {
     if(!response.data){
       isFllow.value=true

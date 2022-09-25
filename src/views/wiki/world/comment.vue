@@ -129,15 +129,21 @@ const route = useRoute();
 //获取用户信息
 const userStore = useUserStore()
 const circleUrl=ref('')
-const disabled=ref(true)
+const disabled=ref(false)
 
 const username=ref('')
 //console.log("userStore name:"+(userStore.name==''))
 
 const eid = ref(null);
 const wid = ref(null);
+const source = ref(null);
+const sid = ref(null);
+
 eid.value = route.query.eid;
 wid.value = route.query.wid;
+source.value = route.query.source;
+sid.value = route.query.sid;
+
 //console.log("元素id="+eid.value);
 //console.log("世界id="+wid.value);
 if(userStore.name==''){
@@ -188,6 +194,9 @@ function handWorld(id:number) {
   });
 }
 function onSubmit(){
+  if(!disabled){
+    return;
+  }
   if(!commentForm.value.comment){
     ElMessage.error("评论不能为空")
     return;

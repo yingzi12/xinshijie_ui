@@ -138,8 +138,8 @@ import { listDiscussComment } from "@/api/wiki/discussComment";
 import { getDiscuss } from "@/api/wiki/discuss";
 import { addDiscussComment } from "@/api/admin/discussComment";
 import { getWorld } from "@/api/wiki/world";
-import {useRoute, useRouter} from "vue-router";
-import {ElMessage} from "element-plus";
+import { useRoute, useRouter } from "vue-router";
+import { ElMessage } from "element-plus";
 import useUserStore from '@/store/modules/user'
 
 
@@ -161,6 +161,11 @@ const did = ref(null);
 const wid = ref(null);
 did.value = route.query.did;
 wid.value = route.query.wid;
+const sid = ref(null);
+sid.value = route.query.sid;
+const source = ref(null);
+source.value = route.query.source;
+
 //console.log("元素id="+did.value);
 //console.log("世界id="+wid.value);
 
@@ -272,29 +277,35 @@ function onSubmit(){
     ElMessage.error("回复内容需大于10小于500")
     return;
   }
-  if(wid.value == undefined){
-    ElMessage.error("缺少必要参数")
-    return;
-  }else{
-    form.value.wid=world.value.id
-  }
   if(did.value == undefined){
     ElMessage.error("缺少必要参数")
     return;
   }else{
     form.value.did=did.value
   }
+  if(sid.value == undefined){
+    form.value.sid=null
+  }else{
+    form.value.sid=sid.value
+  }
+  if(wid.value == undefined){
+    form.value.wid=null
+  }else{
+    form.value.wid=wid.value
+  }
   form.value.wname=world.value.name
   form.value.circleUrl=userStore.avatar
   form.value.comment=discuss.value.comment
   form.value.reply=dissComment.value
   form.value.eid=discuss.value.eid
+
   form.value.title=discuss.value.title
   form.value.ranks=0
   form.value.upid=0
   form.value.pid=0
   form.value.nickname=userStore.username
   form.value.replyNickname=discuss.value.createName
+  form.value.source=source.value
   //console.log("添加评论")
   addDiscussComment(form.value).then(response => {
     dissComment.value=''
@@ -313,8 +324,17 @@ function sudmitReply(comment){
     ElMessage.error("回复内容需大于10小于200")
     return;
   }
+  if(did.value == undefined){
+    form.value.did=null
+  }else{
+    form.value.did=sid.value
+  }
+  if(sid.value == undefined){
+    form.value.sid=null
+  }else{
+    form.value.sid=sid.value
+  }
   //console.log("添加回复:"+JSON.stringify(comment))
-  form.value.did=did.value
   form.value.wid=world.value.id
   form.value.wname=world.value.name
   form.value.circleUrl=userStore.avatar
@@ -399,7 +419,7 @@ function handleReply(comment){
   }
 }
 function handleReplyDetail(comment){
-  router.push("/discuss/reply?wid="+wid.value+"&did="+comment.did+"&dcid="+comment.id);
+  router.push("/discuss/reply?wid="+wid.value+"&did="+comment.did+"&dcid="+comment.id+"&source="+source.value+"&sid="+sid.value);
 }
 
 </script>

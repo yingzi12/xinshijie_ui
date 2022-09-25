@@ -3,7 +3,10 @@
     <div>
       <el-breadcrumb separator="/">
         <el-breadcrumb-item :to="{ path: '/index' }">首页</el-breadcrumb-item>
-        <el-breadcrumb-item>世界列表</el-breadcrumb-item>
+        <el-breadcrumb-item><a href="/world/list">世界树</a></el-breadcrumb-item>
+        <el-breadcrumb-item :to="{ path: '/world/details', query: {wid:wid} }">{{wname}}</el-breadcrumb-item>
+        <el-breadcrumb-item :to="{ path: '/story/list', query: {wid:wid,wname:wname} }">故事列表</el-breadcrumb-item>
+        <el-breadcrumb-item>故事列表</el-breadcrumb-item>
       </el-breadcrumb>
     </div>
     <div >
@@ -35,7 +38,9 @@
               </el-table-column>
               <el-table-column label="名称" align="center"   >
                 <template #default="scope">
-                  <span><el-tag v-if="scope.row.source=='原创'">原创</el-tag>{{scope.row.name}} </span>
+                  <router-link :to="{path:'/story/index', query: {wid:scope.row.wid,wname:scope.row.wname,sname:scope.row.name,sid:scope.row.id}}">
+                        <span><el-tag v-if="scope.row.source=='原创'">原创</el-tag>{{scope.row.name}} </span>
+                  </router-link>
                 </template>
               </el-table-column>
               <el-table-column label="等级" align="center" key="ranks" prop="ranks"  width="50" />

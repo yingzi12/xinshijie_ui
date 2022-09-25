@@ -35,7 +35,9 @@
                             </el-table-column>
               <el-table-column label="名称" align="center"   >
                 <template #default="scope">
-                  <span><el-tag v-if="scope.row.source=='原创'">原创</el-tag>{{scope.row.name}} </span>
+                  <router-link :to="{path:'/world/details', query: {wid:scope.row.id,wname:scope.row.name}}">
+                     <span><el-tag v-if="scope.row.source=='原创'">原创</el-tag>{{scope.row.name}}</span>
+                  </router-link>
                 </template>
               </el-table-column>
               <el-table-column label="等级" align="center" key="ranks" prop="ranks"  width="50" />

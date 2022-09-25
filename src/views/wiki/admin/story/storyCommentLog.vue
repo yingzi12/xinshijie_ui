@@ -6,32 +6,53 @@
               mode="horizontal"
               style="margin:0px;pardding:0px"
           >
-            <el-menu-item index="1">{{wname}}</el-menu-item>
+            <el-menu-item index="1">{{sname}}</el-menu-item>
           </el-menu>
         </div>
         <!--        多选-->
-        <div style="padding: 10px">
-          <el-space wrap>
-            <el-button text > <router-link :to="{path:'/admin/worldInfo', query: {wid:wid,wname:wname}}">简介</router-link></el-button>
-            <el-button text>  <router-link :to="{path:'/admin/worldManage', query: {wid:wid,wname:wname}}">造物主列表</router-link></el-button>
-            <el-button text>  <router-link :to="{path:'/admin/worldElement', query: {wid:wid,wname:wname}}">元素列表</router-link></el-button>
-            <el-button text>  <router-link :to="{path:'/admin/worldCategory', query: {wid:wid,wname:wname}}">分类管理</router-link></el-button>
-            <el-button text>  <router-link :to="{path:'/admin/worldAudit', query: {wid:wid,wname:wname}}">元素审核</router-link></el-button>
-            <el-button text>  <router-link :to="{path:'/admin/worldStory', query: {wid:wid,wname:wname}}">故事管理</router-link></el-button>
-            <el-button text>  <router-link :to="{path:'/admin/worldRedident', query: {wid:wid,wname:wname}}">居民管理</router-link></el-button>
-            <el-button text type="primary">  <router-link :to="{path:'/admin/worldComment', query: {wid:wid,wname:wname,source:1}}">评论管理</router-link></el-button>
-            <el-button text>  <router-link :to="{path:'/admin/worldDiscuss', query: {wid:wid,wname:wname,source:1}}">讨论管理</router-link></el-button>
-          </el-space>
-        </div>
+  <div style="padding: 10px">
+    <el-space wrap>
+      <el-button text > <router-link :to="{path:'/admin/storyInfo', query: {sid:sid,sname:sname}}">简介</router-link></el-button>
+      <el-button text>  <router-link :to="{path:'/admin/storyAuthor', query: {sid:sid,sname:sname}}">作者列表</router-link></el-button>
+      <el-button text >  <router-link :to="{path:'/admin/storyReel', query: {sid:sid,sname:sname}}">分卷/章节目录</router-link></el-button>
+      <el-button text>  <router-link :to="{path:'/admin/storyAudit', query: {sid:sid,sname:sname}}">章节审核</router-link></el-button>
+      <el-button text type="primary">  <router-link :to="{path:'/admin/storyComment', query: {sid:sid,sname:sname,source:2}}">评论管理</router-link></el-button>
+      <el-button text>  <router-link :to="{path:'/admin/storyDiscuss', query: {sid:sid,sname:sname,source:2}}">讨论管理</router-link></el-button>
+    </el-space>
+  </div>
         <!--        统计-->
         <div style="background-color:#b0c4de;margin: auto;padding: 10px">
           <el-row>
             <el-col  :span="20">
-              <el-input v-model="queryParams.comment" placeholder="请输入查询内容" class="input-with-select" style="width: 250px"/>
-              <el-button :icon="Search" circle @click="getList"/>
+              <el-select v-model="value" placeholder="类型" clearable >
+                <el-option
+                    v-for="item in options"
+                    :key="item.value"
+                    :label="item.label"
+                    :value="item.value"
+                    :disabled="item.disabled"
+                />
+              </el-select>
+              <el-select placeholder="处理状态" clearable >
+                <el-option label="已处理" value="已处理"/>
+                <el-option label="讨论中" value="讨论中"/>
+              </el-select>
+              <el-input v-model="input3" placeholder="Please input" class="input-with-select" style="width: 250px"/>
+              <el-button :icon="Search" circle />
             </el-col >
             <el-col :span="4"  style="text-align: right;">
               <div style="text-align: right; font-size: 12px" class="toolbar">
+                <el-dropdown>
+                  <el-icon style="margin-right: 8px; margin-top: 1px"><setting/></el-icon>
+                  <template #dropdown>
+                    <el-dropdown-menu>
+                      <el-dropdown-item>View</el-dropdown-item>
+                      <el-dropdown-item>Add</el-dropdown-item>
+                      <el-dropdown-item>Delete</el-dropdown-item>
+                    </el-dropdown-menu>
+                  </template>
+                </el-dropdown>
+                <span>Tom</span>
               </div>
             </el-col>
           </el-row>
@@ -39,20 +60,20 @@
         <!--        表格-->
         <div>
           <el-scrollbar>
-            <el-table :data="commentList">
-              <el-table-column label="序号"  width="50" >
+            <el-table :data="tableData">
+              <el-table-column label="序号" width="50" >
                 <template #default="scope">
                   {{scope.$index+1}}
                 </template>
               </el-table-column>
-              <el-table-column prop="createTime" label="创建时间" width="140"  :show-overflow-tooltip="true" />
-              <el-table-column prop="createName" label="创建人" width="120" />
-              <el-table-column prop="wname" label="世界"  :show-overflow-tooltip="true"/>
-              <el-table-column prop="comment" label="内容"  :show-overflow-tooltip="true" />
-              <el-table-column prop="reply" label="回复"   :show-overflow-tooltip="true"/>
+              <el-table-column prop="date" label="创建时间" width="140"  :show-overflow-tooltip="true"/>
+              <el-table-column prop="name" label="创建人" width="120" :show-overflow-tooltip="true" />
+              <el-table-column prop="title" label="评论内容" :show-overflow-tooltip="true"/>
+              <el-table-column prop="ename" label="元素名称"  :show-overflow-tooltip="true"/>
+              <el-table-column prop="types" label="讨论类型" :show-overflow-tooltip="true" />
               <el-table-column fixed="right" label="操作" width="100">
                 <template #default>
-<!--                  <el-button link type="primary" size="small" @click="dialogFormVisible = true">查看</el-button>-->
+                  <el-button link type="primary" size="small" @click="dialogFormVisible = true">查看</el-button>
                   <el-button link type="primary" size="small">删除</el-button>
                 </template>
               </el-table-column>
@@ -102,55 +123,67 @@
 </template>
 
 <script lang="ts" setup>
-import {getCurrentInstance, reactive, ref, toRefs} from 'vue'
+import {reactive, ref} from 'vue'
 import {useRoute, useRouter} from "vue-router";
+import { Menu as IconMenu,CirclePlus, Message, Setting } from '@element-plus/icons-vue'
 import { Search } from '@element-plus/icons-vue'
-import { listCommentAdmin} from "@/api/admin/comment";
-const {  appContext : { config: { globalProperties } }  } = getCurrentInstance();
+
 // 接收url里的参数
 const route = useRoute();
 //console.log(route.query.wid,"参数");
-const wid = ref(null);
-const wname = ref('');
-wname.value = <string>route.query.wname;
-wid.value = route.query.wid;
+const sid = ref(null);
+const sname = ref('');
+sname.value = <string>route.query.sname;
+sid.value = route.query.sid;
+//弹出框内容
+const comment = {
+  circleUrl:'',
+  date: '2020-05-02',
+  createName: 'Tom',
+  comment: 'No. 189, Grove St, Los Angeles',
+  createTime:"2020-05-02 11:23:09",
+}
 //个人消息
 const fits = ['世界', '粉丝', '关注']
 const activeIndex = ref('1')
 
 //表格内容
-//表格内容
-const comment=ref({})
-const commentActive = ref('allComm')
-const commentList = ref([])
-const data = reactive({
-  commentForm: {},
-  queryParams: {
-    pageNum: 1,
-    pageSize: 10,
-    comment:undefined,
-    wid: wid.value,
-    source:1,
-    eid: undefined,
-  },
-  rules: {
-    comment: [{ required: true, message: "评论不能为空", trigger: "blur" }],
-  }
-});
-const total = ref(0);
-
-const { queryParams, commentForm, rules } = toRefs(data);
-//分页信息
-const dateRange = ref([]);
-//评论信息
-function getList() {
-  listCommentAdmin(globalProperties.addDateRange(queryParams.value, dateRange.value)).then(response => {
-    //console.log("查询评论列表:"+JSON.stringify(response))
-    commentList.value = response.rows
-    total.value = response.total;
-  });
+const item = {
+  date: '2016-05-02',
+  name: 'Tom',
+  title: 'No. 189, Grove St, Los Angeles',
+  ename:'世界数',
+  types:'内容讨论',
 }
+const tableData = ref(Array.from({ length: 20 }).fill(item))
 
+//多选框
+const value = ref('')
+const options = [
+  {
+    value: 'Option1',
+    label: 'Option1',
+  },
+  {
+    value: 'Option2',
+    label: 'Option2',
+    disabled: true,
+  },
+  {
+    value: 'Option3',
+    label: 'Option3',
+  },
+  {
+    value: 'Option4',
+    label: 'Option4',
+  },
+  {
+    value: 'Option5',
+    label: 'Option5',
+  },
+]
+//搜索框
+const input3 = ref('')
 
 //弹出框
 const dialogFormVisible = ref(false)
@@ -160,7 +193,6 @@ const form = reactive({
   name: '',
   region: ''
 })
-getList();
 </script>
 
 <style scoped>
