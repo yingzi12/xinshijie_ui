@@ -35,7 +35,7 @@
 
 <script lang="ts" setup>
 import {getCurrentInstance, inject, reactive, ref, toRefs} from 'vue'
-import { updateDraftChapter,getDraftChapter } from "@/api/admin/draftChapter";
+import { updateChapter,getChapter } from "@/api/admin/chapter";
 import  Editor  from 'ckeditor5-custom-build/build/ckeditor';
 const editor = Editor
 const baseUrl = inject("$baseUrl")
@@ -100,7 +100,7 @@ const handleReelAdd = async (formEl: FormInstance | undefined) => {
   form.value.pid=scid.value
   await formEl.validate((valid, fields) => {
     if (valid) {
-      updateDraftChapter(form.value).then(response => {
+      updateChapter(form.value).then(response => {
         console.log("添加成功:"+JSON.stringify(response))
         router.push("/admin/storyChapter?sid="+sid.value+"&sname="+sname.value+"&scid="+scid.value+"&scname="+scname.value);
 
@@ -111,7 +111,7 @@ const handleReelAdd = async (formEl: FormInstance | undefined) => {
   })
 }
 function handleInfo(){
-  getDraftChapter(sid.value,scid.value).then(response => {
+  getChapter(sid.value,scid.value).then(response => {
     form.value=response.data
   });
 }

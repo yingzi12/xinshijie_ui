@@ -25,6 +25,13 @@ export function getStory(id) {
   })
 }
 
+// 查询世界详细
+export function getStoryAdmin(id) {
+  return request({
+    url: '/admin/story/getInfoAdmin/' + id,
+    method: 'get'
+  })
+}
 // 新增世界
 export function addStory(data) {
   return request({

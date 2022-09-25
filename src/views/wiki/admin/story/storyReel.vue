@@ -127,7 +127,7 @@
         <el-input v-model="form.title" />
       </el-form-item>
       <el-form-item>
-        <el-button @click="dialogVisible = false">取消</el-button>
+        <el-button @click="dialogUpdateNameVisible = false">取消</el-button>
         <el-button type="primary" @click="handleUpdateName(ruleFormRef)">确定</el-button>
       </el-form-item>
     </el-form>
@@ -181,6 +181,7 @@ const data = reactive({
     pageSize: 10,
     title: undefined,
     sid:sid.value,
+    pid:0,
     level:0
   },
   rules: {

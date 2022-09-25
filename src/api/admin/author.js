@@ -8,7 +8,7 @@ export function getStoryAuthor(id) {
 }
 
 //
-export function getInfo(sid) {
+export function getAuthor(sid) {
   return request({
     url: '/admin/author/getInfo?sid='+sid,
     method: 'get'

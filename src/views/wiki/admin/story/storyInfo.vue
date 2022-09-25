@@ -72,7 +72,7 @@
 import {inject, markRaw, ref} from 'vue'
 import {Flag, Edit,Menu as IconMenu, Message, Setting} from '@element-plus/icons-vue'
 import type { TabsPaneContext } from 'element-plus'
-import {  getStory } from "@/api/admin/story";
+import {  getStoryAdmin } from "@/api/admin/story";
 //接受参数
 import { useRoute,useRouter }  from "vue-router";  // 引用vue-router
 
@@ -107,7 +107,7 @@ function handleEdit(){
 }
 /** 查询世界详细 */
 function handleStory() {
-  getStory(sid.value).then(response => {
+  getStoryAdmin(sid.value).then(response => {
     //console.log("查询世界详细:"+JSON.stringify(response))
     story.value = response.data
     imageUrl.value=imgUrl+response.data.imgUrl;

@@ -10,7 +10,7 @@ export function listChapter(query) {
 }
 
 // 查询元素详细
-export function getChapterDetails(wid,scid) {
+export function getChapter(sid,scid) {
   return request({
     url: '/wiki/chapter/getInfo?sid=' + sid+'&scid='+scid,
     method: 'get'

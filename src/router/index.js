@@ -75,6 +75,44 @@ export const constantRoutes = [
     ]
   },
   {
+    path: '/chapter',
+    component: LayoutWiki,
+    hidden: true,
+    children: [
+      {
+        path: 'index',
+        component: () => import('@/views/wiki/chapter/index'),
+        name: 'chapterindex',
+        meta: { title: '个人中心', icon: 'wiki' }
+      },
+      {
+        path: 'list',
+        component: () => import('@/views/wiki/chapter/list'),
+        name: 'chapterlist',
+        meta: { title: '个人中心', icon: 'wiki' }
+      }
+    ]
+  },
+  {
+    path: '/story',
+    component: LayoutWiki,
+    hidden: true,
+    children: [
+      {
+        path: 'index',
+        component: () => import('@/views/wiki/story/index'),
+        name: 'storyIndex',
+        meta: { title: '个人中心', icon: 'wiki' }
+      },
+      {
+        path: 'list',
+        component: () => import('@/views/wiki/story/list'),
+        name: 'storylist',
+        meta: { title: '个人中心', icon: 'wiki' }
+      }
+    ]
+  },
+  {
     path: '/world',
     component: LayoutWiki,
     hidden: true,

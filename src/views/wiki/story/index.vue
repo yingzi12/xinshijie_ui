@@ -6,7 +6,7 @@
         <el-breadcrumb separator="/">
           <el-breadcrumb-item :to="{ path: '/world/index' }">首页</el-breadcrumb-item>
           <el-breadcrumb-item><a href="/world/list">世界树</a></el-breadcrumb-item>
-          <el-breadcrumb-item :to="{ path: '/world/details', query: {wid:wid} }">{{world.name}}</el-breadcrumb-item>
+          <el-breadcrumb-item :to="{ path: '/world/details', query: {wid:wid} }">{{story.wname}}</el-breadcrumb-item>
           <el-breadcrumb-item>详细</el-breadcrumb-item>
         </el-breadcrumb>
       </div>
@@ -18,33 +18,33 @@
           <el-col :span="16"  class="mb-4">
             <div style="margin-left: 5px">
               <div>
-                <el-badge :value="world.ranks" class="item">
-                  <h1 style="margin: 2px" class="title">{{ world.name }}</h1>
+                <el-badge :value="story.ranks" class="item">
+                  <h1 style="margin: 2px" class="title">{{ story.name }}</h1>
                 </el-badge>
-<!--                <h1 style="margin: 0px" class="title">{{ world.name }}</h1>-->
+                <!--                <h1 style="margin: 0px" class="title">{{ story.name }}</h1>-->
               </div>
               <div style="margin-top: 5px" >
                 <el-space wrap>
-                    <el-tag style="width: 70px;" size="default">{{ world.typeName }}</el-tag>
-                    <el-tag v-if="world.source != null " v-for="tag in world.source.split(';')"  style="width: 70px;" size="default" type="success">{{tag}}</el-tag>
-                    <el-tag v-if="world.tags != null "  v-for="tag in world.tags.split(';')"  style="width: 70px;" size="default" type="danger">{{tag}}</el-tag>
+                  <el-tag style="width: 70px;" size="default">{{ story.typeName }}</el-tag>
+                  <el-tag v-if="story.source != null " v-for="tag in story.source.split(';')"  style="width: 70px;" size="default" type="success">{{tag}}</el-tag>
+                  <el-tag v-if="story.tags != null "  v-for="tag in story.tags.split(';')"  style="width: 70px;" size="default" type="danger">{{tag}}</el-tag>
                 </el-space>
               </div>
-              <div style="margin-top: 5px" v-if="world.updateNewElementId != null">
-                <span style="font-size:10px;color:#999999;">更新时间:</span><span style="font-size:10px;color:#999999;">{{ world.updateNewElementTime }}</span><span style="font-size:10px;margin-left: 10px;color:#70B603;">{{ world.updateNewElement }}</span>
+              <div style="margin-top: 5px" v-if="story.updateChapterId != null">
+                <span style="font-size:10px;color:#999999;">更新时间:</span><span style="font-size:10px;color:#999999;">{{ story.updateChapterIdTime }}</span><span style="font-size:10px;margin-left: 10px;color:#70B603;">{{ story.updateChapter }}</span>
               </div>
               <div style="height: 52px;overflow:hidden">
-                <p style="font-size: 18px;color: #666666;margin: 5px 0px 0px 0px">{{ world.intro }}</p>
+                <p style="font-size: 18px;color: #666666;margin: 5px 0px 0px 0px">{{ story.intro }}</p>
               </div>
               <div style="margin-top: 5px;color:#A3A6AD">
-                <span><el-icon size="20"><ChatDotRound /></el-icon>{{world.countComment}}</span>
-                <span><el-icon size="20"><Edit /></el-icon>{{world.countEdit}}</span>
-                <span><el-icon size="20"><Pointer /></el-icon>{{world.countLike}}</span>
-                <span><el-icon size="20"><View /></el-icon>{{world.countSee}}</span>
+                <span><el-icon size="20"><ChatDotRound /></el-icon>{{story.countComment}}</span>
+                <span><el-icon size="20"><Edit /></el-icon>{{story.countEdit}}</span>
+                <span><el-icon size="20"><Pointer /></el-icon>{{story.countLike}}</span>
+                <span><el-icon size="20"><View /></el-icon>{{story.countSee}}</span>
               </div>
               <div style="margin-top: 5px;" >
-                <el-button v-if="isFllow" style="width: 90px;" type="primary" @click="handleFllow">关注</el-button>
-                <el-button @click="handleDiscuss" style="width: 90px;">讨论({{world.countDiscuss}})</el-button>
+                <el-button v-if="isFllow" style="width: 90px;" type="primary" @click="handleHarding">关注</el-button>
+                <el-button @click="handleDiscuss" style="width: 90px;">讨论({{story.countDiscuss}})</el-button>
               </div>
             </div>
           </el-col>
@@ -56,48 +56,29 @@
     </div>
     <!--    简介区-->
     <div>
-      <el-tabs v-model="worldActive" class="world-tabs" @tab-click="handleClick">
+      <el-tabs v-model="storyActive" class="world-tabs" @tab-click="handleClick">
         <el-tab-pane label="描述" name="description">
-          <p style="white-space: pre-wrap;">{{world.description}}</p>
+          <p style="white-space: pre-wrap;">{{story.description}}</p>
         </el-tab-pane>
-        <el-tab-pane label="元素" name="element">
+        <el-tab-pane label="章节" name="element">
           <el-table :data="elementList" stripe style="width: 100%">
-            <el-table-column prop="title" label="元素" width="180" >
+            <el-table-column prop="title" label="章节名" width="180" >
               <template #default="scope">
-                <router-link :to="{path:'/element/details', query: {eid:scope.row.id,wid:scope.row.wid,temType:scope.row.softtype}}">{{ scope.row.title }}</router-link>
+                <router-link :to="{path:'/chapter/list', query: {eid:scope.row.id,wid:scope.row.wid,temType:scope.row.softtype}}">{{ scope.row.title }}</router-link>
               </template>
             </el-table-column>
             <el-table-column label="分类" width="180"  :show-overflow-tooltip="true">
               <template #default="scope">
-                <el-tag v-for='idLabel in scope.row.idLabels.split(",")'>
-                  {{idLabel.split("$$")[1]}}
-                </el-tag>
+                  {{ scope.row.types }}
               </template>
             </el-table-column>
             <el-table-column prop="intro" label="简介" width="250" :show-overflow-tooltip="true"/>
             <el-table-column prop="createTime" label="创建时间" />
           </el-table>
-          <el-button style="margin-top:10px" text  @click="handElement">更多</el-button>
+          <el-button style="margin-top:10px" text  @click="handChapter">更多</el-button>
         </el-tab-pane>
-        <el-tab-pane label="故事" name="story">
-          <el-table :data="storyList" stripe style="width: 100%">
-            <el-table-column prop="title" label="故事" width="180" >
-              <template #default="scope">
-                <router-link :to="{path:'/story/index', query: {sid:scope.row.id,wid:scope.row.wid}}">{{ scope.row.name }}</router-link>
-              </template>
-            </el-table-column>
-            <el-table-column label="分类" width="180"  :show-overflow-tooltip="true">
-              <template #default="scope">
-                  {{idLabel.types}}
-              </template>
-            </el-table-column>
-            <el-table-column prop="intro" label="简介" width="250" :show-overflow-tooltip="true"/>
-            <el-table-column prop="createTime" label="创建时间" />
-          </el-table>
-          <el-button style="margin-top:10px" text  @click="handElement">更多</el-button>
-        </el-tab-pane>
-        <el-tab-pane label="造物主" name="message">
-          <el-table :data="manageList" stripe style="width: 100%">
+        <el-tab-pane label="作家" name="message">
+          <el-table :data="authorList" stripe style="width: 100%">
             <el-table-column prop="createTime" label="创建时间" width="180" />
             <el-table-column prop="userName" label="用户名" width="180" />
             <el-table-column prop="sign" label="签名" width="180"/>
@@ -133,8 +114,8 @@
             <el-row>
               <el-col :span="2">
                 <div  class="center">
-                   <!--              头像-->
-                   <el-avatar :size="50" :src="circleUrl" />
+                  <!--              头像-->
+                  <el-avatar :size="50" :src="circleUrl" />
                 </div>
               </el-col>
               <el-col :span="22">
@@ -148,7 +129,7 @@
                   <span>{{ comment.createTime }}</span>
                   <span><el-icon :size="15"><ChatDotRound /></el-icon>{{comment.countReply}} </span>
                   <span><el-icon :size="15"><Pointer /></el-icon>{{comment.countReply}}</span>
-<!--                  <span><BootstrapIcon icon="hand-thumbs-down" size="small" />{{comment.countReply}}</span>-->
+                  <!--                  <span><BootstrapIcon icon="hand-thumbs-down" size="small" />{{comment.countReply}}</span>-->
                 </div>
               </el-col>
             </el-row>
@@ -168,13 +149,12 @@ import {getCurrentInstance, inject, reactive, ref, toRefs} from 'vue'
 //接受参数
 import {useRoute, useRouter} from "vue-router";  // 引用vue-router
 import type { TabsPaneContext } from 'element-plus'
-import {  getWorld } from "@/api/wiki/world";
+import {  getStory } from "@/api/wiki/story";
 import {  listComment } from "@/api/wiki/comment";
 import { addComment} from "@/api/admin/comment";
-import { addFllow,getInfoByWid } from "@/api/admin/fllow";
-import {  getWorldManage } from "@/api/wiki/manage";
-import { listElement } from "@/api/wiki/element";
-import { listStory } from "@/api/wiki/story";
+import { addHarding,getInfoBySid } from "@/api/admin/harding";
+import {  listAuthor } from "@/api/wiki/author";
+import { listChapter } from "@/api/wiki/chapter";
 import useUserStore from '@/store/modules/user'
 import {ElMessage} from "element-plus";
 const {  appContext : { config: { globalProperties } }  } = getCurrentInstance();
@@ -183,17 +163,23 @@ const router = useRouter()
 
 // 接收url里的参数
 const route = useRoute();
+
+const sid = ref(null);
+const wid = ref(null);
+sid.value = route.query.sid;
+wid.value = route.query.wid;
+
 //console.log(route.query.id,"参数");
 //世界信息
-const world=ref({})
+const story=ref({})
 //评论信息
 const commentList=ref([])
 //管理员信息
-const manageList=ref([])
+const authorList=ref([])
 //分页信息
 const dateRange = ref([]);
 //管理员信息
-const elementList = ref([]);
+const chapterList = ref([]);
 //评论内容与通用分页查询条件
 const data = reactive({
   commentForm: {},
@@ -201,6 +187,9 @@ const data = reactive({
     pageNum: 1,
     pageSize: 10,
     wid: undefined,
+    sid: sid.value,
+    pid: 0,
+
   },
   rules: {
     comment: [{ required: true, message: "评论不能为空", trigger: "blur" }],
@@ -208,34 +197,32 @@ const data = reactive({
 });
 
 const { queryParams, commentForm, rules } = toRefs(data);
-world.value.id = route.query.wid;
-//console.log("世界id="+world.value.id);
+
+//console.log("世界id="+story.value.id);
 const imgUrl = inject("$imgUrl")
 const imageUrl=ref('')
 
-function handElement(){
-  router.push("/element/list?wid="+world.value.id);
+function handChapter(){
+  router.push("/chapter/list?sid="+sid.value+"&wid"+wid.value);
 }
 function handleDiscuss(){
-  router.push("/discuss/list?wid="+world.value.id);
+  router.push("/discuss/list?sid="+sid.value);
 }
-function handleFllow(){
-    addFllow(wid.value).then(response => {
-
-      ElMessage.success("关注成功");
-    });
+function handleHarding(){
+  addHarding(sid.value).then(response => {
+    ElMessage.success("关注成功");
+  });
 }
 
-/** 查询世界详细 */
-function handWorld(id:number) {
-  getWorld(id).then(response => {
+function handStory() {
+  getStory(sid.value).then(response => {
     //console.log("查询世界详细:"+JSON.stringify(response))
-    world.value = response.data
+    story.value = response.data
     imageUrl.value=imgUrl+response.data.imgUrl;
   });
 }
 //评论信息
-function getAllWorldComment() {
+function getAllStoryComment() {
   queryParams.value.wid=wid.value;
   listComment(globalProperties.addDateRange(queryParams.value, dateRange.value)).then(response => {
     //console.log("查询世界详细:"+JSON.stringify(response))
@@ -243,15 +230,15 @@ function getAllWorldComment() {
   });
 }
 //小心
-function getAllWorldManage(id:number) {
-  getWorldManage(id).then(response => {
+function handleAuthor() {
+  listAuthor(sid.value).then(response => {
     //console.log("查询世界详细:"+JSON.stringify(response))
-    manageList.value = response.rows
+    authorList.value = response.rows
   });
 }
 
 
-const worldActive = ref('description')
+const storyActive = ref('description')
 
 const commentActive = ref('allComm')
 
@@ -260,31 +247,19 @@ const handleClick = (tab: TabsPaneContext, event: Event) => {
 }
 
 /** 查询元素列表 */
-function getElementList() {
+function handleChapterList() {
   queryParams.value.wid=wid.value;
-  listElement(globalProperties.addDateRange(queryParams.value, dateRange.value)).then(response => {
-    elementList.value = response.rows;
-  });
-}
-
-const  storyList=ref([{}])
-function getStoryList() {
-  queryParams.value.wid=wid.value;
-  listStory(globalProperties.addDateRange(queryParams.value, dateRange.value)).then(response => {
-    storyList.value = response.rows;
+  listChapter(globalProperties.addDateRange(queryParams.value, dateRange.value)).then(response => {
+    chapterList.value = response.rows;
   });
 }
 
 //获取用户信息
 const userStore = useUserStore()
 const circleUrl=ref('')
-const disabled=ref(true)
+const disabled=ref(false)
 
 const username=ref('')
-//console.log("userStore name:"+(userStore.name==''))
-
-const wid = ref(null);
-wid.value = route.query.wid;
 //console.log("世界id="+wid.value);
 if(userStore.name==''){
   username.value="未登录"
@@ -310,38 +285,44 @@ function onSubmit(){
   }else{
     commentForm.value.wid=wid.value
   }
-  commentForm.value.wname=world.value.name
+  if(sid.value == undefined){
+    ElMessage.error("缺少必要参数")
+    return;
+  }else{
+    commentForm.value.sid=sid.value
+  }
+  commentForm.value.sname=story.value.name
   commentForm.value.circleUrl=userStore.avatar
-  addComment(commentForm.value).then(response => {
-    ElMessage.success("评论成功")
-    commentForm.value.comment=''
-    //console.log("评论成功")
-    getAllWorldComment();
-  })
+  if(disabled) {
+    addComment(commentForm.value).then(response => {
+      ElMessage.success("评论成功")
+      commentForm.value.comment = ''
+      //console.log("评论成功")
+      getAllStoryComment();
+    })
+  }
 }
 
 function handleComment(){
-  router.push("/world/comment?wid="+world.value.id);
+  router.push("/story/comment?sid="+story.value.id+"&wid="+story.value.wid);
 }
 
 //判断是否已经关注
 const isFllow=ref(false)
 function handleIsFllow(){
-  getInfoByWid(wid.value).then(response => {
-    if(!response.data){
-      isFllow.value=true
-    }
-  });
+  if(disabled) {
+    getInfoBySid(sid.value).then(response => {
+      if (!response.data) {
+        isFllow.value = true
+      }
+    });
+  }
 }
 handleIsFllow();
-//世界信息
-handWorld(world.value.id);
-//管理员信息
-getAllWorldManage(world.value.id)
+handStory();
 //评论功能
-getAllWorldComment()
-getElementList()
-getStoryList();
+handleAuthor();
+handleChapterList()
 </script>
 
 <style>
@@ -364,12 +345,12 @@ getStoryList();
 }
 .title{
   font-family: 'PingFangSC-Semibold', 'PingFang SC Semibold', 'PingFang SC', sans-serif;
-   font-weight: 650;
+  font-weight: 650;
   /* font-style: normal; */
   font-size: 24px;
   text-align: left;
 }
- .el-tabs__item {
+.el-tabs__item {
   font-family: 'PingFangSC-Semibold', 'PingFang SC Semibold', 'PingFang SC', sans-serif;
   font-weight: 650;
   font-style: normal;

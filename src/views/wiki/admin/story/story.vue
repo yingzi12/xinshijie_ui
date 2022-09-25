@@ -117,7 +117,7 @@
 
 <script lang="ts" setup>
 import {getCurrentInstance, inject, reactive, ref, toRefs} from 'vue'
-import {  listStory,delStory,issue } from "@/api/admin/story";
+import {  listStoryAdmin,delStory,issue } from "@/api/admin/story";
 import { useRouter} from "vue-router";
 const fits = ['世界', '粉丝', '关注']
 const activeIndex = ref('1')
@@ -197,7 +197,7 @@ function handleIssue(row){
 }
 /** 查询故事列表 */
 function getList() {
-  listStory(globalProperties.addDateRange(queryParams.value, dateRange.value)).then(response => {
+  listStoryAdmin(globalProperties.addDateRange(queryParams.value, dateRange.value)).then(response => {
     loading.value = false;
     storyList.value = response.rows;
     total.value = response.total;

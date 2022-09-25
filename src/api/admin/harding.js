@@ -42,3 +42,19 @@ export function delHarding(id) {
     method: 'delete'
   })
 }
+
+export function getInfoBySid(sid) {
+  return request({
+    url: '/admin/harding/getInfoBySid?sid=' + sid,
+    method: 'get'
+  })
+}
+
+
+// 取消关注
+export function hardingClose(sid) {
+  return request({
+    url: '/admin/harding/hardingClose?sid=' + sid,
+    method: 'get'
+  })
+}
