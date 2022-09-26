@@ -4,8 +4,9 @@
       <el-breadcrumb separator="/">
         <el-breadcrumb-item :to="{ path: '/world/index' }">首页</el-breadcrumb-item>
         <el-breadcrumb-item><a href="/world/list">世界树</a></el-breadcrumb-item>
-        <el-breadcrumb-item :to="{ path: '/world/details', query: {wid:wid} }">{{world.name}}</el-breadcrumb-item>
-        <el-breadcrumb-item>世界列表</el-breadcrumb-item>
+        <el-breadcrumb-item  :to="{ path: '/world/details', query: {wid:wid} }">{{wname}}</el-breadcrumb-item>
+        <el-breadcrumb-item v-if="source == 2 " :to="{ path: '/story/index', query: {wid:wid,sid:sid} }">{{sname}}</el-breadcrumb-item>
+        <el-breadcrumb-item>主题列表</el-breadcrumb-item>
       </el-breadcrumb>
     </div>
     <div>
@@ -64,7 +65,11 @@
                 </el-col>
                 <el-col :span="22">
                   <div >
-                    <span style="font-weight:bold;font-size:15px;"><router-link :to="{path:'/discuss/index',query: {wid:wid,wname:world.name,did:discuss.id,source:source,sid:sid}}">{{ discuss.title }}</router-link></span>
+                    <span style="font-weight:bold;font-size:15px;">
+                      <router-link :to="{path:'/discuss/index',query: {wid:wid,wname:world.name,did:discuss.id,source:source,sid:sid}}">
+                      <el-tag v-if="source == 1">#{{discuss.wname}}#</el-tag><el-tag v-if="source == 2">#{{discuss.sname}}#</el-tag>{{ discuss.title }}
+                    </router-link>
+                    </span>
                     <el-tag>{{ discussTypesMap.get(discuss.types) }}</el-tag>
                     <el-tag>{{ discussStatusMap.get(discuss.status) }}</el-tag>
                   </div>
@@ -72,9 +77,9 @@
                   </div>
                   <div style="color:#A3A6AD">
                     <span>{{ discuss.createTime }}</span>
-                    <span><BootstrapIcon icon="chat-dots" size="1x" flip-v />20 </span>
-                    <span><BootstrapIcon icon="hand-thumbs-up" size="1x" flip-v />10</span>
-                    <span><BootstrapIcon icon="hand-thumbs-down" size="1x" flip-v />20</span>
+                    <span><BootstrapIcon icon="chat-dots" size="1x" flip-v />{{discuss.countReply}} </span>
+                    <span><BootstrapIcon icon="hand-thumbs-up" size="1x" flip-v />{{discuss.countLike}} </span>
+                    <span><BootstrapIcon icon="hand-thumbs-down" size="1x" flip-v />{{discuss.countDisagree}} </span>
                   </div>
                 </el-col>
               </el-row>
@@ -102,6 +107,7 @@ import {getCurrentInstance, inject, reactive, ref, toRefs} from 'vue'
 import { listDiscuss } from "@/api/wiki/discuss";
 import { addDiscuss } from "@/api/admin/discuss";
 import { getWorld } from "@/api/wiki/world";
+import { getStory } from "@/api/wiki/story";
 import {useRoute, useRouter} from "vue-router";
 import {ElMessage} from "element-plus";
 import useUserStore from '@/store/modules/user'
@@ -124,8 +130,10 @@ const imgUrl = inject("$imgUrl")
 const eid = ref(null);
 const wid = ref(null);
 const sid = ref(null);
-const source = ref(null);
-source.value = route.query.source;
+const wname = ref(undefined);
+const sname = ref(undefined);
+const source = ref(undefined);
+source.value = parseInt(<string>route.query.source);
 eid.value = route.query.eid;
 wid.value = route.query.wid;
 sid.value = route.query.sid;
@@ -172,7 +180,9 @@ const data = reactive({
     auditStatus:0,
     name: undefined,
     types: undefined,
-    // wid:wid.value,
+    wid: wid.value,
+    sid: sid.value,
+    source:source.value
   },
   rules: {
     // userName: [{ required: true, message: "用户名称不能为空", trigger: "blur" }, { min: 2, max: 20, message: "用户名称长度必须介于 2 和 20 之间", trigger: "blur" }],
@@ -184,7 +194,6 @@ const { queryParams, form, rules } = toRefs(data);
 
 /** 查询世界列表 */
 function getList() {
-
   listDiscuss(globalProperties.addDateRange(queryParams.value, dateRange.value)).then(response => {
     loading.value = false;
     discussList.value = response.rows;
@@ -198,16 +207,32 @@ const title=ref('')
 const disType=ref(7)
 //世界信息
 const world=ref({})
+const story=ref({})
 
 /** 查询世界详细 */
 function handWorld() {
   if(wid.value == undefined){
-    ElMessage.error("缺少必要参数")
+    ElMessage.error("缺少必要参数,世界")
     return;
   }
   getWorld(wid.value).then(response => {
     //console.log("查询世界详细:"+JSON.stringify(response))
     world.value = response.data
+    wname.value=response.data.name
+  });
+}
+/** 查询世界详细 */
+function handStory() {
+  if(sid.value == undefined){
+    ElMessage.error("缺少必要参数,故事")
+    return;
+  }
+  getStory(sid.value).then(response => {
+    //console.log("查询世界详细:"+JSON.stringify(response))
+    story.value = response.data
+    wname.value=response.data.wname
+    sname.value=response.data.name
+    wid.value=response.data.wid
   });
 }
 
@@ -247,6 +272,11 @@ function onSubmit(){
   }else{
     form.value.sid=sid.value
   }
+  if(sname.value == undefined){
+    form.value.sname=null
+  }else{
+    form.value.sname=sid.value
+  }
   if(wid.value == undefined){
     form.value.wid=null
   }else{
@@ -268,7 +298,19 @@ function onSubmit(){
     getList()
   })
 }
-handWorld()
+function  getInfo(){
+  if(source.value !=1 && source.value !=2){
+    ElMessage.error("缺少必要参数,来源")
+    return;
+  }
+  if(source.value == 1){
+    handWorld();
+  }
+  if(source.value == 2){
+    handStory();
+  }
+}
+getInfo()
 getList();
 </script>
 

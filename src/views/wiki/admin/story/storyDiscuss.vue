@@ -130,9 +130,12 @@ import {ElMessage, FormInstance, FormRules} from "element-plus";
 const route = useRoute()
 const router = useRouter()
 const sid = ref(null);
+const wid = ref(null);
 const sname = ref('');
 sname.value = <string>route.query.sname;
 sid.value = route.query.sid;
+wid.value = route.query.wid;
+
 const discussTypesMap = new Map([
   [1, "自由讨论"],
   [2, "建议"],
@@ -182,6 +185,7 @@ const data = reactive({
     status:1,
     source:2,
     sid:sid.value,
+    wid:wid.value,
   },
   rules: {
     reply: [{required: true, message: '请输入回复', trigger: 'blur'},
@@ -206,7 +210,7 @@ const dialogFormVisible = ref(false)
 const ruleFormRef = ref<FormInstance>()
 const formLabelWidth = '140px'
 function handleSee(did){
-  router.push("/discuss/index?wid="+wid.value+"&wname="+wname.value+"&did="+did);
+  router.push("/discuss/index?wid="+wid.value+"&wname="+wname.value+"&did="+did+"&source="+source);
 }
 function handleOpen(row){
   dialogFormVisible.value=true
@@ -220,6 +224,9 @@ const onSudmit = async (formEl: FormInstance | undefined) => {
   if (!formEl) return
   await formEl.validate((valid, fields) => {
     if (valid) {
+      form.value.source=2
+      form.value.sid=sid.value
+      form.value.wid=wid.value
       //console.log('submit!')
       updateStatusAdmin(form.value).then(response => {
         dialogFormVisible.value=false

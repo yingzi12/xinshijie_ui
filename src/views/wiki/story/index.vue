@@ -91,7 +91,7 @@
       <el-row>
         <el-col :span="2" class="center">
           <el-row>
-            <el-col><el-avatar :size="50" :src="circleUrl" /></el-col>
+            <el-col><el-avatar :size="50" :src="imgUrl+circleUrl" /></el-col>
             <el-col><span class="demonstration">{{username}}</span></el-col>
           </el-row>
         </el-col>
@@ -112,7 +112,7 @@
               <el-col :span="2">
                 <div  class="center">
                   <!--              头像-->
-                  <el-avatar :size="50" :src="circleUrl" />
+                  <el-avatar :size="50" :src="imgUrl+circleUrl" />
                 </div>
               </el-col>
               <el-col :span="22">
@@ -166,6 +166,7 @@ sid.value = route.query.sid;
 
 const wid = ref(null);
 wid.value = route.query.wid;
+const wname = ref('');
 
 
 //console.log(route.query.id,"参数");
@@ -205,7 +206,7 @@ function handChapter(){
   router.push("/chapter/list?sid="+sid.value+"&wid"+wid.value);
 }
 function handleDiscuss(){
-  router.push("/discuss/list?sid="+sid.value+"&wid"+wid.value+"&source="+2);
+  router.push("/discuss/list?sid="+sid.value+"&wid="+wid.value+"&source="+2);
 }
 function handleHarding(){
   addHarding(sid.value).then(response => {
@@ -218,6 +219,7 @@ function handStory() {
     //console.log("查询世界详细:"+JSON.stringify(response))
     story.value = response.data
     wid.value = response.data.wid;
+    wname.value = response.data.wname;
     imageUrl.value=imgUrl+response.data.imgUrl;
   });
 }
@@ -322,6 +324,7 @@ function handleIsFllow(){
     });
   }
 }
+getAllStoryComment()
 handleIsFllow();
 handStory();
 //评论功能

@@ -48,6 +48,12 @@
           </template>
         </el-table-column>
         <el-table-column prop="wname" label="世界" width="100" :show-overflow-tooltip="true"/>
+        <el-table-column prop="sname" label="故事" width="100" :show-overflow-tooltip="true"/>
+        <el-table-column prop="source" label="发布源" width="100" :show-overflow-tooltip="true">
+          <template #default="scope">
+            <span>{{sourceTypesMap.get(scope.row.source)}}</span>
+          </template>
+        </el-table-column>
         <el-table-column prop="etitle" label="元素" width="100" :show-overflow-tooltip="true"/>
         <el-table-column prop="title" label="主题"   :show-overflow-tooltip="true"/>
         <el-table-column  label="讨论类型"  :show-overflow-tooltip="true">
@@ -99,6 +105,10 @@ const wid = ref(null);
 const wname = ref('');
 wname.value = <string>route.query.wname;
 wid.value = route.query.wid;
+const sourceTypesMap = new Map([
+  [1, "世界"],
+  [2, "故事"],
+])
 const discussTypesMap = new Map([
   [1, "自由讨论"],
   [2, "建议"],
@@ -168,7 +178,7 @@ const input3 = ref('')
 const dialogFormVisible = ref(false)
 const formLabelWidth = '140px'
 function handleSee(row){
-  router.push("/discuss/index?wid="+row.wid+"&wname="+row.wname+"&did="+row.id);
+  router.push("/discuss/index?wid="+row.wid+"&wname="+row.wname+"&did="+row.id+"&source="+row.source);
 }
 function handleCloes(row){
   form.value.id=row.id

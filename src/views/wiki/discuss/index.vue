@@ -2,8 +2,12 @@
   <div class="app-container">
     <div>
       <el-breadcrumb separator="/">
-        <el-breadcrumb-item :to="{ path: '/' }">首页</el-breadcrumb-item>
-        <el-breadcrumb-item>世界列表</el-breadcrumb-item>
+        <el-breadcrumb-item :to="{ path: '/world/index' }">首页</el-breadcrumb-item>
+        <el-breadcrumb-item><a href="/world/list">世界树</a></el-breadcrumb-item>
+        <el-breadcrumb-item  :to="{ path: '/world/details', query: {wid:wid} }">{{wname}}</el-breadcrumb-item>
+        <el-breadcrumb-item v-if="source == 2 " :to="{ path: '/story/index', query: {wid:wid,sid:sid} }">{{sname}}</el-breadcrumb-item>
+        <el-breadcrumb-item  :to="{ path: '/discuss/list', query: {wid:wid,sid:sid,source:source} }">讨论列表</el-breadcrumb-item>
+        <el-breadcrumb-item>{{ discuss.title }}</el-breadcrumb-item>
       </el-breadcrumb>
     </div>
     <div>
@@ -19,7 +23,7 @@
               </el-row>
             </el-col>
             <el-col :span="22">
-              <div><el-tag>#{{discuss.wname}}#</el-tag></div>
+              <div><el-tag>#{{discuss.wname}}#</el-tag><el-tag v-if="source == 2">#{{discuss.sname}}#</el-tag></div>
               <div>
                 <span style="font-weight:bold;font-size:15px;">{{ discuss.title }}</span>
                 <el-tag>{{ discussTypesMap.get(discuss.types) }}</el-tag>
@@ -30,9 +34,9 @@
               </div>
               <div style="color:#A3A6AD">
                 <span>{{ discuss.createTime }}</span>
-                <span><BootstrapIcon icon="chat-dots" size="1x" flip-v />20 </span>
-                <span><BootstrapIcon icon="hand-thumbs-up" size="1x" flip-v />10</span>
-                <span><BootstrapIcon icon="hand-thumbs-down" size="1x" flip-v />20</span>
+                <span><BootstrapIcon icon="chat-dots" size="1x" flip-v />{{discuss.countReply}} </span>
+                <span><BootstrapIcon icon="hand-thumbs-up" size="1x" flip-v />{{discuss.countLike}} </span>
+                <span><BootstrapIcon icon="hand-thumbs-down" size="1x" flip-v />{{discuss.countDisagree}} </span>
               </div>
             </el-col>
           </el-row>
@@ -65,7 +69,7 @@
             <div v-for="comment in commentList">
               <el-row>
                 <el-col :span="2" class="center">
-                    <el-avatar :size="50" :src="imgUrl+omment.circleUrl" />
+                    <el-avatar :size="50" :src="imgUrl+comment.circleUrl" />
                 </el-col>
                 <el-col :span="22">
                   <div >
@@ -75,15 +79,15 @@
                   </div>
                   <div style="color:#A3A6AD">
                     <span>{{ comment.createTime }}</span>
-                    <span @click="handleReply(comment)"><BootstrapIcon  icon="chat-dots" size="1x" flip-v />20 </span>
-                    <span><BootstrapIcon icon="hand-thumbs-up" size="1x" flip-v />10</span>
-                    <span><BootstrapIcon icon="hand-thumbs-down" size="1x" flip-v />20</span>
+                    <span @click="handleReply(comment)"><BootstrapIcon  icon="chat-dots" size="1x" flip-v />{{comment.countReply}} </span>
+                    <span><BootstrapIcon icon="hand-thumbs-up" size="1x" flip-v />{{comment.countLike}} </span>
+                    <span><BootstrapIcon icon="hand-thumbs-down" size="1x" flip-v />{{comment.countDisagree}} </span>
                   </div>
                 </el-col>
               </el-row>
               <div  v-if="comment.replyHide" style="margin-left: 150px;width: 40%;">
                 <div>
-                  <el-avatar    size="small" :src="circleUrl" /><el-input v-model="comment.replyComment"   style="width:80%"  size="small" @keyup.enter="sudmitReply(comment)"  ></el-input>
+                  <el-avatar    size="small" :src="imgUrl+circleUrl" /><el-input v-model="comment.replyComment"   style="width:80%"  size="small" @keyup.enter="sudmitReply(comment)"  ></el-input>
                 </div>
                 <div v-if="comment.replyList.length>0">
                   <el-table  :show-header="false"  :data="comment.replyList"  size="small">
@@ -138,6 +142,7 @@ import { listDiscussComment } from "@/api/wiki/discussComment";
 import { getDiscuss } from "@/api/wiki/discuss";
 import { addDiscussComment } from "@/api/admin/discussComment";
 import { getWorld } from "@/api/wiki/world";
+import { getStory } from "@/api/wiki/story";
 import { useRoute, useRouter } from "vue-router";
 import { ElMessage } from "element-plus";
 import useUserStore from '@/store/modules/user'
@@ -158,15 +163,20 @@ const disabled=ref(true)
 const username=ref('')
 //console.log("userStore name:"+(userStore.name==''))
 
+const eid = ref(null);
 const did = ref(null);
 const wid = ref(null);
+const sid = ref(null);
+eid.value = route.query.eid;
+
 did.value = route.query.did;
 wid.value = route.query.wid;
-const sid = ref(null);
-sid.value = route.query.sid;
-const source = ref(null);
-source.value = route.query.source;
 
+sid.value = route.query.sid;
+const source = ref(undefined);
+source.value = parseInt(<string>route.query.source);
+const sname = ref(undefined);
+const wname = ref(undefined);
 //console.log("元素id="+did.value);
 //console.log("世界id="+wid.value);
 
@@ -214,6 +224,8 @@ const data = reactive({
     pid:null,
     wid:wid.value,
     did:did.value,
+    sid:sid.value,
+    source:source.value,
     ranks:0,
     // wid:wid.value,
   },
@@ -251,8 +263,26 @@ function handWorld() {
   getWorld(wid.value).then(response => {
     //console.log("查询世界详细:"+JSON.stringify(response))
     world.value = response.data
+    wname.value=response.data.name
   });
 }
+const story=ref({})
+
+/** 查询世界详细 */
+function handStory() {
+  if(sid.value == undefined){
+    ElMessage.error("缺少必要参数,故事")
+    return;
+  }
+  getStory(sid.value).then(response => {
+    //console.log("查询世界详细:"+JSON.stringify(response))
+    story.value = response.data
+    wname.value=response.data.wname
+    sname.value=response.data.name
+    wid.value=response.data.wid
+  });
+}
+
 //世界信息
 const discuss=ref({})
 
@@ -294,7 +324,8 @@ function onSubmit(){
   }else{
     form.value.wid=wid.value
   }
-  form.value.wname=world.value.name
+  form.value.wname=wname.value
+  form.value.sname=sname.value
   form.value.circleUrl=userStore.avatar
   form.value.comment=discuss.value.comment
   form.value.reply=dissComment.value
@@ -307,12 +338,9 @@ function onSubmit(){
   form.value.nickname=userStore.username
   form.value.replyNickname=discuss.value.createName
   form.value.source=source.value
-  //console.log("添加评论")
+  console.log("添加评论")
   addDiscussComment(form.value).then(response => {
     dissComment.value=''
-
-    // ElMessage.info("评论成功")
-    //console.log("评论成功")
     getList()
   })
 }
@@ -335,9 +363,16 @@ function sudmitReply(comment){
   }else{
     form.value.sid=sid.value
   }
+  if(wid.value == undefined){
+    form.value.wid=null
+  }else{
+    form.value.wid=wid.value
+  }
   //console.log("添加回复:"+JSON.stringify(comment))
-  form.value.wid=world.value.id
-  form.value.wname=world.value.name
+  form.value.wname=wname.value
+  form.value.sname=sname.value
+  form.value.source=source.value
+
   form.value.circleUrl=userStore.avatar
   form.value.comment=comment.reply
   form.value.reply=comment.replyComment
@@ -361,7 +396,20 @@ function sudmitReply(comment){
   })
 }
 handleDiscuss()
-handWorld()
+
+function  getInfo(){
+  if(source.value !=1 && source.value !=2){
+    ElMessage.error("缺少必要参数,来源")
+    return;
+  }
+  if(source.value == 1){
+    handWorld();
+  }
+  if(source.value == 2){
+    handStory();
+  }
+}
+getInfo()
 getList();
 //世界信息
 const reply=ref({})

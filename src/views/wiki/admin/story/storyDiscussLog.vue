@@ -133,9 +133,12 @@ import {get} from "@vueuse/core";
 // 接收url里的参数
 const route = useRoute();
 const sid = ref(null);
+const wid = ref(null);
+
 const sname = ref('');
 sname.value = <string>route.query.sname;
 sid.value = route.query.sid;
+wid.value = route.query.wid;
 
 const discussTypesMap = new Map([
   [1, "自由讨论"],
@@ -172,6 +175,7 @@ const data = reactive({
     types: undefined,
     source:2,
     sid:sid.value,
+    wid:wid.value,
   },
   rules: {
     // userName: [{ required: true, message: "用户名称不能为空", trigger: "blur" }, { min: 2, max: 20, message: "用户名称长度必须介于 2 和 20 之间", trigger: "blur" }],

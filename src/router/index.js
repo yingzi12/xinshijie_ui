@@ -107,7 +107,13 @@ export const constantRoutes = [
       {
         path: 'list',
         component: () => import('@/views/wiki/story/list'),
-        name: 'storylist',
+        name: 'storyList',
+        meta: { title: '个人中心', icon: 'wiki' }
+      },
+      {
+        path: 'comment',
+        component: () => import('@/views/wiki/story/comment'),
+        name: 'storyComm',
         meta: { title: '个人中心', icon: 'wiki' }
       }
     ]
