@@ -22,7 +22,7 @@ import { download } from '@/utils/request'
 import 'virtual:svg-icons-register'
 import SvgIcon from '@/components/SvgIcon'
 import elementIcons from '@/components/SvgIcon/svgicon'
-
+import originElementPlus from 'element-plus/theme-chalk/index.css'
 import './permission' // permission control
 
 import { useDict } from '@/utils/dict'
