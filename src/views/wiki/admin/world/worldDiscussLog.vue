@@ -86,8 +86,8 @@
               </el-table-column>
               <el-table-column prop="audit" label="审核结果" :show-overflow-tooltip="true"/>
               <el-table-column fixed="right" label="操作" width="100">
-                <template #default>
-                  <el-button link type="primary" size="small" @click="handleClick">查看</el-button>
+                <template #default="scope">
+                  <el-button link type="primary" size="small" @click="handleSee(scope.row.id)">查看</el-button>
                 </template>
               </el-table-column>
             </el-table>
@@ -140,7 +140,7 @@ const wid = ref(null);
 const wname = ref('');
 wname.value = <string>route.query.wname;
 wid.value = route.query.wid;
-
+const router = useRouter()
 const discussTypesMap = new Map([
   [1, "自由讨论"],
   [2, "建议"],
@@ -190,6 +190,9 @@ function getList() {
     discussList.value = response.rows;
     total.value = response.total;
   });
+}
+function handleSee(did){
+  router.push("/discuss/index?wid="+wid.value+"&wname="+wname.value+"&did="+did+"&source=1");
 }
 //弹出框
 const dialogFormVisible = ref(false)

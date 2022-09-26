@@ -210,7 +210,7 @@ const dialogFormVisible = ref(false)
 const ruleFormRef = ref<FormInstance>()
 const formLabelWidth = '140px'
 function handleSee(did){
-  router.push("/discuss/index?wid="+wid.value+"&wname="+wname.value+"&did="+did);
+  router.push("/discuss/index?wid="+wid.value+"&wname="+wname.value+"&did="+did+"&source=1");
 }
 function handleOpen(row){
   dialogFormVisible.value=true

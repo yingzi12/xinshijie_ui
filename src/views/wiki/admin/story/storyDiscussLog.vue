@@ -83,8 +83,8 @@
               </el-table-column>
               <el-table-column prop="audit" label="审核结果" :show-overflow-tooltip="true"/>
               <el-table-column fixed="right" label="操作" width="100">
-                <template #default>
-                  <el-button link type="primary" size="small" @click="handleClick">查看</el-button>
+                <template #default="scope">
+                  <el-button link type="primary" size="small" @click="handleSee(scope.row)">查看</el-button>
                 </template>
               </el-table-column>
             </el-table>
@@ -158,6 +158,8 @@ const discussStatusMap = new Map([
 
 const {  appContext : { config: { globalProperties } }  } = getCurrentInstance();
 const {  proxy  } = getCurrentInstance();
+const router = useRouter()
+
 //分页
 const dateRange = ref([]);
 //分类选项
@@ -194,7 +196,9 @@ function getList() {
 //弹出框
 const dialogFormVisible = ref(false)
 const formLabelWidth = '140px'
-
+function handleSee(row){
+  router.push("/discuss/index?wid="+row.wid+"&sid="+row.sid+"&did="+row.id+"&source=2");
+}
 getList()
 </script>
 

@@ -76,7 +76,7 @@
               <el-table-column prop="reply" label="处理说明" :show-overflow-tooltip="true"/>
               <el-table-column fixed="right" label="操作" width="150">
                 <template #default="scope">
-                  <el-button link type="primary" size="small" @click="handleSee(scope.row.id)">查看</el-button>
+                  <el-button link type="primary" size="small" @click="handleSee(scope.row)">查看</el-button>
                   <el-button link v-if="scope.row.types != 1" type="primary" size="small" @click="handleOpen(scope.row)">处理</el-button>
                 </template>
               </el-table-column>
@@ -209,8 +209,8 @@ function getList() {
 const dialogFormVisible = ref(false)
 const ruleFormRef = ref<FormInstance>()
 const formLabelWidth = '140px'
-function handleSee(did){
-  router.push("/discuss/index?wid="+wid.value+"&wname="+wname.value+"&did="+did+"&source="+source);
+function handleSee(row){
+  router.push("/discuss/index?wid="+row.wid+"&sid="+row.sid+"&did="+row.id+"&source=2");
 }
 function handleOpen(row){
   dialogFormVisible.value=true
