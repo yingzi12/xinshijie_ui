@@ -88,7 +88,7 @@
             </el-table-column>
             <el-table-column label="分类" width="180"  :show-overflow-tooltip="true">
               <template #default="scope">
-                  {{scope.row.types}}
+                  {{storyTypesMap.get(scope.row.types)}}
               </template>
             </el-table-column>
             <el-table-column prop="intro" label="简介" width="250" :show-overflow-tooltip="true"/>
@@ -206,7 +206,14 @@ const data = reactive({
     comment: [{ required: true, message: "评论不能为空", trigger: "blur" }],
   }
 });
-
+const storyTypesMap=new Map([
+  [6,"科学"],
+  [1,"武侠"],
+  [2,"仙侠"],
+  [3,"魔幻"],
+  [4,"奇幻"],
+  [5,"其他"]
+])
 const { queryParams, commentForm, rules } = toRefs(data);
 world.value.id = route.query.wid;
 //console.log("世界id="+world.value.id);

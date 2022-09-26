@@ -270,7 +270,11 @@ function submit(){
     ok=false;
     ElMessage.error('元素名称长度不能小于1超过100')
     return;
-
+  }
+  if(element.value.categoryList.length <1 || element.value.categoryList.length > 10){
+    ok=false;
+    ElMessage.error('分类不能超过10个小于1个')
+    return;
   }
   if(element.value.contentList.length <1 || element.value.contentList.length > 10){
     ok=false;

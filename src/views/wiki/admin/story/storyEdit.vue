@@ -69,7 +69,7 @@
       </el-form-item>
       <el-form-item>
         <el-button type="primary" @click="submitForm(ruleFormRef)">修改</el-button>
-        <el-button @click="reset()">返回</el-button>
+        <el-button @click="handleReturn()">返回</el-button>
       </el-form-item>
     </el-form>
   </div>
@@ -194,7 +194,7 @@ const submitForm = async (formEl: FormInstance | undefined) => {
       // form.value.imgUrl=tem.value.imageUrlPath
       updateStory(form.value).then(response => {
         console.log("修改成功:"+    JSON.stringify(response))
-        router.push("/admin/storyInfo?sid="+form.id+"&sname"+form.name);
+        router.push("/admin/storyInfo?sid="+form.value.id+"&sname="+form.value.name);
       })
     } else {
       //console.log('error submit!', fields)
@@ -219,6 +219,10 @@ function handleStory() {
 
   });
   console.log(JSON.stringify(form))
+}
+
+function handleReturn(){
+  router.back()
 }
 handleStory();
 

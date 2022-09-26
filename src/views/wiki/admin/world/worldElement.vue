@@ -131,12 +131,11 @@ import { getCurrentInstance, reactive, ref, toRefs} from 'vue'
 import {  listElement,delElement } from "@/api/admin/element";
 import { getTree,countCategory} from "@/api/wiki/category";
 import {useRoute, useRouter} from "vue-router";
-import { Menu as IconMenu, Message, Setting } from '@element-plus/icons-vue'
-const fits = ['世界', '粉丝', '关注']
-const activeIndex = ref('1')
 const elementStatusMap = new Map([
-  [1, "正常"],
-  [2, "锁定"],
+  [7, "草稿"],
+  [1, "发布"],
+  [3, "审核不通过"],
+  [2, "正常"],
   [4, "删除"]
 ]);
 
@@ -210,7 +209,7 @@ const single = ref(true);
 const multiple = ref(true);
 const search = ref('')
 function handleUpdate (row)  {
-  router.push("/admin/elementEdit?eid="+row.id+"&wid=" + wid.value+"&temType=" + row.softtype);
+  router.push("/admin/elementEdit?eid="+row.id+"&wid=" + row.wid+"&temType=" + row.softtype);
 }
 //添加新元素,需要登录权限
 function handleAddDialog(){
@@ -276,7 +275,7 @@ const dialogFormVisible = ref(false)
 
 function newElement(wid: number) {
   //console.log('submit!')
-  router.push("/element/add?id=" + wid);
+  router.push("/element/add?wid=" + wid);
 }
 </script>
 
