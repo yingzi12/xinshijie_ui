@@ -35,7 +35,6 @@ import WikiFooter from './footer'
 import { useWindowSize } from '@vueuse/core'
 import {ElMessageBox} from "element-plus";
 import {useRoute, useRouter} from "vue-router";
-import useTagsViewStore from '@/store/modules/tagsView'
 import useUserStore from '@/store/modules/user'
 import logo2 from '@/assets/logo/logo2.png'
 import {ref} from "vue";
