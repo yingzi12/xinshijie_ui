@@ -13,9 +13,11 @@
       <!--  元素名称-->
       <div >
         <h1 class="title">{{ worldElement.title }}</h1>
-        <div class="lessen"><span>分类:</span> <el-tag size="small" v-for="category in worldElement.categoryList">
-          {{category.label}}
-        </el-tag></div>
+        <div class="lessen"><span>分类:</span>
+          <el-tag size="small" v-for="cname in worldElement.cnameList">
+          {{cname}}
+        </el-tag>
+        </div>
         <div class="lessen"><span>更新时间:</span><el-tag size="small">{{worldElement.updateTime}}</el-tag></div>
       </div>
       <el-divider />
@@ -77,14 +79,11 @@ const eid = ref(null);
 const wid = ref(null);
 eid.value = route.query.eid;
 wid.value = route.query.wid;
-worldElement.value.wid=1
 
 /** 查询元素详细 */
 function getElement() {
   getElementDetails(wid.value,eid.value).then(response => {
-    //console.log("查询元素详细:"+JSON.stringify(response))
     worldElement.value = response.data
-    console.log("父组件值传递2:"+JSON.stringify(worldElement))
   });
 }
 

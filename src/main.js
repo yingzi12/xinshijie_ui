@@ -24,8 +24,9 @@ import SvgIcon from '@/components/SvgIcon'
 import elementIcons from '@/components/SvgIcon/svgicon'
 import originElementPlus from 'element-plus/theme-chalk/index.css'
 import './permission' // permission control
+import "@/assets/styles/cheditor.styles.css"
 
-import { useDict } from '@/utils/dict'
+// import { useDict } from '@/utils/dict'
 import { parseTime, resetForm, addDateRange, handleTree, selectDictLabel, selectDictLabels } from '@/utils/ruoyi'
 
 // 分页组件
@@ -46,7 +47,7 @@ import DictTag from '@/components/DictTag'
 const app = createApp(App)
 
 // 全局方法挂载
-app.config.globalProperties.useDict = useDict
+// app.config.globalProperties.useDict = useDict
 app.config.globalProperties.download = download
 app.config.globalProperties.parseTime = parseTime
 app.config.globalProperties.resetForm = resetForm
@@ -62,7 +63,7 @@ app.provide("$imgUrl","https://shadow-xinshijie.oss-cn-hongkong.aliyuncs.com")
 //服务器理解
 app.provide("$baseUrl","https://www.aiavr.com:8080")
 // 全局组件挂载
-app.component('DictTag', DictTag)
+// app.component('DictTag', DictTag)
 app.component('Pagination', Pagination)
 app.component('TreeSelect', TreeSelect)
 app.component('FileUpload', FileUpload)

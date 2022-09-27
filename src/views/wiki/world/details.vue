@@ -45,6 +45,8 @@
               <div style="margin-top: 5px;" >
                 <el-button v-if="isFllow" style="width: 90px;" type="primary" @click="handleFllow">关注</el-button>
                 <el-button @click="handleDiscuss" style="width: 90px;">讨论({{world.countDiscuss}})</el-button>
+                <el-button @click="handleAddStory" style="width: 90px;">创建故事</el-button>
+
               </div>
             </div>
           </el-col>
@@ -225,6 +227,9 @@ function handElement(){
 }
 function handleDiscuss(){
   router.push("/discuss/list?wid="+world.value.id+"&wname="+world.value.name+"&source="+1);
+}
+function handleAddStory(){
+  router.push("/admin/storyAdd?wid="+world.value.id+"&wname="+world.value.name+"&source="+1);
 }
 function handleFllow(){
     addFllow(wid.value).then(response => {
