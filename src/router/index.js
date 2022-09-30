@@ -163,11 +163,6 @@ export const constantRoutes = [
         name: 'OrderElement',
         meta: { title: '元素列表', icon: 'element' }
       },{
-        path: 'test',
-        component: () => import('@/views/wiki/element/test'),
-        name: 'test',
-        meta: { title: '元素列表', icon: 'element' }
-      },{
         path: 'details',
         component: () => import('@/views/wiki/element/index'),
         name: 'details',
