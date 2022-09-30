@@ -129,10 +129,11 @@ class World {
   createTime:string
 }
 const worldStatus = new Map([
-  [0, "正常"],
+  [5, "正常"],
   [1, "待发布"],
   [2, "锁定"],
-  [3, "删除"]
+  [3, "隐藏"],
+  [4, "删除"]
 ]);
 const worldTypesMap=new Map([
   [6,"科学"],
