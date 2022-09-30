@@ -1,16 +1,16 @@
 <template>
-  <div >
-    <h1>{{ element.title }}</h1>
-    <span>更新时间:</span><el-tag>{{element.updateTime}}</el-tag>
-    <span>分类:</span> <el-tag v-for="category in element.categoryList">
-    {{category.label}}
-  </el-tag>
-  </div>
-  <el-divider />
-  <!--  基本信息 -->
-  <div style="margin-bottom: 20px">
-    <div v-html="element.intro"> </div>
-  </div>
+<!--  <div >-->
+<!--    <h1>{{ element.title }}</h1>-->
+<!--    <span>更新时间:</span><el-tag>{{element.updateTime}}</el-tag>-->
+<!--    <span>分类:</span> <el-tag v-for="category in element.categoryList">-->
+<!--    {{category.label}}-->
+<!--  </el-tag>-->
+<!--  </div>-->
+<!--  <el-divider />-->
+<!--  &lt;!&ndash;  基本信息 &ndash;&gt;-->
+<!--  <div style="margin-bottom: 20px">-->
+<!--    <div v-html="element.intro"> </div>-->
+<!--  </div>-->
   <!-- 元素内容 -->
   <div>
     <div v-for="(draft, index) in element.contentList"
@@ -45,11 +45,17 @@
       </div>
     </div>
   </div>
+  <el-dialog v-model="dialogTableVisible" title="差异对比">
+    <div>{{ newTitle }}-->{{oldTitle}}</div>
+        <div v-html="newContent"></div>
+  </el-dialog>
 </template>
 
 <script  lang="ts" setup>
 //接受参数
 import { useRoute ,useRouter}  from "vue-router";  // 引用vue-router
+import {getDiff} from "@/api/admin/draftElement";
+import {ref} from "vue";
 
 const elementStatus = new Map([
   [0, "草稿"],
@@ -76,13 +82,28 @@ interface Content {
   status: number,
   content: string,
 }
-
+const newTitle=ref('');
+const oldTitle=ref('');
+const newContent=ref('');
+const oldContent=ref('');
 const element = defineProps<WorldElement>()
+const dialogTableVisible = ref(false)
+function handDiff(newId:number,oldId:number) {
+  getDiff(newId,oldId).then(response => {
+    //console.log("查询世界详细:"+JSON.stringify(response))
+    dialogTableVisible.value=true
+    newContent.value=response.data.newContent
+    oldContent.value=response.data.oldContent
+    newTitle.value=response.data.newTitle
+    oldTitle.value=response.data.oldTitle
+    //console.log("newContent:"+JSON.stringify(newContent))
+    //console.log("oldContent:"+JSON.stringify(oldContent))
 
-
+  });
+}
 </script>
 
-<style scoped>
+<style >
 .center2 {
   top: 50%;
   width: 100%;
@@ -124,5 +145,14 @@ const element = defineProps<WorldElement>()
   /* font-style: normal; */
   font-size: 24px;
   text-align: left;
+}
+
+.editNewInline {
+  width:auto;display:inline-block !important; display:inline;
+  background-color: #990000;
+}
+.editOldInline {
+  width:auto;display:inline-block !important; display:inline;
+  background-color: #009926;
 }
 </style>

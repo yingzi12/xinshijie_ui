@@ -49,7 +49,7 @@
         <el-table-column label="分卷" align="center" key="pname" prop="pname" :show-overflow-tooltip="true"/>
         <el-table-column label="状态" align="center"  >
           <template #default="scope">
-            <span>{{elementStatus.get(scope.row.status)}}</span>
+            <span>{{storyStatus.get(scope.row.status)}}</span>
           </template>
         </el-table-column>
         <el-table-column label="创建时间" align="center" prop="updateTime" width="160" :show-overflow-tooltip="true">
@@ -133,14 +133,14 @@ const sname = ref('');
 sname.value = <string>route.query.sname;
 sid.value = route.query.sid;
 
-const elementStatus = new Map([
-  [0, "草稿"],
-  [1, "待审核"],
-  [3, "审核不通过"],
-  [2, "通过审核"],
+const storyStatus = new Map([
+  [1, "草稿"],
+  [2, "待审核"],
+  [3, "正常"],
+  [5, "审核不通过"],
   [4, "删除"],
-  [5, "超时发布自动拒绝"],
-  [6, "超时审核自动通过"],
+  [6, "隐藏"],
+  [7, "锁定"],
 ]);
 const activeIndex = ref('1')
 //弹出框

@@ -13,7 +13,7 @@
       <!--  元素名称-->
       <div >
         <h1>{{ worldElement.title }}</h1>
-        <span>更新时间:</span><el-tag>{{worldElement.updateTime}}</el-tag>
+        <span>创建时间:</span><el-tag>{{worldElement.createTime}}</el-tag>
         <span>分类:</span> <el-tag v-for="category in worldElement.categoryList">
         {{category.label}}
       </el-tag>

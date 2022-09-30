@@ -48,7 +48,7 @@ import {getCurrentInstance, markRaw, ref} from 'vue'
 import {ElTree, FormInstance, ElMessage} from "element-plus";
 import { getTree} from "@/api/wiki/category";
 import { addElement} from "@/api/admin/element";
-import { getWorld} from "@/api/wiki/world";
+import { getWorld} from "@/api/admin/world";
 import {useRoute, useRouter} from "vue-router";
 import biologly from '../../add/biology.vue'
 import goods from '../../add/goods.vue'

@@ -13,7 +13,7 @@
     <!--  基本信息-->
     <div >
         <h1>{{ worldElement.title }}<el-tag size="small">{{elementStatus.get(worldElement.status)}}</el-tag></h1>
-      <span>更新时间:</span><el-tag>{{worldElement.updateTime}}</el-tag>
+      <span>创建时间:</span><el-tag>{{worldElement.createTime}}</el-tag>
         <span>分类:</span> <el-tag v-for="category in worldElement.categoryList">
         {{category.label}}
       </el-tag>
@@ -35,16 +35,7 @@
     </div>
   </div>
 
-  <el-dialog v-model="dialogTableVisible" title="差异对比">
-    <el-row>
-      <el-col :span="12">
-        <div v-html="newContent"></div>
-      </el-col>
-      <el-col :span="12">
-        <div v-html="oldContent"></div>
-      </el-col>
-    </el-row>
-  </el-dialog>
+
 </template>
 
 <script  lang="ts" setup>
@@ -100,7 +91,7 @@ const elementStatus = new Map([
   [2, "通过审核"],
   [4, "删除"]
 ]);
-const dialogTableVisible = ref(false)
+
 
 /** 查询草稿详细 */
 function getDraft(wid:number,deid:number) {
@@ -121,19 +112,8 @@ function submitEdit(){
 function handleReturn(){
   router.back()
 }
-const newContent=ref('');
-const oldContent=ref('');
-function handDiff(newId:number,oldId:number) {
-  getDiff(newId,oldId).then(response => {
-    //console.log("查询世界详细:"+JSON.stringify(response))
-    dialogTableVisible.value=true
-    newContent.value=getHtml(response.data.newContent)
-    oldContent.value=getHtml(response.data.oldContent)
-    //console.log("newContent:"+JSON.stringify(newContent))
-    //console.log("oldContent:"+JSON.stringify(oldContent))
 
-  });
-}
+
 getDraft(wid.value,deid.value);
 //console.log("状态:"+elementStatus.get(element.value.status))
 
@@ -167,10 +147,11 @@ const getHtml = function(desc){
 }
 .editNewInline div{
   width:auto;display:inline-block !important; display:inline;
-  background-color: #990000;
+  background-color: #009926;
 }
 .editOldInline div{
   width:auto;display:inline-block !important; display:inline;
-  background-color: #009926;
+  background-color: #990000;
+  text-decoration: line-through;
 }
 </style>
