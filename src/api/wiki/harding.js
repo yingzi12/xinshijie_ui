@@ -9,20 +9,9 @@ export function getHarding(id) {
   })
 }
 
-// 新增收藏
-export function addHarding(data) {
+export function getInfoBySid(sid) {
   return request({
-    url: '/wiki/harding/add',
-    method: 'post',
-    data: data
-  })
-}
-
-
-// 删除收藏
-export function delHarding(id) {
-  return request({
-    url: '/wiki/harding/remove/' + id,
-    method: 'delete'
+    url: '/wiki/harding/getInfoBySid?sid=' + sid,
+    method: 'get'
   })
 }

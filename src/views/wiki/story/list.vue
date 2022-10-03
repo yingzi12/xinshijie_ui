@@ -6,7 +6,6 @@
         <el-breadcrumb-item><a href="/world/list">世界树</a></el-breadcrumb-item>
         <el-breadcrumb-item :to="{ path: '/world/details', query: {wid:wid} }">{{wname}}</el-breadcrumb-item>
         <el-breadcrumb-item :to="{ path: '/story/list', query: {wid:wid,wname:wname} }">故事列表</el-breadcrumb-item>
-        <el-breadcrumb-item>故事列表</el-breadcrumb-item>
       </el-breadcrumb>
     </div>
     <div >

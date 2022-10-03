@@ -11,7 +11,6 @@
           </el-breadcrumb>
         </el-col>
         <el-col :span="3">
-          <el-button @click="handleAddDialog"> 添加新元素</el-button>
         </el-col>
       </el-row>
     </div>
@@ -27,7 +26,8 @@
                 @change="handFind"
                 filterable
                 show-checkbox
-          />
+          />          <el-button style="float: right" @click="handleAddDialog"> 添加新元素</el-button>
+
             <el-table :data="elementList" style="width: 100%">
               <el-table-column label="序号" width="50px">
                 <template #default="scope">
@@ -64,7 +64,7 @@
               </el-table-column>
             </el-table>
             <!--        分页-->
-            <div style="float:right; ">
+            <div style="float:right;">
               <pagination
                   v-show="total > 0"
                   :total="total"
@@ -260,6 +260,8 @@ getList();
 handWorld();
 </script>
 
-<style scoped>
-
+<style>
+.pagination-container .el-pagination{
+  position: unset;
+}
 </style>

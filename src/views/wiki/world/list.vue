@@ -132,18 +132,7 @@ const ids = ref([]);
 const single = ref(true);
 const multiple = ref(true);
 const search = ref('')
-function handleUpdate (row)  {
-  router.push("/world/edit?wid="+row.id);
-}
-// function handleDelete ( row){
-//   const worldId = row.id ;
-//   globalProperties.$modal.confirm('是否确认删除世界名称为"' + row.name + '"的数据？').then(function () {
-//     return delWorld(worldId);
-//   }).then(() => {
-//     getList();
-//     globalProperties.$modal.msgSuccess("删除成功");
-//   }).catch(() => {});
-// }
+
 function handFind(types:number){
   if(!types || types== -1  ) {
     queryParams.value.types =null;
