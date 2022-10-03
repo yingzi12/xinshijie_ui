@@ -77,7 +77,7 @@
 
 <script lang="ts" setup>
 import {getCurrentInstance, inject, markRaw, reactive, ref, toRefs} from 'vue'
-import {  updateStory,getStory } from "@/api/admin/story";
+import {  updateStory,getStoryAdmin } from "@/api/admin/story";
 import {   getWorld } from "@/api/wiki/world";
 import {useRoute, useRouter} from "vue-router";
 import {ElMessage, FormInstance} from "element-plus";
@@ -206,7 +206,7 @@ const submitForm = async (formEl: FormInstance | undefined) => {
 // const  imgUrl=ref('')
 /** 查询世界详细 */
 function handleStory() {
-  getStory(sid.value).then(response => {
+  getStoryAdmin(sid.value).then(response => {
       form.value = response.data
       form.value.checkList=form.value.source.split(';')
       imageUrl.value=imgUrl+response.data.imgUrl

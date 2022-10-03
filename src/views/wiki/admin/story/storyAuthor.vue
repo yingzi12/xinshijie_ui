@@ -35,7 +35,7 @@
         </div>
         <div>
           <el-scrollbar>
-            <el-table v-loading="loading" :data="chapterList">
+            <el-table v-loading="loading" :data="authorList">
               <el-table-column label="序号" width="50" >
                 <template #default="scope">
                   {{scope.$index+1+(queryParams.pageNum-1)*10}}

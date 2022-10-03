@@ -79,7 +79,7 @@
             <el-table-column prop="intro" label="简介" width="250" :show-overflow-tooltip="true"/>
             <el-table-column prop="createTime" label="创建时间" />
           </el-table>
-          <el-button style="margin-top:10px" text  @click="handElement">更多</el-button>
+          <el-button style="margin-top:10px" text  @click="handleElement">更多</el-button>
         </el-tab-pane>
         <el-tab-pane label="故事" name="story">
           <el-table :data="storyList" stripe style="width: 100%">
@@ -96,7 +96,7 @@
             <el-table-column prop="intro" label="简介" width="250" :show-overflow-tooltip="true"/>
             <el-table-column prop="createTime" label="创建时间" />
           </el-table>
-          <el-button style="margin-top:10px" text  @click="handElement">更多</el-button>
+          <el-button style="margin-top:10px" text  @click="handleStory">更多</el-button>
         </el-tab-pane>
         <el-tab-pane label="造物主" name="message">
           <el-table :data="manageList" stripe style="width: 100%">
@@ -222,7 +222,10 @@ world.value.id = route.query.wid;
 const imgUrl = inject("$imgUrl")
 const imageUrl=ref('')
 
-function handElement(){
+function handleElement(){
+  router.push("/element/list?wid="+world.value.id+"&wname="+world.value.name);
+}
+function handleStory(){
   router.push("/story/list?wid="+world.value.id+"&wname="+world.value.name);
 }
 function handleDiscuss(){

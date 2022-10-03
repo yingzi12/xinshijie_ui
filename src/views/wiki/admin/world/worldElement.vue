@@ -132,10 +132,9 @@ import {  listElement,delElement } from "@/api/admin/element";
 import { getTree,countCategory} from "@/api/wiki/category";
 import {useRoute, useRouter} from "vue-router";
 const elementStatusMap = new Map([
-  [7, "草稿"],
-  [1, "发布"],
-  [3, "审核不通过"],
-  [2, "正常"],
+  [1, "正常"],
+  [3, "带审核"],
+  [2, "锁定"],
   [4, "删除"]
 ]);
 
