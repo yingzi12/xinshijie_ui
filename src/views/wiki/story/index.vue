@@ -149,7 +149,9 @@ import type { TabsPaneContext } from 'element-plus'
 import {  getStory } from "@/api/wiki/story";
 import {  listComment } from "@/api/wiki/comment";
 import { addComment} from "@/api/admin/comment";
-import { addHarding,getInfoBySid } from "@/api/admin/harding";
+import { addHarding } from "@/api/admin/harding";
+import { getInfoBySid } from "@/api/wiki/harding";
+
 import {  listAuthor } from "@/api/wiki/author";
 import { listChapter } from "@/api/wiki/chapter";
 import useUserStore from '@/store/modules/user'

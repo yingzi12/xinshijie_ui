@@ -173,7 +173,9 @@ import type { TabsPaneContext } from 'element-plus'
 import {  getWorld } from "@/api/wiki/world";
 import {  listComment } from "@/api/wiki/comment";
 import { addComment} from "@/api/admin/comment";
-import { addFllow,getInfoByWid } from "@/api/admin/fllow";
+import { getInfoByWid } from "@/api/wiki/fllow";
+import { addFllow } from "@/api/admin/fllow";
+
 import {  getWorldManage } from "@/api/wiki/manage";
 import { listElement } from "@/api/wiki/element";
 import { listStory } from "@/api/wiki/story";
@@ -225,15 +227,16 @@ const imageUrl=ref('')
 function handleElement(){
   router.push("/element/list?wid="+world.value.id+"&wname="+world.value.name);
 }
-function handleStory(){
-  router.push("/story/list?wid="+world.value.id+"&wname="+world.value.name);
-}
 function handleDiscuss(){
   router.push("/discuss/list?wid="+world.value.id+"&wname="+world.value.name+"&source="+1);
 }
 function handleAddStory(){
   router.push("/admin/storyAdd?wid="+world.value.id+"&wname="+world.value.name+"&source="+1);
 }
+function handleStory(){
+  router.push("/story/list?wid="+world.value.id+"&wname="+world.value.name+"&source="+1);
+}
+
 function handleFllow(){
     addFllow(wid.value).then(response => {
       ElMessage.success("关注成功");

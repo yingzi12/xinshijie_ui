@@ -9,14 +9,6 @@ export function listElement(query) {
   })
 }
 
-// // 查询元素详细
-// export function getElement(id) {
-//   return request({
-//     url: '/wiki/element/getInfo/' + id,
-//     method: 'get'
-//   })
-// }
-
 // 查询元素详细
 export function getElementDetails(wid,eid) {
   return request({
@@ -28,7 +20,7 @@ export function getElementDetails(wid,eid) {
 // 新增元素
 export function diff(data) {
   return request({
-    url: '/admin/diff/test',
+    url: '/wiki/diff/test',
     method: 'post',
     data: data
   })
