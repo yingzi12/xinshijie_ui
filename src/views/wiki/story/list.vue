@@ -30,7 +30,7 @@
           <div>
             <span style="size: 30px">故事列表</span><el-button style="float: right" @click="handleAdd">创建故事</el-button>
             <el-table v-loading="loading" :data="storyList"  style="width:100%">
-              <el-table-column label="序号" width="50px" >
+              <el-table-column label="序号" width="80px" >
                 <template #default="scope">
                   {{scope.$index+1+(queryParams.pageNum-1)*10}}
                 </template>
@@ -125,7 +125,7 @@ const data = reactive({
   form: {},
   queryParams: {
     pageNum: 1,
-    pageSize: 10,
+
     wid: undefined,
     name: undefined,
     types: null,

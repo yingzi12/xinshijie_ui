@@ -195,7 +195,7 @@ const data = reactive({
   commentForm: {},
   queryParams: {
     pageNum: 1,
-    pageSize: 10,
+
     wid: undefined,
     sid: sid.value,
     level: 1,

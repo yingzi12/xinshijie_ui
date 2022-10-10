@@ -23,7 +23,7 @@
         <div>
           <el-scrollbar>
             <el-table :data="fllowList">
-              <el-table-column label="序号" width="50"  >
+              <el-table-column label="序号" width="80"  >
                 <template #default="scope">
                   {{scope.$index+1}}
                 </template>
@@ -73,7 +73,7 @@ const data = reactive({
   form: {},
   queryParams: {
     pageNum: 1,
-    pageSize: 10,
+
     name: undefined,
     types: undefined,
   },

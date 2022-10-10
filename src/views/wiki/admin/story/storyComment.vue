@@ -124,7 +124,7 @@ const data = reactive({
   commentForm: {},
   queryParams: {
     pageNum: 1,
-    pageSize: 10,
+
     comment:undefined,
     source:2,
     sid: sid.value,

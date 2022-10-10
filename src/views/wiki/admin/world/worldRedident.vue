@@ -40,7 +40,7 @@
         <div>
           <el-scrollbar>
             <el-table :data="redidentList">
-              <el-table-column label="序号" width="50" >
+              <el-table-column label="序号" width="80" >
                 <template #default="scope">
                   {{scope.$index+1}}
                 </template>
@@ -95,7 +95,7 @@ const data = reactive({
   form: {},
   queryParams: {
     pageNum: 1,
-    pageSize: 10,
+
     auditStatus:0,
     userName: undefined,
     wid: wid.value,

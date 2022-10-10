@@ -251,7 +251,7 @@
             </div>
          </template>
       </el-dialog>
- 
+
       <!-- 任务日志详细 -->
       <el-dialog title="任务详细" v-model="openView" width="700px" append-to-body>
          <el-form :model="form" label-width="120px">
@@ -328,7 +328,7 @@ const data = reactive({
   form: {},
   queryParams: {
     pageNum: 1,
-    pageSize: 10,
+
     jobName: undefined,
     jobGroup: undefined,
     status: undefined

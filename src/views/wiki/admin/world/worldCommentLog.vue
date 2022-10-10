@@ -64,7 +64,7 @@
         <div>
           <el-scrollbar>
             <el-table :data="tableData">
-              <el-table-column label="序号" width="50" >
+              <el-table-column label="序号" width="80" >
                 <template #default="scope">
                   {{scope.$index+1}}
                 </template>

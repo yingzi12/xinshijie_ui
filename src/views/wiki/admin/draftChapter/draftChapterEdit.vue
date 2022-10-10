@@ -76,7 +76,7 @@ const data = reactive({
   form: {},
   queryParams: {
     pageNum: 1,
-    pageSize: 10,
+
     title: undefined,
     sid:sid.value,
     level:1

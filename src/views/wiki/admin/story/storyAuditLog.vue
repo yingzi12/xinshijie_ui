@@ -39,7 +39,7 @@
   <div>
     <el-scrollbar>
       <el-table v-loading="loading" :data="draftList" >
-        <el-table-column label="序号" width="50">
+        <el-table-column label="序号" width="80">
           <template #default="scope">
             {{ scope.$index + 1 + (queryParams.pageNum - 1) * 10 }}
           </template>
@@ -135,7 +135,7 @@ const data = reactive({
   form: {},
   queryParams: {
     pageNum: 1,
-    pageSize: 10,
+
     auditStatus:1,
     title: undefined,
     sid:sid.value,

@@ -59,7 +59,7 @@ const { proxy } = getCurrentInstance();
 
 const queryParams = reactive({
   pageNum: 1,
-  pageSize: 10,
+
   tableName: undefined,
   tableComment: undefined
 });

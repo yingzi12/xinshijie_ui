@@ -29,7 +29,7 @@
           />          <el-button style="float: right" @click="handleAddDialog"> 添加新元素</el-button>
 
             <el-table :data="elementList" style="width: 100%">
-              <el-table-column label="序号" width="50px">
+              <el-table-column label="序号" width="80px">
                 <template #default="scope">
                   {{ scope.$index + 1 + (queryParams.pageNum - 1) * 10 }}
                 </template>
@@ -123,7 +123,7 @@ const data = reactive({
   form: {},
   queryParams: {
     pageNum: 1,
-    pageSize: 10,
+
     title: undefined,
     types: undefined,
     wid:wid.value

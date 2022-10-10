@@ -2,10 +2,9 @@
   <div :class="{ 'hidden': hidden }" class="pagination-container">
     <el-pagination
       :background="background"
+      :page-size="20"
       v-model:current-page="currentPage"
-      v-model:page-size="pageSize"
       :layout="layout"
-      :page-sizes="pageSizes"
       :pager-count="pagerCount"
       :total="total"
       @size-change="handleSizeChange"
@@ -26,15 +25,9 @@ const props = defineProps({
     type: Number,
     default: 1
   },
-  limit: {
+  size: {
     type: Number,
     default: 20
-  },
-  pageSizes: {
-    type: Array,
-    default() {
-      return [10, 20, 30, 50]
-    }
   },
   // 移动端页码按钮的数量端默认值5
   pagerCount: {
@@ -43,7 +36,7 @@ const props = defineProps({
   },
   layout: {
     type: String,
-    default: 'total, sizes, prev, pager, next, jumper'
+    default: 'total, prev, pager, next, jumper'
   },
   background: {
     type: Boolean,
@@ -70,23 +63,23 @@ const currentPage = computed({
 })
 const pageSize = computed({
   get() {
-    return props.limit
+    return props.size
   },
   set(val){
-    emit('update:limit', val)
+    emit('update:size', val)
   }
 })
 function handleSizeChange(val) {
   if (currentPage.value * val > props.total) {
     currentPage.value = 1
   }
-  emit('pagination', { page: currentPage.value, limit: val })
+  emit('pagination', { page: currentPage.value, size: val })
   if (props.autoScroll) {
     scrollTo(0, 800)
   }
 }
 function handleCurrentChange(val) {
-  emit('pagination', { page: val, limit: pageSize.value })
+  emit('pagination', { page: val, size: pageSize.value })
   if (props.autoScroll) {
     scrollTo(0, 800)
   }

@@ -203,7 +203,7 @@ const data = reactive({
   commentForm: {},
   queryParams: {
     pageNum: 1,
-    pageSize: 10,
+
     wid: undefined,
   },
   rules: {

@@ -131,7 +131,7 @@ const defaultSort = ref({ prop: "loginTime", order: "descending" });
 // 查询参数
 const queryParams = ref({
   pageNum: 1,
-  pageSize: 10,
+
   ipaddr: undefined,
   userName: undefined,
   status: undefined,
