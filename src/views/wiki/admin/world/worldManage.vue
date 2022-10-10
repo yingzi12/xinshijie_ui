@@ -41,7 +41,7 @@
             <el-table v-loading="loading" :data="worldList">
               <el-table-column label="序号" width="80" >
                 <template #default="scope">
-                  {{scope.$index+1+(queryParams.pageNum-1)*10}}
+                  {{scope.$index+1+(queryParams.pageNum-1)*20}}
                 </template>
               </el-table-column>
               <el-table-column label="姓名" align="center" key="userName" prop="userName" :show-overflow-tooltip="true" />
