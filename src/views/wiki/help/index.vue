@@ -38,7 +38,7 @@
       <el-collapse-item title="已有世界" name="3">
         <div>
           <el-space wrap>
-              <el-tag text> 原神 </el-tag>
+            <el-tag text> 原神 </el-tag>
             <el-tag text> 魔兽世界 </el-tag>
             <el-tag text> 光遇 </el-tag>
             <el-tag text> 星际争霸 </el-tag>
@@ -48,13 +48,6 @@
       </el-collapse-item>
       <el-collapse-item title="开发计划" name="4">
         <el-timeline>
-          <el-timeline-item timestamp="2022/9/30" placement="top">
-            <el-card>
-              <h4>完成元素多模板</h4>
-              <h4>评论限制功能</h4>
-              <p>计划完成时间 2022/9/30 </p>
-            </el-card>
-          </el-timeline-item>
           <el-timeline-item timestamp="2022/10/30" placement="top">
             <el-card>
               <h4>完成手机web端开发</h4>
@@ -70,7 +63,7 @@
           </el-timeline-item>
           <el-timeline-item timestamp="2022/12/30" placement="top">
             <el-card>
-              <h4>故事功能</h4>
+              <h4>完成元素多模板</h4>
               <p>计划完成时间 2022/12/30</p>
             </el-card>
           </el-timeline-item>
@@ -82,7 +75,6 @@
               <p>管理员申请功能</p>
               <p>作者申请功能</p>
               <p>按章节编辑功能</p>
-              <p>自动审核功能，发布功能</p>
             </el-card>
           </el-timeline-item>
         </el-timeline>

@@ -112,7 +112,7 @@ wid.value = route.query.wid;
 //console.log("元素id="+eid.value);
 //console.log("世界id="+wid.value);
 //多选框
-const causeNumber = ref(1)
+const causeNumber = ref(2)
 const causeContent = ref('')
 
 //基本信息

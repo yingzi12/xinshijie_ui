@@ -84,10 +84,11 @@ const router = useRouter()
 const route = useRoute();
 //console.log(route.query.id,"参数");
 const worldStatus = new Map([
-  [0, "正常"],
   [1, "待发布"],
   [2, "锁定"],
-  [3, "删除"]
+  [3, "隐藏"],
+  [4, "删除"],
+      [5, "正常"]
 ]);
 //世界信息
 const world=ref({})

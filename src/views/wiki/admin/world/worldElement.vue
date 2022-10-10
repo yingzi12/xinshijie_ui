@@ -131,9 +131,11 @@ import { getCurrentInstance, reactive, ref, toRefs} from 'vue'
 import {  listElement,delElement } from "@/api/admin/element";
 import { getTree,countCategory} from "@/api/wiki/category";
 import {useRoute, useRouter} from "vue-router";
+import {Search} from '@element-plus/icons-vue'
+import {ElMessage} from "element-plus";
 const elementStatusMap = new Map([
   [1, "正常"],
-  [3, "带审核"],
+  [3, "待审核"],
   [2, "锁定"],
   [4, "删除"]
 ]);
@@ -266,8 +268,6 @@ getList();
 
 const value = ref()
 
-import {Search} from '@element-plus/icons-vue'
-import {ElMessage} from "element-plus";
 
 const input3 = ref('')
 const dialogFormVisible = ref(false)
