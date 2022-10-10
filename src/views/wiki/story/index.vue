@@ -22,7 +22,11 @@
                 <el-badge :value="story.ranks" class="item">
                   <h1 style="margin: 2px" class="title">{{ story.name }}</h1>
                 </el-badge>
-                <!--                <h1 style="margin: 0px" class="title">{{ story.name }}</h1>-->
+              </div>
+              <div>
+                <router-link :to="{path:'/world/details', query: {wid:story.wid} }">
+                   <h5 style="margin: 0px;font-size: 15px;" class="title">世界: {{ story.wname }}</h5>
+                </router-link>
               </div>
               <div style="margin-top: 5px" >
                 <el-space wrap>

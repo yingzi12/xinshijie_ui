@@ -140,9 +140,6 @@ const ids = ref([]);
 const single = ref(true);
 const multiple = ref(true);
 const search = ref('')
-function handleUpdate (row)  {
-  router.push("/world/edit?wid="+row.id);
-}
 
 function handFind(types:number){
   if(!types || types== -1  ) {
