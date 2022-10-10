@@ -197,8 +197,8 @@ const {  appContext : { config: { globalProperties } }  } = getCurrentInstance()
 const {  proxy  } = getCurrentInstance();
 const imgUrl = inject("$imgUrl")
 
-const url =
-    'https://fuss10.elemecdn.com/e/5d/4a731a90594a4af544c0c25941171jpeg.jpeg'
+// const url =
+//     'https://fuss10.elemecdn.com/e/5d/4a731a90594a4af544c0c25941171jpeg.jpeg'
 const worldTypesMap=new Map([
   [6,"科学"],
   [1,"武侠"],
