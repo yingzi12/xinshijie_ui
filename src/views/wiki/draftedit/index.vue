@@ -73,8 +73,8 @@
 </template>
 
 <script  lang="ts" setup>
-import {inject, reactive, ref} from 'vue'
-import {ElMessage, ElTree, FormInstance} from "element-plus";
+import {inject, ref} from 'vue'
+import {ElMessage, FormInstance} from "element-plus";
 // import ClassicEditor from '@ckeditor/ckeditor5-build-classic';
 import  Editor  from 'ckeditor5-custom-build/build/ckeditor';
 

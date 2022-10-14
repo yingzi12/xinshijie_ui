@@ -32,9 +32,9 @@
                     <el-icon v-else class="avatar-uploader-icon"><Plus /></el-icon>
                   </el-upload>
                 </el-form-item>
-                <el-form-item label="用户名" prop="userName">
-                   <span>{{user.userName}}</span>
-                </el-form-item>
+<!--                <el-form-item label="用户名" prop="userName">-->
+<!--                   <span>{{user.userName}}</span>-->
+<!--                </el-form-item>-->
                 <el-form-item label="用户昵称" prop="nickName">
                   <el-input v-model="ruleForm.nickName" />
                 </el-form-item>

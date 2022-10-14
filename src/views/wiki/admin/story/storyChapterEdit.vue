@@ -23,7 +23,6 @@
       <div>
         <h3>章节内容</h3>
         <ckeditor    :editorDisabled="true"  :editor="editor" v-model="form.content" :config="editorConfig"></ckeditor>
-
       </div>
       <div>
         <el-button @click="handleReturn">返回</el-button>
@@ -35,7 +34,8 @@
 
 <script lang="ts" setup>
 import {getCurrentInstance, inject, reactive, ref, toRefs} from 'vue'
-import { updateChapter,getChapter } from "@/api/admin/chapter";
+import { getChapter } from "@/api/admin/chapter";
+import { addDraftChapter } from "@/api/admin/draftChapter";
 import  Editor  from 'ckeditor5-custom-build/build/ckeditor';
 const editor = Editor
 const baseUrl = inject("$baseUrl")
@@ -76,14 +76,13 @@ const data = reactive({
   form: {},
   queryParams: {
     pageNum: 1,
-
     title: undefined,
     sid:sid.value,
     pid:scid.value,
     level:1
   },
   rules: {
-    title: [{ required: true, message: "分类/目录名称不能为空", trigger: "blur" }, { min: 2, max: 20, message: "用户名称长度必须介于 2 和 20 之间", trigger: "blur" }],
+    title: [{ required: true, message: "章节名称不能为空", trigger: "blur" }, { min: 2, max: 20, message: "章节名称长度必须介于 2 和 20 之间", trigger: "blur" }],
   }
 });
 const ruleFormRef = ref<FormInstance>()
@@ -98,9 +97,10 @@ const handleReelAdd = async (formEl: FormInstance | undefined) => {
   }
   form.value.sid=sid.value
   form.value.pid=scid.value
+  form.value.isNew=2
   await formEl.validate((valid, fields) => {
     if (valid) {
-      updateChapter(form.value).then(response => {
+      addDraftChapter(form.value).then(response => {
         console.log("添加成功:"+JSON.stringify(response))
         router.push("/admin/storyChapter?sid="+sid.value+"&sname="+sname.value+"&scid="+scid.value+"&scname="+scname.value);
 

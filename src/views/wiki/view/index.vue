@@ -61,9 +61,6 @@ interface Category{
   value: string
 }
 const element = defineProps<WorldElement>()
-function handlelog(){
-  console.log(JSON.stringify(element))
-}
 </script>
 
 <style scoped>

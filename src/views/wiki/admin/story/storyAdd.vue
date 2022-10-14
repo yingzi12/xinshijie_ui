@@ -59,7 +59,7 @@
         </el-form-item>
         <el-form-item>
           <el-button type="primary" @click="submitForm(ruleFormRef)">新建</el-button>
-          <el-button @click="reset()">返回</el-button>
+          <el-button @click="handleReturn">返回</el-button>
         </el-form-item>
       </el-form>
     </div>
@@ -187,6 +187,9 @@ const submitForm = async (formEl: FormInstance | undefined) => {
       //console.log('error submit!', fields)
     }
   })
+}
+function handleReturn(){
+  router.back()
 }
 </script>
 

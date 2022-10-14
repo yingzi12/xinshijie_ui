@@ -192,18 +192,16 @@ const route = useRoute();
 const world=ref({})
 //评论信息
 const commentList=ref([])
-//管理员信息
-const manageList=ref([])
+
 //分页信息
 const dateRange = ref([]);
-//管理员信息
-const elementList = ref([]);
+
 //评论内容与通用分页查询条件
 const data = reactive({
   commentForm: {},
   queryParams: {
     pageNum: 1,
-
+    pageSize:3,
     wid: undefined,
   },
   rules: {
@@ -236,7 +234,9 @@ function handleAddStory(){
 function handleStory(){
   router.push("/story/list?wid="+world.value.id+"&wname="+world.value.name+"&source="+1);
 }
+const worldActive = ref('description')
 
+const commentActive = ref('allComm')
 function handleFllow(){
     addFllow(wid.value).then(response => {
       ElMessage.success("关注成功");
@@ -259,6 +259,8 @@ function getAllWorldComment() {
     commentList.value = response.rows
   });
 }
+//管理员信息
+const manageList=ref([])
 //小心
 function getAllWorldManage(id:number) {
   getWorldManage(id).then(response => {
@@ -266,16 +268,8 @@ function getAllWorldManage(id:number) {
     manageList.value = response.rows
   });
 }
-
-
-const worldActive = ref('description')
-
-const commentActive = ref('allComm')
-
-const handleClick = (tab: TabsPaneContext, event: Event) => {
-  //console.log(tab, event)
-}
-
+//管理员信息
+const elementList = ref([]);
 /** 查询元素列表 */
 function getElementList() {
   queryParams.value.wid=wid.value;

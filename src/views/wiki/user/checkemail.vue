@@ -28,7 +28,7 @@
 <script lang="ts" setup>
 import { reactive, ref} from 'vue'
 import {  sendEmail } from "@/api/admin/user";
-import {Action, ElMessage, ElMessageBox, FormInstance, FormRules} from "element-plus";
+import {Action, ElMessageBox, FormInstance, FormRules} from "element-plus";
 import {useRouter} from "vue-router";
 
 const ruleFormRef = ref<FormInstance>()

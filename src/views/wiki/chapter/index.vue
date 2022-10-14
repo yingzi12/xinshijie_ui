@@ -26,6 +26,12 @@
     <el-divider />
     <!--功能-->
     <div class="center" style="height: 80px;">
+      <router-link :to="{path:'/chapter/index', query: {sid:chapter.previous.sid,wid:chapter.previous.wid,sname:chapter.previous.sname,wname:chapter.previous.wname,scid:chapter.previous.id}}">
+        <el-button v-if="chapter.previous" text type="success" style="width: 100px;"> {{chapter.previous.title}}</el-button>
+      </router-link>
+      <router-link :to="{path:'/chapter/index', query: {sid:chapter.next.sid,wid:chapter.next.wid,sname:chapter.next.sname,wname:chapter.next.wname,scid:chapter.next.id}}">
+        <el-button  v-if="chapter.next" text type="success" style="width: 100px;">{{chapter.next.title}}</el-button>
+      </router-link>
       <el-button @click="handleReturn()" text type="success" style="width: 100px;">返回</el-button>
       <el-button @click="handleEdit()" text type="success" style="width: 100px;">编辑</el-button>
     </div>
@@ -33,7 +39,7 @@
 </template>
 
 <script  lang="ts" setup>
-import { reactive, ref } from 'vue'
+import {  ref } from 'vue'
 import {  getChapter } from "@/api/wiki/chapter";
 import {  getStory } from "@/api/wiki/story";
 //接受参数

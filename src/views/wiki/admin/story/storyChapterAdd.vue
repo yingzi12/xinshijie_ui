@@ -91,13 +91,13 @@ const { queryParams, form, rules } = toRefs(data);
 
 const handleReelAdd = async (formEl: FormInstance | undefined) => {
   if (!formEl) return
-
   if (scid.value == undefined || scid.value == null || scid.value == '') {
     ElMessage.error("非法操作")
     return
   }
   form.value.sid=sid.value
   form.value.pid=scid.value
+  form.value.isNew=1
   await formEl.validate((valid, fields) => {
     if (valid) {
       addDraftChapter(form.value).then(response => {

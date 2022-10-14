@@ -65,9 +65,10 @@
 
 <script lang="ts" setup>
 import {getCurrentInstance, reactive, ref, toRefs} from 'vue'
-import { Menu as IconMenu, Message, Setting } from '@element-plus/icons-vue'
 import { listFllow,fllowClose } from "@/api/admin/fllow";
 import {ElMessage} from "element-plus";
+import {useRouter} from "vue-router";
+const router = useRouter();
 const total = ref(0);
 const data = reactive({
   form: {},

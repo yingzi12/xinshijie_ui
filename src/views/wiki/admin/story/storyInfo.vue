@@ -69,9 +69,8 @@
 </template>
 
 <script lang="ts" setup>
-import {inject, markRaw, ref} from 'vue'
-import {Flag, Edit,Menu as IconMenu, Message, Setting} from '@element-plus/icons-vue'
-import type { TabsPaneContext } from 'element-plus'
+import {inject, ref} from 'vue'
+import {Flag, Edit} from '@element-plus/icons-vue'
 import {  getStoryAdmin } from "@/api/admin/story";
 //接受参数
 import { useRoute,useRouter }  from "vue-router";  // 引用vue-router

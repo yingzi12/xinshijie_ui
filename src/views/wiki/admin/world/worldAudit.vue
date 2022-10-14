@@ -149,7 +149,6 @@ const data = reactive({
   form: {},
   queryParams: {
     pageNum: 1,
-
     auditStatus:0,
     title: undefined,
     types: '',

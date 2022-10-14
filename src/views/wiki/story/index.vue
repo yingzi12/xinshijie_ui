@@ -253,16 +253,6 @@ function handleAuthor() {
     authorList.value = response.rows
   });
 }
-
-
-const storyActive = ref('description')
-
-const commentActive = ref('allComm')
-
-const handleClick = (tab: TabsPaneContext, event: Event) => {
-  //console.log(tab, event)
-}
-
 /** 查询元素列表 */
 function handleChapterList() {
   queryParams.value.wid=wid.value;
@@ -270,6 +260,13 @@ function handleChapterList() {
     chapterList.value = response.rows;
   });
 }
+
+
+const storyActive = ref('description')
+
+const commentActive = ref('allComm')
+
+
 
 //获取用户信息
 const userStore = useUserStore()
