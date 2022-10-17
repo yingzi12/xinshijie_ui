@@ -119,7 +119,6 @@
 import {getCurrentInstance, inject, reactive, ref, toRefs} from 'vue'
 import {  listStoryAdmin,delStory,issue } from "@/api/admin/story";
 import { useRouter} from "vue-router";
-const fits = ['世界', '粉丝', '关注']
 const activeIndex = ref('1')
 const baseUrl = inject("$baseUrl")
 

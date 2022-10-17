@@ -100,8 +100,7 @@ import { getCurrentInstance, reactive, ref, toRefs} from 'vue'
 import {  listDraftChapter,delDraftChapter,issue } from "@/api/admin/draftChapter";
 import {useRoute, useRouter} from "vue-router";
 import {  Search,Message } from '@element-plus/icons-vue'
-const fits = ['世界', '粉丝', '关注']
-const activeIndex = ref('1')
+
 
 // 接收url里的参数
 const route = useRoute();
@@ -130,7 +129,6 @@ const data = reactive({
   form: {},
   queryParams: {
     pageNum: 1,
-
     title: undefined,
     types: undefined,
     status:7,

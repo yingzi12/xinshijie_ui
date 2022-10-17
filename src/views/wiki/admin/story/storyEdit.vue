@@ -135,7 +135,7 @@ const data = reactive({
     types: [{ required: true, message: "必须选择分类", trigger: "blur" }],
     checkList: [{ required: true, message: "必须选择分类", trigger: "blur" }],
     intro: [{ required: true, message: "故事简介不能为空", trigger: "blur" }, { min: 10, max: 300, message: "故事简介长度必须介于 10 和 300 之间", trigger: "blur" }],
-    description: [{ required: true, message: "故事描述不能为空", trigger: "blur" }, { min: 10, max:1000, message: "故事描述长度必须介于 2 和 1000 之间", trigger: "blur" }],
+    description: [{ required: true, message: "故事描述不能为空", trigger: "blur" }, { min: 10, max:1000, message: "故事描述长度必须介于 10 和 1000 之间", trigger: "blur" }],
 
   }
 });
