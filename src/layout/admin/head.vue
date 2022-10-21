@@ -35,7 +35,7 @@ const userStore = useUserStore()
 const activeIndex = ref('3')
 const handleSelect = (key: string, keyPath: string[]) => {
   activeIndex.value=key
-  console.log(key, keyPath)
+  // console.log(key, keyPath)
 }
 
 function logout() {
@@ -52,7 +52,7 @@ function logout() {
   }).catch(() => { });
 }
 
-console.log("打印用户详细："+JSON.stringify(userStore))
+// console.log("打印用户详细："+JSON.stringify(userStore))
 function handleUserMessage(){
   router.push("/user/index");
 }

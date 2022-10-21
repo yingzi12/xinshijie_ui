@@ -8,11 +8,7 @@ import useUserStore from '@/store/modules/user'
 const whiteList = ['/login','/index', '/auth-redirect', '/restpasswort','/bind','/story','/chapter','/password','/check', '/wiki', '/register', '/world',  '/element',  '/manage', '/discuss'];
 
 router.beforeEach((to, from, next) => {
-  // NProgress.start()
   if (getToken()) {
-    // console.log("获取到了token:"+JSON.stringify(useUserStore()))
-    // console.log("获取到了token"+useUserStore())
-    // to.meta.title && useSettingsStore().setTitle(to.meta.title)
     /* has token*/
     if (to.path === '/login') {
       next({ path: '/user/index' })
@@ -23,15 +19,6 @@ router.beforeEach((to, from, next) => {
         // 判断当前用户是否已拉取完user_info信息
         useUserStore().getInfo().then(() => {
           isRelogin.show = false
-          // usePermissionStore().generateRoutes().then(accessRoutes => {
-            // 根据roles权限生成可访问的路由表
-            // accessRoutes.forEach(route => {
-              // if (!isHttp(route.path)) {
-                // router.addRoute(route) // 动态添加可访问路由表
-              // }
-            // })
-            // next({ ...to, replace: true }) // hack方法 确保addRoutes已完成
-          // })
           next({ ...to, replace: true })
         }).catch(err => {
           useUserStore().logOut().then(() => {
@@ -51,7 +38,6 @@ router.beforeEach((to, from, next) => {
       next()
     } else {
       next(`/login?redirect=${to.fullPath}`) // 否则全部重定向到登录页
-      // NProgress.done()
     }
   }
 })

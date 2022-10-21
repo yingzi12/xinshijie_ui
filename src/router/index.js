@@ -113,7 +113,7 @@ export const constantRoutes = [
       {
         path: 'comment',
         component: () => import('@/views/wiki/story/comment'),
-        name: 'storyComm',
+        name: 'storyComment',
         meta: { title: '个人中心', icon: 'wiki' }
       }
     ]
@@ -132,22 +132,22 @@ export const constantRoutes = [
       ,{
         path: 'details',
         component: () => import('@/views/wiki/world/details'),
-        name: 'Details',
+        name: 'worldDetails',
         meta: { title: '世界详细', icon: 'world' }
       },{
         path: 'comment',
         component: () => import('@/views/wiki/world/comment'),
-        name: 'Comment',
+        name: 'worldComment',
         meta: { title: '评论', icon: 'world' }
       },{
         path: 'add',
         component: () => import('@/views/wiki/world/add'),
-        name: 'AddWorld',
+        name: 'WorldAdd',
         meta: { title: '创造世界', icon: 'world' }
       },{
         path: 'list',
         component: () => import('@/views/wiki/world/list'),
-        name: 'ListWorld',
+        name: 'WorldList',
         meta: { title: '世界列表', icon: 'world' }
       }
     ]
@@ -160,12 +160,12 @@ export const constantRoutes = [
       {
         path: 'list',
         component: () => import('@/views/wiki/element/list'),
-        name: 'OrderElement',
+        name: 'ElementList',
         meta: { title: '元素列表', icon: 'element' }
       },{
         path: 'details',
         component: () => import('@/views/wiki/element/index'),
-        name: 'details',
+        name: 'ElementDetails',
         meta: { title: '元素详细', icon: 'element' }
       }
     ]
@@ -178,283 +178,283 @@ export const constantRoutes = [
       {
         path: 'index',
         component: () => import('@/views/wiki/admin/fllow/index'),
-        name: 'index',
+        name: 'adminIndex',
         meta: { title: '关注', icon: 'wiki' }
       },
       {
         path: 'world',
         component: () => import('@/views/wiki/admin/world/world'),
-        name: 'world',
+        name: 'adminWorld',
         meta: { title: '世界', icon: 'wiki' }
       },
       {
         path: 'worldElement',
         component: () => import('@/views/wiki/admin/world/worldElement'),
-        name: 'worldElement',
+        name: 'adminWorldElement',
         meta: { title: '世界', icon: 'wiki' }
       },
       {
         path: 'worldInfo',
         component: () => import('@/views/wiki/admin/world/worldInfo'),
-        name: 'worldInfo',
+        name: 'adminWorldInfo',
         meta: { title: '世界', icon: 'wiki' }
       },
       {
         path: 'worldEdit',
         component: () => import('@/views/wiki/admin/world/worldEdit'),
-        name: 'WorldEdit',
+        name: 'adminWorldEdit',
         meta: { title: '世界', icon: 'wiki' }
       },
       {
         path: 'worldManage',
         component: () => import('@/views/wiki/admin/world/worldManage'),
-        name: 'worldMessage',
+        name: 'adminworldMessage',
         meta: { title: '世界', icon: 'wiki' }
       },
       {
         path: 'worldCategory',
         component: () => import('@/views/wiki/admin/world/worldCategory'),
-        name: 'WorldCategory',
+        name: 'adminWorldCategory',
         meta: { title: '世界', icon: 'wiki' }
       },
       {
         path: 'worldAudit',
         component: () => import('@/views/wiki/admin/world/worldAudit'),
-        name: 'worldAudit',
+        name: 'adminworldAudit',
         meta: { title: '元素审核', icon: 'wiki' }
       },
       {
         path: 'worldAuditLog',
         component: () => import('@/views/wiki/admin/world/worldAuditLog'),
-        name: 'worldAuditLog',
+        name: 'adminworldAuditLog',
         meta: { title: '元素审核', icon: 'wiki' }
       },
       {
         path: 'worldAuditPreview',
         component: () => import('@/views/wiki/admin/world/worldAuditPreview'),
-        name: 'worldAuditPreview',
+        name: 'adminWorldAuditPreview',
         meta: { title: '元素审核', icon: 'wiki' }
       },
       {
         path: 'worldDiffPreview',
         component: () => import('@/views/wiki/admin/world/worldDiffPreview'),
-        name: 'worldDiffPreview',
+        name: 'adminWorldDiffPreview',
         meta: { title: '元素差异', icon: 'wiki' }
       },
       {
         path: 'worldRedident',
         component: () => import('@/views/wiki/admin/world/worldRedident'),
-        name: 'worldRedident',
+        name: 'adminWorldRedident',
         meta: { title: '居民管理', icon: 'wiki' }
       },
       {
         path: 'worldComment',
         component: () => import('@/views/wiki/admin/world/worldComment'),
-        name: 'worldComment',
+        name: 'adminWorldComment',
         meta: { title: '评论管理', icon: 'wiki' }
       },
       {
         path: 'worldDiscuss',
         component: () => import('@/views/wiki/admin/world/worldDiscuss'),
-        name: 'worldDiscuss',
+        name: 'adminWorldDiscuss',
         meta: { title: '讨论管理', icon: 'wiki' }
       },
       {
         path: 'worldStory',
         component: () => import('@/views/wiki/admin/world/worldStory'),
-        name: 'worldStory',
+        name: 'adminWorldStory',
         meta: { title: '故事管理', icon: 'wiki' }
       },
       {
         path: 'diff',
         component: () => import('@/views/wiki/admin/draftElement/diff'),
-        name: 'diff',
+        name: 'adminDiff',
         meta: { title: '内容比对', icon: 'wiki' }
       },
       {
         path: 'diffPreview',
         component: () => import('@/views/wiki/admin/draftElement/diffPreview'),
-        name: 'auditElementPreview',
+        name: 'adminDraftElementDiffPreview',
         meta: { title: '元素修改差异记录', icon: 'wiki' }
       },
       {
         path: 'comment',
         component: () => import('@/views/wiki/admin/comment/comment'),
-        name: 'comment',
+        name: 'admincomment',
         meta: { title: '评论', icon: 'wiki' }
       },
       {
         path: 'discuss',
         component: () => import('@/views/wiki/admin/discuss/discuss'),
-        name: 'mydiscuss',
+        name: 'adminDiscuss',
         meta: { title: '讨论管理', icon: 'wiki' }
       },
       {
         path: 'audit',
         component: () => import('@/views/wiki/admin/draftElement/audit'),
-        name: 'audit',
+        name: 'admindrAftElementAudit',
         meta: { title: '审核', icon: 'wiki' }
       },
       {
         path: 'auditLog',
         component: () => import('@/views/wiki/admin/draftElement/auditLog'),
-        name: 'auditLog',
+        name: 'adminDraftElementAuditLog',
         meta: { title: '审核历史', icon: 'wiki' }
       },
       {
         path: 'draft',
         component: () => import('@/views/wiki/admin/draftElement/draft'),
-        name: 'draft',
+        name: 'adminDraftElementDraft',
         meta: { title: '元素草稿', icon: 'wiki' }
       },
       {
         path: 'draftEdit',
         component: () => import('@/views/wiki/admin/draftElement/draftEdit'),
-        name: 'draftEdit',
+        name: 'admindraftEdit',
         meta: { title: '元素草稿', icon: 'wiki' }
       },
       {
         path: 'draftLog',
         component: () => import('@/views/wiki/admin/draftElement/draftLog'),
-        name: 'draftLog',
+        name: 'admindraftLog',
         meta: { title: '元素草稿', icon: 'wiki' }
       },
       {
         path: 'draftPreview',
         component: () => import('@/views/wiki/admin/draftElement/draftPreview'),
-        name: 'draftPreview',
+        name: 'admindraftPreview',
         meta: { title: '元素修改差异', icon: 'wiki' }
       },
       {
         path: 'elementAdd',
         component: () => import('@/views/wiki/admin/element/elementAdd'),
-        name: 'elementAdd',
+        name: 'adminelementAdd',
         meta: { title: '管理员添加元素', icon: 'wiki' }
       },
       {
         path: 'elementEdit',
         component: () => import('@/views/wiki/admin/element/elementEdit'),
-        name: 'elementEdit',
+        name: 'adminelementEdit',
         meta: { title: '管理员修改元素', icon: 'wiki' }
       },
       {
         path: 'story',
         component: () => import('@/views/wiki/admin/story/story'),
-        name: 'story',
+        name: 'adminstory',
         meta: { title: '管理员修改元素', icon: 'wiki' }
       },
       {
         path: 'storyInfo',
         component: () => import('@/views/wiki/admin/story/storyInfo'),
-        name: 'storyInfo',
+        name: 'adminstoryInfo',
         meta: { title: '管理员修改元素', icon: 'wiki' }
       },
       {
         path: 'storyAdd',
         component: () => import('@/views/wiki/admin/story/storyAdd'),
-        name: 'storyAdd',
+        name: 'adminstoryAdd',
         meta: { title: '添加新故事', icon: 'wiki' }
       },
       {
         path: 'storyEdit',
         component: () => import('@/views/wiki/admin/story/storyEdit'),
-        name: 'storyEdit',
+        name: 'adminstoryEdit',
         meta: { title: '管理员修改元素', icon: 'wiki' }
       },
       {
         path: 'storyReel',
         component: () => import('@/views/wiki/admin/story/storyReel'),
-        name: 'storyReel',
+        name: 'adminstoryReel',
         meta: { title: '管理员修改元素', icon: 'wiki' }
       },
       {
         path: 'storyChapter',
         component: () => import('@/views/wiki/admin/story/storyChapter'),
-        name: 'storyChapter',
+        name: 'adminstoryChapter',
         meta: { title: '管理员修改元素', icon: 'wiki' }
       },
       {
         path: 'storyChapterAdd',
         component: () => import('@/views/wiki/admin/story/storyChapterAdd'),
-        name: 'storyChapterAdd',
+        name: 'adminstoryChapterAdd',
         meta: { title: '管理员修改元素', icon: 'wiki' }
       },
       {
         path: 'storyChapterEdit',
         component: () => import('@/views/wiki/admin/story/storyChapterEdit'),
-        name: 'storyChapterEdit',
+        name: 'adminstoryChapterEdit',
         meta: { title: '管理员修改元素', icon: 'wiki' }
       },
       {
         path: 'storyChapterView',
         component: () => import('@/views/wiki/admin/story/storyChapterView'),
-        name: 'storyChapterView',
+        name: 'adminstoryChapterView',
         meta: { title: '管理员修改元素', icon: 'wiki' }
       },
       {
         path: 'storyAudit',
         component: () => import('@/views/wiki/admin/story/storyAudit'),
-        name: 'storyAudit',
+        name: 'adminstoryAudit',
         meta: { title: '管理员修改元素', icon: 'wiki' }
       },
       {
         path: 'storyAuditLog',
         component: () => import('@/views/wiki/admin/story/storyAuditLog'),
-        name: 'storyAuditLog',
+        name: 'adminstoryAuditLog',
         meta: { title: '管理员修改元素', icon: 'wiki' }
       },
       {
         path: 'storyAuthor',
         component: () => import('@/views/wiki/admin/story/storyAuthor'),
-        name: 'storyAuthor',
+        name: 'adminstoryAuthor',
         meta: { title: '管理员修改元素', icon: 'wiki' }
       },
       {
         path: 'storyComment',
         component: () => import('@/views/wiki/admin/story/storyComment'),
-        name: 'storyComment',
+        name: 'adminstoryComment',
         meta: { title: '管理员修改元素', icon: 'wiki' }
       },
       {
         path: 'storyDiscuss',
         component: () => import('@/views/wiki/admin/story/storyDiscuss'),
-        name: 'storyDiscuss',
+        name: 'adminstoryDiscuss',
         meta: { title: '管理员修改元素', icon: 'wiki' }
       },
       {
         path: 'storyDiscussLog',
         component: () => import('@/views/wiki/admin/story/storyDiscussLog'),
-        name: 'storyDiscussLog',
+        name: 'adminstoryDiscussLog',
         meta: { title: '管理员修改元素', icon: 'wiki' }
       },
       {
         path: 'draftChapter',
         component: () => import('@/views/wiki/admin/draftChapter/draftChapter'),
-        name: 'draftChapter',
+        name: 'admindraftChapter',
         meta: { title: '元素草稿', icon: 'wiki' }
       },
       {
         path: 'draftChapterAudit',
         component: () => import('@/views/wiki/admin/draftChapter/draftChapterAudit'),
-        name: 'draftChapterAudit',
+        name: 'admindraftChapterAudit',
         meta: { title: '管理员修改元素', icon: 'wiki' }
       },
       {
         path: 'draftChapterLog',
         component: () => import('@/views/wiki/admin/draftChapter/draftChapterLog'),
-        name: 'draftChapterLog',
+        name: 'admindraftChapterLog',
         meta: { title: '所有记录', icon: 'wiki' }
       },
       {
         path: 'draftChapterEdit',
         component: () => import('@/views/wiki/admin/draftChapter/draftChapterEdit'),
-        name: 'draftChapterEdit',
+        name: 'admindraftChapterEdit',
         meta: { title: '所有记录', icon: 'wiki' }
       },
       {
         path: 'draftChapterView',
         component: () => import('@/views/wiki/admin/draftChapter/draftChapterView'),
-        name: 'draftChapterView',
+        name: 'admindraftChapterView',
         meta: { title: '所有记录', icon: 'wiki' }
       }
     ]
@@ -472,11 +472,13 @@ export const constantRoutes = [
       },{
         path: 'email',
         component: () => import('@/views/wiki/user/checkemail'),
+        name:'userEmmail',
         meta: { title: '邮箱', icon: 'user' }
       }
       ,{
         path: 'edit',
         component: () => import('@/views/wiki/user/edit'),
+        name:"userEdit",
         meta: { title: '修改', icon: 'user' }
       }
       ,{
@@ -494,12 +496,12 @@ export const constantRoutes = [
       {
         path: 'email',
         component: () => import('@/views/wiki/check/email'),
-        name: 'email',
+        name: 'checkEmail',
         meta: { title: '基础信息', icon: 'user' }
       },{
         path: 'password',
         component: () => import('@/views/wiki/check/password'),
-        name: 'password',
+        name: 'chenckPassword',
         meta: { title: '修改密码', icon: 'user' }
       }
     ]
@@ -528,7 +530,7 @@ export const constantRoutes = [
       {
         path: 'index',
         component: () => import('@/views/wiki/comment/index'),
-        name: 'World',
+        name: 'commentIndex',
         meta: {title: '个人中心', icon: '讨论'}
       }
     ]
@@ -540,7 +542,7 @@ export const constantRoutes = [
       {
         path: 'index',
         component: () => import('@/views/wiki/discuss/index'),
-        name: 'discuss',
+        name: 'discussIndex',
         meta: { title: '讨论主题详细', icon: 'world' }
       },{
         path: 'list',
