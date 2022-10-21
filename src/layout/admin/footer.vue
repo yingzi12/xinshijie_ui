@@ -7,9 +7,6 @@
      <el-col :span="20" style="margin: 0px">
        <div class="tiaozhuan" style="margin: 0px;text-align: center;">
          <el-space  spacer="|">
-<!--           <div v-for="i in 2" :key="i">-->
-<!--             <el-button> button {{ i }} </el-button>-->
-<!--           </div>-->
            <div><router-link to="">关于心世界</router-link></div>
            <div><router-link to="">联系我们</router-link></div>
            <div> <router-link to="">帮助中心</router-link></div>
@@ -30,7 +27,6 @@
 import { ref } from 'vue'
 
 const activeIndex = ref('1')
-const activeIndex2 = ref('1')
 const handleSelect = (key: string, keyPath: string[]) => {
   console.log(key, keyPath)
 }

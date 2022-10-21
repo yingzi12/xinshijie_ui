@@ -53,7 +53,6 @@
 
 <script  lang="ts" setup>
 //接受参数
-import { useRoute ,useRouter}  from "vue-router";  // 引用vue-router
 import {getDiff} from "@/api/admin/draftElement";
 import {ref} from "vue";
 

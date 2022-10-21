@@ -13,7 +13,7 @@
           </el-breadcrumb>
         </el-col>
         <el-col :span="3">
-          <el-button @click="handleAddDialog"> 添加新章节</el-button>
+          <el-button @click="handleAdd"> 添加新章节</el-button>
         </el-col>
       </el-row>
     </div>
@@ -92,17 +92,14 @@ const dateRange = ref([]);
 function handleSee(id:number,wid:number,softtype:number){
   router.push("/element/details?eid="+id+"&wid="+wid+"&temType="+softtype);
 }
-
 //添加新元素,需要登录权限
 function handleAdd(){
   router.push("/admin/storyChapterAdd?sid=" + sid.value +"&wid=" + wid.value);
 }
-
 const story=ref('')
 /** 查询世界详细 */
 function handStory() {
   getStory(sid.value).then(response => {
-    //console.log("查询世界详细:"+JSON.stringify(response))
     story.value = response.data
   });
 }

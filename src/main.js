@@ -6,23 +6,17 @@ import ElementPlus from 'element-plus'
 import locale from 'element-plus/lib/locale/lang/zh-cn' // 中文语言
 
 import '@/assets/styles/index.scss' // global css
+import  'element-plus/theme-chalk/index.css'
 
 import App from './App'
 import store from './store'
 import router from './router'
-import directive from './directive' // directive
-import BootstrapIcon from '@dvuckovic/vue3-bootstrap-icons';
 import CKEditor from '@ckeditor/ckeditor5-vue';
 
-// 注册指令
-import plugins from './plugins' // plugins
-import { download } from '@/utils/request'
+// import { download } from '@/utils/request'
+import * as ElementPlusIconsVue from '@element-plus/icons-vue'
 
-// svg图标
 import 'virtual:svg-icons-register'
-import SvgIcon from '@/components/SvgIcon'
-import elementIcons from '@/components/SvgIcon/svgicon'
-import originElementPlus from 'element-plus/theme-chalk/index.css'
 import './permission' // permission control
 import "@/assets/styles/cheditor.styles.css"
 
@@ -31,24 +25,11 @@ import { parseTime, resetForm, addDateRange, handleTree, selectDictLabel, select
 
 // 分页组件
 import Pagination from '@/components/Pagination'
-// 自定义表格工具组件
-import RightToolbar from '@/components/RightToolbar'
-// 文件上传组件
-import FileUpload from "@/components/FileUpload"
-// 图片上传组件
-import ImageUpload from "@/components/ImageUpload"
-// 图片预览组件
-import ImagePreview from "@/components/ImagePreview"
-// 自定义树选择组件
-import TreeSelect from '@/components/TreeSelect'
-// 字典标签组件
-import DictTag from '@/components/DictTag'
 
 const app = createApp(App)
 
 // 全局方法挂载
-// app.config.globalProperties.useDict = useDict
-app.config.globalProperties.download = download
+// app.config.globalProperties.download = download
 app.config.globalProperties.parseTime = parseTime
 app.config.globalProperties.resetForm = resetForm
 app.config.globalProperties.handleTree = handleTree
@@ -63,23 +44,11 @@ app.provide("$imgUrl","https://shadow-xinshijie.oss-cn-hongkong.aliyuncs.com")
 //服务器理解
 app.provide("$baseUrl","https://www.aiavr.com:8080")
 // 全局组件挂载
-// app.component('DictTag', DictTag)
 app.component('Pagination', Pagination)
-app.component('TreeSelect', TreeSelect)
-app.component('FileUpload', FileUpload)
-app.component('ImageUpload', ImageUpload)
-app.component('ImagePreview', ImagePreview)
-app.component('RightToolbar', RightToolbar)
-app.component('BootstrapIcon', BootstrapIcon);
 
 app.use(CKEditor )
 app.use(router)
 app.use(store)
-app.use(plugins)
-app.use(elementIcons)
-app.component('svg-icon', SvgIcon)
-
-directive(app)
 
 // 使用element-plus 并且设置全局的大小
 app.use(ElementPlus, {
@@ -87,5 +56,7 @@ app.use(ElementPlus, {
   // 支持 large、default、small
   size: Cookies.get('size') || 'default'
 })
-
+for (const [key, component] of Object.entries(ElementPlusIconsVue)) {
+  app.component(key, component)
+}
 app.mount('#app')

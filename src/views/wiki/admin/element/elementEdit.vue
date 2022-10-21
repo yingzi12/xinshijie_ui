@@ -61,7 +61,7 @@
 </template>
 
 <script  lang="ts" setup>
-import {inject, markRaw, reactive, ref} from 'vue'
+import { markRaw , ref} from 'vue'
 import {ElMessage, ElTree, FormInstance} from "element-plus";
 import {  getElementDetails } from "@/api/wiki/element";
 import {  updateElement } from "@/api/admin/element";

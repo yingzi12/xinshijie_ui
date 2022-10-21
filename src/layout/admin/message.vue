@@ -84,7 +84,7 @@
 <script lang="ts" setup>
 import {getCurrentInstance, inject, ref} from 'vue'
 import {useRoute, useRouter} from "vue-router";
-import { Menu as IconMenu,CirclePlus, Message, Setting } from '@element-plus/icons-vue'
+import { Menu as IconMenu } from '@element-plus/icons-vue'
 const {  appContext : { config: { globalProperties } }  } = getCurrentInstance();
 import {  getUser } from "@/api/admin/user";
 

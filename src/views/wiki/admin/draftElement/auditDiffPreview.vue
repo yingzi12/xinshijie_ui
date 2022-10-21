@@ -49,7 +49,6 @@
 
 <script  lang="ts" setup>
 import {reactive, ref, shallowRef} from 'vue'
-import {FormInstance} from "element-plus";
 import {getDraftDetails ,updatePush,getDiff} from "@/api/admin/draftElement";
 //接受参数
 import { useRoute ,useRouter}  from "vue-router";  // 引用vue-router

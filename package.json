@@ -15,7 +15,6 @@
     "url": "https://gitee.com/y_project/RuoYi-Vue.git"
   },
   "dependencies": {
-    "@ckeditor/ckeditor5-build-classic": "^34.2.0",
     "@ckeditor/ckeditor5-vue": "^4.0.1",
     "@dvuckovic/vue3-bootstrap-icons": "^1.0.5",
     "@element-plus/icons-vue": "1.1.4",
@@ -24,9 +23,6 @@
     "bootstrap-icons": "^1.9.1",
     "ckeditor5-custom-build": "file:./ckeditor5-full",
     "codemirror": "^5.65.7",
-    "diff2html": "^3.4.18",
-    "diff2html-cli": "^5.2.5",
-    "echarts": "5.3.2",
     "element-plus": "2.1.8",
     "file-saver": "2.0.5",
     "fuse.js": "6.5.3",

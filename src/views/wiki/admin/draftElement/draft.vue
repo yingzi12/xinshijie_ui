@@ -4,7 +4,6 @@
         default-active="1"
         mode="horizontal"
         :router="true"
-        @select="handleSelect"
         style="margin:0px;pardding:0px"
     >
       <el-menu-item index="1" route="/admin/draft"><span style="font-size: 20px;font-weight:bold;">待发布</span></el-menu-item>

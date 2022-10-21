@@ -14,10 +14,10 @@
     <el-menu-item index="/user/index" ><span style="font-size: 30px;font-weight:bold;">家园</span></el-menu-item>
     <el-menu-item index="/wiki/help" ><span style="font-size: 30px;font-weight:bold;">帮助</span></el-menu-item>
     <div class="flex-grow" />
-    <el-button v-if="!isLogin" text style="margin-top: 10px" @click="handleLogin">登录</el-button>
-    <el-button v-if="!isLogin"  text style="margin-top: 10px" @click="handleRegister">注册</el-button>
-    <el-button v-if="isLogin" link  style="margin-top: 10px" @click="handleUserMessage">{{ userStore.name }}</el-button>
-    <el-button v-if="isLogin" text style="margin-top: 10px" @click="logout()">退出</el-button>
+    <el-button v-if="!userStore.name"  text style="margin-top: 10px" @click="handleLogin">登录</el-button>
+    <el-button v-if="!userStore.name"  text style="margin-top: 10px" @click="handleRegister">注册</el-button>
+    <el-button v-if="!userStore.name ==false" link  style="margin-top: 10px" @click="handleUserMessage">{{ userStore.name }}</el-button>
+    <el-button v-if="!userStore.name ==false" text style="margin-top: 10px" @click="logout()">退出</el-button>
   </el-menu>
   </div>
   <el-divider  style="margin:0px"/>
@@ -37,19 +37,6 @@ const handleSelect = (key: string, keyPath: string[]) => {
   activeIndex.value=key
   console.log(key, keyPath)
 }
-const props = defineProps({
-  foo: { type: String, required: true },
-  bar: Number,
-  userid: Number,
-  username: String
-})
-console.log("username"+props.username)
-const  isLogin=ref(false)
-if(!props.username){
-  isLogin.value=false
-}else{
-  isLogin.value=true
-}
 
 function logout() {
   ElMessageBox.confirm('确定注销并退出系统吗？', '提示', {
@@ -58,15 +45,14 @@ function logout() {
     type: 'warning'
   }).then(() => {
     userStore.logOut().then(() => {
+      userStore.name="";
       location.href = '/index';
+
     })
   }).catch(() => { });
 }
 
-const emits = defineEmits(['setLayout'])
-function setLayout() {
-  emits('setLayout');
-}
+console.log("打印用户详细："+JSON.stringify(userStore))
 function handleUserMessage(){
   router.push("/user/index");
 }

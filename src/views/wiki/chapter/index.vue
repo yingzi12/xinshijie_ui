@@ -26,10 +26,10 @@
     <el-divider />
     <!--功能-->
     <div class="center" style="height: 80px;">
-      <router-link :to="{path:'/chapter/index', query: {sid:chapter.previous.sid,wid:chapter.previous.wid,sname:chapter.previous.sname,wname:chapter.previous.wname,scid:chapter.previous.id}}">
+      <router-link v-if="chapter.previous" :to="{path:'/chapter/index', query: {sid:chapter.previous.sid,wid:chapter.previous.wid,sname:chapter.previous.sname,wname:chapter.previous.wname,scid:chapter.previous.id}}">
         <el-button v-if="chapter.previous" text type="success" style="width: 100px;"> {{chapter.previous.title}}</el-button>
       </router-link>
-      <router-link :to="{path:'/chapter/index', query: {sid:chapter.next.sid,wid:chapter.next.wid,sname:chapter.next.sname,wname:chapter.next.wname,scid:chapter.next.id}}">
+      <router-link v-if="chapter.next" :to="{path:'/chapter/index', query: {sid:chapter.next.sid,wid:chapter.next.wid,sname:chapter.next.sname,wname:chapter.next.wname,scid:chapter.next.id}}">
         <el-button  v-if="chapter.next" text type="success" style="width: 100px;">{{chapter.next.title}}</el-button>
       </router-link>
       <el-button @click="handleReturn()" text type="success" style="width: 100px;">返回</el-button>
@@ -50,18 +50,16 @@ const router = useRouter()
 const route = useRoute();
 
 //世界信息
-const scid = ref(null);
-const sid = ref(null);
+const scid = ref(undefined);
+const sid = ref(undefined);
+const wid = ref(undefined);
 scid.value = route.query.scid;
 sid.value = route.query.sid;
-const wid = ref(null);
 wid.value = route.query.wid;
 
 const chapter=ref({})
-
 /** 查询元素详细 */
 function getInfo() {
-  console.log("sid:"+JSON.stringify(sid))
   getChapter(sid.value,scid.value).then(response => {
     chapter.value = response.data
   });
@@ -80,7 +78,6 @@ const story=ref({})
 /** 查询世界详细 */
 function handStory() {
   getStory(sid.value).then(response => {
-    //console.log("查询世界详细:"+JSON.stringify(response))
     story.value = response.data
   });
 }
