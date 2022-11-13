@@ -29,17 +29,6 @@ import LayoutUser from '@/layout/user'
 // 公共路由
 export const constantRoutes = [
   {
-    path: '/redirect',
-    component: LayoutWiki,
-    hidden: true,
-    children: [
-      {
-        path: '/redirect/:path(.*)',
-        component: () => import('@/views/redirect/index.vue')
-      }
-    ]
-  },
-  {
 
     path: '/login',
     component: () => import('@/views/login'),
