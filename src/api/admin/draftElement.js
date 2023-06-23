@@ -42,6 +42,13 @@ export function updateDraft(data) {
     data: data
   })
 }
+export function updateDraftPageHtml(data) {
+  return request({
+    url: '/admin/draftElement/editPageHtml',
+    method: 'put',
+    data: data
+  })
+}
 //发布元素
 export function updatePush(wid,eid) {
   return request({

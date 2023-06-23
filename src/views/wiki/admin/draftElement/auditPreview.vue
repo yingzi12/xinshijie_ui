@@ -25,11 +25,12 @@
       <div v-html="worldElement.intro"> </div>
     </div>
     <!-- 元素内容 -->
-    <component :is="temPage"  v-bind="worldElement" ></component>
+    <component  id="elementContent"  :is="temPage"  v-bind="worldElement" ></component>
     <el-divider />
       <!--功能-->
       <div class="center" style="height: 80px;">
         <el-button @click="handleReturn()">返回</el-button>
+
       </div>
     </div>
   </div>
@@ -37,7 +38,6 @@
 
 <script  lang="ts" setup>
 import {reactive, ref, shallowRef} from 'vue'
-import {FormInstance} from "element-plus";
 import {  getDraftDetails ,updatePush} from "@/api/admin/draftElement";
 //接受参数
 import { useRoute ,useRouter}  from "vue-router";  // 引用vue-router
@@ -97,6 +97,7 @@ function handDiff(){
 function handleReturn(){
   router.back()
 }
+
 interface DomainItem {
   key: number
   title: string

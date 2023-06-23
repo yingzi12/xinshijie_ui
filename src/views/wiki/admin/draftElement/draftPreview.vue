@@ -24,14 +24,18 @@
         <div v-html="worldElement.intro"> </div>
       </div>
     <!--    内容简介-->
-    <component :is="temPage"  v-bind="worldElement" ></component>
+      <div id="elementContent">
+    <component  :is="temPage"  v-bind="worldElement" ></component>
+      </div>
     <el-divider />
       <!--功能-->
       <div class="center" style="height: 80px;">
         <el-button v-if="worldElement.status == 0 " @click="submitPush()">发布</el-button>
         <el-button  @click="handDiff()">查看差异</el-button>
         <el-button v-if="worldElement.status == 0 " @click="submitEdit()">继续编辑</el-button>
-        <el-button @click="handClean()">退出</el-button>
+        <el-button @click="handClean()">保存</el-button>
+        <el-button @click="insertElementPageHtml()">打印html</el-button>
+
       </div>
     </div>
 
@@ -39,8 +43,8 @@
 </template>
 
 <script  lang="ts" setup>
-import {reactive, ref, shallowRef} from 'vue'
-import {  getDraftDetails ,issue} from "@/api/admin/draftElement";
+import { ref, shallowRef} from 'vue'
+import {  getDraftDetails ,issue,updateDraftPageHtml} from "@/api/admin/draftElement";
 //接受参数
 import { useRoute ,useRouter}  from "vue-router";  // 引用vue-router
 
@@ -111,6 +115,18 @@ function submitPush(){
     }
   });
 }
+function insertElementPageHtml(){
+  worldElement.value.pageHtml=document.getElementById('elementContent').outerHTML;
+  updateDraftPageHtml(worldElement.value).then(response => {
+    //console.log("保存成功")
+    router.push("/admin/draft")
+    // if(response.data.types == 0){
+    //   router.push("/admin/draftPreview?wid="+ response.data.wid+"&deid=" +response.data.id+"&temType="+temType.value)
+    // }else{
+    //   router.push("/element/details?wid="+ response.data.wid+"&eid=" +response.data.id+"&temType="+temType.value)
+    // }
+  });
+}
 function submitEdit(){
   router.push("/admin/draftEdit?wid="+ wid.value+"&deid=" +deid.value)
 }
@@ -119,6 +135,9 @@ function handDiff(){
 }
 function handClean(){
   router.push("/admin/draft")
+}
+function handleHtml(){
+  console.log(document.getElementById('elementContent').outerHTML);
 }
 getDraft(wid.value,deid.value);
 </script>

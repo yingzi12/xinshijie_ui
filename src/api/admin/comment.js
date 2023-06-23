@@ -31,7 +31,6 @@ export function getComment(id) {
   })
 }
 
-// 新增世界评论
 export function addComment(data) {
   return request({
     url: '/admin/comment/add',
