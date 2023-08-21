@@ -19,6 +19,7 @@
     "@ckeditor/ckeditor5-vue": "^4.0.1",
     "@dvuckovic/vue3-bootstrap-icons": "^1.0.6",
     "@element-plus/icons-vue": "^2.1.0",
+    "@vueup/vue-quill": "^1.2.0",
     "@vueuse/core": "^10.2.0",
     "axios": "^1.4.0",
     "bootstrap-icons": "^1.10.5",
@@ -31,8 +32,15 @@
     "mergely": "^5.0.2",
     "nprogress": "^0.2.0",
     "pinia": "^2.1.4",
+    "quill": "^1.3.7",
+    "quill-better-table": "^1.2.10",
+    "quill-blot-formatter": "^1.0.5",
+    "quill-image-uploader": "^1.3.0",
+    "sockjs-client": "^1.6.1",
+    "stompjs": "^2.3.3",
     "vue": "^3.3.4",
     "vue-cropper": "^0.6.2",
+    "vue-quill": "^1.5.1",
     "vue-router": "^4.2.2"
   },
   "devDependencies": {

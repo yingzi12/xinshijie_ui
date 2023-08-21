@@ -11,7 +11,7 @@ import useUserStore from '@/store/modules/user'
 
 // NProgress.configure({ showSpinner: false });
 
-const whiteList = ['/login','/index', '/auth-redirect', '/restpasswort','/bind','/story','/chapter','/password','/check', '/wiki', '/register', '/world',  '/element',  '/manage', '/discuss'];
+const whiteList = ['/login','/index', '/auth-redirect', '/restpasswort','/bind','/story','/chapter','/password','/check', '/wiki', '/register', '/world',  '/element',  '/manage', '/discuss', '/test'];
 
 router.beforeEach((to, from, next) => {
   // NProgress.start()

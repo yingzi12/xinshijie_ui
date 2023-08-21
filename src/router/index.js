@@ -94,6 +94,19 @@ export const constantRoutes = [
     ]
   },
   {
+    path: '/test',
+    component: LayoutWiki,
+    hidden: true,
+    children: [
+      {
+        path: 'quillTest',
+        component: () => import('@/views/test/quill'),
+        name: 'quillTest',
+        meta: { title: '世界首页', icon: 'world' }
+      }
+    ]
+  },
+  {
     path: '/story',
     component: LayoutWiki,
     hidden: true,

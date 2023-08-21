@@ -25,8 +25,9 @@ import elementIcons from '@/components/SvgIcon/svgicon'
 import originElementPlus from 'element-plus/theme-chalk/index.css'
 import './permission' // permission control
 import "@/assets/styles/cheditor.styles.css"
+import { QuillEditor } from '@vueup/vue-quill'
+import '@vueup/vue-quill/dist/vue-quill.snow.css';
 
-// import { useDict } from '@/utils/dict'
 import { parseTime, resetForm, addDateRange, handleTree, selectDictLabel, selectDictLabels } from '@/utils/ruoyi'
 
 // 分页组件
@@ -41,8 +42,6 @@ import ImageUpload from "@/components/ImageUpload"
 import ImagePreview from "@/components/ImagePreview"
 // 自定义树选择组件
 import TreeSelect from '@/components/TreeSelect'
-// 字典标签组件
-import DictTag from '@/components/DictTag'
 
 const app = createApp(App)
 
@@ -71,7 +70,7 @@ app.component('ImageUpload', ImageUpload)
 app.component('ImagePreview', ImagePreview)
 app.component('RightToolbar', RightToolbar)
 app.component('BootstrapIcon', BootstrapIcon);
-
+app.component('QuillEditor', QuillEditor)
 app.use(CKEditor )
 app.use(router)
 app.use(store)
