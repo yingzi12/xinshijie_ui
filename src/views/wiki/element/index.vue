@@ -12,13 +12,13 @@
     <div >
       <!--  元素名称-->
       <div >
-        <h1 class="title">{{ worldElement.title }}</h1>
-        <div class="lessen"><span>分类:</span>
+        <div ><h1 class="title">{{ worldElement.title }}</h1><el-text class="mx-1" type="info">{{ worldElement.updateTime }}</el-text></div>
+        <div class="lessen">
+          <span>分类:</span>
           <el-tag size="small" v-for="cname in worldElement.cnameList">
           {{cname}}
-        </el-tag>
+          </el-tag>
         </div>
-        <div class="lessen"><span>更新时间:</span><el-tag size="small">{{worldElement.updateTime}}</el-tag></div>
       </div>
       <el-divider />
       <!--  简介 -->
@@ -84,6 +84,7 @@ wid.value = route.query.wid;
 function getElement() {
   getElementDetails(wid.value,eid.value).then(response => {
     worldElement.value = response.data
+    console.log("更新时间:"+worldElement.value.updateTime);
   });
 }
 

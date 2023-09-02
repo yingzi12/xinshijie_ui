@@ -38,7 +38,7 @@
     <!-- 元素内容 -->
     <!--功能-->
       <div class="center" style="height: 80px;">
-        <el-button @click="submit()">保存并预览</el-button>
+        <el-button @click="submit()">预览</el-button>
         <el-button @click="submitClear()">取消</el-button>
       </div>
   </div>

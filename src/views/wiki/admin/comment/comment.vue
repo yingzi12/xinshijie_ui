@@ -50,7 +50,6 @@
 
 <script lang="ts" setup>
 import { useRoute, useRouter} from "vue-router";
-import { Menu as IconMenu,CirclePlus, Message, Setting } from '@element-plus/icons-vue'
 import { Search } from '@element-plus/icons-vue'
 import { getCurrentInstance, reactive, ref, toRefs} from 'vue'
 import { listComment} from "@/api/wiki/comment";

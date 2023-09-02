@@ -1,4 +1,7 @@
 <template>
+  <div style="margin: 20px">
+      <a href=""></a>
+  </div>
   <!--  轮播图-->
   <div style="margin-bottom: 10px">
     <el-carousel :interval="5000" arrow="always">
@@ -91,10 +94,12 @@
               <div >
                 <div id="u10366-1_text" class="text u10366_text" style="/* visibility: inherit; */">
                   <p><span style="font-family:'PingFangSC-Regular', 'PingFang SC', sans-serif;color:#333333;"  @click="handleSee(worldKey1.id)">{{ worldKey1.name }}<el-tag v-if="worldKey1.source=='原创'">原创</el-tag></span></p>
-                  <p><span style="font-family:'PingFangSC-Regular', 'PingFang SC', sans-serif;  color:#999999; font-size: x-small;"  @click="handleSee(worldKey1.id)">{{ worldKey1.intro }}</span></p>
+                    <div>
+                        <el-text class="text-multi-line-hidden" style="font-family:'PingFangSC-Regular', 'PingFang SC', sans-serif;  color:#999999; font-size: x-small;" >{{ worldKey4.intro }}</el-text>
+                    </div>
                 </div>
               </div>
-              <el-button text @click="handleSee(worldKey1.id)">详细</el-button>
+              <el-button size="small" @click="handleSee(worldKey1.id)">详细</el-button>
             </el-card>
           </div>
           <div style="padding: 1px;margin: 0px;text-align: center">
@@ -109,10 +114,12 @@
               <div >
                 <div id="u10366-1_text" class="text u10366_text" style="/* visibility: inherit; */">
                   <p><span style="font-family:'PingFangSC-Regular', 'PingFang SC', sans-serif;color:#333333;"  @click="handleSee(worldKey2.id)">{{ worldKey2.name }}<el-tag v-if="worldKey2.source=='原创'">原创</el-tag></span></p>
-                  <p><span style="font-family:'PingFangSC-Regular', 'PingFang SC', sans-serif;  color:#999999; font-size: x-small;"  @click="handleSee(worldKey2.id)">{{ worldKey2.intro }}</span></p>
+                    <div>
+                        <el-text class="text-multi-line-hidden" style="font-family:'PingFangSC-Regular', 'PingFang SC', sans-serif;  color:#999999; font-size: x-small;" >{{ worldKey4.intro }}</el-text>
+                    </div>
                 </div>
               </div>
-              <el-button text @click="handleSee(worldKey2.id)">详细</el-button>
+              <el-button size="small" @click="handleSee(worldKey2.id)">详细</el-button>
             </el-card>
           </div>
         </el-col >
@@ -155,10 +162,12 @@
               <div >
                 <div id="u10366-1_text" class="text u10366_text" style="/* visibility: inherit; */">
                   <p><span style="font-family:'PingFangSC-Regular', 'PingFang SC', sans-serif;color:#333333;"  @click="handleSee(worldKey3.id)">{{ worldKey3.name }}<el-tag v-if="worldKey3.source=='原创'">原创</el-tag></span></p>
-                  <p><span style="font-family:'PingFangSC-Regular', 'PingFang SC', sans-serif;  color:#999999; font-size: x-small;"  @click="handleSee(worldKey3.id)">{{ worldKey3.intro }}</span></p>
+                    <div>
+                        <el-text class="text-multi-line-hidden" style="font-family:'PingFangSC-Regular', 'PingFang SC', sans-serif;  color:#999999; font-size: x-small;" >{{ worldKey4.intro }}</el-text>
+                    </div>
                 </div>
               </div>
-              <el-button text @click="handleSee(worldKey3.id)">详细</el-button>
+              <el-button size="small" @click="handleSee(worldKey3.id)">详细</el-button>
             </el-card>
           </div>
           <div >
@@ -170,13 +179,15 @@
                           class="image"
                 />
               </div>
-              <div >
+              <div>
                 <div id="u10366-1_text" class="text u10366_text" style="/* visibility: inherit; */">
                   <p><span style="font-family:'PingFangSC-Regular', 'PingFang SC', sans-serif;color:#333333;"  @click="handleSee(worldKey4.id)">{{ worldKey4.name }}<el-tag v-if="worldKey4.source=='原创'">原创</el-tag></span></p>
-                  <p><span style="font-family:'PingFangSC-Regular', 'PingFang SC', sans-serif;  color:#999999; font-size: x-small;"  @click="handleSee(worldKey4.id)">{{ worldKey4.intro }}</span></p>
+                   <div>
+                    <el-text class="text-multi-line-hidden" style="font-family:'PingFangSC-Regular', 'PingFang SC', sans-serif;  color:#999999; font-size: x-small;" >{{ worldKey4.intro }}</el-text>
+                   </div>
                 </div>
               </div>
-              <el-button text @click="handleSee(worldKey4.id)">详细</el-button>
+              <el-button size="small" @click="handleSee(worldKey4.id)">详细</el-button>
             </el-card>
           </div>
         </el-col >
@@ -336,5 +347,12 @@ h3{
 .zuozhe{
   font-family: PingFangSC-Regular,-apple-system,Simsun;
   font-size: 12px;
+}
+
+.text-multi-line-hidden{
+    display: -webkit-box;
+    -webkit-line-clamp: 3;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
 }
 </style>

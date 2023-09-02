@@ -80,7 +80,7 @@
               <el-table-column fixed="right" label="操作" width="150">
                 <template #default="scope">
                   <el-button link type="primary" size="small" @click="handleSee(scope.row.id)">查看</el-button>
-                  <el-button link v-if="scope.row.types != 1" type="primary" size="small" @click="handleOpen(scope.row)">处理</el-button>
+                  <el-button link v-if="scope.row.status == 1" type="primary" size="small" @click="handleOpen(scope.row)">处理</el-button>
                 </template>
               </el-table-column>
             </el-table>
@@ -138,6 +138,7 @@ const wname = ref('');
 wname.value = <string>route.query.wname;
 wid.value = route.query.wid;
 const discussTypesMap = new Map([
+    [0, "全部"],
   [1, "自由讨论"],
   [2, "建议"],
   [3, "内容错误"],
@@ -224,6 +225,7 @@ const onSudmit = async (formEl: FormInstance | undefined) => {
   if (!formEl) return
   await formEl.validate((valid, fields) => {
     if (valid) {
+        form.value.source=1
       //console.log('submit!')
       updateStatusAdmin(form.value).then(response => {
         dialogFormVisible.value=false
