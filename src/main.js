@@ -3,7 +3,9 @@ import { createApp } from 'vue'
 import Cookies from 'js-cookie'
 
 import ElementPlus from 'element-plus'
-import locale from 'element-plus/lib/locale/lang/zh-cn' // 中文语言
+import 'element-plus/dist/index.css'
+import locale from 'element-plus/es/locale/lang/zh-cn' // 中文语言
+import originElementPlus from 'element-plus/theme-chalk/index.css'
 
 import '@/assets/styles/index.scss' // global css
 
@@ -22,11 +24,8 @@ import { download } from '@/utils/request'
 import 'virtual:svg-icons-register'
 import SvgIcon from '@/components/SvgIcon'
 import elementIcons from '@/components/SvgIcon/svgicon'
-import originElementPlus from 'element-plus/theme-chalk/index.css'
 import './permission' // permission control
 import "@/assets/styles/cheditor.styles.css"
-import { QuillEditor } from '@vueup/vue-quill'
-import '@vueup/vue-quill/dist/vue-quill.snow.css';
 
 import { parseTime, resetForm, addDateRange, handleTree, selectDictLabel, selectDictLabels } from '@/utils/ruoyi'
 
@@ -70,7 +69,6 @@ app.component('ImageUpload', ImageUpload)
 app.component('ImagePreview', ImagePreview)
 app.component('RightToolbar', RightToolbar)
 app.component('BootstrapIcon', BootstrapIcon);
-app.component('QuillEditor', QuillEditor)
 app.use(CKEditor )
 app.use(router)
 app.use(store)

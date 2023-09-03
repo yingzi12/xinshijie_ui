@@ -21,13 +21,13 @@
                 <el-badge :value="world.ranks" class="item">
                   <h1 style="margin: 2px" class="title">{{ world.name }}</h1>
                 </el-badge>
-<!--                <h1 style="margin: 0px" class="title">{{ world.name }}</h1>-->
+                <!--                <h1 style="margin: 0px" class="title">{{ world.name }}</h1>-->
               </div>
               <div style="margin-top: 5px" >
                 <el-space wrap>
-                    <el-tag style="width: 70px;" size="default">{{ world.typeName }}</el-tag>
-                    <el-tag v-if="world.source != null " v-for="tag in world.source.split(';')"  style="width: 70px;" size="default" type="success">{{tag}}</el-tag>
-                    <el-tag v-if="world.tags != null "  v-for="tag in world.tags.split(';')"  style="width: 70px;" size="default" type="danger">{{tag}}</el-tag>
+                  <el-tag style="width: 70px;" size="default">{{ world.typeName }}</el-tag>
+                  <el-tag v-if="world.source != null " v-for="tag in world.source.split(';')"  style="width: 70px;" size="default" type="success">{{tag}}</el-tag>
+                  <el-tag v-if="world.tags != null "  v-for="tag in world.tags.split(';')"  style="width: 70px;" size="default" type="danger">{{tag}}</el-tag>
                 </el-space>
               </div>
               <div style="margin-top: 5px" v-if="world.updateNewElementId != null">
@@ -43,7 +43,8 @@
                 <span><el-icon size="20"><View /></el-icon>{{world.countSee}}</span>
               </div>
               <div style="margin-top: 5px;" >
-                <el-button v-if="isFllow" style="width: 90px;" type="primary" @click="handleFllow">关注</el-button>
+                <el-button v-if="isFllow == false" style="width: 90px;" type="primary" @click="handleFllow">关注</el-button>
+                <el-button v-if="isFllow" style="width: 90px;" type="primary" @click="handleFllowClose">取消关注</el-button>
                 <el-button @click="handleDiscuss" style="width: 90px;">讨论({{world.countDiscuss}})</el-button>
                 <el-button @click="handleAddStory" style="width: 90px;">创建故事</el-button>
 
@@ -90,7 +91,7 @@
             </el-table-column>
             <el-table-column label="分类" width="180"  :show-overflow-tooltip="true">
               <template #default="scope">
-                  {{storyTypesMap.get(scope.row.types)}}
+                {{storyTypesMap.get(scope.row.types)}}
               </template>
             </el-table-column>
             <el-table-column prop="intro" label="简介" width="250" :show-overflow-tooltip="true"/>
@@ -135,8 +136,8 @@
             <el-row>
               <el-col :span="2">
                 <div  class="center">
-                   <!--              头像-->
-                   <el-avatar :size="50" :src="imgUrl+comment.circleUrl" />
+                  <!--              头像-->
+                  <el-avatar :size="50" :src="imgUrl+comment.circleUrl" />
                 </div>
               </el-col>
               <el-col :span="22">
@@ -150,7 +151,7 @@
                   <span>{{ comment.createTime }}</span>
                   <span><el-icon :size="15"><ChatDotRound /></el-icon>{{comment.countReply}} </span>
                   <span><el-icon :size="15"><Pointer /></el-icon>{{comment.countReply}}</span>
-<!--                  <span><BootstrapIcon icon="hand-thumbs-down" size="small" />{{comment.countReply}}</span>-->
+                  <!--                  <span><BootstrapIcon icon="hand-thumbs-down" size="small" />{{comment.countReply}}</span>-->
                 </div>
               </el-col>
             </el-row>
@@ -169,18 +170,26 @@
 import {getCurrentInstance, inject, reactive, ref, toRefs} from 'vue'
 //接受参数
 import {useRoute, useRouter} from "vue-router";  // 引用vue-router
-import type { TabsPaneContext } from 'element-plus'
 import {  getWorld } from "@/api/wiki/world";
 import {  listComment } from "@/api/wiki/comment";
 import { addComment} from "@/api/admin/comment";
-import { getInfoByWid } from "@/api/wiki/fllow";
-import { addFllow } from "@/api/admin/fllow";
-
+import { addFllow,fllowClose,getInfoByWid } from "@/api/admin/fllow";
 import {  getWorldManage } from "@/api/wiki/manage";
 import { listElement } from "@/api/wiki/element";
 import { listStory } from "@/api/wiki/story";
-import useUserStore from '@/store/modules/user'
+import useUserStore from '@/store/modules/user';
+import { isNotEmpty } from '@/utils/tools'; // 根据你的项目路径调整引入路径
 import {ElMessage} from "element-plus";
+
+const userStore = useUserStore()
+
+
+const  isLogin=ref(false)
+if(isNotEmpty(userStore.name)){
+  isLogin.value=true
+}else{
+  isLogin.value=false
+}
 const {  appContext : { config: { globalProperties } }  } = getCurrentInstance();
 
 const router = useRouter()
@@ -238,9 +247,25 @@ const worldActive = ref('description')
 
 const commentActive = ref('allComm')
 function handleFllow(){
-    addFllow(wid.value).then(response => {
-      ElMessage.success("关注成功");
-    });
+  if(!isLogin.value){
+    ElMessage.warning("请先登录");
+    return;
+  }
+  addFllow(wid.value).then(response => {
+    isFllow.value=true
+    ElMessage.success("关注成功");
+  });
+}
+
+function handleFllowClose(){
+  if(!isLogin.value){
+    ElMessage.warning("请先登录");
+    return;
+  }
+  fllowClose(wid.value).then(response => {
+    isFllow.value=false
+    ElMessage.success("取消成功");
+  });
 }
 
 /** 查询世界详细 */
@@ -287,7 +312,6 @@ function getStoryList() {
 }
 
 //获取用户信息
-const userStore = useUserStore()
 const circleUrl=ref('')
 const disabled=ref(false)
 
@@ -307,6 +331,10 @@ if(userStore.name==''){
 }
 
 function onSubmit(){
+  if(!isLogin.value){
+    ElMessage.warning("请先登录");
+    return;
+  }
   if(!commentForm.value.comment){
     ElMessage.error("评论不能为空")
     return;
@@ -342,11 +370,16 @@ function handleIsFllow(){
   if(!disabled){
     return;
   }
-  getInfoByWid(wid.value).then(response => {
-    if(!response.data){
-      isFllow.value=true
-    }
-  });
+  if(isLogin==true) {
+    getInfoByWid(wid.value).then(response => {
+      console.log("isNotEmpty(response.data):" + isNotEmpty(response.data))
+      if (isNotEmpty(response.data)) {
+        isFllow.value = true
+      } else {
+        isFllow.value = false
+      }
+    });
+  }
 }
 handleIsFllow();
 //世界信息
@@ -379,12 +412,12 @@ getStoryList();
 }
 .title{
   font-family: 'PingFangSC-Semibold', 'PingFang SC Semibold', 'PingFang SC', sans-serif;
-   font-weight: 650;
+  font-weight: 650;
   /* font-style: normal; */
   font-size: 24px;
   text-align: left;
 }
- .el-tabs__item {
+.el-tabs__item {
   font-family: 'PingFangSC-Semibold', 'PingFang SC Semibold', 'PingFang SC', sans-serif;
   font-weight: 650;
   font-style: normal;

@@ -44,6 +44,31 @@
                   <router-link  :to="{path:'/admin/worldInfo', query: {wid:scope.row.id,wname:scope.row.name}}"><el-tag v-if="scope.row.source=='原创'">原创</el-tag>{{scope.row.name}}</router-link>
                 </template>
               </el-table-column>
+              <el-table-column type="expand">
+                <template #default="props">
+                  <el-descriptions title="详细" style="margin: 20px">
+                    <el-descriptions-item label="是否私有">{{ props.row.isPrive }}</el-descriptions-item>
+                    <el-descriptions-item label="元素数">{{ props.row.countElement }}</el-descriptions-item>
+                    <el-descriptions-item label="居民数">{{ props.row.countResident }}</el-descriptions-item>
+                    <el-descriptions-item label="评论数">{{ props.row.countComment }}</el-descriptions-item>
+                    <el-descriptions-item label="点赞数">{{ props.row.countLike }}</el-descriptions-item>
+                    <el-descriptions-item label="关注数">{{ props.row.countFllow }}</el-descriptions-item>
+                    <el-descriptions-item label="故事数">{{ props.row.countStory }}</el-descriptions-item>
+                    <el-descriptions-item label="编辑数">{{ props.row.countEdit }}</el-descriptions-item>
+
+                    <el-descriptions-item label="创建人">{{ props.row.createName }}</el-descriptions-item>
+                    <el-descriptions-item label="创建时间">{{ props.row.createTime }}</el-descriptions-item>
+                    <el-descriptions-item label="更新人">{{ props.row.updateName }}</el-descriptions-item>
+                    <el-descriptions-item label="更新时间">{{ props.row.updateTime }}</el-descriptions-item>
+<!--                    <el-descriptions-item label="Remarks">-->
+<!--                      <el-tag size="small">{{ props.row.state }}</el-tag>-->
+<!--                    </el-descriptions-item>-->
+<!--                    <el-descriptions-item label="Address">-->
+<!--                      {{ props.row.state }}-->
+<!--                    </el-descriptions-item>-->
+                  </el-descriptions>
+                </template>
+              </el-table-column>
               <el-table-column label="等级" align="center" key="ranks" prop="ranks"   width="50"/>
               <el-table-column label="类型" align="center" :show-overflow-tooltip="true"  width="80" >
                <template #default="scope">
@@ -51,15 +76,9 @@
                 </template>
               </el-table-column>
               <el-table-column label="简介" align="center" key="intro" prop="intro"  :show-overflow-tooltip="true" />
-              <el-table-column label="状态" align="center"  >
+              <el-table-column label="状态" align="center"  width="80" >
                 <template #default="scope">
                   <span>{{worldStatus.get(scope.row.status)}}</span>
-                </template>
-              </el-table-column>
-              <el-table-column label="创建人" align="center" key="createName" prop="createName"  :show-overflow-tooltip="true" />
-              <el-table-column label="更新时间" align="center" prop="updateTime"  width="160" :show-overflow-tooltip="true">
-                <template #default="scope">
-                  <span>{{scope.row.updateTime}}</span>
                 </template>
               </el-table-column>
               <el-table-column label="操作" align="center" width="150" class-name="small-padding fixed-width">
@@ -103,6 +122,7 @@
           <pagination
               v-show="total > 0"
               :total="total"
+              layout="total, prev, pager, next"
               v-model:page="queryParams.pageNum"
               v-model:limit="queryParams.pageSize"
               @pagination="getList"

@@ -16,8 +16,6 @@ const whiteList = ['/login','/index', '/auth-redirect', '/restpasswort','/bind',
 router.beforeEach((to, from, next) => {
   // NProgress.start()
   if (getToken()) {
-    // console.log("获取到了token:"+JSON.stringify(useUserStore()))
-    // console.log("获取到了token"+useUserStore())
     // to.meta.title && useSettingsStore().setTitle(to.meta.title)
     /* has token*/
     if (to.path === '/login') {

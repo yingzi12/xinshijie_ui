@@ -1,7 +1,10 @@
 import { login, logout, getInfo } from '@/api/login'
 import { getToken, setToken, removeToken } from '@/utils/auth'
 import defAva from '@/assets/images/profile.jpg'
-
+const logoutDto = ref({
+  token: "",
+  username: ""
+});
 const useUserStore = defineStore(
   'user',
   {
@@ -55,8 +58,11 @@ const useUserStore = defineStore(
       },
       // 退出系统
       logOut() {
+
         return new Promise((resolve, reject) => {
-          logout(this.token).then(() => {
+          logoutDto.token=this.token
+          logoutDto.username=this.name
+          logout(logoutDto).then(() => {
             this.token = ''
             this.name = ''
             this.avatar =''

@@ -88,9 +88,12 @@
 </template>
 
 <script lang="ts" setup>
-import { getCurrentInstance, reactive, ref, toRefs} from 'vue'
-import { listStory } from "@/api/wiki/story";
-import {useRoute, useRouter} from "vue-router";
+import { getCurrentInstance, reactive, ref, toRefs } from 'vue';
+import { listStory } from '@/api/wiki/story';
+import { useRoute, useRouter } from 'vue-router';
+import { storyTypesMap,storyTypes } from '@/utils/constants'; // 根据你的项目路径调整引入路径
+import { isNotEmpty } from '@/utils/tools'; // 根据你的项目路径调整引入路径
+
 const router = useRouter()
 const route = useRoute()
 
@@ -103,20 +106,15 @@ class World {
   intro: string
   createTime:string
 }
-const storyTypesMap=new Map([
-  [6,"科学"],
-  [1,"武侠"],
-  [2,"仙侠"],
-  [3,"魔幻"],
-  [4,"奇幻"],
-  [5,"其他"]
-])
 
-const storyTypes=reactive([{id:6,name:"科学"},{id:1,name:"武侠"},{id:2,name:"仙侠"},{id:3,name:"魔幻"},{id:4,name:"奇幻"},{id:5,name:"其他"}])
-const wid = ref(null);
-wid.value = route.query.wid;
-const wname = ref(null);
-wname.value = route.query.wname;
+const wid = route.query.wid; // 获取查询参数param1的值
+const wname = route.query.wname; // 获取查询参数param2的值
+
+
+// const wid = ref(null);
+// wid.value = route.query.wid;
+// const wname = ref(null);
+// wname.value = route.query.wname;
 const wtypes=ref(null);
 const loading = ref(true);
 const storyList = ref([]);
@@ -141,39 +139,54 @@ const single = ref(true);
 const multiple = ref(true);
 const search = ref('')
 
-function handFind(types:number){
-  if(!types || types== -1  ) {
-    queryParams.value.types =null;
-  }else{
-    queryParams.value.types =types;
+function handFind(types: number) {
+  // 根据所选的故事类型和 wid 更新 queryParams
+  if (!types || types === -1) {
+    queryParams.value.types = null;
+  } else {
+    queryParams.value.types = types;
   }
-  if(wid.value != null && wid.value != '' && wid.value != undefined) {
-    queryParams.value.wid=wid.value;
-  }else{
-    queryParams.value.wid=null;
+  if (isNotEmpty(wid)) {
+    queryParams.value.wid = wid;
+  } else {
+    queryParams.value.wid = null;
   }
-  listStory(globalProperties.addDateRange(queryParams.value, dateRange.value)).then(response => {
+
+  // 获取并更新故事列表
+  listStory(globalProperties.addDateRange(queryParams.value, dateRange.value)).then((response) => {
     loading.value = false;
     storyList.value = response.rows;
     total.value = response.total;
   });
 }
-function handleAdd(){
-  router.push("/admin/storyAdd?wid="+wid.value+"&wname="+wname.value);
+
+function handleAdd() {
+  // 跳转到创建故事页面，并带上 wid 和 wname 参数
+  router.push(`/admin/storyAdd?wid=${wid}&wname=${wname}`);
 }
-//查看详细
-function handleSee(row){
-  router.push("/story/index?sid="+row.id);
+
+function handleSee(row) {
+  // 跳转到故事的详细视图
+  router.push(`/story/index?sid=${row.id}`);
 }
-/** 查询世界列表 */
+
 function getList() {
-  listStory(globalProperties.addDateRange(queryParams.value, dateRange.value)).then(response => {
+  if (isNotEmpty(wid)) {
+    queryParams.value.wid = wid;
+  } else {
+    queryParams.value.wid = null;
+  }
+  // 获取初始故事列表
+  listStory(globalProperties.addDateRange(queryParams.value, dateRange.value)).then((response) => {
     loading.value = false;
     storyList.value = response.rows;
     total.value = response.total;
   });
 }
+
+// 调用 getList 函数以获取初始列表
 getList();
+
 </script>
 
 <style scoped>

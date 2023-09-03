@@ -32,10 +32,6 @@ export default {
    */
   sidebarLogo: true,
 
-  /**
-   * 是否显示动态标题
-   */
-  dynamicTitle: false,
 
   /**
    * @type {string | array} 'production' | ['production', 'development']

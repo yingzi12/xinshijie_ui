@@ -44,6 +44,22 @@
             <router-link  :to="{path:'/admin/storyInfo', query: {sid:scope.row.id,sname:scope.row.name}}"><el-tag v-if="scope.row.source=='原创'">原创</el-tag>{{scope.row.name}}</router-link>
           </template>
         </el-table-column>
+        <el-table-column type="expand">
+          <template #default="props">
+            <el-descriptions title="详细">
+              <el-descriptions-item label="创建人">{{ props.row.createName }}</el-descriptions-item>
+              <el-descriptions-item label="创建时间">{{ props.row.createTime }}</el-descriptions-item>
+              <el-descriptions-item label="更新人">{{ props.row.updateName }}</el-descriptions-item>
+              <el-descriptions-item label="更新时间">{{ props.row.updateTime }}</el-descriptions-item>
+              <!--                    <el-descriptions-item label="Remarks">-->
+              <!--                      <el-tag size="small">{{ props.row.state }}</el-tag>-->
+              <!--                    </el-descriptions-item>-->
+<!--                                  <el-descriptions-item label="Address">-->
+<!--                                    {{ props.row.state }}-->
+<!--                                  </el-descriptions-item>-->
+            </el-descriptions>
+          </template>
+        </el-table-column>
         <el-table-column label="世界" align="center" key="name" prop="name"  :show-overflow-tooltip="true">
           <template #default="scope">
             <router-link  :to="{path:'/admin/worldInfo', query: {wid:scope.row.wid,wname:scope.row.wname}}">{{scope.row.wname}}</router-link>
@@ -55,16 +71,10 @@
             <span>{{storyTypesMap.get(scope.row.types)}}</span>
           </template>
         </el-table-column>
-        <el-table-column label="简介" align="center" key="intro" prop="intro"  :show-overflow-tooltip="true" />
-        <el-table-column label="状态" align="center"  >
+        <el-table-column label="简介" align="center" key="intro" prop="intro"  :show-overflow-tooltip="true"  />
+        <el-table-column label="状态" align="center" width="80" >
           <template #default="scope">
             <span>{{storyStatus.get(scope.row.status)}}</span>
-          </template>
-        </el-table-column>
-        <el-table-column label="创建人" align="center" key="createName" prop="createName"  :show-overflow-tooltip="true" />
-        <el-table-column label="更新时间" align="center" prop="updateTime"  width="160" :show-overflow-tooltip="true">
-          <template #default="scope">
-            <span>{{scope.row.updateTime}}</span>
           </template>
         </el-table-column>
         <el-table-column label="操作" align="center" width="150" class-name="small-padding fixed-width">

@@ -69,6 +69,29 @@
           <div style=" padding: 10px;margin: 0px;white-space:pre; word-break:break-all;word-wrap:break-word;" >
             <p style="white-space: pre-wrap">{{world.description}}</p>
           </div>
+          <!--    简介区-->
+          <div style="background-color: #E5EAF3">
+            <h1 style="padding: 10px;margin: 0px"><Flag style="width: 1em; height: 1em; margin-right: 8px" />其他</h1>
+            <el-divider  style="padding: 0px;margin: 0px"/>
+          </div>
+
+          <div style=" padding: 10px;margin: 0px;white-space:pre; word-break:break-all;word-wrap:break-word;" >
+            <el-descriptions  >
+              <el-descriptions-item label="是否私有">{{ world.isPrive }}</el-descriptions-item>
+              <el-descriptions-item label="元素数">{{ world.countElement }}</el-descriptions-item>
+              <el-descriptions-item label="居民数">{{ world.countResident }}</el-descriptions-item>
+              <el-descriptions-item label="评论数">{{ world.countComment }}</el-descriptions-item>
+              <el-descriptions-item label="点赞数">{{world.countLike }}</el-descriptions-item>
+              <el-descriptions-item label="关注数">{{ world.countFllow }}</el-descriptions-item>
+              <el-descriptions-item label="故事数">{{ world.countStory }}</el-descriptions-item>
+              <el-descriptions-item label="编辑数">{{ world.countEdit }}</el-descriptions-item>
+
+              <el-descriptions-item label="创建人">{{ world.createName }}</el-descriptions-item>
+              <el-descriptions-item label="创建时间">{{world.createTime }}</el-descriptions-item>
+              <el-descriptions-item label="更新人">{{ world.updateName }}</el-descriptions-item>
+              <el-descriptions-item label="更新时间">{{ world.updateTime }}</el-descriptions-item>
+            </el-descriptions>
+          </div>
         </div>
 </template>
 

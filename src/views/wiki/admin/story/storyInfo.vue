@@ -45,6 +45,7 @@
             <div style="margin-top: 2px">
               <div style="margin-top: 5px" v-html="story.intro"></div>
             </div>
+
           </div>
         </el-col>
         <el-col :span="8"  >
@@ -64,6 +65,13 @@
 
     <div style=" padding: 10px;margin: 0px;white-space:pre; word-break:break-all;word-wrap:break-word;" >
       <p style="white-space: pre-wrap">{{story.description}}</p>
+    </div>
+    <!--    简介区-->
+    <div style="background-color: #E5EAF3">
+      <h1 style="padding: 10px;margin: 0px"><Flag style="width: 1em; height: 1em; margin-right: 8px" />其他</h1>
+      <el-divider  style="padding: 0px;margin: 0px"/>
+    </div>
+    <div style=" padding: 10px;margin: 0px;white-space:pre; word-break:break-all;word-wrap:break-word;" >
     </div>
   </div>
 </template>

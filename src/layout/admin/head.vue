@@ -43,7 +43,6 @@ const props = defineProps({
   userid: Number,
   username: String
 })
-console.log("username"+props.username)
 const  isLogin=ref(false)
 if(!props.username){
   isLogin.value=false

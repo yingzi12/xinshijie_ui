@@ -41,15 +41,16 @@ import {ref} from "vue";
 const userStore = useUserStore()
 const router = useRouter()
 
-const activeIndex = ref('1')
-const handleSelect = (key: string, keyPath: string[]) => {
-  activeIndex.value=key
-}
+
 const  isLogin=ref(false)
 if(!userStore.name){
   isLogin.value=false
 }else{
   isLogin.value=true
+}
+const activeIndex = ref('1')
+const handleSelect = (key: string, keyPath: string[]) => {
+  activeIndex.value=key
 }
 const { width, height } = useWindowSize();
 const WIDTH = 992; // refer to Bootstrap's responsive design
