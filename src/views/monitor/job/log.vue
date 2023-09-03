@@ -129,12 +129,13 @@
          </el-table-column>
       </el-table>
 
-      <pagination
-         v-show="total > 0"
+      <el-pagination
+
          :total="total"
+         layout="total, prev, pager, next"
          v-model:page="queryParams.pageNum"
-         v-model:limit="queryParams.pageSize"
-         @pagination="getList"
+         :page-size=20
+         @current-change="getList"
       />
 
       <!-- 调度日志详细 -->
@@ -206,7 +207,10 @@ const data = reactive({
 const { queryParams, form, rules } = toRefs(data);
 
 /** 查询调度日志列表 */
-function getList() {
+function getList(page: number) {
+  window.scrollTo(0, 0); // 滚动到顶部
+  queryParams.value.pageNum=page;
+
   loading.value = true;
   listJobLog(proxy.addDateRange(queryParams.value, dateRange.value)).then(response => {
     jobLogList.value = response.rows;
@@ -222,7 +226,8 @@ function handleClose() {
 /** 搜索按钮操作 */
 function handleQuery() {
   queryParams.value.pageNum = 1;
-  getList();
+  getList(queryParams.value.pageNum);
+
 }
 /** 重置按钮操作 */
 function resetQuery() {
@@ -245,7 +250,8 @@ function handleDelete(row) {
   proxy.$modal.confirm('是否确认删除调度日志编号为"' + ids.value + '"的数据项?').then(function () {
     return delJobLog(ids.value);
   }).then(() => {
-    getList();
+    getList(queryParams.value.pageNum);
+
     proxy.$modal.msgSuccess("删除成功");
   }).catch(() => {});
 }
@@ -254,7 +260,8 @@ function handleClean() {
   proxy.$modal.confirm("是否确认清空所有调度日志数据项?").then(function () {
     return cleanJobLog();
   }).then(() => {
-    getList();
+    getList(queryParams.value.pageNum);
+
     proxy.$modal.msgSuccess("清空成功");
   }).catch(() => {});
 }
@@ -271,12 +278,15 @@ function handleExport() {
     getJob(jobId).then(response => {
       queryParams.value.jobName = response.data.jobName;
       queryParams.value.jobGroup = response.data.jobGroup;
-      getList();
+      getList(queryParams.value.pageNum);
+
     });
   } else {
-    getList();
+    getList(queryParams.value.pageNum);
+
   }
 })();
 
-getList();
+getList(queryParams.value.pageNum);
+
 </script>

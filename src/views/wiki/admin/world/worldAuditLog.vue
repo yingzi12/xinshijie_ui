@@ -72,12 +72,14 @@
         </div>
         <!--        分页-->
         <div style="float:right; position:relative; ">
-          <pagination
-              v-show="total > 0"
+          <el-pagination
+
               :total="total"
+              layout="total, prev, pager, next"
+
               v-model:page="queryParams.pageNum"
-              v-model:limit="queryParams.pageSize"
-              @pagination="getList"/>
+              :page-size=20
+              @current-change="getList"/>
         </div>
 </template>
 
@@ -139,7 +141,10 @@ const data = reactive({
 const { queryParams, form, rules } = toRefs(data);
 
 /** 查询世界列表 */
-function getList() {
+function getList(page: number) {
+  window.scrollTo(0, 0); // 滚动到顶部
+  queryParams.value.pageNum=page;
+
   if(queryParams.value.types != undefined && queryParams.value.types != '' ){
     queryParams.value.types=queryParams.value.types.split("$$")[0]
   }
@@ -168,7 +173,8 @@ function handleDiff(row){
   router.push("/admin/worldDiffPreview?wid="+row.wid+"&deid="+row.id+"&temType="+row.softtype);
 }
 getCategoryTree();
-getList();
+getList(queryParams.value.pageNum);
+
 </script>
 
 <style scoped>

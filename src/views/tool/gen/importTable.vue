@@ -31,12 +31,13 @@
         <el-table-column prop="createTime" label="创建时间"></el-table-column>
         <el-table-column prop="updateTime" label="更新时间"></el-table-column>
       </el-table>
-      <pagination
-        v-show="total>0"
+      <el-pagination
+
         :total="total"
+        layout="total, prev, pager, next"
         v-model:page="queryParams.pageNum"
-        v-model:limit="queryParams.pageSize"
-        @pagination="getList"
+        :page-size=20
+        @current-change="getList"
       />
     </el-row>
     <template #footer>
@@ -68,7 +69,8 @@ const emit = defineEmits(["ok"]);
 
 /** 查询参数列表 */
 function show() {
-  getList();
+  getList(queryParams.value.pageNum);
+
   visible.value = true;
 }
 /** 单击选择行 */
@@ -80,7 +82,10 @@ function handleSelectionChange(selection) {
   tables.value = selection.map(item => item.tableName);
 }
 /** 查询表数据 */
-function getList() {
+function getList(page: number) {
+  window.scrollTo(0, 0); // 滚动到顶部
+  queryParams.value.pageNum=page;
+
   listDbTable(queryParams).then(res => {
     dbTableList.value = res.rows;
     total.value = res.total;
@@ -89,7 +94,8 @@ function getList() {
 /** 搜索按钮操作 */
 function handleQuery() {
   queryParams.pageNum = 1;
-  getList();
+  getList(queryParams.value.pageNum);
+
 }
 /** 重置按钮操作 */
 function resetQuery() {

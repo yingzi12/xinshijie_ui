@@ -56,7 +56,13 @@
          </el-table-column>
       </el-table>
 
-      <pagination v-show="total > 0" :total="total" v-model:page="pageNum" v-model:limit="pageSize" />
+      <el-pagination
+          layout="total, prev, pager, next"
+
+          :total="total"
+          v-model:page="pageNum"
+          v-model:limit="pageSize"
+      />
    </div>
 </template>
 
@@ -77,7 +83,10 @@ const queryParams = ref({
 });
 
 /** 查询登录日志列表 */
-function getList() {
+function getList(page: number) {
+  window.scrollTo(0, 0); // 滚动到顶部
+  queryParams.value.pageNum=page;
+
   loading.value = true;
   initData(queryParams.value).then(response => {
     onlineList.value = response.rows;
@@ -88,7 +97,8 @@ function getList() {
 /** 搜索按钮操作 */
 function handleQuery() {
   pageNum.value = 1;
-  getList();
+  getList(queryParams.value.pageNum);
+
 }
 /** 重置按钮操作 */
 function resetQuery() {
@@ -100,10 +110,12 @@ function handleForceLogout(row) {
     proxy.$modal.confirm('是否确认强退名称为"' + row.userName + '"的用户?').then(function () {
   return forceLogout(row.tokenId);
   }).then(() => {
-    getList();
+    getList(queryParams.value.pageNum);
+
     proxy.$modal.msgSuccess("删除成功");
   }).catch(() => {});
 }
 
-getList();
+getList(queryParams.value.pageNum);
+
 </script>

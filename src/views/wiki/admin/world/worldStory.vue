@@ -59,12 +59,12 @@
       <el-table v-loading="loading" :data="storyList" >
         <el-table-column label="序号" width="80">
           <template #default="scope">
-            {{ scope.$index + 1 + (queryParams.pageNum - 1) * 10 }}
+            {{ scope.$index + 1 + (queryParams.pageNum - 1) * 20 }}
           </template>
         </el-table-column>
         <el-table-column label="故事名" align="center" key="name" prop="name" :show-overflow-tooltip="true">
           <template #default="scope">
-            <router-link  :to="{path:'/story/index', query: {sid:scope.row.id,sname:scope.row.name,wid:scope.row.wid,wname:scope.row.wname}}"><el-tag v-if="scope.row.source=='原创'">原创</el-tag>{{scope.row.name}}</router-link>
+            <router-link  :to="{path:'/story/detail', query: {sid:scope.row.id,sname:scope.row.name,wid:scope.row.wid,wname:scope.row.wname}}"><el-tag v-if="scope.row.source=='原创'">原创</el-tag>{{scope.row.name}}</router-link>
           </template>
         </el-table-column>
         <el-table-column label="状态" align="center"  >
@@ -110,12 +110,13 @@
   </div>
   <!--        分页-->
   <div style="float:right; position:relative; ">
-    <pagination
-        v-show="total > 0"
+    <el-pagination
+
         :total="total"
+        layout="total, prev, pager, next"
         v-model:page="queryParams.pageNum"
-        v-model:limit="queryParams.pageSize"
-        @pagination="getList"/>
+        :page-size=20
+        @current-change="getList"/>
   </div>
 
   <!--      审核弹出框-->
@@ -249,7 +250,8 @@ const onSudmit = async (formEl: FormInstance | undefined) => {
       audit(form.value).then(response => {
         dialogFormVisible.value=false
         ElMessage.success("处理成功")
-        getList();
+        getList(queryParams.value.pageNum);
+
       })
     } else {
       //console.log('error submit!', fields)
@@ -262,18 +264,22 @@ function handleAdd()  {
 }
 
 function handleSee(row){
-  router.push("/story/index?wid="+row.wid+"&sid="+row.id);
+  router.push("/story/detail?wid="+row.wid+"&sid="+row.id);
 }
 
 /** 查询元素列表 */
-function getList() {
+function getList(page: number) {
+  window.scrollTo(0, 0); // 滚动到顶部
+  queryParams.value.pageNum=page;
+
   listStoryAdmin(globalProperties.addDateRange(queryParams.value, dateRange.value)).then(response => {
     loading.value = false;
     storyList.value = response.rows;
     total.value = response.total;
   });
 }
-getList();
+getList(queryParams.value.pageNum);
+
 const value = ref()
 </script>
 

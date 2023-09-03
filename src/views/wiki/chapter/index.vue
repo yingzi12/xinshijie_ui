@@ -6,8 +6,8 @@
         <el-breadcrumb-item><a href="/world/list">世界树</a></el-breadcrumb-item>
         <el-breadcrumb-item :to="{ path: '/world/details', query: {wid:story.wid} }">{{story.wname}}</el-breadcrumb-item>
         <el-breadcrumb-item :to="{ path: '/story/list', query: {wid:story.wid} }">故事列表</el-breadcrumb-item>
-        <el-breadcrumb-item :to="{ path: '/story/index', query: {wid:story.wid,wname:story.wname,sid:story.id,sname:story.name} }">{{ story.name }}</el-breadcrumb-item>
-        <el-breadcrumb-item :to="{ path: '/chapter/index', query: {wid:story.wid,wname:story.wname,sid:story.id,sname:story.name} }">章节目录</el-breadcrumb-item>
+        <el-breadcrumb-item :to="{ path: '/story/detail', query: {wid:story.wid,wname:story.wname,sid:story.id,sname:story.name} }">{{ story.name }}</el-breadcrumb-item>
+        <el-breadcrumb-item :to="{ path: '/chapter/list', query: {wid:story.wid,wname:story.wname,sid:story.id,sname:story.name} }">章节目录</el-breadcrumb-item>
         <el-breadcrumb-item>章节详情</el-breadcrumb-item>
       </el-breadcrumb>
     </div>
@@ -26,10 +26,10 @@
     <el-divider />
     <!--功能-->
     <div class="center" style="height: 80px;">
-      <router-link :to="{path:'/chapter/index', query: {sid:chapter.previous.sid,wid:chapter.previous.wid,sname:chapter.previous.sname,wname:chapter.previous.wname,scid:chapter.previous.id}}">
+      <router-link v-if="chapter.previous" :to="{path:'/chapter/index', query: {sid:chapter.previous.sid,wid:chapter.previous.wid,sname:chapter.previous.sname,wname:wname,scid:chapter.previous.id}}">
         <el-button v-if="chapter.previous" text type="success" style="width: 100px;"> {{chapter.previous.title}}</el-button>
       </router-link>
-      <router-link :to="{path:'/chapter/index', query: {sid:chapter.next.sid,wid:chapter.next.wid,sname:chapter.next.sname,wname:chapter.next.wname,scid:chapter.next.id}}">
+      <router-link v-if="chapter.next" :to="{path:'/chapter/index', query: {sid:chapter.next.sid,wid:chapter.next.wid,sname:chapter.next.sname,wname:wname,scid:chapter.next.id}}">
         <el-button  v-if="chapter.next" text type="success" style="width: 100px;">{{chapter.next.title}}</el-button>
       </router-link>
       <el-button @click="handleReturn()" text type="success" style="width: 100px;">返回</el-button>
@@ -54,6 +54,8 @@ const scid = ref(null);
 const sid = ref(null);
 scid.value = route.query.scid;
 sid.value = route.query.sid;
+const wname = route.query.wname;
+
 const wid = ref(null);
 wid.value = route.query.wid;
 
@@ -61,15 +63,14 @@ const chapter=ref({})
 
 /** 查询元素详细 */
 function getInfo() {
-  console.log("sid:"+JSON.stringify(sid))
   getChapter(sid.value,scid.value).then(response => {
     chapter.value = response.data
   });
 }
 
-function handleList(){
-  router.push("/chapter/list?sid="+ sid.value+"&scid=" +scid.value+"&sname=" +chapter.value.sname+"&wname=" +chapter.value.wname+"&wid=" +wid.value)
-}
+// function handleList(){
+//   router.push("/chapter/list?sid="+ sid.value+"&scid=" +scid.value+"&sname=" +chapter.value.sname+"&wname=" +chapter.value.wname+"&wid=" +wid.value)
+// }
 function handleEdit(){
   router.push("/admin/storyChapterEdit?sid="+ sid.value+"&scid=" +scid.value+"&sname=" +chapter.value.sname+"&wname=" +chapter.value.wname+"&wid=" +wid.value)
 }

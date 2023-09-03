@@ -33,7 +33,7 @@
             <el-table v-loading="loading" :data="elementList" >
               <el-table-column label="序号" width="80">
                 <template #default="scope">
-                  {{ scope.$index + 1 + (queryParams.pageNum - 1) * 10 }}
+                  {{ scope.$index + 1 + (queryParams.pageNum - 1) * 20 }}
                 </template>
               </el-table-column>
               <el-table-column label="名称" align="center" key="title" prop="title" :show-overflow-tooltip="true"/>
@@ -93,12 +93,13 @@
         </div>
         <!--        分页-->
         <div style="float:right; position:relative; ">
-          <pagination
-              v-show="total > 0"
+          <el-pagination
+
               :total="total"
+              layout="total, prev, pager, next"
               v-model:page="queryParams.pageNum"
-              v-model:limit="queryParams.pageSize"
-              @pagination="getList"
+              :page-size=20
+              @current-change="getList"
           />
         </div>
 </template>
@@ -162,7 +163,8 @@ function handleDelete ( row){
   globalProperties.$modal.confirm('是否确认删除元素名称为"' + row.title + '"的草稿数据？').then(function () {
     return delDraft(row.wid,row.id);
   }).then(() => {
-    getList();
+    getList(queryParams.value.pageNum);
+
     globalProperties.$modal.msgSuccess("删除成功");
   }).catch(() => {});
 }
@@ -178,7 +180,8 @@ function handleSee(row){
 function handleIssue(row){
   //console.log("发布："+JSON.stringify(row))
   issue(row.wid,row.id).then(response => {
-    getList();
+    getList(queryParams.value.pageNum);
+
   });
 }
 /**根据分类查询世界*/
@@ -191,14 +194,18 @@ function findType(typeId:number) {
   });
 }
 /** 查询元素列表 */
-function getList() {
+function getList(page: number) {
+  window.scrollTo(0, 0); // 滚动到顶部
+  queryParams.value.pageNum=page;
+
   listDraft(globalProperties.addDateRange(queryParams.value, dateRange.value)).then(response => {
     loading.value = false;
     elementList.value = response.rows;
     total.value = response.total;
   });
 }
-getList();
+getList(queryParams.value.pageNum);
+
 
 
 const value = ref()

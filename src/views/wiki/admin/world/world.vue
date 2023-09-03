@@ -119,13 +119,13 @@
         </div>
         <!--        分页-->
         <div style="float:right; position:relative; ">
-          <pagination
-              v-show="total > 0"
+          <el-pagination
+
               :total="total"
               layout="total, prev, pager, next"
               v-model:page="queryParams.pageNum"
-              v-model:limit="queryParams.pageSize"
-              @pagination="getList"
+              :page-size=20
+              @current-change="getList"
           />
         </div>
 </template>
@@ -197,7 +197,8 @@ function handleDelete ( row){
   globalProperties.$modal.confirm('是否确认删除世界名称为"' + row.name + '"的数据？').then(function () {
     return delWorld(worldId);
   }).then(() => {
-    getList();
+    getList(queryParams.value.pageNum);
+
     globalProperties.$modal.msgSuccess("删除成功");
   }).catch(() => {});
 }
@@ -208,7 +209,8 @@ function handleSee(row){
 function handleIssue(row){
   //console.log("发布："+JSON.stringify(row))
   issue(row.id).then(response => {
-    getList();
+    getList(queryParams.value.pageNum);
+
   });
 }
 /** 选择条数  */
@@ -227,14 +229,18 @@ function findType(typeId:number) {
   });
 }
 /** 查询世界列表 */
-function getList() {
+function getList(page: number) {
+  window.scrollTo(0, 0); // 滚动到顶部
+  queryParams.value.pageNum=page;
+
   listWorld(globalProperties.addDateRange(queryParams.value, dateRange.value)).then(response => {
     loading.value = false;
     worldList.value = response.rows;
     total.value = response.total;
   });
 }
-getList();
+getList(queryParams.value.pageNum);
+
 </script>
 
 <style scoped>

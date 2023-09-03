@@ -53,12 +53,13 @@
         </div>
         <!--        分页-->
         <div style="float:right; position:relative; ">
-          <pagination
-              v-show="total > 0"
+          <el-pagination
+
               :total="total"
+              layout="total, prev, pager, next"
               v-model:page="queryParams.pageNum"
-              v-model:limit="queryParams.pageSize"
-              @pagination="getList"
+              :page-size=20
+              @current-change="getList"
           />
         </div>
 </template>
@@ -100,17 +101,22 @@ const fllowList = ref([]);
 function handleClick(row){
   fllowClose(row.wid).then(response => {
     ElMessage.success("取消成功");
-    getList();
+    getList(queryParams.value.pageNum);
+
   });
 }
 /** 查询世界列表 */
-function getList() {
+function getList(page: number) {
+  window.scrollTo(0, 0); // 滚动到顶部
+  queryParams.value.pageNum=page;
+
   listFllow(globalProperties.addDateRange(queryParams.value, dateRange.value)).then(response => {
     fllowList.value = response.rows;
     total.value = response.total;
   });
 }
-getList();
+getList(queryParams.value.pageNum);
+
 </script>
 
 <style scoped>

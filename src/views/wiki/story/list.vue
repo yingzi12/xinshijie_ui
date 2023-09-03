@@ -37,7 +37,7 @@
               </el-table-column>
               <el-table-column label="名称" align="center"   >
                 <template #default="scope">
-                  <router-link :to="{path:'/story/index', query: {wid:scope.row.wid,wname:scope.row.wname,sname:scope.row.name,sid:scope.row.id}}">
+                  <router-link :to="{path:'/story/detail', query: {wid:scope.row.wid,wname:scope.row.wname,sname:scope.row.name,sid:scope.row.id}}">
                         <span><el-tag v-if="scope.row.source=='原创'">原创</el-tag>{{scope.row.name}} </span>
                   </router-link>
                 </template>
@@ -73,12 +73,11 @@
           </div>
           <!--            分页-->
           <div style="float:right; position:relative">
-            <pagination
-                v-show="total > 0"
+            <el-pagination
                 :total="total"
-                v-model:page="queryParams.pageNum"
-                v-model:limit="queryParams.pageSize"
-                @pagination="getList"
+                layout="total, prev, pager, next"
+                :page-size=20
+                @current-change="getList"
             />
           </div>
         </el-main>
@@ -167,10 +166,12 @@ function handleAdd() {
 
 function handleSee(row) {
   // 跳转到故事的详细视图
-  router.push(`/story/index?sid=${row.id}`);
+  router.push(`/story/detail?sid=${row.id}`);
 }
 
-function getList() {
+function getList(page: number) {
+  window.scrollTo(0, 0); // 滚动到顶部
+  queryParams.value.pageNum=page;
   if (isNotEmpty(wid)) {
     queryParams.value.wid = wid;
   } else {
@@ -185,7 +186,7 @@ function getList() {
 }
 
 // 调用 getList 函数以获取初始列表
-getList();
+getList(queryParams.value.pageNum);
 
 </script>
 

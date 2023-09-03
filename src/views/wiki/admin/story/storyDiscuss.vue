@@ -85,12 +85,14 @@
         </div>
         <!--        分页-->
         <div style="float:right; position:relative; ">
-          <pagination
-              v-show="total > 0"
+          <el-pagination
+
               :total="total"
+              layout="total, prev, pager, next"
+
               v-model:page="queryParams.pageNum"
-              v-model:limit="queryParams.pageSize"
-              @pagination="getList"/>
+              :page-size=20
+              @current-change="getList"/>
         </div>
 
       <!--      审核弹出框-->
@@ -197,7 +199,10 @@ const data = reactive({
 const { queryParams, form, rules } = toRefs(data);
 
 /** 查询世界列表 */
-function getList() {
+function getList(page: number) {
+  window.scrollTo(0, 0); // 滚动到顶部
+  queryParams.value.pageNum=page;
+
   listDiscussAdmin(globalProperties.addDateRange(queryParams.value, dateRange.value)).then(response => {
     loading.value = false;
     discussList.value = response.rows;
@@ -231,7 +236,8 @@ const onSudmit = async (formEl: FormInstance | undefined) => {
       updateStatusAdmin(form.value).then(response => {
         dialogFormVisible.value=false
         ElMessage.success("处理成功")
-        getList();
+        getList(queryParams.value.pageNum);
+
       })
     } else {
       //console.log('error submit!', fields)

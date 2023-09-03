@@ -8,7 +8,7 @@
             <el-breadcrumb-item><a href="/world/list">世界树</a></el-breadcrumb-item>
             <el-breadcrumb-item :to="{ path: '/world/details', query: {wid:story.wid} }">{{story.wname}}</el-breadcrumb-item>
             <el-breadcrumb-item :to="{ path: '/story/list', query: {wid:story.wid,wname:story.wname} }">故事列表</el-breadcrumb-item>
-            <el-breadcrumb-item :to="{ path: '/story/index', query: {wid:story.wid,wname:story.wname,sid:story.id,sname:story.name} }">{{ story.name }}</el-breadcrumb-item>
+            <el-breadcrumb-item :to="{ path: '/story/detail', query: {wid:story.wid,wname:story.wname,sid:story.id,sname:story.name} }">{{ story.name }}</el-breadcrumb-item>
             <el-breadcrumb-item>章节目录</el-breadcrumb-item>
           </el-breadcrumb>
         </el-col>
@@ -107,13 +107,17 @@ function handStory() {
   });
 }
 /** 查询元素列表 */
-function getList() {
+function getList(page: number) {
+  window.scrollTo(0, 0); // 滚动到顶部
+  queryParams.value.pageNum=page;
+
   queryParams.value.sid=sid.value;
   listChapterAll(globalProperties.addDateRange(queryParams.value, dateRange.value)).then(response => {
     reelList.value = response.data;
   });
 }
-getList();
+getList(queryParams.value.pageNum);
+
 handStory();
 </script>
 

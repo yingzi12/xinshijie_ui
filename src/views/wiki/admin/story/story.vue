@@ -115,12 +115,13 @@
   </div>
   <!--        分页-->
   <div style="float:right; position:relative; ">
-    <pagination
-        v-show="total > 0"
+    <el-pagination
+
         :total="total"
+        layout="total, prev, pager, next"
         v-model:page="queryParams.pageNum"
-        v-model:limit="queryParams.pageSize"
-        @pagination="getList"
+        :page-size=20
+        @current-change="getList"
     />
   </div>
 </template>
@@ -193,7 +194,8 @@ function handleDelete ( row){
   globalProperties.$modal.confirm('是否确认删除故事名称为"' + row.name + '"的数据？').then(function () {
     return delStory(storyId);
   }).then(() => {
-    getList();
+    getList(queryParams.value.pageNum);
+
     globalProperties.$modal.msgSuccess("删除成功");
   }).catch(() => {});
 }
@@ -204,18 +206,23 @@ function handleSee(row){
 function handleIssue(row){
   //console.log("发布："+JSON.stringify(row))
   issue(row.id).then(response => {
-    getList();
+    getList(queryParams.value.pageNum);
+
   });
 }
 /** 查询故事列表 */
-function getList() {
+function getList(page: number) {
+  window.scrollTo(0, 0); // 滚动到顶部
+  queryParams.value.pageNum=page;
+
   listStoryAdmin(globalProperties.addDateRange(queryParams.value, dateRange.value)).then(response => {
     loading.value = false;
     storyList.value = response.rows;
     total.value = response.total;
   });
 }
-getList();
+getList(queryParams.value.pageNum);
+
 </script>
 
 <style scoped>

@@ -143,7 +143,8 @@ function handleDelete ( row){
   globalProperties.$modal.confirm('是否确认取消管理员名称为"' + row.userName + '"的权限？').then(function () {
     return delManage(id,row.wid);
   }).then(() => {
-    getList();
+    getList(queryParams.value.pageNum);
+
     globalProperties.$modal.msgSuccess("删除成功");
   }).catch(() => {});
 }
@@ -161,7 +162,8 @@ function submitForm() {
         addManage(form.value).then(response => {
           globalProperties.$modal.msgSuccess("添加成功");
           open.value = false;
-          getList();
+          getList(queryParams.value.pageNum);
+
         });
     }
   });
@@ -190,7 +192,10 @@ function reset() {
   globalProperties.resetForm("userRef");
 };
 /** 查询管理员列表 */
-function getList() {
+function getList(page: number) {
+  window.scrollTo(0, 0); // 滚动到顶部
+  queryParams.value.pageNum=page;
+
   //console.log("getList 世界id:"+wid.value)
   getWorldManage(wid.value).then(response => {
     loading.value = false;
@@ -207,7 +212,8 @@ function getManage() {
   });
 }
 getManage()
-getList();
+getList(queryParams.value.pageNum);
+
 </script>
 
 <style scoped>

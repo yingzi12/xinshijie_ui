@@ -175,7 +175,10 @@ import { getServer } from '@/api/monitor/server'
 const server = ref([]);
 const { proxy } = getCurrentInstance();
 
-function getList() {
+function getList(page: number) {
+  window.scrollTo(0, 0); // 滚动到顶部
+  queryParams.value.pageNum=page;
+
   proxy.$modal.loading("正在加载服务监控数据，请稍候！");
   getServer().then(response => {
     server.value = response.data;
@@ -183,5 +186,6 @@ function getList() {
   });
 }
 
-getList();
+getList(queryParams.value.pageNum);
+
 </script>

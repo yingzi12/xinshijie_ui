@@ -75,7 +75,10 @@ const commandstats = ref(null);
 const usedmemory = ref(null);
 const { proxy } = getCurrentInstance();
 
-function getList() {
+function getList(page: number) {
+  window.scrollTo(0, 0); // 滚动到顶部
+  queryParams.value.pageNum=page;
+
   proxy.$modal.loading("正在加载缓存监控数据，请稍候！");
   getCache().then(response => {
     proxy.$modal.closeLoading();
@@ -127,5 +130,6 @@ function getList() {
   })
 }
 
-getList();
+getList(queryParams.value.pageNum);
+
 </script>

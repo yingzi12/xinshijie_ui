@@ -5,7 +5,7 @@
         <el-breadcrumb-item :to="{ path: '/world/index' }">首页</el-breadcrumb-item>
         <el-breadcrumb-item><a href="/world/list">世界树</a></el-breadcrumb-item>
         <el-breadcrumb-item  :to="{ path: '/world/details', query: {wid:wid} }">{{wname}}</el-breadcrumb-item>
-        <el-breadcrumb-item v-if="source == 2 " :to="{ path: '/story/index', query: {wid:wid,sid:sid} }">{{sname}}</el-breadcrumb-item>
+        <el-breadcrumb-item v-if="source == 2 " :to="{ path: '/story/detail', query: {wid:wid,sid:sid} }">{{sname}}</el-breadcrumb-item>
         <el-breadcrumb-item>回复信息列表</el-breadcrumb-item>
       </el-breadcrumb>
     </div>
@@ -86,12 +86,14 @@
               <el-divider style="margin: 0px;padding: 0px"/>
             </div>
             <div style="float:right; position:relative; ">
-              <pagination
-                  v-show="total > 0"
+              <el-pagination
+
                   :total="total"
+                  layout="total, prev, pager, next"
+
                   v-model:page="queryParams.pageNum"
-                  v-model:limit="queryParams.pageSize"
-                  @pagination="getList"/>
+                  :page-size=20
+                  @current-change="getList"/>
             </div>
           </el-tab-pane>
         </el-tabs>
@@ -208,7 +210,10 @@ function handleSelect(index:String,indexPath:String){
 }
 
 /** 查询世界列表 */
-function getList() {
+function getList(page: number) {
+  window.scrollTo(0, 0); // 滚动到顶部
+  queryParams.value.pageNum=page;
+
   queryParams.value.pid=dcid
   queryParams.value.ranks=null
   listDiscussComment(globalProperties.addDateRange(queryParams.value, dateRange.value)).then(response => {
@@ -339,7 +344,8 @@ function sudmitReply(comment){
   })
 }
 handleDiscussComment()
-getList();
+getList(queryParams.value.pageNum);
+
 //世界信息
 const reply=ref({})
 const show=ref(false)

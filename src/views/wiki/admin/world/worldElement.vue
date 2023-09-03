@@ -44,7 +44,7 @@
             <el-table v-loading="loading" :data="elementList" >
               <el-table-column label="序号" width="80">
                 <template #default="scope">
-                  {{ scope.$index + 1 + (queryParams.pageNum - 1) * 10 }}
+                  {{ scope.$index + 1 + (queryParams.pageNum - 1) * 20 }}
                 </template>
               </el-table-column>
               <el-table-column label="元素" align="center" key="title" prop="title" :show-overflow-tooltip="true"/>
@@ -94,12 +94,14 @@
         </div>
         <!--        分页-->
         <div style="float:right; position:relative; ">
-          <pagination
-              v-show="total > 0"
+          <el-pagination
+
               :total="total"
+              layout="total, prev, pager, next"
+
               v-model:page="queryParams.pageNum"
-              v-model:limit="queryParams.pageSize"
-              @pagination="getList"/>
+              :page-size=20
+              @current-change="getList"/>
         </div>
 
   <el-dialog
@@ -231,7 +233,8 @@ function handleDelete ( row){
   globalProperties.$modal.confirm('是否确认删除元素名称为"' + row.title + '"的数据？').then(function () {
     return delElement(row.wid,row.id);
   }).then(() => {
-    getList();
+    getList(queryParams.value.pageNum);
+
     globalProperties.$modal.msgSuccess("删除成功");
   }).catch(() => {});
 }
@@ -246,7 +249,10 @@ function handleSelectionChange(selection) {
   multiple.value = !selection.length;
 };
 /** 查询元素列表 */
-function getList() {
+function getList(page: number) {
+  window.scrollTo(0, 0); // 滚动到顶部
+  queryParams.value.pageNum=page;
+
   if(queryParams.value.types != undefined && queryParams.value.types != '' ){
     queryParams.value.types=queryParams.value.types.split("$$")[0]
   }
@@ -263,7 +269,8 @@ function getCategoryTree() {
   });
 }
 getCategoryTree();
-getList();
+getList(queryParams.value.pageNum);
+
 
 
 const value = ref()

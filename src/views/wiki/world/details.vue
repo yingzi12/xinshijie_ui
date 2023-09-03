@@ -86,7 +86,7 @@
           <el-table :data="storyList" stripe style="width: 100%">
             <el-table-column prop="title" label="故事" width="180" >
               <template #default="scope">
-                <router-link :to="{path:'/story/index', query: {sid:scope.row.id,wid:scope.row.wid}}">{{ scope.row.name }}</router-link>
+                <router-link :to="{path:'/story/detail', query: {sid:scope.row.id,wid:scope.row.wid}}">{{ scope.row.name }}</router-link>
               </template>
             </el-table-column>
             <el-table-column label="分类" width="180"  :show-overflow-tooltip="true">

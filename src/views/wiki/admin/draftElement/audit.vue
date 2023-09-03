@@ -66,12 +66,13 @@
         </div>
         <!--        分页-->
         <div style="float:right; position:relative; ">
-          <pagination
-              v-show="total > 0"
+          <el-pagination
+
               :total="total"
+              layout="total, prev, pager, next"
               v-model:page="queryParams.pageNum"
-              v-model:limit="queryParams.pageSize"
-              @pagination="getList"/>
+              :page-size=20
+              @current-change="getList"/>
         </div>
 
       <!--      审核弹出框-->
@@ -158,7 +159,10 @@ function handleSelect(index:String,indexPath:String){
 }
 
 /** 查询世界列表 */
-function getList() {
+function getList(page: number) {
+  window.scrollTo(0, 0); // 滚动到顶部
+  queryParams.value.pageNum=page;
+
   listDraft(globalProperties.addDateRange(queryParams.value, dateRange.value)).then(response => {
     loading.value = false;
     draftList.value = response.rows;
@@ -168,7 +172,8 @@ function getList() {
 function handleIssueClose(row){
   //console.log("取消发布："+JSON.stringify(row))
   issueClose(row.wid,row.id).then(response => {
-    getList();
+    getList(queryParams.value.pageNum);
+
   });
 }
 function handleSee(row){
@@ -180,7 +185,8 @@ function handleDiff(row){
 function handleLog(row){
   router.push("/admin/auditLog");
 }
-getList();
+getList(queryParams.value.pageNum);
+
 </script>
 
 <style scoped>

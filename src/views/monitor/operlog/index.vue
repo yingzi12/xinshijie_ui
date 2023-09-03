@@ -131,12 +131,13 @@
          </el-table-column>
       </el-table>
 
-      <pagination
-         v-show="total > 0"
+      <el-pagination
+
          :total="total"
+         layout="total, prev, pager, next"
          v-model:page="queryParams.pageNum"
-         v-model:limit="queryParams.pageSize"
-         @pagination="getList"
+         :page-size=20
+         @current-change="getList"
       />
 
       <!-- 操作日志详细 -->
@@ -218,7 +219,10 @@ const data = reactive({
 const { queryParams, form } = toRefs(data);
 
 /** 查询登录日志 */
-function getList() {
+function getList(page: number) {
+  window.scrollTo(0, 0); // 滚动到顶部
+  queryParams.value.pageNum=page;
+
   loading.value = true;
   list(proxy.addDateRange(queryParams.value, dateRange.value)).then(response => {
     operlogList.value = response.rows;
@@ -233,7 +237,8 @@ function typeFormat(row, column) {
 /** 搜索按钮操作 */
 function handleQuery() {
   queryParams.value.pageNum = 1;
-  getList();
+  getList(queryParams.value.pageNum);
+
 }
 /** 重置按钮操作 */
 function resetQuery() {
@@ -251,7 +256,8 @@ function handleSelectionChange(selection) {
 function handleSortChange(column, prop, order) {
   queryParams.value.orderByColumn = column.prop;
   queryParams.value.isAsc = column.order;
-  getList();
+  getList(queryParams.value.pageNum);
+
 }
 /** 详细按钮操作 */
 function handleView(row) {
@@ -264,7 +270,8 @@ function handleDelete(row) {
   proxy.$modal.confirm('是否确认删除日志编号为"' + operIds + '"的数据项?').then(function () {
     return delOperlog(operIds);
   }).then(() => {
-    getList();
+    getList(queryParams.value.pageNum);
+
     proxy.$modal.msgSuccess("删除成功");
   }).catch(() => {});
 }
@@ -273,7 +280,8 @@ function handleClean() {
   proxy.$modal.confirm("是否确认清空所有操作日志数据项?").then(function () {
     return cleanOperlog();
   }).then(() => {
-    getList();
+    getList(queryParams.value.pageNum);
+
     proxy.$modal.msgSuccess("清空成功");
   }).catch(() => {});
 }
@@ -284,5 +292,6 @@ function handleExport() {
   }, `config_${new Date().getTime()}.xlsx`);
 }
 
-getList();
+getList(queryParams.value.pageNum);
+
 </script>

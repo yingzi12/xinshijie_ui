@@ -153,12 +153,14 @@
          </el-table-column>
       </el-table>
 
-      <pagination
-         v-show="total > 0"
+      <el-pagination
+          layout="total, prev, pager, next"
+
          :total="total"
+         layout="total, prev, pager, next"
          v-model:page="queryParams.pageNum"
-         v-model:limit="queryParams.pageSize"
-         @pagination="getList"
+         :page-size=20
+         @current-change="getList"
       />
 
       <!-- 添加或修改定时任务对话框 -->
@@ -343,7 +345,10 @@ const data = reactive({
 const { queryParams, form, rules } = toRefs(data);
 
 /** 查询定时任务列表 */
-function getList() {
+function getList(page: number) {
+  window.scrollTo(0, 0); // 滚动到顶部
+  queryParams.value.pageNum=page;
+
   loading.value = true;
   listJob(queryParams.value).then(response => {
     jobList.value = response.rows;
@@ -377,7 +382,8 @@ function reset() {
 /** 搜索按钮操作 */
 function handleQuery() {
   queryParams.value.pageNum = 1;
-  getList();
+  getList(queryParams.value.pageNum);
+
 }
 /** 重置按钮操作 */
 function resetQuery() {
@@ -470,13 +476,15 @@ function submitForm() {
         updateJob(form.value).then(response => {
           proxy.$modal.msgSuccess("修改成功");
           open.value = false;
-          getList();
+          getList(queryParams.value.pageNum);
+
         });
       } else {
         addJob(form.value).then(response => {
           proxy.$modal.msgSuccess("新增成功");
           open.value = false;
-          getList();
+          getList(queryParams.value.pageNum);
+
         });
       }
     }
@@ -488,7 +496,8 @@ function handleDelete(row) {
   proxy.$modal.confirm('是否确认删除定时任务编号为"' + jobIds + '"的数据项?').then(function () {
     return delJob(jobIds);
   }).then(() => {
-    getList();
+    getList(queryParams.value.pageNum);
+
     proxy.$modal.msgSuccess("删除成功");
   }).catch(() => {});
 }
@@ -499,5 +508,6 @@ function handleExport() {
   }, `job_${new Date().getTime()}.xlsx`);
 }
 
-getList();
+getList(queryParams.value.pageNum);
+
 </script>

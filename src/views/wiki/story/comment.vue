@@ -6,7 +6,7 @@
         <el-breadcrumb-item><a href="/world/list">世界树</a></el-breadcrumb-item>
         <el-breadcrumb-item :to="{ path: '/world/details', query: {wid:wid} }">{{story.wname}}</el-breadcrumb-item>
         <el-breadcrumb-item :to="{ path: '/story/list', query: {wid:wid,wname:wname} }">故事列表</el-breadcrumb-item>
-        <el-breadcrumb-item :to="{ path: '/story/index', query: {sid:sid,sname:sname} }">{{ story.name }}</el-breadcrumb-item>
+        <el-breadcrumb-item :to="{ path: '/story/detail', query: {sid:sid,sname:sname} }">{{ story.name }}</el-breadcrumb-item>
         <el-breadcrumb-item>评论列表</el-breadcrumb-item>
       </el-breadcrumb>
     </div>
@@ -61,12 +61,14 @@
               <el-divider />
             </div>
             <div style="float:right; position:relative;height: 50px">
-              <pagination
-                  v-show="total > 0"
+              <el-pagination
+
                   :total="total"
+                  layout="total, prev, pager, next"
+
                   v-model:page="queryParams.pageNum"
-                  v-model:limit="queryParams.pageSize"
-                  @pagination="getList"
+                  :page-size=20
+                  @current-change="getList"
               />
             </div>
           </el-tab-pane>
@@ -144,7 +146,10 @@ const { queryParams, commentForm, rules } = toRefs(data);
 //分页信息
 const dateRange = ref([]);
 //评论信息
-function getList() {
+function getList(page: number) {
+  window.scrollTo(0, 0); // 滚动到顶部
+  queryParams.value.pageNum=page;
+
   listComment(globalProperties.addDateRange(queryParams.value, dateRange.value)).then(response => {
     //console.log("查询世界详细:"+JSON.stringify(response))
     commentList.value = response.rows
@@ -187,7 +192,8 @@ function onSubmit(){
   })
 }
 handStory()
-getList();
+getList(queryParams.value.pageNum);
+
 </script>
 
 <style >

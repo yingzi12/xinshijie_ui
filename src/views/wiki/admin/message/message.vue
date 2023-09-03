@@ -76,12 +76,13 @@
         </div>
         <!--        分页-->
   <div style="float:right; position:relative; ">
-    <pagination
-        v-show="total > 0"
+    <el-pagination
+
         :total="total"
+        layout="total, prev, pager, next"
         v-model:page="queryParams.pageNum"
-        v-model:limit="queryParams.pageSize"
-        @pagination="getList"
+        :page-size=20
+        @current-change="getList"
     />
   </div>
 

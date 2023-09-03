@@ -41,7 +41,7 @@
       <el-table v-loading="loading" :data="draftList" >
         <el-table-column label="序号" width="80">
           <template #default="scope">
-            {{ scope.$index + 1 + (queryParams.pageNum - 1) * 10 }}
+            {{ scope.$index + 1 + (queryParams.pageNum - 1) * 20 }}
           </template>
         </el-table-column>
         <el-table-column label="名称" align="center" key="title" prop="title" :show-overflow-tooltip="true"/>
@@ -85,12 +85,14 @@
   </div>
         <!--        分页-->
         <div style="float:right; position:relative; ">
-          <pagination
-              v-show="total > 0"
+          <el-pagination
+
               :total="total"
+              layout="total, prev, pager, next"
+
               v-model:page="queryParams.pageNum"
-              v-model:limit="queryParams.pageSize"
-              @pagination="getList"/>
+              :page-size=20
+              @current-change="getList"/>
         </div>
       <!--      审核弹出框-->
       <el-dialog v-model="dialogFormVisible" title="审核">
@@ -179,7 +181,10 @@ const data = reactive({
 const { queryParams, form, rules } = toRefs(data);
 
 /** 查询世界列表 */
-function getList() {
+function getList(page: number) {
+  window.scrollTo(0, 0); // 滚动到顶部
+  queryParams.value.pageNum=page;
+
   listDraftChapterAdmin(globalProperties.addDateRange(queryParams.value, dateRange.value)).then(response => {
     loading.value = false;
     draftList.value = response.rows;
@@ -223,7 +228,8 @@ const onSudmit = async (formEl: FormInstance | undefined) => {
       audit(form.value).then(response => {
         dialogFormVisible.value=false
         ElMessage.success("处理成功")
-        getList();
+        getList(queryParams.value.pageNum);
+
       })
     } else {
       //console.log('error submit!', fields)
@@ -231,7 +237,8 @@ const onSudmit = async (formEl: FormInstance | undefined) => {
   })
 }
 getCategoryTree();
-getList();
+getList(queryParams.value.pageNum);
+
 </script>
 
 <style scoped>

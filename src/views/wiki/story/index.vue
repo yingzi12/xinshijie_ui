@@ -1,180 +1,218 @@
 <template>
-  <div class="app-container">
-    <!--  内容区-->
-    <div>
-      <div>
-        <el-breadcrumb separator="/">
-          <el-breadcrumb-item :to="{ path: '/world/index' }">首页</el-breadcrumb-item>
-          <el-breadcrumb-item><a href="/world/list">世界树</a></el-breadcrumb-item>
-          <el-breadcrumb-item :to="{ path: '/world/details', query: {wid:wid} }">{{story.wname}}</el-breadcrumb-item>
-          <el-breadcrumb-item :to="{ path: '/story/list', query: {wid:wid,wname:wname} }">故事列表</el-breadcrumb-item>
-          <el-breadcrumb-item>详细</el-breadcrumb-item>
-        </el-breadcrumb>
-      </div>
-      <div  style="margin: 15px 0px 15px 0px">
-        <el-row>
-          <el-col :span="3">
-            <el-image  style="width: 150px; height: 200px;  display: block;margin: 0 auto;" :src="imageUrl" :fit="fit" />
-          </el-col>
-          <el-col :span="16"  class="mb-4">
-            <div style="margin-left: 5px">
-              <div>
-                <el-badge :value="story.ranks" class="item">
-                  <h1 style="margin: 2px" class="title">{{ story.name }}</h1>
-                </el-badge>
-              </div>
-              <div>
-                <router-link :to="{path:'/world/details', query: {wid:story.wid} }">
-                   <h5 style="margin: 0px;font-size: 15px;" class="title">世界: {{ story.wname }}</h5>
-                </router-link>
-              </div>
-              <div style="margin-top: 5px" >
-                <el-space wrap>
-                  <el-tag style="width: 70px;" size="default">{{ storyTypesMap.get(story.types) }}</el-tag>
-                  <el-tag v-if="story.source != null " v-for="tag in story.source.split(';')"  style="width: 70px;" size="default" type="success">{{tag}}</el-tag>
-                  <el-tag v-if="story.tags != null "  v-for="tag in story.tags.split(';')"  style="width: 70px;" size="default" type="danger">{{tag}}</el-tag>
-                </el-space>
-              </div>
-              <div style="margin-top: 5px" v-if="story.updateChapterId != null">
-                <span style="font-size:10px;color:#999999;">更新时间:</span><span style="font-size:10px;color:#999999;">{{ story.updateChapterTime }}</span><span style="font-size:10px;margin-left: 10px;color:#70B603;">{{ story.updateChapter }}</span>
-              </div>
-              <div style="height: 52px;overflow:hidden">
-                <p style="font-size: 18px;color: #666666;margin: 5px 0px 0px 0px">{{ story.intro }}</p>
-              </div>
-              <div style="margin-top: 5px;color:#A3A6AD">
-                <span><el-icon size="20"><ChatDotRound /></el-icon>{{story.countComment}}</span>
-                <span><el-icon size="20"><Edit /></el-icon>{{story.countEdit}}</span>
-                <span><el-icon size="20"><Pointer /></el-icon>{{story.countLike}}</span>
-                <span><el-icon size="20"><View /></el-icon>{{story.countSee}}</span>
-              </div>
-              <div style="margin-top: 5px;" >
-                <el-button v-if="isFllow" style="width: 90px;" type="primary" @click="handleHarding">关注</el-button>
-                <el-button @click="handleDiscuss" style="width: 90px;">讨论({{story.countDiscuss}})</el-button>
-              </div>
-            </div>
-          </el-col>
-          <el-col :span="4" >
-            <el-button type="primary" style="float:right;">举报</el-button>
-          </el-col>
-        </el-row>
-      </div>
-    </div>
-    <!--    简介区-->
-    <div>
-      <el-tabs v-model="storyActive" class="world-tabs" @tab-click="handleClick">
-        <el-tab-pane label="描述" name="description">
-          <p style="white-space: pre-wrap;">{{story.description}}</p>
-        </el-tab-pane>
-        <el-tab-pane label="章节" name="element">
-          <el-table :data="chapterList" stripe style="width: 100%">
-            <el-table-column prop="title" label="章节名" width="180" >
-              <template #default="scope">
-                <router-link :to="{path:'/chapter/index', query: {scid:scope.row.id,wid:scope.row.wid,sid:sid,wname:scope.row.wname,sname:scope.row.sname}}">{{ scope.row.title }}</router-link>
-              </template>
-            </el-table-column>
-            <el-table-column prop="createName" label="创建人" />
-            <el-table-column prop="createTime" label="创建时间" />
-            <el-table-column prop="updateTime" label="更新时间" />
-          </el-table>
-          <el-button style="margin-top:10px" text  @click="handChapter">更多</el-button>
-        </el-tab-pane>
-        <el-tab-pane label="作家" name="message">
-          <el-table :data="authorList" stripe style="width: 100%">
-            <el-table-column prop="createTime" label="创建时间" width="180" />
-            <el-table-column prop="userName" label="用户名" width="180" />
-            <el-table-column prop="sign" label="签名" width="180"/>
-            <el-table-column prop="credit" label="贡献值" width="180"/>
-            <el-table-column prop="ranks" label="等级" />
-          </el-table>
-        </el-tab-pane>
-      </el-tabs>
-    </div>
-    <!--    评论区-->
-    <div>
-      <el-divider />
-      <el-row>
-        <el-col :span="2" class="center">
-          <el-row>
-            <el-col><el-avatar :size="50" :src="imgUrl+circleUrl" /></el-col>
-            <el-col><span class="demonstration">{{username}}</span></el-col>
-          </el-row>
+  <!--  轮播图-->
+  <div style="margin-bottom: 10px">
+    <el-carousel :interval="5000" arrow="always">
+      <el-carousel-item v-for="item in 4" :key="item">
+        <el-image style="width: 100%;height: 300px" :src="test" fit="fill"></el-image>
+        <h3 text="2xl" justify="center">这是一个测试 这是一个测试这是一个测试这是一个测试</h3>
+      </el-carousel-item>
+    </el-carousel>
+  </div>
+  <!--  原创推荐-->
+  <div style="margin-bottom: 10px">
+    <div style="margin:10px;margin-top:15px;">
+      <el-row :gutter="24">
+        <el-col :span="16">
+          <el-button round>原创推荐</el-button>
+          <el-button type="primary" round @click="handleList">原创精品</el-button>
+          <el-button type="success"  round @click="handleList">原创最新</el-button>
         </el-col>
-        <el-col :span="22">
-          <el-form ref="refComment" :model="commentForm" :rules="rulesComment"  label-width="120px">
-            <el-input :disabled="disabled" v-model="commentForm.comment" :rows="2" type="textarea" placeholder="请输入评论"/>
-            <el-button :disabled="disabled" type="primary" @click="onSubmit">发布评论</el-button>
-          </el-form>
+        <el-col :span="8">
+          <el-button type="success" round style="float:right;" @click="handleList">更多</el-button>
         </el-col>
       </el-row>
     </div>
-    <!--    已经发布的的评论-->
+
+    <el-row :gutter="20">
+      <el-col
+          v-for="(world, index) in worldRedact"
+          :key="world"
+          :span="4"
+      >
+        <el-card class="dddd" :body-style="{ padding: '0px',width:'100%' }">
+          <el-image style="width:100%; height: 100px" :src="imgUrl+world.imgUrl" fit="fill" @click="handleSee(world.id)"/>
+          <div style="padding: 1px;margin: 0px;text-align: center">
+            <p class="biaoti" style="font-size:16px;margin: 0px" @click="handleSee(world.id)"><span style="font-family:'PingFangSC-Semibold', 'PingFang SC Semibold', 'PingFang SC', sans-serif;font-weight:650;" >{{ world.name }}<el-tag v-if="world.source=='原创'">原创</el-tag></span></p>
+            <p class="shuoming" style="font-size:14px;margin: 0px;"><span style="font-family:'PingFangSC-Regular', 'PingFang SC', sans-serif;font-weight:400;color:#999999;font-size: x-small;">{{ world.intro }}</span></p>
+          </div>
+        </el-card>
+      </el-col>
+    </el-row>
+  </div>
+  <!--  推荐-->
+  <div>
+    <div style="margin:10px;margin-top:15px;">
+      <el-row :gutter="24">
+        <el-col :span="16">
+          <el-button round>推荐</el-button>
+          <el-button type="primary" round @click="handleList">优秀</el-button>
+          <el-button type="success"  round @click="handleList">最新</el-button>
+        </el-col>
+        <el-col :span="8">
+          <el-button type="success" round style="float:right;" @click="handleList">更多</el-button>
+        </el-col>
+      </el-row>
+    </div>
     <div>
-      <el-tabs v-model="commentActive"  >
-        <el-tab-pane label="全部评论" name="allComm">
-          <div v-for="comment in commentList">
-            <el-row>
-              <el-col :span="2">
-                <div  class="center">
-                  <!--              头像-->
-                  <el-avatar :size="50" :src="imgUrl+circleUrl" />
-                </div>
-              </el-col>
-              <el-col :span="22">
-                <div >
-                  <h3 style="font-weight:bold;margin: 0px">{{ comment.createName }}</h3>
-                </div>
-                <div>
-                  <p  style="margin:5px 0px 0px 0px;">{{ comment.comment }}</p>
-                </div>
-                <div style="color:#A3A6AD">
-                  <span>{{ comment.createTime }}</span>
-                  <span><el-icon :size="15"><ChatDotRound /></el-icon>{{comment.countReply}} </span>
-                  <span><el-icon :size="15"><Pointer /></el-icon>{{comment.countReply}}</span>
-                  <!--                  <span><BootstrapIcon icon="hand-thumbs-down" size="small" />{{comment.countReply}}</span>-->
-                </div>
-              </el-col>
-            </el-row>
-            <el-divider />
-          </div>
-          <div class="center">
-            <el-button type="danger" @click="handleComment">更多</el-button>
-          </div>
-        </el-tab-pane>
-      </el-tabs>
+      <el-row :gutter="20" class="el-row" type="flex" >
+        <el-col :span="4" v-for = "world in worldRandom" :key="world.id" class="el-col" style="text-align: center">
+          <el-card :body-style="{ padding: '10px' }"  class="demo-image">
+            <div style="display: inline-block">
+              <el-image style="width: 100px; height: 100px;text-align: center;" fit="fill"
+                        @click="handleSee(world.id)"
+                        :src="imgUrl+world.imgUrl"
+                        class="image"
+              />
+            </div>
+            <div >
+              <div id="u10366-1_text" class="text u10366_text" style="/* visibility: inherit; */">
+                <p class="biaoti" @click="handleSee(world.id)" ><span style="font-family:'PingFangSC-Regular', 'PingFang SC', sans-serif;color:#333333;">{{ world.name }}<el-tag v-if="world.source=='原创'">原创</el-tag></span></p>
+                <p class="shuoming"><span style="font-family:'PingFangSC-Regular', 'PingFang SC', sans-serif;  color:#999999; font-size: x-small;">{{ world.intro }}</span></p>
+              </div>
+            </div>
+          </el-card>
+        </el-col>
+      </el-row>
     </div>
   </div>
+  <!--  优秀-->
+  <div>
+    <!--    标题-->
+    <div style="margin:10px;margin-top:15px;">
+      <el-row :gutter="24">
+        <el-col :span="16">
+          <el-button round>精品</el-button>
+        </el-col>
+        <el-col :span="8">
+          <el-button type="success" round style="float:right;"  @click="handleList">更多</el-button>
+        </el-col>
+      </el-row>
+    </div>
+    <div>
+      <el-row>
+        <!--        左边-->
+        <el-col  style="text-align: center" :span="4">
+          <div style="padding: 1px;margin: 0px;text-align: center">
+            <el-card :body-style="{ padding: '10px' }">
+              <div style="display: inline-block">
+                <el-image style="width: 100px; height: 130px" fit="fill"
+                          @click="handleSee(worldKey1.id)"
+                          :src="imgUrl+worldKey1.imgUrl"
+                          class="image"
+                />
+              </div>
+              <div >
+                <div id="u10366-1_text" class="text u10366_text" style="/* visibility: inherit; */">
+                  <p><span style="font-family:'PingFangSC-Regular', 'PingFang SC', sans-serif;color:#333333;"  @click="handleSee(worldKey1.id)">{{ worldKey1.name }}</span></p>
+                  <p><span style="font-family:'PingFangSC-Regular', 'PingFang SC', sans-serif;  color:#999999; font-size: x-small;"  @click="handleSee(worldKey1.id)">{{ worldKey1.intro }}</span></p>
+                </div>
+              </div>
+              <el-button text @click="handleSee(worldKey1.id)">详细</el-button>
+            </el-card>
+          </div>
+          <div style="padding: 1px;margin: 0px;text-align: center">
+            <el-card :body-style="{ padding: '10px' }">
+              <div style="display: inline-block">
+                <el-image style="width: 100px; height: 130px" fit="fill"
+                          @click="handleSee(worldKey2.id)"
+                          :src="imgUrl+worldKey2.imgUrl"
+                          class="image"
+                />
+              </div>
+              <div >
+                <div id="u10366-1_text" class="text u10366_text" style="/* visibility: inherit; */">
+                  <p><span style="font-family:'PingFangSC-Regular', 'PingFang SC', sans-serif;color:#333333;"  @click="handleSee(worldKey2.id)">{{ worldKey2.name }}</span></p>
+                  <p><span style="font-family:'PingFangSC-Regular', 'PingFang SC', sans-serif;  color:#999999; font-size: x-small;"  @click="handleSee(worldKey2.id)">{{ worldKey2.intro }}</span></p>
+                </div>
+              </div>
+              <el-button text @click="handleSee(worldKey2.id)">详细</el-button>
+            </el-card>
+          </div>
+        </el-col >
+        <!--        中间-->
+        <el-col :span="16">
+          <el-row>
+            <el-col
+                style="margin-bottom: 10px"
+                v-for="(world, index) in worldNew"
+                :key="world.id"
+                :span="8"
+            >
+              <el-card :body-style="{ margin: '0px' }">
+                <el-row>
+                  <el-col :span="8">
+                    <el-image style="width: 66px; height: 88px" :src="imgUrl+world.imgUrl" fit="fill" @click="handleSee(world.id)" />
+                  </el-col>
+                  <el-col :span="16">
+                    <h3 class="biaoti" @click="handleSee(world.id)" >{{ world.name }}<el-tag v-if="world.source=='原创'">原创</el-tag></h3>
+                    <p class="zuozhe">{{ world.createTime }}</p>
+                    <p class="zuozhe">{{ world.createName }}</p>
+                  </el-col>
+                </el-row>
+                <p class="shuoming" @click="handleSee(world.id)">{{world.intro}}</p>
+              </el-card>
+            </el-col>
+          </el-row>
+        </el-col>
+        <!--        右边-->
+        <el-col  style="text-align: center" :span="4">
+          <div style="padding: 1px;margin: 0px;text-align: center">
+            <el-card :body-style="{ padding: '10px' }">
+              <div style="display: inline-block">
+                <el-image style="width: 100px; height: 130px" fit="fill"
+                          @click="handleSee(worldKey3.id)"
+                          :src="imgUrl+worldKey3.imgUrl"
+                          class="image"
+                />
+              </div>
+              <div >
+                <div id="u10366-1_text" class="text u10366_text" style="/* visibility: inherit; */">
+                  <p><span style="font-family:'PingFangSC-Regular', 'PingFang SC', sans-serif;color:#333333;"  @click="handleSee(worldKey3.id)">{{ worldKey3.name }}</span></p>
+                  <p><span style="font-family:'PingFangSC-Regular', 'PingFang SC', sans-serif;  color:#999999; font-size: x-small;"  @click="handleSee(worldKey3.id)">{{ worldKey3.intro }}</span></p>
+                </div>
+              </div>
+              <el-button text @click="handleSee(worldKey3.id)">详细</el-button>
+            </el-card>
+          </div>
+          <div >
+            <el-card :body-style="{ padding: '10px' }">
+              <div style="display: inline-block">
+                <el-image style="width: 100px; height: 130px" fit="fill"
+                          @click="handleSee(worldKey4.id)"
+                          :src="imgUrl+worldKey4.imgUrl"
+                          class="image"
+                />
+              </div>
+              <div >
+                <div id="u10366-1_text" class="text u10366_text" style="/* visibility: inherit; */">
+                  <p><span style="font-family:'PingFangSC-Regular', 'PingFang SC', sans-serif;color:#333333;"  @click="handleSee(worldKey4.id)">{{ worldKey4.name }}</span></p>
+                  <p><span style="font-family:'PingFangSC-Regular', 'PingFang SC', sans-serif;  color:#999999; font-size: x-small;"  @click="handleSee(worldKey4.id)">{{ worldKey4.intro }}</span></p>
+                </div>
+              </div>
+              <el-button text @click="handleSee(worldKey4.id)">详细</el-button>
+            </el-card>
+          </div>
+        </el-col >
+
+      </el-row>
+    </div>
+  </div>
+
 </template>
 
-<script lang="ts" setup >
-import {getCurrentInstance, inject, reactive, ref, toRefs} from 'vue'
-//接受参数
-import {useRoute, useRouter} from "vue-router";  // 引用vue-router
-import type { TabsPaneContext } from 'element-plus'
-import {  getStory } from "@/api/wiki/story";
-import {  listComment } from "@/api/wiki/comment";
-import { addComment} from "@/api/admin/comment";
-import { addHarding } from "@/api/admin/harding";
-import { getInfoBySid } from "@/api/wiki/harding";
-
-import {  listAuthor } from "@/api/wiki/author";
-import { listChapter } from "@/api/wiki/chapter";
-import useUserStore from '@/store/modules/user'
-import {ElMessage} from "element-plus";
-const {  appContext : { config: { globalProperties } }  } = getCurrentInstance();
-
+<script setup>
+import { getCurrentInstance, reactive,inject, ref, toRefs} from 'vue'
+import test from '@/assets/images/test.png'
+import { listWorld } from "@/api/wiki/world";
+import { useRouter} from "vue-router";
 const router = useRouter()
+const {  appContext : { config: { globalProperties } }  } = getCurrentInstance();
+const {  proxy  } = getCurrentInstance();
+const imgUrl = inject("$imgUrl")
 
-// 接收url里的参数
-const route = useRoute();
-
-const sid = ref(null);
-sid.value = route.query.sid;
-
-const wid = ref(null);
-wid.value = route.query.wid;
-const wname = ref('');
-
-const storyTypesMap=new Map([
+const url =
+    'https://fuss10.elemecdn.com/e/5d/4a731a90594a4af544c0c25941171jpeg.jpeg'
+const worldTypesMap=new Map([
   [6,"科学"],
   [1,"武侠"],
   [2,"仙侠"],
@@ -182,196 +220,136 @@ const storyTypesMap=new Map([
   [4,"奇幻"],
   [5,"其他"]
 ])
+const worldTypes=reactive([{id:6,name:"科学"},{id:1,name:"武侠"},{id:2,name:"仙侠"},{id:3,name:"魔幻"},{id:4,name:"奇幻"},{id:5,name:"其他"}])
+const wname=ref('');
+const loading = ref(true);
+//编辑推荐 6个
+const worldRedact = ref([]);
+//随机推荐 18个
+const worldRandom = ref([]);
+//重要推荐 4个
+const worldKey1 = ref({});
+const worldKey2 = ref({});
+const worldKey3 = ref({});
+const worldKey4 = ref({});
 
-//console.log(route.query.id,"参数");
-//世界信息
-const story=ref({})
-//评论信息
-const commentList=ref([])
-//管理员信息
-const authorList=ref([])
-//分页信息
-const dateRange = ref([]);
-//管理员信息
-const chapterList = ref([]);
-//评论内容与通用分页查询条件
+//新的推荐 9个
+const worldNew = ref([]);
+const total = ref(0);
 const data = reactive({
-  commentForm: {},
+  form: {},
   queryParams: {
     pageNum: 1,
 
-    wid: undefined,
-    sid: sid.value,
-    level: 1,
-
+    name: undefined,
+    types: null,
   },
   rules: {
-    comment: [{ required: true, message: "评论不能为空", trigger: "blur" }],
+    // userName: [{ required: true, message: "用户名称不能为空", trigger: "blur" }, { min: 2, max: 20, message: "用户名称长度必须介于 2 和 20 之间", trigger: "blur" }],
   }
 });
-
-const { queryParams, commentForm, rules } = toRefs(data);
-
-//console.log("世界id="+story.value.id);
-const imgUrl = inject("$imgUrl")
-const imageUrl=ref('')
-
-function handChapter(){
-  router.push("/chapter/list?sid="+sid.value+"&wid"+wid.value);
+const { queryParams, form, rules } = toRefs(data);
+const dateRange = ref([]);
+const ids = ref([]);
+const single = ref(true);
+const multiple = ref(true);
+const search = ref('')
+//查看详细
+function handleSee(id){
+  router.push("/world/details?wid="+id);
 }
-function handleDiscuss(){
-  router.push("/discuss/list?sid="+sid.value+"&wid="+wid.value+"&source="+2);
+
+function handleList(){
+  router.push("/world/list");
 }
-function handleHarding(){
-  addHarding(sid.value).then(response => {
-    ElMessage.success("关注成功");
+/** 查询世界列表 */
+function getRedactList() {
+  queryParams.value.pageSize=4
+  queryParams.value.source="原创";
+  listWorld(globalProperties.addDateRange(queryParams.value, dateRange.value)).then(response => {
+    loading.value = false;
+    worldRedact.value = response.rows;
+    total.value = response.total;
+  });
+  queryParams.value=ref({})
+}
+function getRandomList() {
+  queryParams.value.pageSize=18
+  listWorld(globalProperties.addDateRange(queryParams.value, dateRange.value)).then(response => {
+    loading.value = false;
+    worldRandom.value = response.rows;
+    total.value = response.total;
   });
 }
-
-function handStory() {
-  getStory(sid.value).then(response => {
-    //console.log("查询世界详细:"+JSON.stringify(response))
-    story.value = response.data
-    wid.value = response.data.wid;
-    wname.value = response.data.wname;
-    imageUrl.value=imgUrl+response.data.imgUrl;
+function getKeyList() {
+  queryParams.value.pageSize=4
+  listWorld(globalProperties.addDateRange(queryParams.value, dateRange.value)).then(response => {
+    loading.value = false;
+    worldKey1.value = response.rows[0];
+    worldKey2.value = response.rows[1];
+    worldKey3.value = response.rows[2];
+    worldKey4.value = response.rows[3];
+    total.value = response.total;
   });
 }
-//评论信息
-function getAllStoryComment() {
-  queryParams.value.wid=wid.value;
-  queryParams.value.sid=sid.value;
-  listComment(globalProperties.addDateRange(queryParams.value, dateRange.value)).then(response => {
-    //console.log("查询世界详细:"+JSON.stringify(response))
-    commentList.value = response.rows
+function getNewList() {
+  queryParams.value.pageSize=9
+  listWorld(globalProperties.addDateRange(queryParams.value, dateRange.value)).then(response => {
+    loading.value = false;
+    worldNew.value = response.rows;
+    total.value = response.total;
   });
 }
-//小心
-function handleAuthor() {
-  listAuthor(sid.value).then(response => {
-    //console.log("查询世界详细:"+JSON.stringify(response))
-    authorList.value = response.rows
-  });
-}
-/** 查询元素列表 */
-function handleChapterList() {
-  queryParams.value.wid=wid.value;
-  listChapter(globalProperties.addDateRange(queryParams.value, dateRange.value)).then(response => {
-    chapterList.value = response.rows;
-  });
-}
+getRedactList();
+getRandomList();
+getKeyList();
+getNewList();
 
-
-const storyActive = ref('description')
-
-const commentActive = ref('allComm')
-
-
-
-//获取用户信息
-const userStore = useUserStore()
-const circleUrl=ref('')
-const disabled=ref(false)
-
-const username=ref('')
-//console.log("世界id="+wid.value);
-if(userStore.name==''){
-  username.value="未登录"
-  disabled.value=true;
-}else{
-  username.value=userStore.name;
-  circleUrl.value=userStore.avatar;
-  disabled.value=false;
-}
-
-function onSubmit(){
-  if(!commentForm.value.comment){
-    ElMessage.error("评论不能为空")
-    return;
-  }
-  if(commentForm.value.comment.length<20){
-    ElMessage.error("评论不了少于20字")
-    return;
-  }
-  if(wid.value == undefined){
-    ElMessage.error("缺少必要参数")
-    return;
-  }else{
-    commentForm.value.wid=wid.value
-  }
-  if(sid.value == undefined){
-    ElMessage.error("缺少必要参数")
-    return;
-  }else{
-    commentForm.value.sid=sid.value
-  }
-  commentForm.value.circleUrl=userStore.avatar
-  if(disabled) {
-    commentForm.value.source=2
-    commentForm.value.sname=story.value.name
-    commentForm.value.wname=story.value.wname
-    commentForm.value.wid=story.value.wid
-    addComment(commentForm.value).then(response => {
-      ElMessage.success("评论成功")
-      commentForm.value.comment = ''
-      //console.log("评论成功")
-      getAllStoryComment();
-    })
-  }
-}
-
-function handleComment(){
-  router.push("/story/comment?sid="+story.value.id+"&wid="+story.value.wid+"&source="+2);
-}
-
-//判断是否已经关注
-const isFllow=ref(false)
-function handleIsFllow(){
-  if(disabled) {
-    getInfoBySid(sid.value).then(response => {
-      if (!response.data) {
-        isFllow.value = true
-      }
-    });
-  }
-}
-getAllStoryComment()
-handleIsFllow();
-handStory();
-//评论功能
-handleAuthor();
-handleChapterList()
 </script>
 
-<style>
-/**{*/
-/*  margin: 0px;*/
-/*  margin-top: 5px;*/
-/*  padding: 0px;*/
-/*}*/
-.world-tabs > .el-tabs__content {
-  padding: 10px;
-  color: #6b778c;
-  font-size: 15px;
-  font-weight: 600;
-  line-height: 15px;
+<style scoped>
+.el-carousel__item h3 {
+  color: #475669;
+  opacity: 0.75;
+  line-height: 300px;
+  margin: 0;
+  text-align: center;
 }
-.center {
-  display: flex;
-  justify-content: center;
-  align-items: center;
+
+.image {
+  width: 100%;
+  display: block;
 }
-.title{
-  font-family: 'PingFangSC-Semibold', 'PingFang SC Semibold', 'PingFang SC', sans-serif;
-  font-weight: 650;
-  /* font-style: normal; */
-  font-size: 24px;
-  text-align: left;
+
+.dddd {
+  align-self: center;
+  padding: 0px 0px 0px 0px;
+  box-sizing: border-box;
+  width: 100%;
 }
-.el-tabs__item {
-  font-family: 'PingFangSC-Semibold', 'PingFang SC Semibold', 'PingFang SC', sans-serif;
-  font-weight: 650;
-  font-style: normal;
-  line-height: 24px;
+p{
+  margin: 0px;
+}
+.shuoming{
+  color: #666;
+  font: 12px/20px PingFangSC-Regular,-apple-system,Simsun;
+  height: 40px;
+  margin-bottom: 10px;
+  overflow: hidden;
+}
+.biaoti{
+  overflow: hidden;
+  white-space: nowrap;
+}
+h3{
+  font: 16px/21px PingFangSC-Regular,HelveticaNeue-Light,Helvetica Neue Light,Microsoft YaHei,"sans-serif";
+  height: 21px;
+  margin-bottom: 8px;
+  margin-top: 0px;
+  overflow: hidden;
+}
+.zuozhe{
+  font-family: PingFangSC-Regular,-apple-system,Simsun;
+  font-size: 12px;
 }
 </style>

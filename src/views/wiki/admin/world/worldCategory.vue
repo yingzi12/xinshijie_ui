@@ -230,12 +230,14 @@ function submitForm(formEl: FormInstance | undefined) {   //
   if (form.value.isUpdate){
     updateCategory(form.value).then(response => {
       //console.log("修改成功:"+JSON.stringify(response.data))
-      getList();
+      getList(queryParams.value.pageNum);
+
     })
   }else{
     addCategory(form.value).then(response => {
       //console.log("添加成功"+JSON.stringify(response.data))
-      getList();
+      getList(queryParams.value.pageNum);
+
     })
   }
 
@@ -261,12 +263,16 @@ function reset() {
   // proxy.resetForm("roleRef");
 }
 /** 查询世界列表 */
-function getList() {
+function getList(page: number) {
+  window.scrollTo(0, 0); // 滚动到顶部
+  queryParams.value.pageNum=page;
+
   getTree(wid.value).then(response => {
     dataSource.value = response.data
   });
 }
-getList();
+getList(queryParams.value.pageNum);
+
 </script>
 
 <style scoped>

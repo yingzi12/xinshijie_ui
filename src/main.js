@@ -29,8 +29,6 @@ import "@/assets/styles/cheditor.styles.css"
 
 import { parseTime, resetForm, addDateRange, handleTree, selectDictLabel, selectDictLabels } from '@/utils/ruoyi'
 
-// 分页组件
-import Pagination from '@/components/Pagination'
 // 自定义表格工具组件
 import RightToolbar from '@/components/RightToolbar'
 // 文件上传组件
@@ -62,7 +60,6 @@ app.provide("$imgUrl","https://shadow-xinshijie.oss-cn-hongkong.aliyuncs.com")
 app.provide("$baseUrl","https://www.aiavr.com:8080")
 // 全局组件挂载
 // app.component('DictTag', DictTag)
-app.component('Pagination', Pagination)
 app.component('TreeSelect', TreeSelect)
 app.component('FileUpload', FileUpload)
 app.component('ImageUpload', ImageUpload)

@@ -31,7 +31,7 @@
             <el-table :data="elementList" style="width: 100%">
               <el-table-column label="序号" width="80px">
                 <template #default="scope">
-                  {{ scope.$index + 1 + (queryParams.pageNum - 1) * 10 }}
+                  {{ scope.$index + 1 + (queryParams.pageNum - 1) * 20 }}
                 </template>
               </el-table-column>
               <el-table-column label="名称" align="center" key="title" prop="title">
@@ -65,12 +65,14 @@
             </el-table>
             <!--        分页-->
             <div style="float:right;">
-              <pagination
-                  v-show="total > 0"
+              <el-pagination
+
                   :total="total"
+                  layout="total, prev, pager, next"
+
                   v-model:page="queryParams.pageNum"
-                  v-model:limit="queryParams.pageSize"
-                  @pagination="getList"/>
+                  :page-size=20
+                  @current-change="getList"/>
             </div>
           </el-main>
         </el-container>
@@ -242,7 +244,10 @@ function handWorld() {
   });
 }
 /** 查询元素列表 */
-function getList() {
+function getList(page: number) {
+  window.scrollTo(0, 0); // 滚动到顶部
+  queryParams.value.pageNum=page;
+
   queryParams.value.wid=wid.value;
   listElement(globalProperties.addDateRange(queryParams.value, dateRange.value)).then(response => {
     elementList.value = response.rows;
@@ -256,7 +261,8 @@ function getCategoryTree() {
   });
 }
 getCategoryTree();
-getList();
+getList(queryParams.value.pageNum);
+
 handWorld();
 </script>
 

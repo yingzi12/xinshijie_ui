@@ -147,12 +147,13 @@
         </template>
       </el-table-column>
     </el-table>
-    <pagination
-      v-show="total>0"
+    <el-pagination
+
       :total="total"
+      layout="total, prev, pager, next"
       v-model:page="queryParams.pageNum"
-      v-model:limit="queryParams.pageSize"
-      @pagination="getList"
+      :page-size=20
+      @current-change="getList"
     />
     <!-- 预览界面 -->
     <el-dialog :title="preview.title" v-model="preview.open" width="80%" top="5vh" append-to-body custom-class="scrollbar">
@@ -215,12 +216,16 @@ onActivated(() => {
     queryParams.value.pageNum = Number(route.query.pageNum);
     dateRange.value = [];
     proxy.resetForm("queryForm");
-    getList();
+    getList(queryParams.value.pageNum);
+
   }
 })
 
 /** 查询表集合 */
-function getList() {
+function getList(page: number) {
+  window.scrollTo(0, 0); // 滚动到顶部
+  queryParams.value.pageNum=page;
+
   loading.value = true;
   listTable(proxy.addDateRange(queryParams.value, dateRange.value)).then(response => {
     tableList.value = response.rows;
@@ -231,7 +236,8 @@ function getList() {
 /** 搜索按钮操作 */
 function handleQuery() {
   queryParams.value.pageNum = 1;
-  getList();
+  getList(queryParams.value.pageNum);
+
 }
 /** 生成代码操作 */
 function handleGenTable(row) {
@@ -297,10 +303,12 @@ function handleDelete(row) {
   proxy.$modal.confirm('是否确认删除表编号为"' + tableIds + '"的数据项？').then(function () {
     return delTable(tableIds);
   }).then(() => {
-    getList();
+    getList(queryParams.value.pageNum);
+
     proxy.$modal.msgSuccess("删除成功");
   }).catch(() => {});
 }
 
-getList();
+getList(queryParams.value.pageNum);
+
 </script>

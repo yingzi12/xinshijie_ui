@@ -58,12 +58,14 @@
         </div>
         <!--        分页-->
         <div style="float:right; position:relative; ">
-          <pagination
-              v-show="total > 0"
+          <el-pagination
+
               :total="total"
+              layout="total, prev, pager, next"
+
               v-model:page="queryParams.pageNum"
-              v-model:limit="queryParams.pageSize"
-              @pagination="getList"/>
+              :page-size=20
+              @current-change="getList"/>
         </div>
 
       <!--      审核弹出框-->
@@ -139,7 +141,10 @@ const { queryParams, commentForm, rules } = toRefs(data);
 //分页信息
 const dateRange = ref([]);
 //评论信息
-function getList() {
+function getList(page: number) {
+  window.scrollTo(0, 0); // 滚动到顶部
+  queryParams.value.pageNum=page;
+
   listCommentAdmin(globalProperties.addDateRange(queryParams.value, dateRange.value)).then(response => {
     //console.log("查询评论列表:"+JSON.stringify(response))
     commentList.value = response.rows
@@ -156,7 +161,8 @@ const form = reactive({
   name: '',
   region: ''
 })
-getList();
+getList(queryParams.value.pageNum);
+
 </script>
 
 <style scoped>

@@ -71,12 +71,12 @@
             </div>
 <!--            分页-->
             <div style="float:right; position:relative">
-            <pagination
-                v-show="total > 0"
+            <el-pagination
                 :total="total"
+                layout="total, prev, pager, next"
                 v-model:page="queryParams.pageNum"
-                v-model:limit="queryParams.pageSize"
-                @pagination="getList"
+                :page-size=20
+                @current-change="getList"
             />
             </div>
           </el-main>
@@ -158,14 +158,18 @@ function handleSee(row){
   router.push("/world/details?wid="+row.id);
 }
 /** 查询世界列表 */
-function getList() {
+function getList(page: number) {
+  window.scrollTo(0, 0); // 滚动到顶部
+  queryParams.value.pageNum=page;
+
   listWorld(globalProperties.addDateRange(queryParams.value, dateRange.value)).then(response => {
     loading.value = false;
     worldList.value = response.rows;
     total.value = response.total;
   });
 }
-getList();
+getList(queryParams.value.pageNum);
+
 </script>
 
 <style scoped>
