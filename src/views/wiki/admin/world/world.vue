@@ -47,7 +47,10 @@
               <el-table-column type="expand">
                 <template #default="props">
                   <el-descriptions title="详细" style="margin: 20px">
+
                     <el-descriptions-item label="是否私有">{{ props.row.isPrive }}</el-descriptions-item>
+                    <el-descriptions-item label="经验">{{ props.row.vitality }}</el-descriptions-item>
+                    <el-descriptions-item label="得分">{{ world.scores }}</el-descriptions-item>
                     <el-descriptions-item label="元素数">{{ props.row.countElement }}</el-descriptions-item>
                     <el-descriptions-item label="居民数">{{ props.row.countResident }}</el-descriptions-item>
                     <el-descriptions-item label="评论数">{{ props.row.countComment }}</el-descriptions-item>
