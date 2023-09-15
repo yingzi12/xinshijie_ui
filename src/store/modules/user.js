@@ -75,6 +75,14 @@ const useUserStore = defineStore(
           })
         })
       }
+    },
+    clean(){
+      this.token = ''
+      this.name = ''
+      this.avatar =''
+      this.roles = []
+      this.permissions = []
+      removeToken()
     }
   })
 

@@ -55,17 +55,10 @@
                     <el-descriptions-item label="关注数">{{ props.row.countFllow }}</el-descriptions-item>
                     <el-descriptions-item label="故事数">{{ props.row.countStory }}</el-descriptions-item>
                     <el-descriptions-item label="编辑数">{{ props.row.countEdit }}</el-descriptions-item>
-
                     <el-descriptions-item label="创建人">{{ props.row.createName }}</el-descriptions-item>
                     <el-descriptions-item label="创建时间">{{ props.row.createTime }}</el-descriptions-item>
                     <el-descriptions-item label="更新人">{{ props.row.updateName }}</el-descriptions-item>
                     <el-descriptions-item label="更新时间">{{ props.row.updateTime }}</el-descriptions-item>
-<!--                    <el-descriptions-item label="Remarks">-->
-<!--                      <el-tag size="small">{{ props.row.state }}</el-tag>-->
-<!--                    </el-descriptions-item>-->
-<!--                    <el-descriptions-item label="Address">-->
-<!--                      {{ props.row.state }}-->
-<!--                    </el-descriptions-item>-->
                   </el-descriptions>
                 </template>
               </el-table-column>

@@ -270,7 +270,7 @@ function getRedactList() {
   });
 }
 function getRandomList() {
-  queryParams.value.pageSize=18
+  queryParams.value.pageSize=12
   listWorld(globalProperties.addDateRange(queryParams.value, dateRange.value)).then(response => {
     loading.value = false;
     worldRandom.value = response.rows;

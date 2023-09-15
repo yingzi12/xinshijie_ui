@@ -1,28 +1,5 @@
 <template>
-        <div>
-          <el-menu
-              :default-active="activeIndex"
-              mode="horizontal"
-              @select="handleSelect"
-              style="margin:0px;pardding:0px"
-          >
-            <el-menu-item index="1">{{ world.name }}</el-menu-item>
-          </el-menu>
-        </div>
-        <!--        多选-->
-        <div style="padding: 10px">
-          <el-space wrap>
-            <el-button text type="primary"> <router-link :to="{path:'/admin/worldInfo', query: {wid:wid,wname:world.name}}">简介</router-link></el-button>
-            <el-button text>  <router-link :to="{path:'/admin/worldManage', query: {wid:wid,wname:world.name}}">造物主列表</router-link></el-button>
-            <el-button text>  <router-link :to="{path:'/admin/worldElement', query: {wid:wid,wname:world.name}}">元素列表</router-link></el-button>
-            <el-button text>  <router-link :to="{path:'/admin/worldCategory', query: {wid:wid,wname:world.name}}">分类管理</router-link></el-button>
-            <el-button text>  <router-link :to="{path:'/admin/worldAudit', query: {wid:wid,wname:world.name}}">元素审核</router-link></el-button>
-            <el-button text>  <router-link :to="{path:'/admin/worldStory', query: {wid:wid,wname:wname}}">故事管理</router-link></el-button>
-            <el-button text>  <router-link :to="{path:'/admin/worldRedident', query: {wid:wid,wname:world.name}}">居民管理</router-link></el-button>
-            <el-button text>  <router-link :to="{path:'/admin/worldComment', query: {wid:wid,wname:world.name,source:1}}">评论管理</router-link></el-button>
-            <el-button text>  <router-link :to="{path:'/admin/worldDiscuss', query: {wid:wid,wname:world.name,source:1}}">讨论管理</router-link></el-button>
-          </el-space>
-        </div>
+        <AdminHead :head-type="1" :wid="wid"></AdminHead>
         <!--   内容区-->
         <div style="  border-style: solid; border-width: 1px;border-color:#CFD3DC">
           <div  style="margin: 15px">
@@ -98,7 +75,7 @@
 <script lang="ts" setup>
 import {inject, ref} from 'vue'
 import {Flag, Edit,Menu as IconMenu, Message, Setting} from '@element-plus/icons-vue'
-import type { TabsPaneContext } from 'element-plus'
+import AdminHead from './worldHead'
 import {  getWorld } from "@/api/admin/world";
 //接受参数
 import { useRoute,useRouter }  from "vue-router";  // 引用vue-router
@@ -118,7 +95,6 @@ const world=ref({})
 const wid = ref(null);
 wid.value = route.query.wid;
 world.value.id = route.query.wid;
-//console.log("世界id="+world.value.id);
 const baseUrl = inject("$baseUrl")
 const imgUrl = inject("$imgUrl")
 
