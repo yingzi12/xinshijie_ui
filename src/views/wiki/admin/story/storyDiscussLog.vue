@@ -204,7 +204,7 @@ const formLabelWidth = '140px'
 function handleSee(row){
   router.push("/discuss/index?wid="+row.wid+"&sid="+row.sid+"&did="+row.id+"&source=2");
 }
-getList()
+getList(1)
 </script>
 
 <style scoped>

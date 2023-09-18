@@ -77,8 +77,8 @@
                 </el-tag>
               </template>
             </el-table-column>
-            <el-table-column prop="intro" label="简介" width="250" :show-overflow-tooltip="true"/>
-            <el-table-column prop="createTime" label="创建时间" />
+            <el-table-column prop="intro" label="简介" :show-overflow-tooltip="true"/>
+<!--            <el-table-column prop="createTime" label="创建时间" />-->
           </el-table>
           <el-button style="margin-top:10px" text  @click="handleElement">更多</el-button>
         </el-tab-pane>
@@ -94,8 +94,8 @@
                 {{storyTypesMap.get(scope.row.types)}}
               </template>
             </el-table-column>
-            <el-table-column prop="intro" label="简介" width="250" :show-overflow-tooltip="true"/>
-            <el-table-column prop="createTime" label="创建时间" />
+            <el-table-column prop="intro" label="简介"  :show-overflow-tooltip="true"/>
+<!--            <el-table-column prop="createTime" label="创建时间" />-->
           </el-table>
           <el-button style="margin-top:10px" text  @click="handleStory">更多</el-button>
         </el-tab-pane>
@@ -149,7 +149,8 @@
                 </div>
                 <div style="color:#A3A6AD">
                   <span>{{ comment.createTime }}</span>
-                  <span><el-icon :size="15"><ChatDotRound /></el-icon>{{comment.countReply}} </span>
+<!--                    <span @click="handleReply(comment)"><BootstrapIcon  icon="chat-dots" size="1x" flip-v />{{comment.countReply}} </span>-->
+<!--                    <span @click="handleHideReply(comment)"><el-icon :size="15"><ChatDotRound /></el-icon>{{comment.countReply}} </span>-->
                   <span><el-icon :size="15"><Pointer /></el-icon>{{comment.countReply}}</span>
                   <!--                  <span><BootstrapIcon icon="hand-thumbs-down" size="small" />{{comment.countReply}}</span>-->
                 </div>
@@ -212,6 +213,7 @@ const data = reactive({
     pageNum: 1,
     pageSize:3,
     wid: undefined,
+      source:1,
   },
   rules: {
     comment: [{ required: true, message: "评论不能为空", trigger: "blur" }],
@@ -267,7 +269,14 @@ function handleFllowClose(){
     ElMessage.success("取消成功");
   });
 }
-
+// function handleHideReply(comment){
+//     if(comment.replyHide) {
+//         comment.replyHide = false;
+//     }else {
+//         comment.replyHide = true;
+//     }
+//     getReplyList(comment,1)
+// }
 /** 查询世界详细 */
 function handWorld(id:number) {
   getWorld(id).then(response => {
@@ -279,6 +288,7 @@ function handWorld(id:number) {
 //评论信息
 function getAllWorldComment() {
   queryParams.value.wid=wid.value;
+    queryParams.value.source=1;
   listComment(globalProperties.addDateRange(queryParams.value, dateRange.value)).then(response => {
     //console.log("查询世界详细:"+JSON.stringify(response))
     commentList.value = response.rows

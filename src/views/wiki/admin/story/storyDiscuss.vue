@@ -244,7 +244,7 @@ const onSudmit = async (formEl: FormInstance | undefined) => {
     }
   })
 }
-getList()
+getList(1)
 </script>
 
 <style scoped>

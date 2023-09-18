@@ -184,7 +184,7 @@ function handleSee(did){
 const dialogFormVisible = ref(false)
 const formLabelWidth = '140px'
 
-getList()
+getList(1)
 </script>
 
 <style scoped>

@@ -214,7 +214,7 @@ function  show(val){
     sleValue.value[i]=categoryList.value[i].split('$$')[0]
   }
 }
-getList()
+getList(1)
 handWorld();
 </script>
 

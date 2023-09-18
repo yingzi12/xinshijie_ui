@@ -314,7 +314,7 @@ function  show(val){
   //console.log("选中的对象sleValue2"+sleValue.value)
   //console.log("选中的对象element:"+JSON.stringify(element.value))
 }
-getList()
+getList(1)
 handWorld();
 </script>
 

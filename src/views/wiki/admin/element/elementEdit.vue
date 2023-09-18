@@ -290,7 +290,7 @@ function submitClear(){
   router.push("/element/details?wid="+ wid.value+"&eid=" + eid.value+"&temType="+temType.value)
 }
 getElement(wid.value,eid.value);
-getList()
+getList(1)
 </script>
 
 <style scoped>

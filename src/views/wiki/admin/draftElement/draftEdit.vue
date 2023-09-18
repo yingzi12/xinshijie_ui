@@ -307,7 +307,7 @@ function submitClear(){
   router.push("/admin/draftPreview?wid="+ wid.value+"&deid=" + deid.value)
 }
 getElement(wid.value,deid.value);
-getList()
+getList(1)
 </script>
 
 <style scoped>

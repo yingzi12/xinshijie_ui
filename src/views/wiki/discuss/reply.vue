@@ -65,10 +65,12 @@
                     <el-avatar :size="50" :src="imgUrl+comment.circleUrl" />
                 </el-col>
                 <el-col :span="22">
-<!--                  <div >-->
-<!--                    <h3 style="font-weight:bold;margin: 5px">{{ comment.createName }}</h3>-->
-<!--                  </div>-->
+                  <div v-if="comment.ranks == 1">
+                      <el-tag >{{ comment.nickname }}</el-tag>:<span >{{ comment.comment }}</span>
+                  </div>
+                    <div v-if="comment.ranks != 1">
                   <el-tag >{{ comment.nickname }}</el-tag>@<el-tag>{{ comment.replyNickname }}</el-tag>:<span >{{ comment.comment }}</span>
+                    </div>
 <!--                  <div v-html="comment.reply">-->
 <!--                  </div>-->
                   <div style="color:#A3A6AD">

@@ -118,7 +118,7 @@ if(userStore.name==''){
   disabled.value=true;
 }else{
   username.value=userStore.name;
-  circleUrl.value=imgUrl+userStore.avatar;
+  circleUrl.value=userStore.avatar;
   disabled.value=false;
 }
 
@@ -183,12 +183,11 @@ function onSubmit(){
   }else{
     commentForm.value.wid=wid.value
   }
-  commentForm.value.wname=world.value.name
-  commentForm.value.circleUrl=userStore.avatar
-  addComment(commentForm.value).then(response => {
+    commentForm.value.source=2
+   addComment(commentForm.value).then(response => {
     ElMessage.info("评论成功")
     //console.log("评论成功")
-    getList()
+    getList(1)
   })
 }
 handStory()
