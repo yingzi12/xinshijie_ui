@@ -5,7 +5,7 @@
             <el-breadcrumb separator="/">
                 <el-breadcrumb-item :to="{ path: '/world/index' }">首页</el-breadcrumb-item>
                 <el-breadcrumb-item><a href="/world/list">世界树</a></el-breadcrumb-item>
-                <el-breadcrumb-item  :to="{ path: '/world/details', query: {wid:wid} }">{{wname}}</el-breadcrumb-item>
+                <el-breadcrumb-item  :to="{ path: '/world/details', query: {wid:discuss.wid} }">{{discuss.wname}}</el-breadcrumb-item>
                 <el-breadcrumb-item v-if="source == 2" :to="{ path: '/story/detail', query: {wid:wid,sid:sid} }">{{sname}}</el-breadcrumb-item>
                 <el-breadcrumb-item  :to="{ path: '/discuss/list', query: {wid:wid,sid:sid,source:source} }">讨论</el-breadcrumb-item>
                 <el-breadcrumb-item>{{ discuss.title }}</el-breadcrumb-item>
@@ -92,7 +92,7 @@
                                     <span><BootstrapIcon icon="hand-thumbs-down" size="1x" flip-v />{{comment.countDisagree}} </span>
                                 </div>
                                 <div v-if="comment.replyHide" style="margin-left: 20px;width: 40%;">
-                                    <div>
+                                    <div v-if="discuss.status == 1">
                                         <el-avatar  size="small" :src="imgUrl+circleUrl" /><el-input v-model="comment.replyComment"   style="width:80%"  size="small" @keyup.enter="onReplySubmit(comment,comment)"></el-input>
                                     </div>
                                     <div v-if="comment.replyList.length>0">
@@ -104,7 +104,7 @@
                                                     <!--                          </div>-->
                                                     <el-tag >{{ scopeReply.row.nickname }}</el-tag>@<el-tag>{{ scopeReply.row.replyNickname }}</el-tag>:<span >{{ scopeReply.row.comment }}</span>
                                                     <p style="margin: 0px">{{ scopeReply.row.createTime }}<BootstrapIcon @click="handleHideCommentReply(scopeReply.row)" icon="chat-dots" size="1x" flip-v /></p>
-                                                    <div v-if="scopeReply.row.replyHide" >
+                                                    <div v-if="scopeReply.row.replyHide && discuss.status == 1" >
                                                         <el-avatar  size="small" :src="imgUrl+circleUrl" /><el-input v-model="scopeReply.row.replyComment"   style="width:80%"  size="small" @keyup.enter="onReplySubmit(comment,scopeReply.row)"></el-input>
                                                     </div>
                                                 </template>
@@ -137,8 +137,6 @@ import {getCurrentInstance, inject, reactive, ref, toRefs} from 'vue'
 import { listDiscussComment } from "@/api/wiki/discussComment";
 import { getDiscuss } from "@/api/wiki/discuss";
 import { addDiscussComment,replyDiscussComment } from "@/api/admin/discussComment";
-import { getWorld } from "@/api/wiki/world";
-import { getStory } from "@/api/wiki/story";
 import { useRoute, useRouter } from "vue-router";
 import { ElMessage } from "element-plus";
 import useUserStore from '@/store/modules/user'
@@ -268,7 +266,6 @@ function onAddSubmit(){
         ElMessage.error("回复内容需大于10小于500")
         return;
     }
-
     addDiscussComment(form.value).then(response => {
         // dissComment.value=''
         form.value.comment="";
@@ -312,7 +309,6 @@ function getReplyList(comment,page: number) {
 }
 
 function handleHideReply(comment){
-    console.log("handleHideReply"+JSON.stringify(comment))
     if(comment.replyHide) {
         comment.replyHide = false;
     }else {
@@ -321,7 +317,6 @@ function handleHideReply(comment){
     getReplyList(comment,1)
 }
 function handleHideCommentReply(comment){
-    console.log("handleHideReply"+JSON.stringify(comment))
     if(comment.replyHide) {
         comment.replyHide = false;
     }else {

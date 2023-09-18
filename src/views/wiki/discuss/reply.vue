@@ -38,7 +38,7 @@
             </el-col>
           </el-row>
         </div>
-        <div v-if="discussComment.status == 1 ">
+        <div v-if="discuss.status == 1 ">
           <el-form :model="form" label-width="120px">
             <el-row>
               <el-col :span="20" class="center">
@@ -76,15 +76,15 @@
                     <span @click="handleReply(comment)"><BootstrapIcon  icon="chat-dots" size="1x" flip-v />{{comment.countReply}} </span>
                     <span><BootstrapIcon icon="hand-thumbs-up" size="1x" flip-v />{{comment.countLike}} </span>
                     <span><BootstrapIcon icon="hand-thumbs-down" size="1x" flip-v />{{comment.countDisagree}} </span>
-
                   </div>
+                    <div  v-if="comment.replyHide && discuss.status == 1 " style="margin-left: 20px;width: 40%;">
+                        <div>
+                            <el-avatar    size="small" :src="imgUrl+circleUrl" /><el-input v-model="comment.replyComment"   style="width:80%"  size="small" @keyup.enter="sudmitReply(comment)"  ></el-input>
+                        </div>
+                    </div>
                 </el-col>
               </el-row>
-              <div  v-if="comment.replyHide" style="margin-left: 150px;width: 40%;">
-                <div>
-                  <el-avatar    size="small" :src="imgUrl+circleUrl" /><el-input v-model="comment.replyComment"   style="width:80%"  size="small" @keyup.enter="sudmitReply(comment)"  ></el-input>
-                </div>
-              </div>
+
               <el-divider style="margin: 0px;padding: 0px"/>
             </div>
             <div style="float:right; position:relative; ">
@@ -109,7 +109,7 @@
 import {getCurrentInstance, inject, reactive, ref, toRefs} from 'vue'
 import { listDiscussComment,getDiscussComment } from "@/api/wiki/discussComment";
 import { replyDiscussComment } from "@/api/admin/discussComment";
-
+import { getDiscuss } from "@/api/wiki/discuss";
 import {useRoute, useRouter} from "vue-router";
 import {ElMessage} from "element-plus";
 import useUserStore from '@/store/modules/user'
@@ -289,6 +289,21 @@ function handleReply(comment){
     return true
   }
 }
+
+//讨论信息
+const discuss=ref({})
+
+/** 查询讨论详细 */
+function handleDiscuss() {
+    if(did.value == undefined){
+        ElMessage.error("缺少必要参数")
+        return;
+    }
+    getDiscuss(did.value).then(response => {
+        discuss.value = response.data
+    });
+}
+handleDiscuss()
 </script>
 
 <style scoped>
