@@ -4,10 +4,10 @@
     <div style="background-color: #E5EAF3">
         <h2  class="center2">{{ world.name }}</h2>
     </div>
-    <!--  分类管理 -->
+    <!--  分类 -->
     <div>
       <div style="background-color: #E5EAF3">
-        <BootstrapIcon icon="card-list" size="1x" flip-v /><span>分类管理</span>
+        <BootstrapIcon icon="card-list" size="1x" flip-v /><span>分类</span>
       </div>
       <div style="height: 55px">
         <div>
@@ -218,11 +218,7 @@ function handWorld() {
 }
 
 function  show(val){
-//let that = this ,将this保存在that中，再在函数中使用that均可
   dynamicTags.value=categoryList.value
-  // //console.log("选中的对象value1"+categoryList.value)
-  // //console.log("选中的对象treeRef"+JSON.stringify(treeRef.value))
-
   sleValue.value=new Array();
   dynamicTags.value=new Array();
   for(let i=0;i<=categoryList.value.length-1;i++){
@@ -230,9 +226,6 @@ function  show(val){
     sleValue.value[i]=categoryList.value[i].split('$$')[0]
   }
   element.value.categoryList=sleValue;
-  // //console.log("选中的对象value2"+categoryList.value)
-  // //console.log("选中的对象sleValue2"+sleValue.value)
-  // //console.log("选中的对象element:"+JSON.stringify(element.value))
 }
 // const treeRef = ref<InstanceType<typeof ElTree>>()
 
@@ -251,8 +244,6 @@ function getElement(wid:number,deid:number) {
       sleValue.value[i]=element.value.categoryList[i].id
     }
     element.value.categoryList=sleValue
-    // //console.log("打印查询到的categoryList"+JSON.stringify(categoryList))
-    // //console.log("打印查询到的element"+JSON.stringify(element))
   });
 }
 

@@ -7,7 +7,7 @@
             <el-breadcrumb-item :to="{ path: '/world/index' }">首页</el-breadcrumb-item>
             <el-breadcrumb-item><a href="/world/list">世界树</a></el-breadcrumb-item>
             <el-breadcrumb-item :to="{ path: '/world/details', query: {wid:wid} }">{{world.name}}</el-breadcrumb-item>
-            <el-breadcrumb-item>元素列表</el-breadcrumb-item>
+            <el-breadcrumb-item>元素</el-breadcrumb-item>
           </el-breadcrumb>
         </el-col>
         <el-col :span="3">
@@ -243,7 +243,7 @@ function handWorld() {
     world.value = response.data
   });
 }
-/** 查询元素列表 */
+/** 查询元素 */
 function getList(page: number) {
   window.scrollTo(0, 0); // 滚动到顶部
   queryParams.value.pageNum=page;

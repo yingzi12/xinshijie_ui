@@ -165,7 +165,7 @@ function handleIssue(row){
 
   });
 }
-/** 查询元素列表 */
+/** 查询元素 */
 function getList(page: number) {
   window.scrollTo(0, 0); // 滚动到顶部
   queryParams.value.pageNum=page;

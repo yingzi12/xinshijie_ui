@@ -1,13 +1,15 @@
 <template>
   <div class="app-container">
     <div>
-      <el-breadcrumb separator="/">
-        <el-breadcrumb-item :to="{ path: '/world/index' }">首页</el-breadcrumb-item>
-        <el-breadcrumb-item><a href="/world/list">世界树</a></el-breadcrumb-item>
-        <el-breadcrumb-item  :to="{ path: '/world/details', query: {wid:wid} }">{{wname}}</el-breadcrumb-item>
-        <el-breadcrumb-item v-if="source == 2 " :to="{ path: '/story/detail', query: {wid:wid,sid:sid} }">{{sname}}</el-breadcrumb-item>
-        <el-breadcrumb-item>回复信息列表</el-breadcrumb-item>
-      </el-breadcrumb>
+        <el-breadcrumb separator="/">
+            <el-breadcrumb-item :to="{ path: '/world/index' }">首页</el-breadcrumb-item>
+            <el-breadcrumb-item><a href="/world/list">世界树</a></el-breadcrumb-item>
+            <el-breadcrumb-item  :to="{ path: '/world/details', query: {wid:discussComment.wid} }">{{discussComment.wname}}</el-breadcrumb-item>
+            <el-breadcrumb-item  v-if="source == 2" :to="{ path: '/story/detail', query: {wid:wid,sid:sid} }">{{discussComment.sname}}</el-breadcrumb-item>
+            <el-breadcrumb-item  :to="{ path: '/discuss/list', query: {wid:wid,sid:sid,source:source} }">讨论</el-breadcrumb-item>
+            <el-breadcrumb-item :to="{path:'/discuss/index',query: {wid:wid,wname:discussComment.wname,did:discussComment.did,source:source,sid:sid}}">{{ discussComment.title }}</el-breadcrumb-item>
+            <el-breadcrumb-item >回复列表</el-breadcrumb-item>
+        </el-breadcrumb>
     </div>
     <div>
       <!--    评论区-->
@@ -23,7 +25,7 @@
             </el-col>
             <el-col :span="22">
               <div>
-                <span style="font-weight:bold;font-size:15px;"><router-link :to="{path:'/discuss/index',query: {wid:world.id,wname:world.name,did:discussComment.did,source:source,sid:sid}}">#{{ discussComment.title }}#</router-link></span>
+                  <span style="font-weight:bold;font-size:15px;"><router-link :to="{path:'/discuss/index',query: {wid:discussComment.wid,wname:discussComment.wname,did:discussComment.did,source:source,sid:sid}}"><el-tag type="success">{{ discussComment.title }}</el-tag></router-link></span>
                 <p>{{discussComment.comment}}</p>
               </div>
               <div style="color:#A3A6AD">
@@ -66,7 +68,7 @@
 <!--                  <div >-->
 <!--                    <h3 style="font-weight:bold;margin: 5px">{{ comment.createName }}</h3>-->
 <!--                  </div>-->
-                  <el-tag >{{ comment.nickname }}</el-tag>@<el-tag>{{ comment.replyNickname }}</el-tag>:<span >{{ comment.reply }}</span>
+                  <el-tag >{{ comment.nickname }}</el-tag>@<el-tag>{{ comment.replyNickname }}</el-tag>:<span >{{ comment.comment }}</span>
 <!--                  <div v-html="comment.reply">-->
 <!--                  </div>-->
                   <div style="color:#A3A6AD">
@@ -80,7 +82,7 @@
               </el-row>
               <div  v-if="comment.replyHide" style="margin-left: 150px;width: 40%;">
                 <div>
-                  <el-avatar    size="small" :src="circleUrl" /><el-input v-model="comment.replyComment"   style="width:80%"  size="small" @keyup.enter="sudmitReply(comment)"  ></el-input>
+                  <el-avatar    size="small" :src="imgUrl+circleUrl" /><el-input v-model="comment.replyComment"   style="width:80%"  size="small" @keyup.enter="sudmitReply(comment)"  ></el-input>
                 </div>
               </div>
               <el-divider style="margin: 0px;padding: 0px"/>
@@ -106,10 +108,7 @@
 <script lang="ts" setup>
 import {getCurrentInstance, inject, reactive, ref, toRefs} from 'vue'
 import { listDiscussComment,getDiscussComment } from "@/api/wiki/discussComment";
-import { getDiscuss } from "@/api/wiki/discuss";
-import { addDiscussComment } from "@/api/admin/discussComment";
-import { getWorld } from "@/api/wiki/world";
-import { getStory } from "@/api/wiki/story";
+import { replyDiscussComment } from "@/api/admin/discussComment";
 
 import {useRoute, useRouter} from "vue-router";
 import {ElMessage} from "element-plus";
@@ -141,11 +140,6 @@ wid.value = route.query.wid;
 dcid.value = route.query.dcid;
 sid.value = route.query.sid;
 source.value = parseInt(<string>route.query.source);
-const sname = ref(undefined);
-const wname = ref(undefined);
-
-//console.log("元素id="+did.value);
-//console.log("世界id="+wid.value);
 
 if(userStore.name==''){
   username.value="未登录"
@@ -156,23 +150,6 @@ if(userStore.name==''){
   disabled.value=false;
 }
 
-const discussTypesMap = new Map([
-  [1, "自由讨论"],
-  [2, "建议"],
-  [3, "内容错误"],
-  [4, "内容缺失"],
-  [5, "过多重复"],
-  [6, "内容不相关"],
-  [7, "其他"],
-
-]);
-const discussStatusMap = new Map([
-  [1, "待处理"],
-  [2, "已处理"],
-  [3, "关闭"],
-])
-//评论
-const dissComment = ref('')
 
 //分页
 const dateRange = ref([]);
@@ -181,7 +158,14 @@ const dataStree = ref([])
 const loading = ref(true);
 const total = ref(0);
 const data = reactive({
-  form: {},
+  form: {
+      comment:undefined,
+      wid:wid.value,
+      did:did.value,
+      sid:sid.value,
+      upid:undefined,
+      source:source.value
+  },
   queryParams: {
     pageNum: 1,
 
@@ -222,65 +206,6 @@ function getList(page: number) {
     total.value = response.total;
   });
 }
-//世界信息
-const world=ref({})
-
-/** 查询世界详细 */
-function handWorld() {
-  if(wid.value == undefined){
-    ElMessage.error("缺少必要参数")
-    return;
-  }
-  getWorld(wid.value).then(response => {
-    //console.log("查询世界详细:"+JSON.stringify(response))
-    world.value = response.data
-    wname.value=response.data.name
-
-  });
-}
-const story=ref({})
-
-/** 查询世界详细 */
-function handStory() {
-  if(sid.value == undefined){
-    ElMessage.error("缺少必要参数,故事")
-    return;
-  }
-  getStory(sid.value).then(response => {
-    //console.log("查询世界详细:"+JSON.stringify(response))
-    story.value = response.data
-    wname.value=response.data.wname
-    sname.value=response.data.name
-    wid.value=response.data.wid
-  });
-}
-function  getInfo(){
-  if(source.value !=1 && source.value !=2){
-    ElMessage.error("缺少必要参数,来源")
-    return;
-  }
-  if(source.value == 1){
-    handWorld();
-  }
-  if(source.value == 2){
-    handStory();
-  }
-}
-getInfo()
-//世界信息
-const discuss=ref({})
-
-/** 查询讨论详细 */
-function handleDiscuss() {
-  if(did.value == undefined){
-    ElMessage.error("缺少必要参数")
-    return;
-  }
-  getDiscuss(did.value).then(response => {
-    //console.log("查询讨论详细:"+JSON.stringify(response))
-    discuss.value = response.data
-  });
-}
 
 //世界信息
 const discussComment=ref({})
@@ -306,41 +231,12 @@ function sudmitReply(comment){
     ElMessage.error("回复内容需大于10小于200")
     return;
   }
-  if(sid.value == undefined){
-    form.value.sid=null
-  }else{
-    form.value.sid=sid.value
-  }
-  if(wid.value == undefined){
-    form.value.wid=null
-  }else{
-    form.value.wid=wid.value
-  }
-  //console.log("添加回复:"+JSON.stringify(comment))
-  form.value.did=did.value
-  form.value.wname=wname.value
-  form.value.sname=sname.value
-  form.value.circleUrl=userStore.avatar
-  form.value.comment=comment.reply
-  form.value.reply=comment.replyComment
-  form.value.eid=comment.eid
-  form.value.title=comment.title
+  form.value.comment=comment.replyComment
   form.value.upid=comment.id
-  form.value.ranks=comment.ranks+1
-  form.value.nickname=userStore.username
-  form.value.replyNickname=comment.nickname
-  if(comment.ranks == 0) {
-    form.value.pid = comment.id
-  }else{
-    form.value.pid = comment.pid
-  }
-  form.value.source=source.value
-  addDiscussComment(form.value).then(response => {
-    // comment.replyList.push(response.data)
+  replyDiscussComment(form.value).then(response => {
     comment.replyComment=""
-    //console.log("评论成功"+JSON.stringify(response.data))
-    // ElMessage.info("回复成功")
-    getList()
+    ElMessage.info("回复成功")
+    getList(1)
   })
 }
 handleDiscussComment()

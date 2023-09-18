@@ -21,7 +21,7 @@
           <el-dialog v-model="dialogFormVisible" :title="title">
             <el-form :model="form"
                      ref="ruleFormRef"  @submit.native.prevent>
-              <el-form-item label="名称" :label-width="formLabelWidth">
+              <el-form-item label="名称" >
                 <el-input v-model="form.label" autocomplete="off" />
               </el-form-item>
               <el-input type="hidden" v-model="form.tier"></el-input>
@@ -210,13 +210,13 @@ function submitForm(formEl: FormInstance | undefined) {   //
   if (form.value.isUpdate){
     updateCategory(form.value).then(response => {
       //console.log("修改成功:"+JSON.stringify(response.data))
-      getList(queryParams.value.pageNum);
+      getList();
 
     })
   }else{
     addCategory(form.value).then(response => {
       //console.log("添加成功"+JSON.stringify(response.data))
-      getList(queryParams.value.pageNum);
+      getList();
 
     })
   }
@@ -243,15 +243,12 @@ function reset() {
   // proxy.resetForm("roleRef");
 }
 /** 查询世界列表 */
-function getList(page: number) {
-  window.scrollTo(0, 0); // 滚动到顶部
-  queryParams.value.pageNum=page;
-
+function getList( ) {
   getTree(wid.value).then(response => {
     dataSource.value = response.data
   });
 }
-getList(queryParams.value.pageNum);
+getList();
 
 </script>
 

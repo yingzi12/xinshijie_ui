@@ -8,7 +8,7 @@ export function listChapter(query) {
   })
 }
 
-// 查询元素列表
+// 查询元素
 export function listChapterAll(query) {
   return request({
     url: '/wiki/chapter/listAll',

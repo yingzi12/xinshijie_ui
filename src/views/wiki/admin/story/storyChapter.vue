@@ -181,7 +181,7 @@ function handleSeeChapter(row){
 function handleUpdateChapter(row){
   router.push("/admin/storyChapterEdit?sid="+row.sid+"&sname="+sname.value+"&scid="+row.id);
 }
-/** 查询元素列表 */
+/** 查询元素 */
 function getList(page: number) {
   window.scrollTo(0, 0); // 滚动到顶部
   queryParams.value.pageNum=page;

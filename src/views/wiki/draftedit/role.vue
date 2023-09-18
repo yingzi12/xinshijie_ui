@@ -4,10 +4,10 @@
     <div style="background-color: #E5EAF3">
       <h2  class="center2">{{ world.name }}</h2>
     </div>
-    <!--  分类管理 -->
+    <!--  分类 -->
     <div>
       <div style="background-color: #E5EAF3">
-        <BootstrapIcon icon="card-list" size="1x" flip-v /><span>分类管理</span>
+        <BootstrapIcon icon="card-list" size="1x" flip-v /><span>分类</span>
       </div>
       <div style="height: 55px">
         <div>

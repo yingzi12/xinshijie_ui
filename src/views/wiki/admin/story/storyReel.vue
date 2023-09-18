@@ -260,7 +260,7 @@ function handleDelete ( row){
 function handleSeeChapter(row){
   router.push("/admin/storyChapter?sid="+row.sid+"&sname="+sname.value+"&scid="+row.id+"&scname="+row.title);
 }
-/** 查询元素列表 */
+/** 查询元素 */
 function getList(page: number) {
   window.scrollTo(0, 0); // 滚动到顶部
   queryParams.value.pageNum=page;

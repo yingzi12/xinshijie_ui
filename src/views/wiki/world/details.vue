@@ -295,7 +295,7 @@ function getAllWorldManage(id:number) {
 }
 //管理员信息
 const elementList = ref([]);
-/** 查询元素列表 */
+/** 查询元素 */
 function getElementList() {
   queryParams.value.wid=wid.value;
   listElement(globalProperties.addDateRange(queryParams.value, dateRange.value)).then(response => {

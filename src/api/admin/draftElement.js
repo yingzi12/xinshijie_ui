@@ -1,6 +1,6 @@
 import request from '@/utils/request'
 
-// 查询元素列表
+// 查询元素
 export function listDraft(query) {
   return request({
     url: '/admin/draftElement/list',
@@ -64,7 +64,7 @@ export function delDraft(wid,deid) {
   })
 }
 
-// 查询元素列表
+// 查询元素
 export function listAudit(query) {
   return request({
     url: '/admin/draftElement/listAudit',

@@ -88,9 +88,33 @@ export const constantRoutes = [
     hidden: true,
     children: [
       {
-        path: 'quillTest',
+        path: 'quill',
         component: () => import('@/views/test/quill'),
         name: 'quillTest',
+        meta: { title: '世界首页', icon: 'world' }
+      },
+      {
+        path: 'tiptap',
+        component: () => import('@/views/test/tiptap'),
+        name: 'tiptapTest',
+        meta: { title: '世界首页', icon: 'world' }
+      },
+      {
+        path: 'tiptapIndex',
+        component: () => import('@/views/test/tiptapIndex'),
+        name: 'tiptapIndexTest',
+        meta: { title: '世界首页', icon: 'world' }
+      },
+      {
+        path: 'tiptapHead',
+        component: () => import('@/views/test/tiptap/head/index'),
+        name: 'tiptapHeadTest',
+        meta: { title: '世界首页', icon: 'world' }
+      },
+      {
+        path: 'tiptapEditor',
+        component: () => import('@/views/test/tiptapEditor'),
+        name: 'tiptapEditorTest',
         meta: { title: '世界首页', icon: 'world' }
       }
     ]
@@ -169,7 +193,7 @@ export const constantRoutes = [
         path: 'list',
         component: () => import('@/views/wiki/element/list'),
         name: 'OrderElement',
-        meta: { title: '元素列表', icon: 'element' }
+        meta: { title: '元素', icon: 'element' }
       },{
         path: 'details',
         component: () => import('@/views/wiki/element/index'),

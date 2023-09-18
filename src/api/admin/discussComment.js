@@ -1,6 +1,6 @@
 import request from '@/utils/request'
 
-// 查询元素列表
+// 查询元素
 export function listDiscussComment(query) {
   return request({
     url: '/admin/discussComment/list',
@@ -25,7 +25,13 @@ export function addDiscussComment(data) {
     data: data
   })
 }
-
+export function replyDiscussComment(data) {
+  return request({
+    url: '/admin/discussComment/reply',
+    method: 'post',
+    data: data
+  })
+}
 // 修改元素
 export function updateDiscussComment(data) {
   return request({
