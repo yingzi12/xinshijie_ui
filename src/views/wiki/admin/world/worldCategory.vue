@@ -1,12 +1,26 @@
  <template>
         <!--        标题-->
      <AdminHead :head-type="4" :wid="wid"></AdminHead>
+     <div style="background-color:#b0c4de;margin: auto;padding: 10px">
+         <el-row>
+             <el-col :span="20">
+<!--                 <el-tree-select v-model="queryParams.types" :data="dataStree" check-strictly :render-after-expand="false" clearable />-->
+<!--                 <el-input v-model="queryParams.title" placeholder="请输入元素名" class="input-with-select" style="width: 250px"/>-->
+<!--                 <el-button :icon="Search" circle @click="getList"/>-->
+             </el-col>
+             <el-col :span="4" style="text-align: right;">
+                 <div style="text-align: right; font-size: 12px" class="toolbar">
+                     <el-button text @click="disForm(true)">添加一级分类</el-button>
+                 </div>
+             </el-col>
+         </el-row>
+     </div>
 
    <!--   内容区-->
         <div style="  border-style: solid; border-width: 1px;border-color:#CFD3DC">
-          <div>
-            <el-button  text @click="disForm(true)">添加一级分类</el-button>
-          </div>
+<!--          <div>-->
+<!--            <el-button  text @click="disForm(true)">添加一级分类</el-button>-->
+<!--          </div>-->
           <div class="custom-tree-container">
             <el-tree
                 :data="dataSource"
@@ -51,6 +65,7 @@ import { addCategory,updateCategory} from "@/api/admin/category";
 import { getTree} from "@/api/wiki/category";
 import {useRoute,useRouter} from "vue-router";
 import {FormInstance} from "element-plus";
+import {Search} from "@element-plus/icons-vue";
 const fits = ['世界', '粉丝', '关注']
 const activeIndex = ref('1')
 const circleUrl=ref('')
@@ -209,13 +224,12 @@ function submitForm(formEl: FormInstance | undefined) {   //
   form.value.wid=wid.value
   if (form.value.isUpdate){
     updateCategory(form.value).then(response => {
-      //console.log("修改成功:"+JSON.stringify(response.data))
+
       getList();
 
     })
   }else{
     addCategory(form.value).then(response => {
-      //console.log("添加成功"+JSON.stringify(response.data))
       getList();
 
     })
@@ -224,13 +238,7 @@ function submitForm(formEl: FormInstance | undefined) {   //
 }
 /** 重置新增的表单以及其他数据  */
 function reset() {
-  // if (menuRef.value != undefined) {
-  //   menuRef.value.setCheckedKeys([]);
-  // }
-  // menuExpand.value = false;
-  // menuNodeAll.value = false;
-  // deptExpand.value = true;
-  // deptNodeAll.value = false;
+
   form.value = {
     label: undefined,
     tier: undefined,

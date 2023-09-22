@@ -1,26 +1,6 @@
 <template>
-        <!--        标题-->
-        <div>
-          <el-menu
-              :default-active="1"
-              mode="horizontal"
-              style="margin:0px;pardding:0px"
-          >
-            <el-menu-item index="1">{{sname}}</el-menu-item>
-          </el-menu>
-        </div>
-        <!--        多选-->
-        <div style="padding: 10px">
-          <el-space wrap>
-            <el-button text > <router-link :to="{path:'/admin/storyInfo', query: {sid:sid,sname:sname}}">简介</router-link></el-button>
-            <el-button text>  <router-link :to="{path:'/admin/storyAuthor', query: {sid:sid,sname:sname}}">作者列表</router-link></el-button>
-            <el-button text type="primary">  <router-link :to="{path:'/admin/storyReel', query: {sid:sid,sname:sname}}">分卷/章节目录</router-link></el-button>
-            <el-button text>  <router-link :to="{path:'/admin/storyAudit', query: {sid:sid,sname:sname}}">章节审核</router-link></el-button>
-            <el-button text>  <router-link :to="{path:'/admin/storyComment', query: {sid:sid,sname:sname,source:2}}">评论管理</router-link></el-button>
-            <el-button text>  <router-link :to="{path:'/admin/storyDiscuss', query: {sid:sid,sname:sname,source:2}}">讨论管理</router-link></el-button>
-          </el-space>
-        </div>
-        <!--        统计-->
+    <StoryHead :head-type="3" second-type="1" :sid="sid"></StoryHead>
+  <!--        统计-->
         <div style="background-color:#b0c4de;margin: auto;padding: 10px">
           <el-row>
             <el-col :span="20">
@@ -142,6 +122,7 @@ import {  listChapter,delChapter,addChapter,updateChapterName } from "@/api/admi
 import {useRoute, useRouter} from "vue-router";
 import {Search} from '@element-plus/icons-vue'
 import {FormInstance} from "element-plus";
+import StoryHead from "./storyHead.vue";
 
 const chapterStatusMap = new Map([
   [1, "正常"],
@@ -207,7 +188,7 @@ function handleAddDialog(){
 function handleUpdateDialog(row){
   form.value.title=row.title
   form.value.id=row.id
-  console.log("title:"+form.value.title)
+  // console.log("title:"+form.value.title)
   dialogUpdateNameVisible.value=true
 }
 
@@ -218,7 +199,7 @@ const handleReelAdd = async (formEl: FormInstance | undefined) => {
   await formEl.validate((valid, fields) => {
     if (valid) {
       addChapter(form.value).then(response => {
-        console.log("添加成功:"+JSON.stringify(response))
+        // console.log("添加成功:"+JSON.stringify(response))
         form.value.title=''
         form.value.id=-1
         getList(queryParams.value.pageNum);

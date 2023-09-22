@@ -1,18 +1,19 @@
 <template>
         <!--        标题-->
-  <div>
-    <el-menu
-        :default-active="1"
-        mode="horizontal"
-        style="margin:0px;pardding:0px"
-    >
-      <el-menu-item index="1"><span style="font-size: 20px;font-weight:bold;">{{wname}}</span></el-menu-item>
-    </el-menu>
-  </div>
-        <div>
-          <div style="background-color: #E5EAF3;height: 30px;margin: 0px;padding: 0px">
-            <h1>编辑世界</h1>
-          </div>
+    <AdminHead :head-type="1" :wid="wid"></AdminHead>
+    <div style="background-color:#b0c4de;margin: auto;padding: 10px">
+        <el-row>
+            <el-col :span="20">
+                                <h1>编辑世界</h1>
+            </el-col>
+            <el-col :span="4" style="text-align: right;">
+                <div style="text-align: right; font-size: 12px" class="toolbar">
+                    <el-button text @click="handleReturn()">返回</el-button>
+                </div>
+            </el-col>
+        </el-row>
+    </div>
+    <div style=" border-style: solid; border-width: 1px;border-color:#CFD3DC">
           <div>
             <el-form
                 ref="worldRef"
@@ -81,6 +82,7 @@ import { Menu as IconMenu, Message, Setting } from '@element-plus/icons-vue'
 import { useRoute,useRouter }  from "vue-router";  // 引用vue-router
 import {  updateWorld,getWorld } from "@/api/admin/world";
 import {ElMessage, FormInstance, UploadProps} from "element-plus";
+import AdminHead from "./worldHead.vue";
 const {  appContext : { config: { globalProperties } }  } = getCurrentInstance();
 const {  proxy  } = getCurrentInstance();
 const router = useRouter()
@@ -210,7 +212,9 @@ function handleSurce(){
   }
 
 }
-
+function handleReturn(){
+    router.back()
+}
 handleWorld(wid.value);
 </script>
 

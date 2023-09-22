@@ -1,14 +1,15 @@
 <template>
   <!--        标题-->
     <div>
-<!--        <el-menu-->
-<!--                :default-active="1"-->
-<!--                mode="horizontal"-->
-<!--                style="margin:0px;pardding:0px"-->
-<!--        >-->
-<!--            <el-menu-item index="1">{{world.name}}</el-menu-item>-->
-<!--        </el-menu>-->
-        <h1 style="font-size: var(--el-font-size-large);margin:10px;pardding:10px">{{world.name}}</h1>
+        <el-menu
+                :default-active="1"
+                mode="horizontal"
+                style="margin:0px;pardding:0px"
+        >
+            <el-menu-item index="1"><el-text style="font-size: var(--el-font-size-large);">{{world.name}}</el-text>
+            </el-menu-item>
+        </el-menu>
+<!--        <h1 style="font-size: var(&#45;&#45;el-font-size-large);margin:10px;pardding:10px">{{world.name}}</h1>-->
     </div>
   <!--        多选-->
     <div style="padding: 10px">
@@ -18,7 +19,7 @@
             <el-button text :type="props.headType==3? 'primary':''">  <router-link :to="{path:'/admin/worldElement', query: {headType:3,wid:world.id,wname:world.name}}">元素</router-link></el-button>
             <el-button text :type="props.headType==4? 'primary':''">  <router-link :to="{path:'/admin/worldCategory', query: {headType:4,wid:world.id,wname:world.name}}">分类</router-link></el-button>
             <el-badge v-if="world.countAuditELement>0" :value="world.countAuditELement" class="item" >
-            <el-button text  :type="props.headType==5? 'primary':''">  <router-link :to="{path:'/admin/worldAudit', query: {headType:5,wid:world.id,wname:world.name}}">元素审核</router-link></el-button>
+                 <el-button text  :type="props.headType==5? 'primary':''">  <router-link :to="{path:'/admin/worldAudit', query: {headType:5,wid:world.id,wname:world.name}}">元素审核</router-link></el-button>
             </el-badge>
             <el-button v-if="world.countAuditELement <= 0" text  :type="props.headType==5? 'primary':''">  <router-link :to="{path:'/admin/worldAudit', query: {headType:5,wid:world.id,wname:world.name}}">元素审核</router-link></el-button>
 
@@ -39,14 +40,17 @@ import {  getWorld } from "@/api/admin/world";
 import {ref} from "vue";
 const props = defineProps({
     wid: Number,
-    headType: Number
+    headType: Number,
+    secondType:{
+        type: Number,
+        default: 0, // 设置默认值为0
+    },
 })
 const world=ref({})
 
 /** 查询世界详细 */
 function handleWorld(id:number) {
     getWorld(id).then(response => {
-        //console.log("查询世界详细:"+JSON.stringify(response))
         world.value = response.data
     });
 

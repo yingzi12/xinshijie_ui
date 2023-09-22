@@ -1,24 +1,5 @@
 <template>
-  <div>
-    <el-menu
-        :default-active="activeIndex"
-        mode="horizontal"
-        style="margin:0px;pardding:0px"
-    >
-      <el-menu-item index="1">{{ story.name }}</el-menu-item>
-    </el-menu>
-  </div>
-  <!--        多选-->
-  <div style="padding: 10px">
-    <el-space wrap>
-      <el-button text type="primary"> <router-link :to="{path:'/admin/storyInfo', query: {sid:sid,sname:sname}}">简介</router-link></el-button>
-      <el-button text>  <router-link :to="{path:'/admin/storyAuthor', query: {sid:sid,sname:sname}}">作者列表</router-link></el-button>
-      <el-button text>  <router-link :to="{path:'/admin/storyReel', query: {sid:sid,sname:sname}}">分卷/章节目录</router-link></el-button>
-      <el-button text>  <router-link :to="{path:'/admin/storyAudit', query: {sid:sid,sname:sname}}">章节审核</router-link></el-button>
-      <el-button text>  <router-link :to="{path:'/admin/storyComment', query: {sid:sid,sname:sname,source:2}}">评论管理</router-link></el-button>
-      <el-button text>  <router-link :to="{path:'/admin/storyDiscuss', query: {sid:sid,sname:sname,source:2}}">讨论管理</router-link></el-button>
-    </el-space>
-  </div>
+    <StoryHead :head-type="1" :sid="sid"></StoryHead>
   <!--   内容区-->
   <div style="  border-style: solid; border-width: 1px;border-color:#CFD3DC">
     <div  style="margin: 15px">
@@ -77,11 +58,12 @@
 </template>
 
 <script lang="ts" setup>
+import StoryHead from './storyHead'
 import {inject, ref} from 'vue'
 import {Flag, Edit} from '@element-plus/icons-vue'
 import {  getStoryAdmin } from "@/api/admin/story";
 //接受参数
-import { useRoute,useRouter }  from "vue-router";  // 引用vue-router
+import { useRoute,useRouter }  from "vue-router";
 
 
 const router = useRouter()

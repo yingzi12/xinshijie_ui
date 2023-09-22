@@ -84,7 +84,6 @@ wid.value = route.query.wid;
 function getElement() {
   getElementDetails(wid.value,eid.value).then(response => {
     worldElement.value = response.data
-    console.log("更新时间:"+worldElement.value.updateTime);
   });
 }
 

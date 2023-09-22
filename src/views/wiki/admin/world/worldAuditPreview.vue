@@ -61,10 +61,8 @@ const route = useRoute();
 
 const temType = ref(1);
 if(!route.query.temType || isNaN(route.query.temType)){
-  console.log("111:"+route.query.temType)
   temType.value =1
 }else {
-  console.log("2222:"+route.query.temType)
   temType.value =route.query.temType;
   if(temType.value>5 || temType.value<=0 ){
     temType.value =1
@@ -79,13 +77,10 @@ const wname = ref('');
 wname.value = <string>route.query.wname;
 deid.value = route.query.deid;
 wid.value = route.query.wid;
-//console.log("元素deid="+deid.value);
-//console.log("世界id="+wid.value);
 
 /** 查询世界详细 */
 function getDraft(wid:number,deid:number) {
   getDraftDetailsAdmin(wid,deid,0).then(response => {
-    //console.log("查询世界详细:"+JSON.stringify(response))
     worldElement.value = response.data
   });
 }

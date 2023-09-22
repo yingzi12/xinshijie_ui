@@ -1,25 +1,6 @@
 <template>
-<!--        标题-->
-        <div>
-          <el-menu
-              :default-active="1"
-              mode="horizontal"
-              style="margin:0px;pardding:0px"
-          >
-            <el-menu-item index="1">{{sname}}</el-menu-item>
-          </el-menu>
-        </div>
-        <!--        多选-->
-  <div style="padding: 10px">
-    <el-space wrap>
-      <el-button text > <router-link :to="{path:'/admin/storyInfo', query: {sid:sid,sname:sname}}">简介</router-link></el-button>
-      <el-button text>  <router-link :to="{path:'/admin/storyAuthor', query: {sid:sid,sname:sname}}">作者列表</router-link></el-button>
-      <el-button text >  <router-link :to="{path:'/admin/storyReel', query: {sid:sid,sname:sname}}">分卷/章节目录</router-link></el-button>
-      <el-button text type="primary">  <router-link :to="{path:'/admin/storyAudit', query: {sid:sid,sname:sname}}">章节审核</router-link></el-button>
-      <el-button text>  <router-link :to="{path:'/admin/storyComment', query: {sid:sid,sname:sname,source:2}}">评论管理</router-link></el-button>
-      <el-button text>  <router-link :to="{path:'/admin/storyDiscuss', query: {sid:sid,sname:sname,source:2}}">讨论管理</router-link></el-button>
-    </el-space>
-  </div>
+    <StoryHead :head-type="4" :sid="sid"></StoryHead>
+
         <!--        统计-->
         <div style="background-color:#b0c4de;margin: auto;padding: 10px">
           <el-row>
@@ -122,6 +103,7 @@ const formLabelWidth = '140px'
 //搜索框
 import { Search } from '@element-plus/icons-vue'
 import {ElMessage, FormInstance} from "element-plus";
+import StoryHead from "./storyHead.vue";
 const input3 = ref('')
 
 const {  appContext : { config: { globalProperties } }  } = getCurrentInstance();

@@ -382,7 +382,6 @@ function handleIsFllow(){
   }
   if(isLogin==true) {
     getInfoByWid(wid.value).then(response => {
-      console.log("isNotEmpty(response.data):" + isNotEmpty(response.data))
       if (isNotEmpty(response.data)) {
         isFllow.value = true
       } else {

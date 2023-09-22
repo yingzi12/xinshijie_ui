@@ -74,10 +74,8 @@ const route = useRoute();
 
 const temType = ref(1);
 if(!route.query.temType || isNaN(route.query.temType)){
-  console.log("111:"+route.query.temType)
   temType.value =1
 }else {
-  console.log("2222:"+route.query.temType)
   temType.value =route.query.temType;
   if(temType.value>5 || temType.value<=0 ){
     temType.value =1
@@ -107,7 +105,6 @@ const dialogTableVisible = ref(false)
 /** 查询草稿详细 */
 function getDraft(wid:number,deid:number) {
   getDraftDetailsAdmin(wid,deid,1).then(response => {
-    //console.log("查询草稿详细:"+JSON.stringify(response))
     worldElement.value = response.data
   });
 }

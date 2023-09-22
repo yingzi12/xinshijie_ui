@@ -201,7 +201,6 @@ function handleSee(row){
   router.push("/admin/worldInfo?wid="+row.id);
 }
 function handleIssue(row){
-  //console.log("发布："+JSON.stringify(row))
   issue(row.id).then(response => {
     getList(queryParams.value.pageNum);
 

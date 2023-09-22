@@ -74,7 +74,7 @@
 
 <script lang="ts" setup>
 import {inject, ref} from 'vue'
-import {Flag, Edit,Menu as IconMenu, Message, Setting} from '@element-plus/icons-vue'
+import {Flag, Edit} from '@element-plus/icons-vue'
 import AdminHead from './worldHead'
 import {  getWorld } from "@/api/admin/world";
 //接受参数

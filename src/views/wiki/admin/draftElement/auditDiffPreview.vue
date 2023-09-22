@@ -75,10 +75,10 @@ const route = useRoute();
 
 const temType = ref(1);
 if(!route.query.temType || isNaN(route.query.temType)){
-  console.log("111:"+route.query.temType)
+  // console.log("111:"+route.query.temType)
   temType.value =1
 }else {
-  console.log("2222:"+route.query.temType)
+  // console.log("2222:"+route.query.temType)
   temType.value =route.query.temType;
   if(temType.value>5 || temType.value<=0 ){
     temType.value =1
