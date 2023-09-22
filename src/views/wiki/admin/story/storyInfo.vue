@@ -52,8 +52,19 @@
       <h1 style="padding: 10px;margin: 0px"><Flag style="width: 1em; height: 1em; margin-right: 8px" />其他</h1>
       <el-divider  style="padding: 0px;margin: 0px"/>
     </div>
-    <div style=" padding: 10px;margin: 0px;white-space:pre; word-break:break-all;word-wrap:break-word;" >
-    </div>
+      <div style=" padding: 10px;margin: 0px;white-space:pre; word-break:break-all;word-wrap:break-word;" >
+          <el-descriptions  >
+              <el-descriptions-item label="是否私有">{{ story.isPrive }}</el-descriptions-item>
+              <el-descriptions-item label="章节数">{{ story.countElement }}</el-descriptions-item>
+              <el-descriptions-item label="评论数">{{ story.countComment }}</el-descriptions-item>
+              <el-descriptions-item label="点赞数">{{story.countLike }}</el-descriptions-item>
+              <el-descriptions-item label="关注数">{{ story.countFllow }}</el-descriptions-item>
+              <el-descriptions-item label="创建人">{{ story.createName }}</el-descriptions-item>
+              <el-descriptions-item label="创建时间">{{story.createTime }}</el-descriptions-item>
+              <el-descriptions-item label="更新人">{{ story.updateName }}</el-descriptions-item>
+              <el-descriptions-item label="更新时间">{{ story.updateTime }}</el-descriptions-item>
+          </el-descriptions>
+      </div>
   </div>
 </template>
 
