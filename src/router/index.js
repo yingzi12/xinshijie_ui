@@ -82,19 +82,43 @@ export const constantRoutes = [
       }
     ]
   },
-  {
-    path: '/test',
-    component: LayoutWiki,
-    hidden: true,
-    children: [
-      {
-        path: 'quillTest',
-        component: () => import('@/views/test/quill'),
-        name: 'quillTest',
-        meta: { title: '世界首页', icon: 'world' }
-      }
-    ]
-  },
+  // {
+  //   path: '/test',
+  //   component: LayoutWiki,
+  //   hidden: true,
+  //   children: [
+  //     {
+  //       path: 'quill',
+  //       component: () => import('@/views/test/quill'),
+  //       name: 'quillTest',
+  //       meta: { title: '世界首页', icon: 'world' }
+  //     },
+  //     {
+  //       path: 'tiptap',
+  //       component: () => import('@/views/test/tiptap'),
+  //       name: 'tiptapTest',
+  //       meta: { title: '世界首页', icon: 'world' }
+  //     },
+  //     {
+  //       path: 'tiptapIndex',
+  //       component: () => import('@/views/test/tiptapIndex'),
+  //       name: 'tiptapIndexTest',
+  //       meta: { title: '世界首页', icon: 'world' }
+  //     },
+  //     {
+  //       path: 'tiptapHead',
+  //       component: () => import('@/views/test/tiptap/head/index'),
+  //       name: 'tiptapHeadTest',
+  //       meta: { title: '世界首页', icon: 'world' }
+  //     },
+  //     {
+  //       path: 'tiptapEditor',
+  //       component: () => import('@/views/test/tiptapEditor'),
+  //       name: 'tiptapEditorTest',
+  //       meta: { title: '世界首页', icon: 'world' }
+  //     }
+  //   ]
+  // },
   {
     path: '/story',
     component: LayoutWiki,
@@ -169,7 +193,7 @@ export const constantRoutes = [
         path: 'list',
         component: () => import('@/views/wiki/element/list'),
         name: 'OrderElement',
-        meta: { title: '元素列表', icon: 'element' }
+        meta: { title: '元素', icon: 'element' }
       },{
         path: 'details',
         component: () => import('@/views/wiki/element/index'),
@@ -273,12 +297,12 @@ export const constantRoutes = [
         name: 'worldStory',
         meta: { title: '故事管理', icon: 'wiki' }
       },
-      {
-        path: 'diff',
-        component: () => import('@/views/wiki/admin/draftElement/diff'),
-        name: 'diff',
-        meta: { title: '内容比对', icon: 'wiki' }
-      },
+      // {
+      //   path: 'diff',
+      //   component: () => import('@/views/wiki/admin/draftElement/diff'),
+      //   name: 'diff',
+      //   meta: { title: '内容比对', icon: 'wiki' }
+      // },
       {
         path: 'diffPreview',
         component: () => import('@/views/wiki/admin/draftElement/diffPreview'),
@@ -508,22 +532,6 @@ export const constantRoutes = [
         path: 'password',
         component: () => import('@/views/wiki/check/password'),
         name: 'password',
-        meta: { title: '修改密码', icon: 'user' }
-      }
-    ]
-  },
-  {
-    path: '/job',
-    component: LayoutWiki,
-    hidden: true,
-    children:[
-      {
-        path: 'index',
-        component: () => import('@/views/monitor/job/index'),
-        meta: { title: '基础信息', icon: 'user' }
-      },{
-        path: 'log',
-        component: () => import('@/views/monitor/job/log'),
         meta: { title: '修改密码', icon: 'user' }
       }
     ]

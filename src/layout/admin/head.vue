@@ -35,7 +35,7 @@ const userStore = useUserStore()
 const activeIndex = ref('3')
 const handleSelect = (key: string, keyPath: string[]) => {
   activeIndex.value=key
-  console.log(key, keyPath)
+  // console.log(key, keyPath)
 }
 const props = defineProps({
   foo: { type: String, required: true },

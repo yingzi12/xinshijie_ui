@@ -105,13 +105,13 @@
 </template>
 
 <script lang="ts" setup>
-import {getCurrentInstance, inject, reactive, ref, toRefs} from 'vue'
+import { getCurrentInstance, inject, reactive, ref, toRefs } from 'vue'
 import { listDiscuss } from "@/api/wiki/discuss";
 import { addDiscuss } from "@/api/admin/discuss";
 import { getWorld } from "@/api/wiki/world";
 import { getStory } from "@/api/wiki/story";
-import {useRoute, useRouter} from "vue-router";
-import {ElMessage} from "element-plus";
+import { useRoute, useRouter } from "vue-router";
+import { ElMessage } from "element-plus";
 import useUserStore from '@/store/modules/user'
 
 // 接收url里的参数
@@ -221,7 +221,6 @@ function handWorld() {
     return;
   }
   getWorld(wid.value).then(response => {
-    //console.log("查询世界详细:"+JSON.stringify(response))
     world.value = response.data
     wname.value=response.data.name
   });
@@ -233,7 +232,6 @@ function handStory() {
     return;
   }
   getStory(sid.value).then(response => {
-    //console.log("查询世界详细:"+JSON.stringify(response))
     story.value = response.data
     wname.value=response.data.wname
     sname.value=response.data.name
@@ -249,12 +247,6 @@ const formLabelWidth = '140px'
 const commentActive = ref('allComm')
 
 function onSubmit(){
-  //console.log("添加评论"+disType.value);
-  //console.log("添加评论"+discuss.value);
-  //console.log("添加评论"+wid.value);
-  //console.log("添加评论"+eid.value);
-  //console.log("添加评论"+JSON.stringify(userStore));
-
   if(disType.value<1 || disType.value>7){
      ElMessage.error("讨论类别必选")
      return;
@@ -293,14 +285,11 @@ function onSubmit(){
   form.value.comment=discuss.value
   form.value.title=title.value
   form.value.source=source.value
-  //console.log("添加主题")
   addDiscuss(form.value).then(response => {
-    // ElMessage.info("评论成功")
     disType.value=7
     discuss.value=''
     title.value=''
-    //console.log("评论成功")
-    getList()
+    getList(1)
   })
 }
 function  getInfo(){

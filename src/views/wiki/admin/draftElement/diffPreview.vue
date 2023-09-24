@@ -66,11 +66,11 @@ const route = useRoute();
 
 const temType = ref(1);
 if(!route.query.temType || isNaN(route.query.temType)){
-  console.log("111:"+route.query.temType)
+  // console.log("111:"+route.query.temType)
   temType.value =1
 }else {
   console.log("2222:"+route.query.temType)
-  temType.value =route.query.temType;
+  // temType.value =route.query.temType;
   if(temType.value>5 || temType.value<=0 ){
     temType.value =1
   }
@@ -82,8 +82,6 @@ const deid = ref(null);
 const wid = ref(null);
 deid.value = route.query.deid;
 wid.value = route.query.wid;
-//console.log("元素deid="+deid.value);
-//console.log("世界id="+wid.value);
 const elementStatus = new Map([
   [0, "草稿"],
   [1, "待审核"],
@@ -96,13 +94,11 @@ const elementStatus = new Map([
 /** 查询草稿详细 */
 function getDraft(wid:number,deid:number) {
   getDraftDetails(wid,deid,1).then(response => {
-    //console.log("查询草稿详细:"+JSON.stringify(response))
     worldElement.value = response.data
   });
 }
 function submitPush(){
   updatePush(wid.value,deid.value).then(response => {
-    //console.log("发布成功")
     router.push("/admin/draftPreview?wid="+ wid.value+"&deid=" +deid.value)
   });
 }

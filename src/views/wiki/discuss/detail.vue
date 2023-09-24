@@ -1,11 +1,11 @@
 <template>
     <div class="app-container">
-        <!--        导航条-->
+<!--        导航条-->
         <div>
             <el-breadcrumb separator="/">
                 <el-breadcrumb-item :to="{ path: '/world/index' }">首页</el-breadcrumb-item>
                 <el-breadcrumb-item><a href="/world/list">世界树</a></el-breadcrumb-item>
-                <el-breadcrumb-item  :to="{ path: '/world/details', query: {wid:discuss.wid} }">{{discuss.wname}}</el-breadcrumb-item>
+                <el-breadcrumb-item  :to="{ path: '/world/details', query: {wid:wid} }">{{wname}}</el-breadcrumb-item>
                 <el-breadcrumb-item v-if="source == 2" :to="{ path: '/story/detail', query: {wid:wid,sid:sid} }">{{sname}}</el-breadcrumb-item>
                 <el-breadcrumb-item  :to="{ path: '/discuss/list', query: {wid:wid,sid:sid,source:source} }">讨论</el-breadcrumb-item>
                 <el-breadcrumb-item>{{ discuss.title }}</el-breadcrumb-item>
@@ -40,16 +40,16 @@
                     </el-col>
                 </el-row>
             </div>
-            <!--            回复评论-->
+<!--            回复评论-->
             <div v-if="discuss.status == 1 ">
                 <el-form :model="form" label-width="120px">
                     <el-row>
                         <el-col :span="20" class="center">
                             <el-input
-                                    v-model="form.comment"
-                                    :rows="2"
-                                    type="textarea"
-                                    placeholder="Please input"
+                                v-model="form.commit"
+                                :rows="2"
+                                type="textarea"
+                                placeholder="Please input"
                             />
                         </el-col>
                         <el-col :span="4" class="center">
@@ -58,7 +58,7 @@
                     </el-row>
                 </el-form>
             </div>
-            <!--            管理员意见-->
+<!--            管理员意见-->
             <div v-if="discuss.status == 2 ||discuss.status == 3 " style="background-color: #E6A23C">
                 <el-card class="box-card">
                     <template #header>
@@ -83,7 +83,7 @@
                                 <div >
                                     <h3 style="font-weight:bold;margin: 5px">{{ comment.createName }}</h3>
                                 </div>
-                                <div v-html="comment.comment">
+                                <div v-html="comment.reply">
                                 </div>
                                 <div style="color:#A3A6AD">
                                     <span>{{ comment.createTime }}</span>
@@ -92,8 +92,8 @@
                                     <span><BootstrapIcon icon="hand-thumbs-down" size="1x" flip-v />{{comment.countDisagree}} </span>
                                 </div>
                                 <div v-if="comment.replyHide" style="margin-left: 20px;width: 40%;">
-                                    <div v-if="discuss.status == 1">
-                                        <el-avatar  size="small" :src="imgUrl+circleUrl" /><el-input v-model="comment.replyComment"   style="width:80%"  size="small" @keyup.enter="onReplySubmit(comment,comment)"></el-input>
+                                     <div>
+                                        <el-avatar  size="small" :src="imgUrl+circleUrl" /><el-input v-model="comment.replyComment"   style="width:80%"  size="small" @keyup.enter="onReplySubmit(comment)"></el-input>
                                     </div>
                                     <div v-if="comment.replyList.length>0">
                                         <el-table  :show-header="false"  :data="comment.replyList"  size="small">
@@ -102,10 +102,10 @@
                                                     <!--                          <div v-if="comment.reply.front" style="background-color: #6b778c">-->
                                                     <!--                            <el-tag>{{ scope.row.replyNickname }}</el-tag>:{{ scope.row.front }}-->
                                                     <!--                          </div>-->
-                                                    <el-tag >{{ scopeReply.row.nickname }}</el-tag>@<el-tag>{{ scopeReply.row.replyNickname }}</el-tag>:<span >{{ scopeReply.row.comment }}</span>
-                                                    <p style="margin: 0px">{{ scopeReply.row.createTime }}<BootstrapIcon @click="handleHideCommentReply(scopeReply.row)" icon="chat-dots" size="1x" flip-v /></p>
-                                                    <div v-if="scopeReply.row.replyHide && discuss.status == 1" >
-                                                        <el-avatar  size="small" :src="imgUrl+circleUrl" /><el-input v-model="scopeReply.row.replyComment"   style="width:80%"  size="small" @keyup.enter="onReplySubmit(comment,scopeReply.row)"></el-input>
+                                                    <el-tag >{{ scopeReply.row.nickname }}</el-tag>@<el-tag>{{ scopeReply.row.replyNickname }}</el-tag>:<span >{{ scopeReply.row.reply }}</span>
+                                                    <p style="margin: 0px">{{ scopeReply.row.createTime }}<BootstrapIcon @click="handleHideReply(scopeReply.row)" icon="chat-dots" size="1x" flip-v /></p>
+                                                    <div v-if="scopeReply.row.replyHide" >
+                                                        <el-avatar  size="small" :src="imgUrl+circleUrl" /><el-input v-model="scopeReply.row.replyComment"   style="width:80%"  size="small" @keyup.enter="onReplySubmit(comment)"></el-input>
                                                     </div>
                                                 </template>
                                             </el-table-column>
@@ -120,11 +120,11 @@
                 </el-tab-pane>
                 <div style="float:right; position:relative; ">
                     <el-pagination
-                            :total="total"
-                            layout="total, prev, pager, next"
-                            v-model:page="queryParams.pageNum"
-                            :page-size=20
-                            @current-change="getList"/>
+                        :total="total"
+                        layout="total, prev, pager, next"
+                        v-model:page="queryParams.pageNum"
+                        :page-size=20
+                        @current-change="getList"/>
                 </div>
             </el-tabs>
 
@@ -137,6 +137,8 @@ import {getCurrentInstance, inject, reactive, ref, toRefs} from 'vue'
 import { listDiscussComment } from "@/api/wiki/discussComment";
 import { getDiscuss } from "@/api/wiki/discuss";
 import { addDiscussComment,replyDiscussComment } from "@/api/admin/discussComment";
+import { getWorld } from "@/api/wiki/world";
+import { getStory } from "@/api/wiki/story";
 import { useRoute, useRouter } from "vue-router";
 import { ElMessage } from "element-plus";
 import useUserStore from '@/store/modules/user'
@@ -218,15 +220,7 @@ const dateRange = ref([]);
 const total = ref(0);
 const data = reactive({
     form: {
-        comment:undefined,
-        wid:wid.value,
-        did:did.value,
-        sid:sid.value,
-        upid:undefined,
-        source:source.value
-    },
-    replyForm: {
-        comment:undefined,
+        commit:undefined,
         wid:wid.value,
         did:did.value,
         sid:sid.value,
@@ -250,38 +244,42 @@ const data = reactive({
     queryReplyParams: {
         pageNum: 1,
         pageSize: 3,
+        auditStatus:0,
+        name: undefined,
+        types: undefined,
         pid:null,
         wid:wid.value,
         did:did.value,
         sid:sid.value,
         source:source.value,
+        ranks:0,
+        // wid:wid.value,
     },
     rules: {
         // userName: [{ required: true, message: "用户名称不能为空", trigger: "blur" }, { min: 2, max: 20, message: "用户名称长度必须介于 2 和 20 之间", trigger: "blur" }],
     }
 });
-const { queryParams,queryReplyParams, form,replyForm, rules } = toRefs(data);
+const { queryParams,queryReplyParams, form, rules } = toRefs(data);
 function onAddSubmit(){
-    if(form.value.comment.length<10 || form.value.comment.length>500){
+    if(form.value.commit.length<10 || form.value.commit.length>500){
         ElMessage.error("回复内容需大于10小于500")
         return;
     }
+
     addDiscussComment(form.value).then(response => {
         // dissComment.value=''
-        form.value.comment="";
         getList(1)
     })
 }
-function onReplySubmit(comment,replyComment){
-    if(replyComment.replyComment.length<10 || replyComment.replyComment.length>500){
+function onReplySubmit(comment){
+    if(form.value.commit.length<10 || form.value.commit.length>500){
         ElMessage.error("回复内容需大于10小于500")
         return;
     }
-    replyForm.value.upid=replyComment.id;
-    replyForm.value.comment=replyComment.replyComment;
-    replyDiscussComment(replyForm.value).then(response => {
-        ElMessage.info("回复成功")
-        getReplyList(comment,1)
+    form.value.upid=comment.id;
+    form.value.commit=comment.replyComment;
+    addDiscussComment(form.value).then(response => {
+        // getList(1)
     })
 }
 /** 查询世界列表 */
@@ -291,37 +289,31 @@ function getList(page: number) {
 
     queryParams.value.ranks=0
     listDiscussComment(globalProperties.addDateRange(queryParams.value, dateRange.value)).then(response => {
+        // loading.value = false;
+        // commentList.value = response.rows;
+        total.value = response.total;
+    });
+}
+function getReplyList(page: number) {
+    window.scrollTo(0, 0); // 滚动到顶部
+    queryReplyParams.value.pageNum=page;
+
+    queryReplyParams.value.ranks=0
+    listDiscussComment(globalProperties.addDateRange(queryReplyParams.value, dateRange.value)).then(response => {
         loading.value = false;
         commentList.value = response.rows;
         total.value = response.total;
     });
 }
-function getReplyList(comment,page: number) {
-    window.scrollTo(0, 0); // 滚动到顶部
-    queryReplyParams.value.pageNum=page;
 
-    queryReplyParams.value.pid=comment.id
-    listDiscussComment(globalProperties.addDateRange(queryReplyParams.value, dateRange.value)).then(response => {
-        loading.value = false;
-        comment.replyList = response.rows;
-        total.value = response.total;
-    });
-}
-
+const hideReply=false;
 function handleHideReply(comment){
-    if(comment.replyHide) {
-        comment.replyHide = false;
+    if(comment.hideReply) {
+        comment.hideReply = false;
     }else {
-        comment.replyHide = true;
+        comment.hideReply = true;
     }
-    getReplyList(comment,1)
-}
-function handleHideCommentReply(comment){
-    if(comment.replyHide) {
-        comment.replyHide = false;
-    }else {
-        comment.replyHide = true;
-    }
+
 }
 //跳转回复详细
 function handleReplyDetail(comment){

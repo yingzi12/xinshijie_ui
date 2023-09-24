@@ -15,7 +15,8 @@ axios.defaults.headers['Content-Type'] = 'application/json;charset=utf-8'
 // 创建axios实例
 const service = axios.create({
   // axios中请求配置有baseURL选项，表示请求URL公共部分
-  // baseURL: import.meta.env.VITE_APP_BASE_API,
+  //baseURL: import.meta.env.VITE_APP_BASE_API,
+ //baseURL: "https://49.234.14.133:8080",
   baseURL: "http://127.0.0.1:8097",
   // 超时
   timeout: 10000
@@ -100,9 +101,7 @@ service.interceptors.response.use(res => {
       })
       return Promise.reject(new Error(msg))
     } else if (code !== 200) {
-      ElNotification.error({
-        title: msg
-      })
+      ElMessage.error(msg)
       return Promise.reject('error')
     } else {
       return  Promise.resolve(res.data)

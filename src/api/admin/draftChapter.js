@@ -1,6 +1,6 @@
 import request from '@/utils/request'
 
-// 查询元素列表
+// 查询元素
 export function listDraftChapter(query) {
   return request({
     url: '/admin/draftChapter/list',
@@ -9,7 +9,7 @@ export function listDraftChapter(query) {
   })
 }
 
-// 查询元素列表
+// 查询元素
 export function listDraftChapterAdmin(query) {
   return request({
     url: '/admin/draftChapter/listAdmin',
@@ -60,7 +60,7 @@ export function delDraftChapter(wid,dscid) {
   })
 }
 
-// 查询元素列表
+// 查询元素
 export function listAudit(query) {
   return request({
     url: '/admin/draftChapter/listAudit',

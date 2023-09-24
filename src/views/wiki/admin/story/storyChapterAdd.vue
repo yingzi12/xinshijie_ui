@@ -1,17 +1,19 @@
 <template>
-        <!--        标题-->
-        <div>
-          <el-menu
-              :default-active="1"
-              mode="horizontal"
-              style="margin:0px;pardding:0px"
-          >
-            <el-menu-item index="1">{{sname}} -{{scname}}-章节目录</el-menu-item>
-          </el-menu>
-        </div>
-        <!--        表格-->
-        <div>
-          <h1>所属分卷 --  {{scname}}</h1>
+    <StoryHead :head-type="3" second-type="3" :sid="sid"></StoryHead>
+    <div style="background-color:#b0c4de;margin: auto;padding: 10px">
+        <el-row>
+            <el-col :span="20">
+                <h1>所属分卷 --  {{scname}}</h1>
+            </el-col>
+            <el-col :span="4" style="text-align: right;">
+                <div style="text-align: right; font-size: 12px" class="toolbar">
+                    <el-button text @click="goBack()">返回</el-button>
+                </div>
+            </el-col>
+        </el-row>
+    </div>
+  <!--        表格-->
+        <div style="background-color:#b0c4de;margin: auto;padding: 10px">
           <el-form
               ref="ruleFormRef"
               :model="form"
@@ -49,6 +51,7 @@ const editorConfig ={
 }
 import {useRoute, useRouter} from "vue-router";
 import {ElMessage, FormInstance} from "element-plus";
+import StoryHead from "./storyHead.vue";
 
 // 接收url里的参数
 const route = useRoute();
@@ -101,7 +104,7 @@ const handleReelAdd = async (formEl: FormInstance | undefined) => {
   await formEl.validate((valid, fields) => {
     if (valid) {
       addDraftChapter(form.value).then(response => {
-        console.log("添加成功:"+JSON.stringify(response))
+        // console.log("添加成功:"+JSON.stringify(response))
         router.push("/admin/storyChapter?sid="+sid.value+"&sname="+sname.value+"&scid="+scid.value+"&scname="+scname.value);
 
       })
@@ -112,6 +115,10 @@ const handleReelAdd = async (formEl: FormInstance | undefined) => {
 }
 function handleReturn(){
   router.back()
+}
+function goBack() {
+    // 使用 router.go(-1) 返回上一页
+    router.back()
 }
 </script>
 

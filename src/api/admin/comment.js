@@ -38,6 +38,13 @@ export function addComment(data) {
     data: data
   })
 }
+export function replyComment(data) {
+  return request({
+    url: '/admin/comment/reply',
+    method: 'post',
+    data: data
+  })
+}
 
 // 修改世界评论
 export function updateComment(data) {

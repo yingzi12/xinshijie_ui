@@ -41,6 +41,7 @@
               </el-table-column>
               <el-table-column label="名称" align="center" key="name" prop="name"  :show-overflow-tooltip="true">
                 <template #default="scope">
+                    <el-icon   color="#F56C6C" v-if=" scope.row.countAuditElement>0 ||  scope.row.countAuditStory>0 ||  scope.row.countAuditDiscuss >0 "><WarningFilled /></el-icon>
                   <router-link  :to="{path:'/admin/worldInfo', query: {wid:scope.row.id,wname:scope.row.name}}"><el-tag v-if="scope.row.source=='原创'">原创</el-tag>{{scope.row.name}}</router-link>
                 </template>
               </el-table-column>
@@ -58,17 +59,10 @@
                     <el-descriptions-item label="关注数">{{ props.row.countFllow }}</el-descriptions-item>
                     <el-descriptions-item label="故事数">{{ props.row.countStory }}</el-descriptions-item>
                     <el-descriptions-item label="编辑数">{{ props.row.countEdit }}</el-descriptions-item>
-
                     <el-descriptions-item label="创建人">{{ props.row.createName }}</el-descriptions-item>
                     <el-descriptions-item label="创建时间">{{ props.row.createTime }}</el-descriptions-item>
                     <el-descriptions-item label="更新人">{{ props.row.updateName }}</el-descriptions-item>
                     <el-descriptions-item label="更新时间">{{ props.row.updateTime }}</el-descriptions-item>
-<!--                    <el-descriptions-item label="Remarks">-->
-<!--                      <el-tag size="small">{{ props.row.state }}</el-tag>-->
-<!--                    </el-descriptions-item>-->
-<!--                    <el-descriptions-item label="Address">-->
-<!--                      {{ props.row.state }}-->
-<!--                    </el-descriptions-item>-->
                   </el-descriptions>
                 </template>
               </el-table-column>
@@ -210,7 +204,6 @@ function handleSee(row){
   router.push("/admin/worldInfo?wid="+row.id);
 }
 function handleIssue(row){
-  //console.log("发布："+JSON.stringify(row))
   issue(row.id).then(response => {
     getList(queryParams.value.pageNum);
 

@@ -1,14 +1,19 @@
 <template>
-  <div>
-    <el-menu
-        :default-active="1"
-        mode="horizontal"
-        style="margin:0px;pardding:0px"
-    >
-      <el-menu-item index="1"><span style="font-size: 20px;font-weight:bold;">修改故事</span></el-menu-item>
-    </el-menu>
-  </div>
-  <div>
+    <StoryHead :head-type="1" second-type="2" :sid="sid"></StoryHead>
+    <div style="background-color:#b0c4de;margin: auto;padding: 10px">
+        <el-row>
+            <el-col :span="20">
+<!--                <h1>编辑故事</h1>-->
+            </el-col>
+            <el-col :span="4" style="text-align: right;">
+                <div style="text-align: right; font-size: 12px" class="toolbar">
+                    <el-button text @click="handleReturn()">返回</el-button>
+                </div>
+            </el-col>
+        </el-row>
+    </div>
+
+    <div style="border-style: solid; border-width: 1px;border-color:#CFD3DC">
     <el-form
         ref="ruleFormRef"
         :model="form"
@@ -82,6 +87,7 @@ import {   getWorld } from "@/api/wiki/world";
 import {useRoute, useRouter} from "vue-router";
 import {ElMessage, FormInstance} from "element-plus";
 import {UploadProps} from "element-plus/es";
+import StoryHead from "./storyHead.vue";
 // import edit from "../image/eidt.vue";
 // const  temPage=markRaw(edit)
 // const  tem=ref()
@@ -218,7 +224,7 @@ function handleStory() {
     handleSurce()
 
   });
-  console.log(JSON.stringify(form))
+  // console.log(JSON.stringify(form))
 }
 
 function handleReturn(){

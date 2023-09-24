@@ -1,6 +1,6 @@
 import request from '@/utils/request'
 
-// 查询元素列表
+// 查询元素
 export function listElement(query) {
   return request({
     url: '/wiki/element/list',

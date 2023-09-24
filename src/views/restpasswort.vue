@@ -102,7 +102,6 @@ const submitForm = async (formEl: FormInstance | undefined) => {
         ElMessage.success("发送验证邮件成功，请去邮箱查看")
         router.push("/login");
       })
-      //console.log('submit!')
     } else {
       //console.log('error submit!', fields)
     }

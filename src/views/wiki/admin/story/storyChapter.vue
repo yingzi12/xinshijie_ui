@@ -1,26 +1,7 @@
 <template>
-        <!--        标题-->
-        <div>
-          <el-menu
-              :default-active="1"
-              mode="horizontal"
-              style="margin:0px;pardding:0px"
-          >
-            <el-menu-item index="1">{{sname}} -{{scname}}-章节目录</el-menu-item>
-          </el-menu>
-        </div>
-        <!--        多选-->
-        <div style="padding: 10px">
-          <el-space wrap>
-            <el-button text > <router-link :to="{path:'/admin/storyInfo', query: {sid:sid,sname:sname}}">简介</router-link></el-button>
-            <el-button text>  <router-link :to="{path:'/admin/storyAuthor', query: {sid:sid,sname:sname}}">作者列表</router-link></el-button>
-            <el-button text type="primary">  <router-link :to="{path:'/admin/storyReel', query: {sid:sid,sname:sname}}">分卷/章节目录</router-link></el-button>
-            <el-button text>  <router-link :to="{path:'/admin/storyAudit', query: {sid:sid,sname:sname}}">章节审核</router-link></el-button>
-            <el-button text>  <router-link :to="{path:'/admin/storyComment', query: {sid:sid,sname:sname}}">评论管理</router-link></el-button>
-            <el-button text>  <router-link :to="{path:'/admin/storyDiscuss', query: {sid:sid,sname:sname}}">讨论管理</router-link></el-button>
-          </el-space>
-        </div>
-        <!--        统计-->
+    <StoryHead :head-type="3" second-type="2" :sid="sid"></StoryHead>
+
+  <!--        统计-->
         <div style="background-color:#b0c4de;margin: auto;padding: 10px">
           <el-row>
             <el-col :span="20">
@@ -105,6 +86,7 @@ import { listChapter,delChapter } from "@/api/admin/chapter";
 import {useRoute, useRouter} from "vue-router";
 import {Search} from '@element-plus/icons-vue'
 import {FormInstance} from "element-plus";
+import StoryHead from "./storyHead.vue";
 
 const chapterStatusMap = new Map([
   [1, "正常"],
@@ -176,12 +158,12 @@ function handleDelete ( row){
 }
 
 function handleSeeChapter(row){
-  router.push("/chapter/index?sid="+row.sid+"&sname="+sname.value+"&scid="+row.id);
+  router.push("/chapter/index?sid="+row.sid+"&sname="+sname.value+"&scid="+row.id+"&scname="+scname.value);
 }
 function handleUpdateChapter(row){
-  router.push("/admin/storyChapterEdit?sid="+row.sid+"&sname="+sname.value+"&scid="+row.id);
+  router.push("/admin/storyChapterEdit?sid="+row.sid+"&sname="+sname.value+"&scid="+row.id+"&scname="+scname.value);
 }
-/** 查询元素列表 */
+/** 查询元素 */
 function getList(page: number) {
   window.scrollTo(0, 0); // 滚动到顶部
   queryParams.value.pageNum=page;

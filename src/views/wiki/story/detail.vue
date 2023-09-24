@@ -252,7 +252,7 @@ function handleAuthor() {
     authorList.value = response.rows
   });
 }
-/** 查询元素列表 */
+/** 查询元素 */
 function handleChapterList() {
   queryParams.value.wid=wid.value;
   listChapter(globalProperties.addDateRange(queryParams.value, dateRange.value)).then(response => {

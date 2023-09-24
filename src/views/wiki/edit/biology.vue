@@ -4,10 +4,10 @@
     <div style="background-color:#8c939d;height: 30px">
       <h2  class="center2">{{ wname }}</h2>
     </div>
-    <!--  分类管理 -->
+    <!--  分类 -->
     <div >
       <div style="background-color: #E5EAF3;height: 25px">
-        <BootstrapIcon icon="card-list" size="1x" flip-v /><span>分类管理</span>
+        <BootstrapIcon icon="card-list" size="1x" flip-v /><span>分类</span>
       </div>
       <div style="height: 55px">
         <div>
@@ -314,7 +314,7 @@ function  show(val){
   //console.log("选中的对象sleValue2"+sleValue.value)
   //console.log("选中的对象element:"+JSON.stringify(element.value))
 }
-getList()
+getList(1)
 handWorld();
 </script>
 

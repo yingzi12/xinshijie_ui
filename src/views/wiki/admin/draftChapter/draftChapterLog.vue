@@ -133,7 +133,7 @@ const search = ref('')
 function handleSee(row){
   router.push("/admin/draftChapterView?sid="+row.sid+"&dscid="+row.id);
 }
-/** 查询元素列表 */
+/** 查询元素 */
 function getList(page: number) {
   window.scrollTo(0, 0); // 滚动到顶部
   queryParams.value.pageNum=page;

@@ -50,7 +50,7 @@
                   </div>
                   <div style="color:#A3A6AD">
                     <span>{{ comment.createTime }}</span>
-                    <span><el-icon :size="15"><ChatDotRound /></el-icon>{{comment.countReply}} </span>
+<!--                    <span><el-icon :size="15"><ChatDotRound /></el-icon>{{comment.countReply}} </span>-->
                     <span><el-icon :size="15"><Pointer /></el-icon>{{comment.countReply}}</span>
                     <!--                  <span><BootstrapIcon icon="hand-thumbs-down" size="small" />{{comment.countReply}}</span>-->
                   </div>
@@ -116,7 +116,7 @@ if(userStore.name==''){
   disabled.value=true;
 }else{
   username.value=userStore.name;
-  circleUrl.value=imgUrl+userStore.avatar;
+  circleUrl.value=userStore.avatar;
   disabled.value=false;
 }
 
@@ -128,7 +128,7 @@ const data = reactive({
   commentForm: {},
   queryParams: {
     pageNum: 1,
-
+      source:1,
     wid: wid.value,
     eid: undefined,
   },
@@ -179,12 +179,11 @@ function onSubmit(){
   }else{
     commentForm.value.wid=wid.value
   }
-  commentForm.value.wname=world.value.name
-  commentForm.value.circleUrl=userStore.avatar
+    commentForm.value.source=1
   addComment(commentForm.value).then(response => {
     ElMessage.info("评论成功")
     //console.log("评论成功")
-    getList()
+    getList(1)
   })
 }
 handWorld(wid.value)

@@ -203,7 +203,7 @@ function handleCloes(row){
 
 }
 
-getList()
+getList(1)
 </script>
 
 <style scoped>

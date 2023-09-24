@@ -1,33 +1,26 @@
  <template>
         <!--        标题-->
-        <div>
-          <el-menu
-              :default-active="1"
-              mode="horizontal"
-              style="margin:0px;pardding:0px"
-          >
-            <el-menu-item index="1">{{wname}}</el-menu-item>
-          </el-menu>
-        </div>
-        <!--        多选-->
-        <div style="padding: 10px">
-          <el-space wrap>
-            <el-button text > <router-link :to="{path:'/admin/worldInfo', query: {wid:wid,wname:wname}}">简介</router-link></el-button>
-            <el-button text>  <router-link :to="{path:'/admin/worldManage', query: {wid:wid,wname:wname}}">造物主列表</router-link></el-button>
-            <el-button text>  <router-link :to="{path:'/admin/worldElement', query: {wid:wid,wname:wname}}">元素列表</router-link></el-button>
-            <el-button text type="primary">  <router-link :to="{path:'/admin/worldCategory', query: {wid:wid,wname:wname}}">分类管理</router-link></el-button>
-            <el-button text>  <router-link :to="{path:'/admin/worldAudit', query: {wid:wid,wname:wname}}">元素审核</router-link></el-button>
-            <el-button text>  <router-link :to="{path:'/admin/worldStory', query: {wid:wid,wname:wname}}">故事管理</router-link></el-button>
-            <el-button text>  <router-link :to="{path:'/admin/worldRedident', query: {wid:wid,wname:wname}}">居民管理</router-link></el-button>
-            <el-button text>  <router-link :to="{path:'/admin/worldComment', query: {wid:wid,wname:wname,source:1}}">评论管理</router-link></el-button>
-            <el-button text>  <router-link :to="{path:'/admin/worldDiscuss', query: {wid:wid,wname:wname,source:1}}">讨论管理</router-link></el-button>
-          </el-space>
-        </div>
-        <!--   内容区-->
+     <AdminHead :head-type="4" :wid="wid"></AdminHead>
+     <div style="background-color:#b0c4de;margin: auto;padding: 10px">
+         <el-row>
+             <el-col :span="20">
+<!--                 <el-tree-select v-model="queryParams.types" :data="dataStree" check-strictly :render-after-expand="false" clearable />-->
+<!--                 <el-input v-model="queryParams.title" placeholder="请输入元素名" class="input-with-select" style="width: 250px"/>-->
+<!--                 <el-button :icon="Search" circle @click="getList"/>-->
+             </el-col>
+             <el-col :span="4" style="text-align: right;">
+                 <div style="text-align: right; font-size: 12px" class="toolbar">
+                     <el-button text @click="disForm(true)">添加一级分类</el-button>
+                 </div>
+             </el-col>
+         </el-row>
+     </div>
+
+   <!--   内容区-->
         <div style="  border-style: solid; border-width: 1px;border-color:#CFD3DC">
-          <div>
-            <el-button  text @click="disForm(true)">添加一级分类</el-button>
-          </div>
+<!--          <div>-->
+<!--            <el-button  text @click="disForm(true)">添加一级分类</el-button>-->
+<!--          </div>-->
           <div class="custom-tree-container">
             <el-tree
                 :data="dataSource"
@@ -42,7 +35,7 @@
           <el-dialog v-model="dialogFormVisible" :title="title">
             <el-form :model="form"
                      ref="ruleFormRef"  @submit.native.prevent>
-              <el-form-item label="名称" :label-width="formLabelWidth">
+              <el-form-item label="名称" >
                 <el-input v-model="form.label" autocomplete="off" />
               </el-form-item>
               <el-input type="hidden" v-model="form.tier"></el-input>
@@ -65,12 +58,14 @@
 </template>
 
 <script lang="ts" setup>
+import AdminHead from './worldHead'
 import { getCurrentInstance, reactive, ref, toRefs} from 'vue'
 import type Node from 'element-plus/es/components/tree/src/model/node'
 import { addCategory,updateCategory} from "@/api/admin/category";
 import { getTree} from "@/api/wiki/category";
 import {useRoute,useRouter} from "vue-router";
 import {FormInstance} from "element-plus";
+import {Search} from "@element-plus/icons-vue";
 const fits = ['世界', '粉丝', '关注']
 const activeIndex = ref('1')
 const circleUrl=ref('')
@@ -229,14 +224,13 @@ function submitForm(formEl: FormInstance | undefined) {   //
   form.value.wid=wid.value
   if (form.value.isUpdate){
     updateCategory(form.value).then(response => {
-      //console.log("修改成功:"+JSON.stringify(response.data))
-      getList(queryParams.value.pageNum);
+
+      getList();
 
     })
   }else{
     addCategory(form.value).then(response => {
-      //console.log("添加成功"+JSON.stringify(response.data))
-      getList(queryParams.value.pageNum);
+      getList();
 
     })
   }
@@ -244,13 +238,7 @@ function submitForm(formEl: FormInstance | undefined) {   //
 }
 /** 重置新增的表单以及其他数据  */
 function reset() {
-  // if (menuRef.value != undefined) {
-  //   menuRef.value.setCheckedKeys([]);
-  // }
-  // menuExpand.value = false;
-  // menuNodeAll.value = false;
-  // deptExpand.value = true;
-  // deptNodeAll.value = false;
+
   form.value = {
     label: undefined,
     tier: undefined,
@@ -263,15 +251,12 @@ function reset() {
   // proxy.resetForm("roleRef");
 }
 /** 查询世界列表 */
-function getList(page: number) {
-  window.scrollTo(0, 0); // 滚动到顶部
-  queryParams.value.pageNum=page;
-
+function getList( ) {
   getTree(wid.value).then(response => {
     dataSource.value = response.data
   });
 }
-getList(queryParams.value.pageNum);
+getList();
 
 </script>
 

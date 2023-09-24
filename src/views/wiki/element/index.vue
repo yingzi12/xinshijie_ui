@@ -5,7 +5,7 @@
         <el-breadcrumb-item :to="{ path: '/world/index' }">首页</el-breadcrumb-item>
         <el-breadcrumb-item><a href="/world/list">世界树</a></el-breadcrumb-item>
         <el-breadcrumb-item :to="{ path: '/world/details', query: {wid:wid} }">{{world.name}}</el-breadcrumb-item>
-        <el-breadcrumb-item :to="{ path: '/element/list', query: {wid:wid} }">元素列表</el-breadcrumb-item>
+        <el-breadcrumb-item :to="{ path: '/element/list', query: {wid:wid} }">元素</el-breadcrumb-item>
         <el-breadcrumb-item>元素详情</el-breadcrumb-item>
       </el-breadcrumb>
     </div>
@@ -84,7 +84,6 @@ wid.value = route.query.wid;
 function getElement() {
   getElementDetails(wid.value,eid.value).then(response => {
     worldElement.value = response.data
-    console.log("更新时间:"+worldElement.value.updateTime);
   });
 }
 
