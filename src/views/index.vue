@@ -56,8 +56,8 @@
             </div>
             <div >
               <div id="u10366-1_text" class="text u10366_text" style="/* visibility: inherit; */">
-                <p class="biaoti" @click="handleSee(world.id)" ><span style="font-family:'PingFangSC-Regular', 'PingFang SC', sans-serif;color:#333333;">{{ world.name }}<el-tag v-if="world.source=='原创'">原创</el-tag></span></p>
-                <p class="shuoming"><span style="font-family:'PingFangSC-Regular', 'PingFang SC', sans-serif;  color:#999999; font-size: x-small;">{{ world.intro }}</span></p>
+                <p class="biaoti" @click="handleSee(world.id)" ><span class="head-title">{{ world.name }}<el-tag v-if="world.source=='原创'">原创</el-tag></span></p>
+                <p class="shuoming"><span class="head-intro">{{ world.intro }}</span></p>
               </div>
             </div>
           </el-card>
@@ -93,9 +93,11 @@
               </div>
               <div >
                 <div id="u10366-1_text" class="text u10366_text" style="/* visibility: inherit; */">
-                  <p><span style="font-family:'PingFangSC-Regular', 'PingFang SC', sans-serif;color:#333333;"  @click="handleSee(worldKey1.id)">{{ worldKey1.name }}<el-tag v-if="worldKey1.source=='原创'">原创</el-tag></span></p>
                     <div>
-                        <el-text class="text-multi-line-hidden" style="font-family:'PingFangSC-Regular', 'PingFang SC', sans-serif;  color:#999999; font-size: x-small;" >{{ worldKey4.intro }}</el-text>
+                  <span class="head-title"  @click="handleSee(worldKey1.id)">{{ worldKey1.name }}<el-tag v-if="worldKey1.source=='原创'">原创</el-tag></span>
+                    </div>
+                    <div class="head-intro-div">
+                        <span class="text-multi-line-hidden head-intro"  >{{ worldKey1.intro }}</span>
                     </div>
                 </div>
               </div>
@@ -113,9 +115,11 @@
               </div>
               <div >
                 <div id="u10366-1_text" class="text u10366_text" style="/* visibility: inherit; */">
-                  <p><span style="font-family:'PingFangSC-Regular', 'PingFang SC', sans-serif;color:#333333;"  @click="handleSee(worldKey2.id)">{{ worldKey2.name }}<el-tag v-if="worldKey2.source=='原创'">原创</el-tag></span></p>
-                    <div>
-                        <el-text class="text-multi-line-hidden" style="font-family:'PingFangSC-Regular', 'PingFang SC', sans-serif;  color:#999999; font-size: x-small;" >{{ worldKey4.intro }}</el-text>
+                <div>
+                  <span class="head-title" @click="handleSee(worldKey2.id)">{{ worldKey2.name }}<el-tag v-if="worldKey2.source=='原创'">原创</el-tag></span>
+                </div>
+                    <div class="head-intro-div">
+                        <span class="text-multi-line-hidden  head-intro"  >{{ worldKey2.intro }}</span>
                     </div>
                 </div>
               </div>
@@ -161,9 +165,11 @@
               </div>
               <div >
                 <div id="u10366-1_text" class="text u10366_text" style="/* visibility: inherit; */">
-                  <p><span style="font-family:'PingFangSC-Regular', 'PingFang SC', sans-serif;color:#333333;"  @click="handleSee(worldKey3.id)">{{ worldKey3.name }}<el-tag v-if="worldKey3.source=='原创'">原创</el-tag></span></p>
                     <div>
-                        <el-text class="text-multi-line-hidden" style="font-family:'PingFangSC-Regular', 'PingFang SC', sans-serif;  color:#999999; font-size: x-small;" >{{ worldKey4.intro }}</el-text>
+                  <span class="head-title"  @click="handleSee(worldKey3.id)">{{ worldKey3.name }}<el-tag v-if="worldKey3.source=='原创'">原创</el-tag></span>
+                    </div>
+                    <div class="head-intro-div">
+                        <span class="text-multi-line-hidden head-intro" style="font-family:'PingFangSC-Regular', 'PingFang SC', sans-serif;  color:#999999; font-size: x-small;" >{{ worldKey3.intro }}</span>
                     </div>
                 </div>
               </div>
@@ -181,9 +187,11 @@
               </div>
               <div>
                 <div id="u10366-1_text" class="text u10366_text" style="/* visibility: inherit; */">
-                  <p><span style="font-family:'PingFangSC-Regular', 'PingFang SC', sans-serif;color:#333333;"  @click="handleSee(worldKey4.id)">{{ worldKey4.name }}<el-tag v-if="worldKey4.source=='原创'">原创</el-tag></span></p>
-                   <div>
-                    <el-text class="text-multi-line-hidden" style="font-family:'PingFangSC-Regular', 'PingFang SC', sans-serif;  color:#999999; font-size: x-small;" >{{ worldKey4.intro }}</el-text>
+                    <div>
+                  <span class="head-title" @click="handleSee(worldKey4.id)">{{ worldKey4.name }}<el-tag v-if="worldKey4.source=='原创'">原创</el-tag></span>
+                    </div>
+                    <div class="head-intro-div">
+                        <span  class="text-multi-line-hidden head-intro" style="font-family:'PingFangSC-Regular', 'PingFang SC', sans-serif;  color:#999999; font-size: x-small;" >{{ worldKey4.intro }}</span>
                    </div>
                 </div>
               </div>
@@ -351,7 +359,7 @@ h3{
 
 .text-multi-line-hidden{
     display: -webkit-box;
-    -webkit-line-clamp: 3;
+    -webkit-line-clamp: 5;
     -webkit-box-orient: vertical;
     overflow: hidden;
 }
