@@ -1,0 +1,8 @@
+name = "xinshijie"
+main = "src/index.ts"
+compatibility_date = "2023-09-29"
+usage_model = "bundled"
+env = { }
+
+[triggers]
+crons = [ ]
