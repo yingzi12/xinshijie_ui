@@ -76,7 +76,7 @@
 import {inject, ref} from 'vue'
 import {ElMessage, FormInstance} from "element-plus";
 // import ClassicEditor from '@ckeditor/ckeditor5-build-classic';
-import  Editor  from 'ckeditor5-custom-build/build/ckeditor';
+import  Editor  from 'ckeditor5-custom-build-free-all/build/ckeditor';
 
 //接受参数
 import { useRoute ,useRouter}  from "vue-router";  // 引用vue-router

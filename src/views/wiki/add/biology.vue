@@ -75,7 +75,7 @@
 <script  lang="ts" setup>
 import {getCurrentInstance, inject, reactive, ref} from 'vue'
 import {FormInstance, ElInput, ElMessage} from "element-plus";
-import  Editor  from 'ckeditor5-custom-build/build/ckeditor';
+import  Editor  from 'ckeditor5-custom-build-free-all/build/ckeditor';
 
 const editor = Editor
 const baseUrl = inject("$baseUrl")
