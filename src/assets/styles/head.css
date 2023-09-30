@@ -1,0 +1,9 @@
+.head-title{
+    font-family:'PingFangSC-Regular', 'PingFang SC', sans-serif;color:#333333;
+}
+.head-intro{
+    font-family:'PingFangSC-Regular', 'PingFang SC', sans-serif;  color:#999999; font-size: x-small;
+}
+.head-intro-div{
+    min-height: 82px;
+}
