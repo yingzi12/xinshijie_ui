@@ -297,6 +297,18 @@ export const constantRoutes = [
         name: 'worldStory',
         meta: { title: '故事管理', icon: 'wiki' }
       },
+      {
+        path: 'worldApplyManage',
+        component: () => import('@/views/wiki/admin/world/worldApplyManage'),
+        name: 'worldApplyManage',
+        meta: { title: '故事管理', icon: 'wiki' }
+      },
+      {
+        path: 'worldApplyManageLog',
+        component: () => import('@/views/wiki/admin/world/worldApplyManageLog'),
+        name: 'worldApplyManageLog',
+        meta: { title: '故事管理', icon: 'wiki' }
+      },
       // {
       //   path: 'diff',
       //   component: () => import('@/views/wiki/admin/draftElement/diff'),
@@ -458,6 +470,18 @@ export const constantRoutes = [
         component: () => import('@/views/wiki/admin/story/storyDiscussLog'),
         name: 'storyDiscussLog',
         meta: { title: '管理员修改元素', icon: 'wiki' }
+      },
+      {
+        path: 'storyApplyAuthor',
+        component: () => import('@/views/wiki/admin/story/storyApplyAuthor'),
+        name: 'storyApplyAuthor',
+        meta: { title: '故事管理', icon: 'wiki' }
+      },
+      {
+        path: 'storyApplyAuthorLog',
+        component: () => import('@/views/wiki/admin/story/storyApplyAuthorLog'),
+        name: 'storyApplyAuthorLog',
+        meta: { title: '故事管理', icon: 'wiki' }
       },
       {
         path: 'draftChapter',

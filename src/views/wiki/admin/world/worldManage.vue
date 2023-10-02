@@ -23,7 +23,7 @@
                   {{scope.$index+1+(queryParams.pageNum-1)*20}}
                 </template>
               </el-table-column>
-              <el-table-column label="姓名" align="center" key="userName" prop="userName" :show-overflow-tooltip="true" />
+              <el-table-column label="用户名" align="center" key="userName" prop="userName" :show-overflow-tooltip="true" />
               <el-table-column label="等级" align="center" key="ranks" prop="ranks" :show-overflow-tooltip="true" />
               <el-table-column label="签名" align="center" key="sign" prop="sign"  :show-overflow-tooltip="true" />
               <el-table-column label="创建人" align="center" key="createName" prop="createName"  :show-overflow-tooltip="true" />
@@ -47,11 +47,11 @@
     <el-dialog title="新增管理员" v-model="open" width="600px" append-to-body>
       <el-form :model="form" :rules="rules" ref="manageRef" label-width="80px">
         <el-input type="hidden" v-model="form.wid"></el-input>
-        <el-form-item label="用户昵称" prop="userId">
+        <el-form-item label="用户ID" prop="userId">
           <el-input v-model="form.userId" placeholder="请输入用户id" maxlength="30" />
         </el-form-item>
-        <el-form-item label="用户昵称" prop="userName">
-          <el-input v-model="form.userName" placeholder="请输入用户昵称" maxlength="30" />
+        <el-form-item label="用户名" prop="userName">
+          <el-input v-model="form.userName" placeholder="请输入用户名" maxlength="30" />
         </el-form-item>
       </el-form>
       <template #footer>
@@ -68,7 +68,7 @@ import AdminHead from './worldHead'
 
 import { getCurrentInstance, reactive, ref, toRefs} from 'vue'
 import {useRoute, useRouter} from "vue-router";
-import { Menu as IconMenu,CirclePlus, Message, Setting } from '@element-plus/icons-vue'
+import { CirclePlus } from '@element-plus/icons-vue'
 import { getWorldManage ,delManage,addManage,getInfo } from "@/api/admin/manage";
 
 const fits = ['世界', '粉丝', '关注']

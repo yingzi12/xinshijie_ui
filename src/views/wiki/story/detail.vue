@@ -39,7 +39,7 @@
                 <span style="font-size:10px;color:#999999;">更新时间:</span><span style="font-size:10px;color:#999999;">{{ story.updateChapterTime }}</span><span style="font-size:10px;margin-left: 10px;color:#70B603;">{{ story.updateChapter }}</span>
               </div>
               <div style="height: 52px;overflow:hidden">
-                <p style="font-size: 18px;color: #666666;margin: 5px 0px 0px 0px">{{ story.intro }}</p>
+                <p style="font-size: 18px;color: #666666;margin: 5px 0 0 0">{{ story.intro }}</p>
               </div>
               <div style="margin-top: 5px;color:#A3A6AD">
                 <span><el-icon size="20"><ChatDotRound /></el-icon>{{story.countComment}}</span>
@@ -50,6 +50,14 @@
               <div style="margin-top: 5px;" >
                 <el-button v-if="isFllow" style="width: 90px;" type="primary" @click="handleHarding">关注</el-button>
                 <el-button @click="handleDiscuss" style="width: 90px;">讨论({{story.countDiscuss}})</el-button>
+                  <el-tooltip  v-if="isAdmin == 2"
+                          class="box-item"
+                          effect="dark"
+                          content="可以分享故事的收益"
+                          placement="top-start"
+                  >
+                  <el-button @click="handOpenDia" style="width: 90px;">申请作家</el-button>
+                  </el-tooltip>
               </div>
             </div>
           </el-col>
@@ -143,6 +151,35 @@
       </el-tabs>
     </div>
   </div>
+
+    <el-dialog v-model="dialogFormVisible" title="申请成为作家"
+               align-center
+    >
+<!--        <el-alert title="Once a time slot with a specific date is configured and submitted, it will overwrite any existing content for the same date." type="warning" />-->
+        <el-form
+                :model="addApplyForm"
+                ref="addApplyFormRef"
+                :rules="addApplyRules"
+
+        >
+            <el-form-item label="申请理由"  prop="applyExplain">
+                <el-input
+                        v-model="addApplyForm.applyExplain"
+                        :rows="3"
+                        type="textarea"
+                        placeholder="请输入申请理由.不能超过500字"
+                />
+            </el-form-item>
+        </el-form>
+        <template #footer>
+      <span class="dialog-footer">
+        <el-button @click="dialogFormVisible = false">Cancel</el-button>
+        <el-button type="primary" @click="handSumitApply(addApplyFormRef)">
+          提交
+        </el-button>
+      </span>
+        </template>
+    </el-dialog>
 </template>
 
 <script lang="ts" setup >
@@ -150,15 +187,17 @@ import {getCurrentInstance, inject, reactive, ref, toRefs} from 'vue'
 //接受参数
 import {useRoute, useRouter} from "vue-router";  // 引用vue-router
 import {  getStory } from "@/api/wiki/story";
-import {  listComment } from "@/api/wiki/comment";
-import { addComment} from "@/api/admin/comment";
-import { addHarding } from "@/api/admin/harding";
-import { getInfoBySid } from "@/api/wiki/harding";
-
+import {  listComment,addComment } from "@/api/wiki/comment";
+import { addHarding,getInfoBySid } from "@/api/admin/harding";
 import {  listAuthor } from "@/api/wiki/author";
 import { listChapter } from "@/api/wiki/chapter";
+import { addApplyAuthor } from "@/api/admin/applyAuthor";
+
 import useUserStore from '@/store/modules/user'
-import {ElMessage} from "element-plus";
+import {ElMessage, ElMessageBox, FormInstance, FormRules} from "element-plus";
+import { isNotEmpty } from '@/utils/tools';
+import {ChatDotRound, Pointer} from "@element-plus/icons-vue"; // 根据你的项目路径调整引入路径
+
 const {  appContext : { config: { globalProperties } }  } = getCurrentInstance();
 
 const router = useRouter()
@@ -245,11 +284,23 @@ function getAllStoryComment() {
     commentList.value = response.rows
   });
 }
+
+//判断是否是作家
+const isAdmin=ref(2)
 //小心
 function handleAuthor() {
   listAuthor(sid.value).then(response => {
-    //console.log("查询世界详细:"+JSON.stringify(response))
-    authorList.value = response.rows
+      authorList.value = response.rows
+      if(isNotEmpty(userStore.name)) {
+          if (response.rows.length> 0) {
+              // 列表不为空，执行循环
+              for (var i = 0; i < response.rows.length; i++) {
+                  if (userStore.userId == response.rows[i].userId) {
+                      isAdmin.value = 1;
+                  }
+              }
+          }
+      }
   });
 }
 /** 查询元素 */
@@ -334,6 +385,46 @@ function handleIsFllow(){
     });
   }
 }
+
+const dialogFormVisible = ref(false)
+const addApplyFormRef = ref<FormInstance>()
+const addApplyForm = reactive<{
+    applyExplain:string,
+    sid:number,
+    sname:string,
+    wid:number,
+    wname:string
+}
+>({
+    applyExplain: '',
+    sid: story.value.id,
+    sname: story.value.name,
+    wid: story.value.wid,
+    wname: story.value.wname
+});
+const addApplyRules = reactive<FormRules>({
+    applyExplain: [{ required: true, message: '请输入申请理由', trigger: 'blur' },
+        { min: 10, max: 500, message: 'Length should be 10 to 500', trigger: 'blur' },],
+
+})
+
+function  handOpenDia(){
+    if(userStore.name=='') {
+        ElMessageBox.alert('请先登录', '警告', {
+            confirmButtonText: '确定',
+        })
+        // ElMessage.warning("请先登录")
+    }else {
+        dialogFormVisible.value = true;
+    }
+}
+function handSumitApply(formEl: FormInstance | undefined){
+    dialogFormVisible.value=false
+    addApplyAuthor(addApplyForm).then(response => {
+       ElMessage.success("申请成功")
+    });
+}
+
 getAllStoryComment()
 handleIsFllow();
 handStory();
@@ -343,18 +434,7 @@ handleChapterList()
 </script>
 
 <style>
-/**{*/
-/*  margin: 0px;*/
-/*  margin-top: 5px;*/
-/*  padding: 0px;*/
-/*}*/
-.world-tabs > .el-tabs__content {
-  padding: 10px;
-  color: #6b778c;
-  font-size: 15px;
-  font-weight: 600;
-  line-height: 15px;
-}
+
 .center {
   display: flex;
   justify-content: center;
@@ -367,10 +447,5 @@ handleChapterList()
   font-size: 24px;
   text-align: left;
 }
-.el-tabs__item {
-  font-family: 'PingFangSC-Semibold', 'PingFang SC Semibold', 'PingFang SC', sans-serif;
-  font-weight: 650;
-  font-style: normal;
-  line-height: 24px;
-}
+
 </style>

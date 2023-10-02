@@ -47,7 +47,14 @@
                 <el-button v-if="isFllow" style="width: 90px;" type="primary" @click="handleFllowClose">取消关注</el-button>
                 <el-button @click="handleDiscuss" style="width: 90px;">讨论({{world.countDiscuss}})</el-button>
                 <el-button @click="handleAddStory" style="width: 90px;">创建故事</el-button>
-
+                  <el-tooltip v-if="isAdmin == 2"
+                          class="box-item"
+                          effect="dark"
+                          content="可以分享世界,故事的收益"
+                          placement="top-start"
+                  >
+                 <el-button @click="handOpenDia" style="width: 90px;">申请管理员</el-button>
+                  </el-tooltip>
               </div>
             </div>
           </el-col>
@@ -164,7 +171,40 @@
         </el-tab-pane>
       </el-tabs>
     </div>
+
+
   </div>
+    <el-dialog
+            v-model="dialogFormVisible" title="申请成为管理员"
+            align-center
+    >
+        <!--        <el-alert title="Once a time slot with a specific date is configured and submitted, it will overwrite any existing content for the same date." type="warning" />-->
+        <el-form
+                :model="addApplyForm"
+                ref="addApplyFormRef"
+                :rules="addApplyRules"
+
+        >
+            <el-form-item label="申请理由"  prop="applyExplain">
+                <el-input
+                        v-model="addApplyForm.applyExplain"
+                        :rows="3"
+                        type="textarea"
+                        placeholder="请输入申请理由.不能超过500字"
+                />
+            </el-form-item>
+        </el-form>
+        <template #footer>
+      <span class="dialog-footer">
+        <el-button @click="dialogFormVisible = false">Cancel</el-button>
+        <el-button type="primary" @click="handSumitApply(addApplyFormRef)">
+          提交
+        </el-button>
+      </span>
+        </template>
+    </el-dialog>
+
+
 </template>
 
 <script lang="ts" setup >
@@ -178,9 +218,12 @@ import { addFllow,fllowClose,getInfoByWid } from "@/api/admin/fllow";
 import {  getWorldManage } from "@/api/wiki/manage";
 import { listElement } from "@/api/wiki/element";
 import { listStory } from "@/api/wiki/story";
+import { addApplyManage } from "@/api/admin/applyManage";
+
 import useUserStore from '@/store/modules/user';
+
 import { isNotEmpty } from '@/utils/tools'; // 根据你的项目路径调整引入路径
-import {ElMessage} from "element-plus";
+import {ElMessage, ElMessageBox, FormInstance, FormRules} from "element-plus";
 
 const userStore = useUserStore()
 
@@ -289,18 +332,31 @@ function handWorld(id:number) {
 function getAllWorldComment() {
   queryParams.value.wid=wid.value;
     queryParams.value.source=1;
-  listComment(globalProperties.addDateRange(queryParams.value, dateRange.value)).then(response => {
+   listComment(globalProperties.addDateRange(queryParams.value, dateRange.value)).then(response => {
     //console.log("查询世界详细:"+JSON.stringify(response))
     commentList.value = response.rows
   });
 }
 //管理员信息
 const manageList=ref([])
+//判断是否是管理员
+const isAdmin=ref(2)
 //小心
 function getAllWorldManage(id:number) {
   getWorldManage(id).then(response => {
-    //console.log("查询世界详细:"+JSON.stringify(response))
-    manageList.value = response.rows
+      //console.log("查询世界详细:"+JSON.stringify(response))
+      manageList.value = response.rows
+      if(isNotEmpty(userStore.name)) {
+          if (response.rows.length > 0) {
+              // 列表不为空，执行循环
+              for (var i = 0; i < response.rows.length; i++) {
+                  if (userStore.userId == response.rows[i].userId) {
+                        isAdmin.value = 1;
+                        break;
+                  }
+              }
+          }
+      }
   });
 }
 //管理员信息
@@ -389,6 +445,42 @@ function handleIsFllow(){
       }
     });
   }
+}
+
+const dialogFormVisible = ref(false)
+const addApplyFormRef = ref<FormInstance>()
+const addApplyForm = reactive<{
+    applyExplain:string,
+    wid:number,
+    wname:string
+}
+>({
+    applyExplain: '',
+    wid: world.value.id,
+    wname: world.value.name
+});
+const addApplyRules = reactive<FormRules>({
+    applyExplain: [{ required: true, message: '请输入申请理由', trigger: 'blur' },
+        { min: 10, max: 500, message: 'Length should be 10 to 500', trigger: 'blur' },],
+
+})
+
+function  handOpenDia(){
+    if(userStore.name=='') {
+        ElMessageBox.alert('请先登录', '警告', {
+            confirmButtonText: '确定',
+            type: 'warning',
+         })
+        // ElMessage.warning("请先登录")
+    }else {
+        dialogFormVisible.value = true;
+    }
+}
+function handSumitApply(formEl: FormInstance | undefined){
+    dialogFormVisible.value=false
+    addApplyManage(addApplyForm).then(response => {
+        ElMessage.success("申请成功")
+    });
 }
 handleIsFllow();
 //世界信息

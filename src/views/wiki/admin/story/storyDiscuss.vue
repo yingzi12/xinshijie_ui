@@ -113,11 +113,11 @@ import StoryHead from "./storyHead.vue";
 // 接收url里的参数
 const route = useRoute()
 const router = useRouter()
-const sid = ref(null);
-const wid = ref(null);
 const sname = ref('');
 sname.value = <string>route.query.sname;
+const sid = ref(null);
 sid.value = route.query.sid;
+const wid = ref(null);
 wid.value = route.query.wid;
 
 const discussTypesMap = new Map([
