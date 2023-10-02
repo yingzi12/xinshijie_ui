@@ -115,7 +115,7 @@
 import {inject, reactive, ref} from 'vue'
 import {ElMessage, ElTree, FormInstance} from "element-plus";
 // import ClassicEditor from '@ckeditor/ckeditor5-build-classic';
-import  Editor  from 'ckeditor5-custom-build/build/ckeditor';
+import  Editor  from 'ckeditor5-custom-build-free-all/build/ckeditor';
 import {  getDraftDetails,updateDraft } from "@/api/admin/draftElement";
 import { getTree} from "@/api/wiki/category";
 import { getWorld} from "@/api/admin/world";

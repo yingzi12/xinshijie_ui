@@ -55,6 +55,8 @@
           <div style=" padding: 10px;margin: 0px;white-space:pre; word-break:break-all;word-wrap:break-word;" >
             <el-descriptions  >
               <el-descriptions-item label="是否私有">{{ world.isPrive }}</el-descriptions-item>
+              <el-descriptions-item label="经验">{{ world.vitality }}</el-descriptions-item>
+              <el-descriptions-item label="得分">{{ world.scores }}</el-descriptions-item>
               <el-descriptions-item label="元素数">{{ world.countElement }}</el-descriptions-item>
               <el-descriptions-item label="居民数">{{ world.countResident }}</el-descriptions-item>
               <el-descriptions-item label="评论数">{{ world.countComment }}</el-descriptions-item>

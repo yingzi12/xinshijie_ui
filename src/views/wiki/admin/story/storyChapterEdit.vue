@@ -38,7 +38,7 @@
 import {getCurrentInstance, inject, reactive, ref, toRefs} from 'vue'
 import { getChapter } from "@/api/admin/chapter";
 import { addDraftChapter } from "@/api/admin/draftChapter";
-import  Editor  from 'ckeditor5-custom-build/build/ckeditor';
+import  Editor  from 'ckeditor5-custom-build-free-all/build/ckeditor';
 const editor = Editor
 const baseUrl = inject("$baseUrl")
 const uploadImgUrl = ref(baseUrl + "/common/uploadImage"); // 上传的图片服务器地址
