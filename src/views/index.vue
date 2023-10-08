@@ -15,7 +15,7 @@
   <div style="margin-bottom: 10px">
     <el-row :gutter="20">
       <el-col
-          v-for="(world, index) in worldRedact"
+          v-for="(world, index) in worldEditList"
           :key="world"
           :span="6"
       >
@@ -45,7 +45,43 @@
     </div>
     <div>
       <el-row :gutter="20" class="el-row" type="flex" >
-        <el-col :span="4" v-for = "world in worldRandom" :key="world.id" class="el-col" style="text-align: center">
+        <el-col :span="4" v-for = "world in worldNewList" :key="world.id" class="el-col" style="text-align: center">
+          <el-card :body-style="{ padding: '10px' }"  class="demo-image">
+            <div style="display: inline-block">
+              <el-image style="width: 100px; height: 100px;text-align: center;" fit="fill"
+                        @click="handleSee(world.id)"
+                        :src="imgUrl+world.imgUrl"
+                        class="image"
+              />
+            </div>
+            <div >
+              <div id="u10366-1_text" class="text u10366_text" style="/* visibility: inherit; */">
+                <p class="biaoti" @click="handleSee(world.id)" ><span class="head-title">{{ world.name }}<el-tag v-if="world.source=='原创'">原创</el-tag></span></p>
+                <p class="shuoming"><span class="head-intro">{{ world.intro }}</span></p>
+              </div>
+            </div>
+          </el-card>
+        </el-col>
+      </el-row>
+    </div>
+  </div>
+  <!--  活跃-->
+  <div>
+    <div style="margin:10px;margin-top:15px;">
+      <el-row :gutter="24">
+        <el-col :span="16">
+          <el-button round>活跃</el-button>
+          <el-button type="primary" round @click="handleList">本周</el-button>
+          <el-button type="success"  round @click="handleList">本月</el-button>
+        </el-col>
+        <el-col :span="8">
+          <el-button type="success" round style="float:right;" @click="handleList">更多</el-button>
+        </el-col>
+      </el-row>
+    </div>
+    <div>
+      <el-row :gutter="20" class="el-row" type="flex" >
+        <el-col :span="4" v-for = "world in activeList" :key="world.id" class="el-col" style="text-align: center">
           <el-card :body-style="{ padding: '10px' }"  class="demo-image">
             <div style="display: inline-block">
               <el-image style="width: 100px; height: 100px;text-align: center;" fit="fill"
@@ -132,7 +168,7 @@
           <el-row>
             <el-col
                 style="margin-bottom: 10px"
-                v-for="(world, index) in worldNew"
+                v-for="(world, index) in boutiqueList"
                 :key="world.id"
                 :span="8"
             >
@@ -209,8 +245,9 @@
 <script setup>
 import { getCurrentInstance, reactive,inject, ref, toRefs} from 'vue'
 import test from '@/assets/images/test.png'
-import { listWorld } from "@/api/wiki/world";
+import { getRecommendWorld } from "@/api/wiki/recommendWorld";
 import { useRouter} from "vue-router";
+// import {getRecommendWorld} from "../api/wiki/recommendWorld";
 const router = useRouter()
 const {  appContext : { config: { globalProperties } }  } = getCurrentInstance();
 const {  proxy  } = getCurrentInstance();
@@ -218,29 +255,16 @@ const imgUrl = inject("$imgUrl")
 
 // const url =
 //     'https://fuss10.elemecdn.com/e/5d/4a731a90594a4af544c0c25941171jpeg.jpeg'
-const worldTypesMap=new Map([
-  [6,"科学"],
-  [1,"武侠"],
-  [2,"仙侠"],
-  [3,"魔幻"],
-  [4,"奇幻"],
-  [5,"其他"]
-])
-const worldTypes=reactive([{id:6,name:"科学"},{id:1,name:"武侠"},{id:2,name:"仙侠"},{id:3,name:"魔幻"},{id:4,name:"奇幻"},{id:5,name:"其他"}])
-const wname=ref('');
 const loading = ref(true);
-//编辑推荐 4个
-const worldRedact = ref([]);
-//随机推荐 18个
-const worldRandom = ref([]);
+
+
 //重要推荐 4个
 const worldKey1 = ref({});
 const worldKey2 = ref({});
 const worldKey3 = ref({});
 const worldKey4 = ref({});
 
-//新的推荐 9个
-const worldNew = ref([]);
+
 const total = ref(0);
 const data = reactive({
   form: {},
@@ -268,26 +292,29 @@ function handleSee(id){
 function handleList(){
   router.push("/world/list");
 }
-/** 查询世界列表 */
-function getRedactList() {
-  queryParams.value.pageSize=4
-  listWorld(globalProperties.addDateRange(queryParams.value, dateRange.value)).then(response => {
+//编辑推荐 4个
+const worldEditList = ref([]);
+function getEditList() {
+  getRecommendWorld(2).then(response => {
     loading.value = false;
-    worldRedact.value = response.rows;
+    worldEditList.value = response.rows;
     total.value = response.total;
   });
 }
+//最新
+//随机推荐 18个
+const worldNewList = ref([]);
+function getNewList() {
+  getRecommendWorld(5).then(response => {
+    loading.value = false;
+    worldNewList.value = response.rows;
+    total.value = response.total;
+  });
+}
+
+//随机推荐4个
 function getRandomList() {
-  queryParams.value.pageSize=12
-  listWorld(globalProperties.addDateRange(queryParams.value, dateRange.value)).then(response => {
-    loading.value = false;
-    worldRandom.value = response.rows;
-    total.value = response.total;
-  });
-}
-function getKeyList() {
-  queryParams.value.pageSize=4
-  listWorld(globalProperties.addDateRange(queryParams.value, dateRange.value)).then(response => {
+  getRecommendWorld(8).then(response => {
     loading.value = false;
     worldKey1.value = response.rows[0];
     worldKey2.value = response.rows[1];
@@ -296,19 +323,29 @@ function getKeyList() {
     total.value = response.total;
   });
 }
-function getNewList() {
-  queryParams.value.pageSize=9
-  listWorld(globalProperties.addDateRange(queryParams.value, dateRange.value)).then(response => {
+//精品 9个
+const boutiqueList = ref([]);
+function getBoutiqueList() {
+  getRecommendWorld(17).then(response => {
     loading.value = false;
-    worldNew.value = response.rows;
+    boutiqueList.value = response.rows;
     total.value = response.total;
   });
 }
-getRedactList();
-getRandomList();
-getKeyList();
-getNewList();
 
+const activeList = ref([]);
+function getActiveList() {
+  getRecommendWorld(11).then(response => {
+    loading.value = false;
+    activeList.value = response.rows;
+    total.value = response.total;
+  });
+}
+getNewList();
+getEditList();
+getRandomList();
+getBoutiqueList();
+getActiveList();
 </script>
 
 <style scoped>
