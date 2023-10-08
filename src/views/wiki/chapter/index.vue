@@ -27,10 +27,10 @@
     <!--功能-->
     <div class="center" style="height: 80px;">
       <router-link v-if="chapter.previous" :to="{path:'/chapter/index', query: {sid:chapter.previous.sid,wid:chapter.previous.wid,sname:chapter.previous.sname,wname:wname,scid:chapter.previous.id}}">
-        <el-button v-if="chapter.previous" text type="success" style="width: 100px;"> {{chapter.previous.title}}</el-button>
+        <el-button text type="success" style="width: 100px;"> 上一章</el-button>
       </router-link>
       <router-link v-if="chapter.next" :to="{path:'/chapter/index', query: {sid:chapter.next.sid,wid:chapter.next.wid,sname:chapter.next.sname,wname:wname,scid:chapter.next.id}}">
-        <el-button  v-if="chapter.next" text type="success" style="width: 100px;">{{chapter.next.title}}</el-button>
+        <el-button  text type="success" style="width: 100px;">下一章</el-button>
       </router-link>
       <el-button @click="handleReturn()" text type="success" style="width: 100px;">返回</el-button>
       <el-button @click="handleEdit()" text type="success" style="width: 100px;">编辑</el-button>
@@ -51,13 +51,9 @@ const route = useRoute();
 
 //世界信息
 const scid = ref(null);
-const sid = ref(null);
 scid.value = route.query.scid;
+const sid = ref(null);
 sid.value = route.query.sid;
-const wname = route.query.wname;
-
-const wid = ref(null);
-wid.value = route.query.wid;
 
 const chapter=ref({})
 
@@ -65,6 +61,8 @@ const chapter=ref({})
 function getInfo() {
   getChapter(sid.value,scid.value).then(response => {
     chapter.value = response.data
+    sid.value=chapter.value.sid
+    handStory();
   });
 }
 
@@ -79,13 +77,19 @@ function handleReturn(){
 }
 const story=ref({})
 /** 查询世界详细 */
+const wname =ref("");
+const wid =ref(undefined);
+const sname=ref("")
 function handStory() {
   getStory(sid.value).then(response => {
     //console.log("查询世界详细:"+JSON.stringify(response))
     story.value = response.data
+    sname.value = story.value.name
+    wname.value = story.value.wname
+    wid.value =  story.value.wid
+
   });
 }
-handStory()
 getInfo();
 
 </script>

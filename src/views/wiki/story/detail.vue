@@ -187,7 +187,8 @@ import {getCurrentInstance, inject, reactive, ref, toRefs} from 'vue'
 //接受参数
 import {useRoute, useRouter} from "vue-router";  // 引用vue-router
 import {  getStory } from "@/api/wiki/story";
-import {  listComment,addComment } from "@/api/wiki/comment";
+import {  listComment } from "@/api/wiki/comment";
+import {  addComment } from "@/api/admin/comment";
 import { addHarding,getInfoBySid } from "@/api/admin/harding";
 import {  listAuthor } from "@/api/wiki/author";
 import { listChapter } from "@/api/wiki/chapter";
@@ -377,7 +378,7 @@ function handleComment(){
 //判断是否已经关注
 const isFllow=ref(false)
 function handleIsFllow(){
-  if(disabled) {
+  if(userStore.name!=''){
     getInfoBySid(sid.value).then(response => {
       if (!response.data) {
         isFllow.value = true

@@ -42,7 +42,7 @@
               <div   style="margin-left: 25px">
                 <el-row :gutter="24">
                   <el-col :span="3" v-for="chap in reel.chapterList">
-                    <router-link  :to="{path:'/chapter/index', query: {sid:chap.sid,wid:chap.wid,sname:chap.sname,wname:chap.wname,scid:chap.id}}">{{chap.title}}</router-link>
+                    <router-link  :to="{path:'/chapter/index', query: {sid:sid,scid:chap.id}}">{{chap.title}}</router-link>
                   </el-col>
                 </el-row>
               </div>
@@ -68,8 +68,6 @@ const route = useRoute();
 const router = useRouter()
 const sid = ref(null);
 sid.value = route.query.sid;
-const wid = ref(null);
-wid.value = route.query.wid;
 const data = reactive({
   form: {},
   queryParams: {
@@ -99,11 +97,17 @@ function handleAdd(){
 }
 
 const story=ref('')
+const wname =ref("");
+const wid =ref(undefined);
+const sname=ref("")
 /** 查询世界详细 */
 function handStory() {
   getStory(sid.value).then(response => {
     //console.log("查询世界详细:"+JSON.stringify(response))
     story.value = response.data
+    sname.value = story.value.name
+    wname.value = story.value.wname
+    wid.value =  story.value.wid
   });
 }
 /** 查询元素 */
