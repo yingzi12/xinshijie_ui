@@ -93,7 +93,7 @@
 </template>
 
 <script  lang="ts" setup>
-import {getCurrentInstance, inject, reactive, ref} from 'vue'
+import { inject, reactive, ref} from 'vue'
 import {FormInstance, ElInput, ElMessage} from "element-plus";
 import  Editor  from 'ckeditor5-custom-build-free-all/build/ckeditor';
 
@@ -109,8 +109,8 @@ const editorConfig ={
     uploadUrl: uploadImgUrl.value,
   },
 }
-const {  appContext : { config: { globalProperties } }  } = getCurrentInstance();
-const {  proxy  } = getCurrentInstance();
+
+
 
 //基础信息
 const element = reactive<InstanceType<Element>>({

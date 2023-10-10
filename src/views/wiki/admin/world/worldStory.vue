@@ -126,7 +126,7 @@
 <script lang="ts" setup>
 import AdminHead from './worldHead'
 
-import { getCurrentInstance, reactive, ref, toRefs } from 'vue'
+import {  reactive, ref, toRefs } from 'vue'
 import { listStoryAdmin,audit } from "@/api/admin/story";
 import { useRoute, useRouter } from "vue-router";
 import {Search} from '@element-plus/icons-vue'
@@ -172,8 +172,8 @@ wid.value = route.query.wid;
 const wname = ref('');
 wname.value = <string>route.query.wname;
 //console.log("世界id="+wid.value);
-const {  appContext : { config: { globalProperties } }  } = getCurrentInstance();
-const {  proxy  } = getCurrentInstance();
+
+
 class World {
   id: number
   name: string

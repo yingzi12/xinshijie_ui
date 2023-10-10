@@ -66,10 +66,11 @@
 <script lang="ts" setup>
 import AdminHead from './worldHead'
 
-import { getCurrentInstance, reactive, ref, toRefs} from 'vue'
+import {  reactive, ref, toRefs} from 'vue'
 import {useRoute, useRouter} from "vue-router";
 import { CirclePlus } from '@element-plus/icons-vue'
 import { getWorldManage ,delManage,addManage,getInfo } from "@/api/admin/manage";
+import {ElMessage} from "element-plus";
 
 const fits = ['世界', '粉丝', '关注']
 const activeIndex = ref('1')
@@ -84,8 +85,8 @@ const wname = ref('');
 wname.value = <string>route.query.wname;
 //console.log("世界id="+wid.value);
 
-const {  appContext : { config: { globalProperties } }  } = getCurrentInstance();
-const {  proxy  } = getCurrentInstance();
+
+
 class World {
   id: number
   name: string
@@ -132,22 +133,21 @@ function handleDelete ( row){
 
 /** 新增按钮操作 */
 function handleAdd() {
-  //console.log("handleAdd 世界id:"+wid.value)
   form.value.wid=wid.value;
      open.value=true;
 };
 /** 提交按钮 */
 function submitForm() {
-  proxy.$refs["manageRef"].validate(valid => {
-    if (valid) {
+  // proxy.$refs["manageRef"].validate(valid => {
+  //   if (valid) {
         addManage(form.value).then(response => {
-          globalProperties.$modal.msgSuccess("添加成功");
+          ElMessage.success("添加成功");
           open.value = false;
           getList(queryParams.value.pageNum);
 
         });
-    }
-  });
+  //   }
+  // });
 };
 /** 取消按钮 */
 function cancel() {

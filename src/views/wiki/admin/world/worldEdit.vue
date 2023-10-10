@@ -77,14 +77,14 @@
 </template>
 
 <script lang="ts" setup>
-import {getCurrentInstance, inject, reactive, ref, toRefs} from 'vue'
+import { inject, reactive, ref, toRefs} from 'vue'
 import { Menu as IconMenu, Message, Setting } from '@element-plus/icons-vue'
 import { useRoute,useRouter }  from "vue-router";  // 引用vue-router
 import {  updateWorld,getWorld } from "@/api/admin/world";
 import {ElMessage, FormInstance, UploadProps} from "element-plus";
 import AdminHead from "./worldHead.vue";
-const {  appContext : { config: { globalProperties } }  } = getCurrentInstance();
-const {  proxy  } = getCurrentInstance();
+
+
 const router = useRouter()
 // 接收url里的参数
 const route = useRoute();
@@ -156,21 +156,21 @@ function handleWorld(id:number) {
 }
 
 const submitForm = async (formEl: FormInstance | undefined) => {
-  proxy.$refs["worldRef"].validate(valid => {
+  // proxy.$refs["worldRef"].validate(valid => {
     //console.log("查询世界详细worldRef valid:"+JSON.stringify(valid))
-    if (valid) {
+    // if (valid) {
       if (form.value.id != undefined) {
         form.value.source=form.value.checkList.map(String).join(';')
         form.value.imgUrl=imageUrlPath.value
         updateWorld(form.value).then(response => {
-          globalProperties.$modal.msgSuccess("修改成功");
+          ElMessage.success("修改成功");
           router.push("/admin/worldInfo?wid="+wid.value);
         });
       }else {
-        globalProperties.$modal.msgError("非法操作");
+        ElMessage.error("非法操作");
       }
-    }
-  });
+  //   }
+  // });
   //console.log("查询世界详细formEl:"+JSON.stringify(formEl))
 }
 

@@ -86,12 +86,12 @@
 </template>
 
 <script lang="ts" setup>
-import { getCurrentInstance, reactive, ref, toRefs} from 'vue'
+import { reactive, ref, toRefs} from 'vue'
 import { listWorld } from "@/api/wiki/world";
 import { useRouter} from "vue-router";
 const router = useRouter()
-const {  appContext : { config: { globalProperties } }  } = getCurrentInstance();
-const {  proxy  } = getCurrentInstance();
+
+
 class World {
   id: number
   name: string

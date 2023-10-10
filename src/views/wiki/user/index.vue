@@ -155,12 +155,12 @@
 </template>
 
 <script lang="ts" setup>
-import {getCurrentInstance, inject, ref} from 'vue'
+import { inject, ref} from 'vue'
 import { Menu as IconMenu, Message, Setting } from '@element-plus/icons-vue'
 import {  getUser } from "@/api/admin/user";
 import {useRouter} from "vue-router";
 
-const {  proxy  } = getCurrentInstance();
+
 //获取用户信息
 const user = ref({})
 const router = useRouter()

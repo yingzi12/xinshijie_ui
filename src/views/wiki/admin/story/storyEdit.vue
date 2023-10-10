@@ -81,7 +81,7 @@
 </template>
 
 <script lang="ts" setup>
-import {getCurrentInstance, inject, markRaw, reactive, ref, toRefs} from 'vue'
+import { inject, markRaw, reactive, ref, toRefs} from 'vue'
 import {  updateStory,getStoryAdmin } from "@/api/admin/story";
 import {   getWorld } from "@/api/wiki/world";
 import {useRoute, useRouter} from "vue-router";
@@ -99,8 +99,8 @@ const route = useRoute();
 const sid = ref(null);
 sid.value = route.query.sid;
 
-const {  appContext : { config: { globalProperties } }  } = getCurrentInstance();
-const {  proxy  } = getCurrentInstance();
+
+
 class Story {
   id: number
   name: string

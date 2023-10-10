@@ -83,7 +83,7 @@
 </template>
 
 <script lang="ts" setup>
-import { getCurrentInstance, reactive, ref, toRefs} from 'vue'
+import {  reactive, ref, toRefs} from 'vue'
 import {  listDraft } from "@/api/admin/draftElement";
 import {useRoute, useRouter} from "vue-router";
 import { Menu as IconMenu, Message, Setting ,Search} from '@element-plus/icons-vue'
@@ -103,8 +103,8 @@ const router = useRouter()
 // const wid = ref(null);
 // wid.value = route.query.wid;
 // //console.log("世界id="+wid.value);
-const {  appContext : { config: { globalProperties } }  } = getCurrentInstance();
-const {  proxy  } = getCurrentInstance();
+
+
 class World {
   id: number
   name: string

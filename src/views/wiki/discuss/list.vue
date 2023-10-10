@@ -105,7 +105,7 @@
 </template>
 
 <script lang="ts" setup>
-import { getCurrentInstance, inject, reactive, ref, toRefs } from 'vue'
+import {  inject, reactive, ref, toRefs } from 'vue'
 import { listDiscuss } from "@/api/wiki/discuss";
 import { addDiscuss } from "@/api/admin/discuss";
 import { getWorld } from "@/api/wiki/world";
@@ -117,8 +117,8 @@ import useUserStore from '@/store/modules/user'
 // 接收url里的参数
 const route = useRoute();
 const router = useRouter()
-const {  appContext : { config: { globalProperties } }  } = getCurrentInstance();
-const {  proxy  } = getCurrentInstance();
+
+
 
 //获取用户信息
 const userStore = useUserStore()

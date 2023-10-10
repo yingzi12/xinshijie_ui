@@ -65,7 +65,7 @@
 <script lang="ts" setup>
 import AdminHead from './worldHead'
 
-import {getCurrentInstance, reactive, ref, toRefs} from 'vue'
+import { reactive, ref, toRefs} from 'vue'
 import {useRoute, useRouter} from "vue-router";
 import { Menu as IconMenu,CirclePlus, Message, Setting } from '@element-plus/icons-vue'
 import { listAudit } from "@/api/admin/draftElement";
@@ -95,8 +95,8 @@ const formLabelWidth = '140px'
 import { Search } from '@element-plus/icons-vue'
 const input3 = ref('')
 
-const {  appContext : { config: { globalProperties } }  } = getCurrentInstance();
-const {  proxy  } = getCurrentInstance();
+
+
 //分页
 const dateRange = ref([]);
 //分类选项

@@ -82,7 +82,7 @@
 </template>
 
 <script lang="ts" setup>
-import { getCurrentInstance, reactive, ref, toRefs} from 'vue'
+import {  reactive, ref, toRefs} from 'vue'
 import {  listDraftChapter,delDraftChapter,issue } from "@/api/admin/draftChapter";
 import {useRoute, useRouter} from "vue-router";
 import { Menu as IconMenu, Search,Message, Setting } from '@element-plus/icons-vue'
@@ -92,8 +92,8 @@ const activeIndex = ref('1')
 // 接收url里的参数
 const route = useRoute();
 const router = useRouter()
-const {  appContext : { config: { globalProperties } }  } = getCurrentInstance();
-const {  proxy  } = getCurrentInstance();
+
+
 class World {
   id: number
   name: string

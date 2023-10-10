@@ -92,7 +92,7 @@
 
 <script lang="ts" setup>
 import AdminHead from './storyHead'
-import { getCurrentInstance, reactive, ref, toRefs} from 'vue'
+import {  reactive, ref, toRefs} from 'vue'
 import {useRoute, useRouter} from "vue-router";
 import { listApplyAuthor ,auditApplyAuthor } from "@/api/admin/applyAuthor";
 import {applyStatusMap } from "@/utils/constant";
@@ -114,8 +114,8 @@ const wname = ref('');
 wname.value = <string>route.query.wname;
 const sname = ref('');
 sname.value = <string>route.query.sname;
-const {  appContext : { config: { globalProperties } }  } = getCurrentInstance();
-const {  proxy  } = getCurrentInstance();
+
+
 
 const openAuditDialog = ref(false);
 const loading = ref(true);

@@ -201,13 +201,13 @@
 </template>
 
 <script setup>
-import { getCurrentInstance, reactive,inject, ref, toRefs} from 'vue'
+import {  reactive,inject, ref, toRefs} from 'vue'
 import test from '@/assets/images/test.png'
 import { listWorld } from "@/api/wiki/world";
 import { useRouter} from "vue-router";
 const router = useRouter()
-const {  appContext : { config: { globalProperties } }  } = getCurrentInstance();
-const {  proxy  } = getCurrentInstance();
+
+
 const imgUrl = inject("$imgUrl")
 
 const url =

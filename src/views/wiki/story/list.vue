@@ -87,7 +87,7 @@
 </template>
 
 <script lang="ts" setup>
-import { getCurrentInstance, reactive, ref, toRefs } from 'vue';
+import {  reactive, ref, toRefs } from 'vue';
 import { listStory } from '@/api/wiki/story';
 import { useRoute, useRouter } from 'vue-router';
 import { storyTypesMap,storyTypes } from '@/utils/constants'; // 根据你的项目路径调整引入路径
@@ -96,8 +96,8 @@ import { isNotEmpty } from '@/utils/tools'; // 根据你的项目路径调整引
 const router = useRouter()
 const route = useRoute()
 
-const {  appContext : { config: { globalProperties } }  } = getCurrentInstance();
-const {  proxy  } = getCurrentInstance();
+
+
 class World {
   id: number
   name: string

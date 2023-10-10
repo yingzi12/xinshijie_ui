@@ -50,7 +50,7 @@
 <script lang="ts" setup>
 import AdminHead from './worldHead'
 
-import {getCurrentInstance, reactive, ref, toRefs} from 'vue'
+import { reactive, ref, toRefs} from 'vue'
 import {useRoute, useRouter} from "vue-router";
 import { listRedident } from "@/api/admin/redident";
 
@@ -64,8 +64,8 @@ const wname = ref('');
 wname.value = <string>route.query.wname;
 
 
-const {  appContext : { config: { globalProperties } }  } = getCurrentInstance();
-const {  proxy  } = getCurrentInstance();
+
+
 //分页
 const dateRange = ref([]);
 //分类选项

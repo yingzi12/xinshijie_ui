@@ -208,7 +208,7 @@
 </template>
 
 <script lang="ts" setup >
-import {getCurrentInstance, inject, reactive, ref, toRefs} from 'vue'
+import { inject, reactive, ref, toRefs} from 'vue'
 //接受参数
 import {useRoute, useRouter} from "vue-router";  // 引用vue-router
 import {  getWorld } from "@/api/wiki/world";
@@ -234,7 +234,7 @@ if(isNotEmpty(userStore.name)){
 }else{
   isLogin.value=false
 }
-const {  appContext : { config: { globalProperties } }  } = getCurrentInstance();
+
 
 const router = useRouter()
 

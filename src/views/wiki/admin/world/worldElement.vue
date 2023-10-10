@@ -110,7 +110,7 @@
 <script lang="ts" setup>
 import AdminHead from './worldHead'
 
-import { getCurrentInstance, reactive, ref, toRefs} from 'vue'
+import {  reactive, ref, toRefs} from 'vue'
 import {  listElement,delElement } from "@/api/admin/element";
 import { getTree,countCategory} from "@/api/wiki/category";
 import {useRoute, useRouter} from "vue-router";
@@ -159,8 +159,8 @@ wid.value = route.query.wid;
 const wname = ref('');
 wname.value = <string>route.query.wname;
 //console.log("世界id="+wid.value);
-const {  appContext : { config: { globalProperties } }  } = getCurrentInstance();
-const {  proxy  } = getCurrentInstance();
+
+
 class World {
   id: number
   name: string

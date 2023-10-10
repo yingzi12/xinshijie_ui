@@ -81,7 +81,7 @@
 </template>
 
 <script lang="ts" setup>
-import { getCurrentInstance, reactive, ref, toRefs} from 'vue'
+import {  reactive, ref, toRefs} from 'vue'
 import { listChapter,delChapter } from "@/api/admin/chapter";
 import {useRoute, useRouter} from "vue-router";
 import {Search} from '@element-plus/icons-vue'
@@ -107,8 +107,8 @@ scname.value = <string>route.query.scname;
 const sname = ref('');
 sname.value = <string>route.query.sname;
 //console.log("世界id="+wid.value);
-const {  appContext : { config: { globalProperties } }  } = getCurrentInstance();
-const {  proxy  } = getCurrentInstance();
+
+
 class Story {
   id: number
   name: string

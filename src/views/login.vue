@@ -74,7 +74,7 @@
           <span v-if="!loading">登 录</span>
           <span v-else>登 录 中...</span>
         </el-button>
-        <div  v-if="register"  style="width:100%">
+        <div  style="width:100%">
           <div style=" float: right;width: 50%">
           <router-link style="float: right;" class="link-type" :to="'/register'">立即注册</router-link>
           </div>
@@ -121,7 +121,6 @@ import useUserStore from '@/store/modules/user'
 
 const userStore = useUserStore()
 const router = useRouter();
-const { proxy } = getCurrentInstance();
 
 const loginForm = ref({
   username: "",
@@ -146,8 +145,8 @@ const register = ref(true);
 const redirect = ref(undefined);
 
 function handleLogin() {
-  proxy.$refs.loginRef.validate(valid => {
-    if (valid) {
+  // proxy.$refs.loginRef.validate(valid => {
+  //   if (valid) {
       loading.value = true;
       // 勾选了需要记住密码设置在 cookie 中设置记住用户名和密码
       if (loginForm.value.rememberMe) {
@@ -170,8 +169,8 @@ function handleLogin() {
           getCode();
         }
       });
-    }
-  });
+  //   }
+  // });
 }
 
 function getCode() {

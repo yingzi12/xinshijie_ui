@@ -127,15 +127,15 @@
 </template>
 
 <script lang="ts" setup>
-import {getCurrentInstance, inject, reactive, ref, toRefs} from 'vue'
+import { inject, reactive, ref, toRefs} from 'vue'
 import {  listStoryAdmin,delStory,issue } from "@/api/admin/story";
 import { useRouter} from "vue-router";
 const activeIndex = ref('1')
 const baseUrl = inject("$baseUrl")
 
 const router = useRouter()
-const {  appContext : { config: { globalProperties } }  } = getCurrentInstance();
-const {  proxy  } = getCurrentInstance();
+
+
 class Story {
   id: number
   name: string

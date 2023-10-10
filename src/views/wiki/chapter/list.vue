@@ -56,12 +56,12 @@
 
 
 <script lang="ts" setup>
-import { getCurrentInstance, reactive, ref, toRefs} from 'vue'
+import {  reactive, ref, toRefs} from 'vue'
 import { listChapter } from "@/api/wiki/chapter";
 import { getStory} from "@/api/wiki/story";
 import { useRoute, useRouter} from "vue-router";
 
-const {  appContext : { config: { globalProperties } }  } = getCurrentInstance();
+
 
 // 接收url里的参数
 const route = useRoute();

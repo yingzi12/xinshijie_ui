@@ -105,7 +105,7 @@
 </template>
 
 <script lang="ts" setup>
-import { getCurrentInstance, reactive, ref, toRefs} from 'vue'
+import {  reactive, ref, toRefs} from 'vue'
 import {  listDraft,delDraft,issue } from "@/api/admin/draftElement";
 // import { getTree} from "@/api/wiki/category";
 import {useRoute, useRouter} from "vue-router";
@@ -119,8 +119,8 @@ const router = useRouter()
 // const wid = ref(null);
 // wid.value = route.query.wid;
 // //console.log("世界id="+wid.value);
-const {  appContext : { config: { globalProperties } }  } = getCurrentInstance();
-const {  proxy  } = getCurrentInstance();
+
+
 class World {
   id: number
   name: string

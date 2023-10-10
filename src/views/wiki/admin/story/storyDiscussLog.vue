@@ -106,7 +106,7 @@
 </template>
 
 <script lang="ts" setup>
-import {getCurrentInstance, reactive, ref, toRefs} from 'vue'
+import { reactive, ref, toRefs} from 'vue'
 import {useRoute, useRouter} from "vue-router";
 import { Menu as IconMenu,CirclePlus, Message, Setting } from '@element-plus/icons-vue'
 import { Search } from '@element-plus/icons-vue'
@@ -140,8 +140,8 @@ const discussStatusMap = new Map([
   [3, "关闭"],
 ])
 
-const {  appContext : { config: { globalProperties } }  } = getCurrentInstance();
-const {  proxy  } = getCurrentInstance();
+
+
 const router = useRouter()
 
 //分页

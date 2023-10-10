@@ -44,7 +44,7 @@
 </template>
 
 <script  lang="ts" setup>
-import {getCurrentInstance, markRaw, ref} from 'vue'
+import { markRaw, ref} from 'vue'
 import {ElTree, FormInstance, ElMessage} from "element-plus";
 import { getTree} from "@/api/wiki/category";
 import { addElement} from "@/api/admin/element";
@@ -87,8 +87,8 @@ const wid = ref(null);
 wid.value = route.query.wid;
 
 
-const {  appContext : { config: { globalProperties } }  } = getCurrentInstance();
-const {  proxy  } = getCurrentInstance();
+
+
 // 分类模板
 const categoryList = ref()
 

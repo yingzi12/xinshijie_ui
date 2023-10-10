@@ -52,7 +52,7 @@
 <script lang="ts" setup>
 import { useRoute, useRouter} from "vue-router";
 import { Search } from '@element-plus/icons-vue'
-import { getCurrentInstance, reactive, ref, toRefs} from 'vue'
+import {  reactive, ref, toRefs} from 'vue'
 import { listComment} from "@/api/wiki/comment";
 import useUserStore from '@/store/modules/user'
 
@@ -64,7 +64,7 @@ const disabled=ref(true)
 
 const username=ref('')
 
-const {  appContext : { config: { globalProperties } }  } = getCurrentInstance();
+
 // 接收url里的参数
 const route = useRoute();
 //console.log(route.query.wid,"参数");

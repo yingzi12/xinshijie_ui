@@ -128,7 +128,7 @@
 </template>
 
 <script lang="ts" setup>
-import {getCurrentInstance, inject, reactive, ref, toRefs} from 'vue'
+import { inject, reactive, ref, toRefs} from 'vue'
 import { listMangeWorld as listWorld,delWorld,issue } from "@/api/admin/world";
 import { useRouter} from "vue-router";
 const fits = ['世界', '粉丝', '关注']
@@ -136,8 +136,8 @@ const activeIndex = ref('1')
 const baseUrl = inject("$baseUrl")
 
 const router = useRouter()
-const {  appContext : { config: { globalProperties } }  } = getCurrentInstance();
-const {  proxy  } = getCurrentInstance();
+
+
 class World {
   id: number
   name: string

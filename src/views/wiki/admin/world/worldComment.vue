@@ -84,11 +84,11 @@
 
 <script lang="ts" setup>
 import AdminHead from './worldHead'
-import {getCurrentInstance, reactive, ref, toRefs} from 'vue'
+import { reactive, ref, toRefs} from 'vue'
 import {useRoute, useRouter} from "vue-router";
 import { Search } from '@element-plus/icons-vue'
 import { listCommentAdmin} from "@/api/admin/comment";
-const {  appContext : { config: { globalProperties } }  } = getCurrentInstance();
+
 // 接收url里的参数
 const route = useRoute();
 //console.log(route.query.wid,"参数");

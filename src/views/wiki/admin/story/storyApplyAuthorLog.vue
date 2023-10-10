@@ -54,7 +54,7 @@
 
 <script lang="ts" setup>
 import AdminHead from './storyHead'
-import { getCurrentInstance, reactive, ref, toRefs} from 'vue'
+import {  reactive, ref, toRefs} from 'vue'
 import {useRoute, useRouter} from "vue-router";
 import { pageApplyAuthor  } from "@/api/admin/applyAuthor";
 import {applyStatusMap } from "@/utils/constant";
@@ -71,8 +71,8 @@ sid.value = route.query.sid;
 const wname = ref('');
 wname.value = <string>route.query.wname;
 
-const {  appContext : { config: { globalProperties } }  } = getCurrentInstance();
-const {  proxy  } = getCurrentInstance();
+
+
 
 const loading = ref(true);
 const applyAuthorList = ref([]);

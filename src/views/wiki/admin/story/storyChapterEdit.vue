@@ -35,7 +35,7 @@
 </template>
 
 <script lang="ts" setup>
-import {getCurrentInstance, inject, reactive, ref, toRefs} from 'vue'
+import { inject, reactive, ref, toRefs} from 'vue'
 import { getChapter } from "@/api/admin/chapter";
 import { addDraftChapter } from "@/api/admin/draftChapter";
 import  Editor  from 'ckeditor5-custom-build-free-all/build/ckeditor';
@@ -65,8 +65,8 @@ scname.value = <string>route.query.scname;
 const sname = ref('');
 sname.value = <string>route.query.sname;
 //console.log("世界id="+wid.value);
-const {  appContext : { config: { globalProperties } }  } = getCurrentInstance();
-const {  proxy  } = getCurrentInstance();
+
+
 class Story {
   id: number
   name: string

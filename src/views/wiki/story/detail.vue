@@ -183,7 +183,7 @@
 </template>
 
 <script lang="ts" setup >
-import {getCurrentInstance, inject, reactive, ref, toRefs} from 'vue'
+import { inject, reactive, ref, toRefs} from 'vue'
 //接受参数
 import {useRoute, useRouter} from "vue-router";  // 引用vue-router
 import {  getStory } from "@/api/wiki/story";
@@ -199,7 +199,7 @@ import {ElMessage, ElMessageBox, FormInstance, FormRules} from "element-plus";
 import { isNotEmpty } from '@/utils/tools';
 import {ChatDotRound, Pointer} from "@element-plus/icons-vue"; // 根据你的项目路径调整引入路径
 
-const {  appContext : { config: { globalProperties } }  } = getCurrentInstance();
+
 
 const router = useRouter()
 

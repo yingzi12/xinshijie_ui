@@ -62,11 +62,12 @@
 </template>
 
 <script lang="ts" setup>
-import { getCurrentInstance, reactive, ref, toRefs} from 'vue'
+import {  reactive, ref, toRefs} from 'vue'
 import {useRoute, useRouter} from "vue-router";
 import { Menu as IconMenu,CirclePlus, Message, Setting } from '@element-plus/icons-vue'
 import { listAuthor ,delAuthor,addAuthor,getAuthor } from "@/api/admin/author";
 import StoryHead from "./storyHead.vue";
+import {ElMessage} from "element-plus";
 
 const fits = ['世界', '粉丝', '关注']
 const activeIndex = ref('1')
@@ -81,8 +82,8 @@ const sname = ref('');
 sname.value = <string>route.query.sname;
 //console.log("世界id="+wid.value);
 
-const {  appContext : { config: { globalProperties } }  } = getCurrentInstance();
-const {  proxy  } = getCurrentInstance();
+
+
 class Story {
   id: number
   name: string
@@ -136,16 +137,16 @@ function handleAdd() {
 };
 /** 提交按钮 */
 function submitForm() {
-  proxy.$refs["manageRef"].validate(valid => {
-    if (valid) {
+  // proxy.$refs["manageRef"].validate(valid => {
+  //   if (valid) {
         addAuthor(form.value).then(response => {
-          globalProperties.$modal.msgSuccess("添加成功");
+          ElMessage.success("添加成功");
           open.value = false;
           getList(queryParams.value.pageNum);
 
         });
-    }
-  });
+    // }
+  // });
 };
 /** 取消按钮 */
 function cancel() {

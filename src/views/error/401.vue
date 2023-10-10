@@ -28,7 +28,6 @@
 <script setup>
 import errImage from "@/assets/401_images/401.gif";
 
-let { proxy } = getCurrentInstance();
 
 const errGif = ref(errImage + "?" + +new Date());
 

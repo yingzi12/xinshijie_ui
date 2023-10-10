@@ -106,14 +106,14 @@
 
 
 <script lang="ts" setup>
-import { getCurrentInstance, reactive, ref, toRefs} from 'vue'
+import {  reactive, ref, toRefs} from 'vue'
 import { listElement } from "@/api/wiki/element";
 import { getTree} from "@/api/wiki/category";
 import { getWorld} from "@/api/wiki/world";
 import { useRoute, useRouter} from "vue-router";
 const fits = ['世界', '粉丝', '关注']
 const activeIndex = ref('1')
-const {  appContext : { config: { globalProperties } }  } = getCurrentInstance();
+
 
 // 接收url里的参数
 const route = useRoute();

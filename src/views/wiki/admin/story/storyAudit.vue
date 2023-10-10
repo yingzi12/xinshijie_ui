@@ -100,7 +100,7 @@
 </template>
 
 <script lang="ts" setup>
-import {getCurrentInstance, reactive, ref, toRefs} from 'vue'
+import { reactive, ref, toRefs} from 'vue'
 import {useRoute, useRouter} from "vue-router";
 import { listDraftChapterAdmin,audit } from "@/api/admin/draftChapter";
 import { getTree} from "@/api/wiki/category";
@@ -134,8 +134,8 @@ import {ElMessage, FormInstance} from "element-plus";
 import StoryHead from "./storyHead.vue";
 const input3 = ref('')
 
-const {  appContext : { config: { globalProperties } }  } = getCurrentInstance();
-const {  proxy  } = getCurrentInstance();
+
+
 //分页
 const dateRange = ref([]);
 //分类选项

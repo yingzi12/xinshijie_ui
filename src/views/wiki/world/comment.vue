@@ -78,7 +78,7 @@
 </template>
 
 <script lang="ts" setup>
-import {getCurrentInstance, inject, reactive, ref, toRefs} from 'vue'
+import { inject, reactive, ref, toRefs} from 'vue'
 import { addComment} from "@/api/admin/comment";
 import { listComment} from "@/api/wiki/comment";
 import {ElMessage} from "element-plus";
@@ -86,8 +86,8 @@ import useUserStore from '@/store/modules/user'
 import {useRoute} from "vue-router";
 import {  getWorld } from "@/api/wiki/world";
 
-const {  appContext : { config: { globalProperties } }  } = getCurrentInstance();
-const {  proxy  } = getCurrentInstance();
+
+
 // 接收url里的参数
 const route = useRoute();
 //获取用户信息

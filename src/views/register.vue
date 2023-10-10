@@ -120,7 +120,6 @@ import { ElMessageBox } from "element-plus";
 import { getCodeImg, register } from "@/api/login";
 
 const router = useRouter();
-const { proxy } = getCurrentInstance();
 
 const registerForm = ref({
   username: "",
@@ -159,8 +158,8 @@ const loading = ref(false);
 const captchaEnabled = ref(true);
 
 function handleRegister() {
-  proxy.$refs.registerRef.validate(valid => {
-    if (valid) {
+  // proxy.$refs.registerRef.validate(valid => {
+  //   if (valid) {
       loading.value = true;
       register(registerForm.value).then(res => {
         const username = registerForm.value.username;
@@ -176,8 +175,8 @@ function handleRegister() {
           getCode();
         }
       });
-    }
-  });
+    // }
+  // });
 }
 
 function getCode() {

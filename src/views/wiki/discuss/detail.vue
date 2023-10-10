@@ -133,7 +133,7 @@
 </template>
 
 <script setup lang="ts">
-import {getCurrentInstance, inject, reactive, ref, toRefs} from 'vue'
+import { inject, reactive, ref, toRefs} from 'vue'
 import { listDiscussComment } from "@/api/wiki/discussComment";
 import { getDiscuss } from "@/api/wiki/discuss";
 import { addDiscussComment,replyDiscussComment } from "@/api/admin/discussComment";
@@ -147,8 +147,8 @@ import useUserStore from '@/store/modules/user'
 // 接收url里的参数
 const route = useRoute();
 const router = useRouter()
-const {  appContext : { config: { globalProperties } }  } = getCurrentInstance();
-const {  proxy  } = getCurrentInstance();
+
+
 const imgUrl = inject("$imgUrl")
 
 //获取用户信息

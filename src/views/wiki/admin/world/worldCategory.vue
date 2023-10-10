@@ -59,7 +59,7 @@
 
 <script lang="ts" setup>
 import AdminHead from './worldHead'
-import { getCurrentInstance, reactive, ref, toRefs} from 'vue'
+import {  reactive, ref, toRefs} from 'vue'
 import type Node from 'element-plus/es/components/tree/src/model/node'
 import { addCategory,updateCategory} from "@/api/admin/category";
 import { getTree} from "@/api/wiki/category";
@@ -70,8 +70,8 @@ const fits = ['世界', '粉丝', '关注']
 const activeIndex = ref('1')
 const circleUrl=ref('')
 const router = useRouter()
-const {  appContext : { config: { globalProperties } }  } = getCurrentInstance();
-const {  proxy  } = getCurrentInstance();
+
+
 class World {
   id: number
   name: string

@@ -102,7 +102,7 @@
 </template>
 
 <script lang="ts" setup>
-import {getCurrentInstance, reactive, ref, toRefs} from 'vue'
+import { reactive, ref, toRefs} from 'vue'
 import {useRoute, useRouter} from "vue-router";
 import { Search } from '@element-plus/icons-vue'
 import { listDiscussAdmin,updateStatusAdmin } from "@/api/admin/discuss";
@@ -149,8 +149,8 @@ const discussStatus =ref([
     {id:2, name:"已处理"},
 {id:3, name:"关闭"},
 ])
-const {  appContext : { config: { globalProperties } }  } = getCurrentInstance();
-const {  proxy  } = getCurrentInstance();
+
+
 //分页
 const dateRange = ref([]);
 //分类选项

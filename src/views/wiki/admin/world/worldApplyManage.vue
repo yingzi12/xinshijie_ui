@@ -92,7 +92,7 @@
 
 <script lang="ts" setup>
 import AdminHead from './worldHead'
-import { getCurrentInstance, reactive, ref, toRefs} from 'vue'
+import {  reactive, ref, toRefs} from 'vue'
 import {useRoute, useRouter} from "vue-router";
 import { listApplyManage ,auditApplyManage } from "@/api/admin/applyManage";
 import {getInfo } from "@/api/admin/manage";
@@ -112,8 +112,8 @@ wid.value =route.query.wid;
 const wname = ref('');
 wname.value = <string>route.query.wname;
 
-const {  appContext : { config: { globalProperties } }  } = getCurrentInstance();
-const {  proxy  } = getCurrentInstance();
+
+
 
 const openAuditDialog = ref(false);
 const loading = ref(true);

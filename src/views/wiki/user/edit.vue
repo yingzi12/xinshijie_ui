@@ -56,14 +56,14 @@
 
 
 <script lang="ts" setup>
-import {getCurrentInstance, inject, reactive, ref} from 'vue'
+import { inject, reactive, ref} from 'vue'
 import type { FormInstance, FormRules } from 'element-plus'
 import {  getUser,updateUserBasic } from "@/api/admin/user";
 import {ElMessage, UploadProps} from "element-plus";
 import {useRouter} from "vue-router";
 const router = useRouter()
 
-const {  proxy  } = getCurrentInstance();
+
 
 const baseUrl = inject("$baseUrl")
 const imgUrl = inject("$imgUrl")

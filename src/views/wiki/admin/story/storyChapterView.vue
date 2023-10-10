@@ -27,7 +27,7 @@
 </template>
 
 <script lang="ts" setup>
-import {getCurrentInstance, inject, reactive, ref, toRefs} from 'vue'
+import { inject, reactive, ref, toRefs} from 'vue'
 import { getDraftChapterAdmin } from "@/api/admin/draftChapter";
 
 

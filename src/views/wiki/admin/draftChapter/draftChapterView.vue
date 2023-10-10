@@ -25,7 +25,7 @@ storyChapterEdit.vue<template>
 </template>
 
 <script lang="ts" setup>
-import {getCurrentInstance, inject, reactive, ref, toRefs} from 'vue'
+import { inject, reactive, ref, toRefs} from 'vue'
 import { getDraftChapter } from "@/api/admin/draftChapter";
 
 
