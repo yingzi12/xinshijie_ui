@@ -282,7 +282,7 @@ function getAllStoryComment() {
   queryParams.value.sid=sid.value;
   listComment(globalProperties.addDateRange(queryParams.value, dateRange.value)).then(response => {
     //console.log("查询世界详细:"+JSON.stringify(response))
-    commentList.value = response.rows
+    commentList.value = response.data
   });
 }
 
@@ -291,12 +291,12 @@ const isAdmin=ref(2)
 //小心
 function handleAuthor() {
   listAuthor(sid.value).then(response => {
-      authorList.value = response.rows
+      authorList.value = response.data
       if(isNotEmpty(userStore.name)) {
-          if (response.rows.length> 0) {
+          if (response.data.length> 0) {
               // 列表不为空，执行循环
-              for (var i = 0; i < response.rows.length; i++) {
-                  if (userStore.userId == response.rows[i].userId) {
+              for (var i = 0; i < response.data.length; i++) {
+                  if (userStore.userId == response.data[i].userId) {
                       isAdmin.value = 1;
                   }
               }
@@ -308,7 +308,7 @@ function handleAuthor() {
 function handleChapterList() {
   queryParams.value.wid=wid.value;
   listChapter(globalProperties.addDateRange(queryParams.value, dateRange.value)).then(response => {
-    chapterList.value = response.rows;
+    chapterList.value = response.data;
   });
 }
 

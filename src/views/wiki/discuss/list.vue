@@ -201,7 +201,7 @@ function getList(page: number) {
 
   listDiscuss(globalProperties.addDateRange(queryParams.value, dateRange.value)).then(response => {
     loading.value = false;
-    discussList.value = response.rows;
+    discussList.value = response.data;
     total.value = response.total;
   });
 }

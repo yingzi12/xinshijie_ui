@@ -152,7 +152,7 @@ function getList(page: number) {
 
   listComment(globalProperties.addDateRange(queryParams.value, dateRange.value)).then(response => {
     //console.log("查询世界详细:"+JSON.stringify(response))
-    commentList.value = response.rows
+    commentList.value = response.data
     total.value = response.total;
   });
 }

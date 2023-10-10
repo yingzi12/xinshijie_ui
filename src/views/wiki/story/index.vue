@@ -268,7 +268,7 @@ function getRedactList() {
   queryParams.value.source="原创";
   listWorld(globalProperties.addDateRange(queryParams.value, dateRange.value)).then(response => {
     loading.value = false;
-    worldRedact.value = response.rows;
+    worldRedact.value = response.data;
     total.value = response.total;
   });
   queryParams.value=ref({})
@@ -277,7 +277,7 @@ function getRandomList() {
   queryParams.value.pageSize=18
   listWorld(globalProperties.addDateRange(queryParams.value, dateRange.value)).then(response => {
     loading.value = false;
-    worldRandom.value = response.rows;
+    worldRandom.value = response.data;
     total.value = response.total;
   });
 }
@@ -285,10 +285,10 @@ function getKeyList() {
   queryParams.value.pageSize=4
   listWorld(globalProperties.addDateRange(queryParams.value, dateRange.value)).then(response => {
     loading.value = false;
-    worldKey1.value = response.rows[0];
-    worldKey2.value = response.rows[1];
-    worldKey3.value = response.rows[2];
-    worldKey4.value = response.rows[3];
+    worldKey1.value = response.data[0];
+    worldKey2.value = response.data[1];
+    worldKey3.value = response.data[2];
+    worldKey4.value = response.data[3];
     total.value = response.total;
   });
 }
@@ -296,7 +296,7 @@ function getNewList() {
   queryParams.value.pageSize=9
   listWorld(globalProperties.addDateRange(queryParams.value, dateRange.value)).then(response => {
     loading.value = false;
-    worldNew.value = response.rows;
+    worldNew.value = response.data;
     total.value = response.total;
   });
 }

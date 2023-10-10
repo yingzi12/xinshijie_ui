@@ -217,7 +217,7 @@ function getList(page: number) {
 
   listStoryAdmin(globalProperties.addDateRange(queryParams.value, dateRange.value)).then(response => {
     loading.value = false;
-    storyList.value = response.rows;
+    storyList.value = response.data;
     total.value = response.total;
   });
 }

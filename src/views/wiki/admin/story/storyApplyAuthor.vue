@@ -188,7 +188,7 @@ function getList(page: number) {
     queryParams.value.pageNum=page;
     listApplyAuthor(wid.value,sid.value).then(response => {
         loading.value = false;
-        applyAuthorList.value = response.rows;
+        applyAuthorList.value = response.data;
         total.value = response.total;
     });
 }

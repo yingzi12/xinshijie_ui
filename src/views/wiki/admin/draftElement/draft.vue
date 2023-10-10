@@ -189,7 +189,7 @@ function findType(typeId:number) {
   // queryParams.value.wid=wid.value;
   listDraft(globalProperties.addDateRange(queryParams.value, dateRange.value)).then(response => {
     loading.value = false;
-    elementList.value = response.rows;
+    elementList.value = response.data;
     total.value = response.total;
   });
 }
@@ -200,7 +200,7 @@ function getList(page: number) {
 
   listDraft(globalProperties.addDateRange(queryParams.value, dateRange.value)).then(response => {
     loading.value = false;
-    elementList.value = response.rows;
+    elementList.value = response.data;
     total.value = response.total;
   });
 }

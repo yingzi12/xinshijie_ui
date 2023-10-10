@@ -334,7 +334,7 @@ function getAllWorldComment() {
     queryParams.value.source=1;
    listComment(globalProperties.addDateRange(queryParams.value, dateRange.value)).then(response => {
     //console.log("查询世界详细:"+JSON.stringify(response))
-    commentList.value = response.rows
+    commentList.value = response.data
   });
 }
 //管理员信息
@@ -345,12 +345,12 @@ const isAdmin=ref(2)
 function getAllWorldManage(id:number) {
   getWorldManage(id).then(response => {
       //console.log("查询世界详细:"+JSON.stringify(response))
-      manageList.value = response.rows
+      manageList.value = response.data
       if(isNotEmpty(userStore.name)) {
-          if (response.rows.length > 0) {
+          if (response.data.length > 0) {
               // 列表不为空，执行循环
-              for (var i = 0; i < response.rows.length; i++) {
-                  if (userStore.userId == response.rows[i].userId) {
+              for (var i = 0; i < response.data.length; i++) {
+                  if (userStore.userId == response.data[i].userId) {
                         isAdmin.value = 1;
                         break;
                   }
@@ -365,7 +365,7 @@ const elementList = ref([]);
 function getElementList() {
   queryParams.value.wid=wid.value;
   listElement(globalProperties.addDateRange(queryParams.value, dateRange.value)).then(response => {
-    elementList.value = response.rows;
+    elementList.value = response.data;
   });
 }
 
@@ -373,7 +373,7 @@ const  storyList=ref([{}])
 function getStoryList() {
   queryParams.value.wid=wid.value;
   listStory(globalProperties.addDateRange(queryParams.value, dateRange.value)).then(response => {
-    storyList.value = response.rows;
+    storyList.value = response.data;
   });
 }
 

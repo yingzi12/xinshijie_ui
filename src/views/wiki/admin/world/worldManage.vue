@@ -180,7 +180,7 @@ function getList(page: number) {
   //console.log("getList 世界id:"+wid.value)
   getWorldManage(wid.value).then(response => {
     loading.value = false;
-    worldList.value = response.rows;
+    worldList.value = response.data;
     total.value = response.total;
   });
 }

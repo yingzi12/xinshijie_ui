@@ -95,7 +95,7 @@ function getList(page: number) {
 
   listRedident(globalProperties.addDateRange(queryParams.value, dateRange.value)).then(response => {
     loading.value = false;
-    redidentList.value = response.rows;
+    redidentList.value = response.data;
     total.value = response.total;
   });
 }

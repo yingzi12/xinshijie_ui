@@ -111,7 +111,7 @@ function getList(page: number) {
   queryParams.value.pageNum=page;
 
   listFllow(globalProperties.addDateRange(queryParams.value, dateRange.value)).then(response => {
-    fllowList.value = response.rows;
+    fllowList.value = response.data;
     total.value = response.total;
   });
 }

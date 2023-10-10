@@ -292,7 +292,7 @@ function getList(page: number) {
     queryParams.value.ranks=0
     listDiscussComment(globalProperties.addDateRange(queryParams.value, dateRange.value)).then(response => {
         loading.value = false;
-        commentList.value = response.rows;
+        commentList.value = response.data;
         total.value = response.total;
     });
 }
@@ -303,7 +303,7 @@ function getReplyList(comment,page: number) {
     queryReplyParams.value.pid=comment.id
     listDiscussComment(globalProperties.addDateRange(queryReplyParams.value, dateRange.value)).then(response => {
         loading.value = false;
-        comment.replyList = response.rows;
+        comment.replyList = response.data;
         total.value = response.total;
     });
 }

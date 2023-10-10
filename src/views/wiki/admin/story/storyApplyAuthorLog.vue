@@ -99,7 +99,7 @@ function getList(page: number) {
     window.scrollTo(0, 0); // 滚动到顶部
     queryParams.value.pageNum=page;
     pageApplyAuthor(globalProperties.addDateRange(queryParams.value, dateRange.value)).then(response => {
-        applyAuthorList.value = response.rows
+        applyAuthorList.value = response.data
         total.value = response.total;
     });
 }

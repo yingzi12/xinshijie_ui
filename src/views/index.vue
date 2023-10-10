@@ -297,7 +297,7 @@ const worldEditList = ref([]);
 function getEditList() {
   getRecommendWorld(2).then(response => {
     loading.value = false;
-    worldEditList.value = response.rows;
+    worldEditList.value = response.data;
     total.value = response.total;
   });
 }
@@ -307,7 +307,7 @@ const worldNewList = ref([]);
 function getNewList() {
   getRecommendWorld(5).then(response => {
     loading.value = false;
-    worldNewList.value = response.rows;
+    worldNewList.value = response.data;
     total.value = response.total;
   });
 }
@@ -316,10 +316,10 @@ function getNewList() {
 function getRandomList() {
   getRecommendWorld(8).then(response => {
     loading.value = false;
-    worldKey1.value = response.rows[0];
-    worldKey2.value = response.rows[1];
-    worldKey3.value = response.rows[2];
-    worldKey4.value = response.rows[3];
+    worldKey1.value = response.data[0];
+    worldKey2.value = response.data[1];
+    worldKey3.value = response.data[2];
+    worldKey4.value = response.data[3];
     total.value = response.total;
   });
 }
@@ -328,7 +328,7 @@ const boutiqueList = ref([]);
 function getBoutiqueList() {
   getRecommendWorld(17).then(response => {
     loading.value = false;
-    boutiqueList.value = response.rows;
+    boutiqueList.value = response.data;
     total.value = response.total;
   });
 }
@@ -337,7 +337,7 @@ const activeList = ref([]);
 function getActiveList() {
   getRecommendWorld(11).then(response => {
     loading.value = false;
-    activeList.value = response.rows;
+    activeList.value = response.data;
     total.value = response.total;
   });
 }

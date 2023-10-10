@@ -57,7 +57,7 @@
 
 <script lang="ts" setup>
 import { getCurrentInstance, reactive, ref, toRefs} from 'vue'
-import { listChapterAll } from "@/api/wiki/chapter";
+import { listChapter } from "@/api/wiki/chapter";
 import { getStory} from "@/api/wiki/story";
 import { useRoute, useRouter} from "vue-router";
 
@@ -71,10 +71,12 @@ sid.value = route.query.sid;
 const data = reactive({
   form: {},
   queryParams: {
-    pageNum: 1,
+    page: 1,
+    pageSize: 500,
 
     title: undefined,
     types: undefined,
+    pid:0,
     sid:sid.value
   }
 });
@@ -82,7 +84,6 @@ const data = reactive({
 
 const { queryParams, form } = toRefs(data);
 
-const reelList = ref([]);
 const total = ref(0);
 const dateRange = ref([]);
 
@@ -110,17 +111,40 @@ function handStory() {
     wid.value =  story.value.wid
   });
 }
+
+const reelList = ref<Array<InstanceType<Reel>>>();
+
 /** 查询元素 */
 function getList(page: number) {
-  window.scrollTo(0, 0); // 滚动到顶部
-  queryParams.value.pageNum=page;
-
-  queryParams.value.sid=sid.value;
-  listChapterAll(globalProperties.addDateRange(queryParams.value, dateRange.value)).then(response => {
+  queryParams.value.page = page;
+  queryParams.value.sid = sid.value;
+  listChapter(queryParams.value).then(response => {
     reelList.value = response.data;
+    getChapterList(reelList.value);
   });
 }
-getList(queryParams.value.pageNum);
+
+async function getChapterList(reelList) {
+  for (var reel = 0; reel < reelList.length; reel++) {
+    console.log("total1:" + total.value);
+
+    queryParams.value.pid = reelList[reel].id;
+    total.value = 0;
+
+    const response = await listChapter(queryParams.value);
+    reelList[reel].chapterList = response.data;
+    total.value = response.total;
+    console.log("total2:" + total.value);
+    var pageNum = Math.ceil(total.value / queryParams.value.pageSize); // 使用 Math.ceil 向上取整
+
+    for (var i = 2; i <= pageNum; i++) { // 从第二页开始
+      queryParams.value.page = i;
+      const chapterResponse = await listChapter(queryParams.value);
+      reelList[reel].chapterList = reelList[reel].chapterList.concat(chapterResponse.data);
+    }
+  }
+}
+getList(queryParams.value.page);
 
 handStory();
 </script>

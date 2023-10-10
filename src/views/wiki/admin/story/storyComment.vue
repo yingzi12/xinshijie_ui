@@ -129,7 +129,7 @@ function getList(page: number) {
 
   listCommentAdmin(globalProperties.addDateRange(queryParams.value, dateRange.value)).then(response => {
     //console.log("查询评论列表:"+JSON.stringify(response))
-    commentList.value = response.rows
+    commentList.value = response.data
     total.value = response.total;
   });
 }

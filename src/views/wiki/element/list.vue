@@ -231,7 +231,7 @@ function handFind(){
   }
   listElement(globalProperties.addDateRange(queryParams.value, dateRange.value)).then(response => {
     // loading.value = false;
-    elementList.value = response.rows;
+    elementList.value = response.data;
     total.value = response.total;
   });
 }
@@ -250,7 +250,7 @@ function getList(page: number) {
 
   queryParams.value.wid=wid.value;
   listElement(globalProperties.addDateRange(queryParams.value, dateRange.value)).then(response => {
-    elementList.value = response.rows;
+    elementList.value = response.data;
     total.value = response.total;
   });
 }

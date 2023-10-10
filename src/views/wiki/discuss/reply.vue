@@ -204,7 +204,7 @@ function getList(page: number) {
   queryParams.value.ranks=null
   listDiscussComment(globalProperties.addDateRange(queryParams.value, dateRange.value)).then(response => {
     loading.value = false;
-    commentList.value = response.rows;
+    commentList.value = response.data;
     total.value = response.total;
   });
 }

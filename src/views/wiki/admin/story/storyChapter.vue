@@ -170,7 +170,7 @@ function getList(page: number) {
 
   listChapter(globalProperties.addDateRange(queryParams.value, dateRange.value)).then(response => {
     loading.value = false;
-    chapterList.value = response.rows;
+    chapterList.value = response.data;
     total.value = response.total;
   });
 }

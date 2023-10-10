@@ -290,7 +290,7 @@ function getList(page: number) {
     queryParams.value.ranks=0
     listDiscussComment(globalProperties.addDateRange(queryParams.value, dateRange.value)).then(response => {
         // loading.value = false;
-        // commentList.value = response.rows;
+        // commentList.value = response.data;
         total.value = response.total;
     });
 }
@@ -301,7 +301,7 @@ function getReplyList(page: number) {
     queryReplyParams.value.ranks=0
     listDiscussComment(globalProperties.addDateRange(queryReplyParams.value, dateRange.value)).then(response => {
         loading.value = false;
-        commentList.value = response.rows;
+        commentList.value = response.data;
         total.value = response.total;
     });
 }

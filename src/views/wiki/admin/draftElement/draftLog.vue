@@ -149,7 +149,7 @@ function getList(page: number) {
 
   listDraft(globalProperties.addDateRange(queryParams.value, dateRange.value)).then(response => {
     loading.value = false;
-    elementList.value = response.rows;
+    elementList.value = response.data;
     total.value = response.total;
   });
 }

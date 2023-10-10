@@ -168,7 +168,7 @@ function getList(page: number) {
 
   listDraftChapterAdmin(globalProperties.addDateRange(queryParams.value, dateRange.value)).then(response => {
     loading.value = false;
-    draftList.value = response.rows;
+    draftList.value = response.data;
     total.value = response.total;
   });
 }

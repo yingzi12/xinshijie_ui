@@ -154,7 +154,7 @@ function handFind(types: number) {
   // 获取并更新故事列表
   listStory(globalProperties.addDateRange(queryParams.value, dateRange.value)).then((response) => {
     loading.value = false;
-    storyList.value = response.rows;
+    storyList.value = response.data;
     total.value = response.total;
   });
 }
@@ -180,7 +180,7 @@ function getList(page: number) {
   // 获取初始故事列表
   listStory(globalProperties.addDateRange(queryParams.value, dateRange.value)).then((response) => {
     loading.value = false;
-    storyList.value = response.rows;
+    storyList.value = response.data;
     total.value = response.total;
   });
 }

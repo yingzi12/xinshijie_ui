@@ -184,7 +184,7 @@ function getList(page: number) {
     queryParams.value.pageNum=page;
     listApplyManage(wid.value).then(response => {
         loading.value = false;
-        applyManageList.value = response.rows;
+        applyManageList.value = response.data;
         total.value = response.total;
     });
 }
