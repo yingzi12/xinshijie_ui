@@ -20,9 +20,9 @@
           :span="6"
       >
         <el-card class="dddd" :body-style="{ padding: '0px',width:'100%' }">
-          <el-image style="width:100%; height: 100px" :src="imgUrl+world.imgUrl" fit="fill" @click="handleSee(world.id)"/>
+          <el-image style="width:100%; height: 100px" :src="imgUrl+world.imgUrl" fit="fill" @click="handleSee(world.wid)"/>
           <div style="padding: 1px;margin: 0px;text-align: center">
-            <p class="biaoti" style="font-size:16px;margin: 0px" @click="handleSee(world.id)"><span style="font-family:'PingFangSC-Semibold', 'PingFang SC Semibold', 'PingFang SC', sans-serif;font-weight:650;" >{{ world.name }}<el-tag v-if="world.source=='原创'">原创</el-tag></span></p>
+            <p class="biaoti" style="font-size:16px;margin: 0px" @click="handleSee(world.wid)"><span style="font-family:'PingFangSC-Semibold', 'PingFang SC Semibold', 'PingFang SC', sans-serif;font-weight:650;" >{{ world.name }}<el-tag v-if="world.source=='原创'">原创</el-tag></span></p>
             <p class="shuoming" style="font-size:14px;margin: 0px;"><span style="font-family:'PingFangSC-Regular', 'PingFang SC', sans-serif;font-weight:400;color:#999999;font-size: x-small;">{{ world.intro }}</span></p>
           </div>
         </el-card>
@@ -45,18 +45,18 @@
     </div>
     <div>
       <el-row :gutter="20" class="el-row" type="flex" >
-        <el-col :span="4" v-for = "world in worldNewList" :key="world.id" class="el-col" style="text-align: center">
+        <el-col :span="4" v-for = "world in worldNewList" :key="world.wid" class="el-col" style="text-align: center">
           <el-card :body-style="{ padding: '10px' }"  class="demo-image">
             <div style="display: inline-block">
               <el-image style="width: 100px; height: 100px;text-align: center;" fit="fill"
-                        @click="handleSee(world.id)"
+                        @click="handleSee(world.wid)"
                         :src="imgUrl+world.imgUrl"
                         class="image"
               />
             </div>
             <div >
               <div id="u10366-1_text" class="text u10366_text" style="/* visibility: inherit; */">
-                <p class="biaoti" @click="handleSee(world.id)" ><span class="head-title">{{ world.name }}<el-tag v-if="world.source=='原创'">原创</el-tag></span></p>
+                <p class="biaoti" @click="handleSee(world.wid)" ><span class="head-title">{{ world.name }}<el-tag v-if="world.source=='原创'">原创</el-tag></span></p>
                 <p class="shuoming"><span class="head-intro">{{ world.intro }}</span></p>
               </div>
             </div>
@@ -81,18 +81,18 @@
     </div>
     <div>
       <el-row :gutter="20" class="el-row" type="flex" >
-        <el-col :span="4" v-for = "world in activeList" :key="world.id" class="el-col" style="text-align: center">
+        <el-col :span="4" v-for = "world in activeList" :key="world.wid" class="el-col" style="text-align: center">
           <el-card :body-style="{ padding: '10px' }"  class="demo-image">
             <div style="display: inline-block">
               <el-image style="width: 100px; height: 100px;text-align: center;" fit="fill"
-                        @click="handleSee(world.id)"
+                        @click="handleSee(world.wid)"
                         :src="imgUrl+world.imgUrl"
                         class="image"
               />
             </div>
             <div >
               <div id="u10366-1_text" class="text u10366_text" style="/* visibility: inherit; */">
-                <p class="biaoti" @click="handleSee(world.id)" ><span class="head-title">{{ world.name }}<el-tag v-if="world.source=='原创'">原创</el-tag></span></p>
+                <p class="biaoti" @click="handleSee(world.wid)" ><span class="head-title">{{ world.name }}<el-tag v-if="world.source=='原创'">原创</el-tag></span></p>
                 <p class="shuoming"><span class="head-intro">{{ world.intro }}</span></p>
               </div>
             </div>
@@ -169,21 +169,21 @@
             <el-col
                 style="margin-bottom: 10px"
                 v-for="(world, index) in boutiqueList"
-                :key="world.id"
+                :key="world.wid"
                 :span="8"
             >
               <el-card :body-style="{ margin: '0px' }">
                 <el-row>
                   <el-col :span="8">
-                    <el-image style="width: 66px; height: 88px" :src="imgUrl+world.imgUrl" fit="fill" @click="handleSee(world.id)" />
+                    <el-image style="width: 66px; height: 88px" :src="imgUrl+world.imgUrl" fit="fill" @click="handleSee(world.wid)" />
                   </el-col>
                   <el-col :span="16">
-                    <h3 class="biaoti" @click="handleSee(world.id)" >{{ world.name }}<el-tag v-if="world.source=='原创'">原创</el-tag></h3>
+                    <h3 class="biaoti" @click="handleSee(world.wid)" >{{ world.name }}<el-tag v-if="world.source=='原创'">原创</el-tag></h3>
                     <p class="zuozhe">{{ world.createTime }}</p>
                     <p class="zuozhe">{{ world.createName }}</p>
                   </el-col>
                 </el-row>
-                <p class="shuoming" @click="handleSee(world.id)">{{world.intro}}</p>
+                <p class="shuoming" @click="handleSee(world.wid)">{{world.intro}}</p>
               </el-card>
             </el-col>
           </el-row>
