@@ -75,14 +75,14 @@
         </el-tab-pane>
         <el-tab-pane label="章节" name="element">
           <el-table :data="chapterList" stripe style="width: 100%">
-            <el-table-column prop="title" label="章节名" width="180" >
+            <el-table-column prop="title" label="章节名"  >
               <template #default="scope">
-                <router-link :to="{path:'/chapter/index', query: {sid:scope.row.sid,scid:scope.row.id,wid:scope.row.wid,wname:scope.row.wname,sname:scope.row.sname}}">{{ scope.row.title }}</router-link>
+                <router-link :to="{path:'/chapter/index', query: {sid:story.id,scid:scope.row.id,wid:scope.row.wid,wname:scope.row.wname,sname:scope.row.sname}}">{{ scope.row.title }}</router-link>
               </template>
             </el-table-column>
-            <el-table-column prop="createName" label="创建人" />
-            <el-table-column prop="createTime" label="创建时间" />
-            <el-table-column prop="updateTime" label="更新时间" />
+            <el-table-column prop="createName" label="创建人" width="150px" />
+            <el-table-column prop="createTime" label="创建时间" width="150px" />
+            <el-table-column prop="updateTime" label="更新时间" width="150px" />
           </el-table>
           <el-button style="margin-top:10px" text  @click="handChapter">更多</el-button>
         </el-tab-pane>
@@ -238,7 +238,7 @@ const data = reactive({
   commentForm: {},
   queryParams: {
     pageNum: 1,
-
+    size:10,
     wid: undefined,
     sid: sid.value,
     level: 1,
@@ -307,7 +307,8 @@ function handleAuthor() {
 /** 查询元素 */
 function handleChapterList() {
   queryParams.value.wid=wid.value;
-  listChapter(globalProperties.addDateRange(queryParams.value, dateRange.value)).then(response => {
+  queryParams.value.size=10
+  listChapter(queryParams.value).then(response => {
     chapterList.value = response.data;
   });
 }
