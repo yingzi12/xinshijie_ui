@@ -8,7 +8,7 @@
             <el-col :span="20">
               <el-tree-select v-model="queryParams.types" :data="dataStree" check-strictly :render-after-expand="false" clearable />
               <el-input v-model="queryParams.title" placeholder="请输入元素名" class="input-with-select" style="width: 250px"/>
-              <el-button :icon="Search" circle @click="getList"/>
+              <el-button :icon="Search" circle @click="getList(1)"/>
             </el-col>
             <el-col :span="4" style="text-align: right;">
               <div style="text-align: right; font-size: 12px" class="toolbar">
@@ -177,13 +177,11 @@ const data = reactive({
   form: {},
   queryParams: {
     pageNum: 1,
-
     title: undefined,
     types: '',
-    wid:wid.value
+    wid:wid.value,
   },
   rules: {
-    // userName: [{ required: true, message: "用户名称不能为空", trigger: "blur" }, { min: 2, max: 20, message: "用户名称长度必须介于 2 和 20 之间", trigger: "blur" }],
   }
 });
 const { queryParams, form, rules } = toRefs(data);
@@ -215,8 +213,7 @@ function handleDelete ( row){
     return delElement(row.wid,row.id);
   }).then(() => {
     getList(queryParams.value.pageNum);
-
-    globalProperties.$modal.msgSuccess("删除成功");
+    alert("删除成功");
   }).catch(() => {});
 }
 
@@ -230,14 +227,15 @@ function handleSelectionChange(selection) {
   multiple.value = !selection.length;
 };
 /** 查询元素 */
-function getList(page: number) {
+function getList(page) {
   window.scrollTo(0, 0); // 滚动到顶部
   queryParams.value.pageNum=page;
 
   if(queryParams.value.types != undefined && queryParams.value.types != '' ){
     queryParams.value.types=queryParams.value.types.split("$$")[0]
   }
-  listElement(globalProperties.addDateRange(queryParams.value, dateRange.value)).then(response => {
+  console.log(JSON.stringify(queryParams.value))
+  listElement(queryParams.value).then(response => {
     loading.value = false;
     elementList.value = response.data;
     total.value = response.total;

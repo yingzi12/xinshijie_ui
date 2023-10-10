@@ -9,7 +9,7 @@
           <el-row>
             <el-col  :span="20">
               <el-input v-model="queryParams.comment" placeholder="请输入内容" class="input-with-select" style="width: 250px"/>
-              <el-button :icon="Search" circle @click="getList"/>
+              <el-button :icon="Search" circle @click="getList(1)"/>
             </el-col >
             <el-col :span="4"  style="text-align: right;">
             </el-col>
@@ -109,7 +109,7 @@ function getList(page: number) {
   window.scrollTo(0, 0); // 滚动到顶部
   queryParams.value.pageNum=page;
 
-  listComment(globalProperties.addDateRange(queryParams.value, dateRange.value)).then(response => {
+  listComment(queryParams.value).then(response => {
     //console.log("查询评论列表:"+JSON.stringify(response))
     commentList.value = response.data
     total.value = response.total;

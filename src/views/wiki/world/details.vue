@@ -332,7 +332,7 @@ function handWorld(id:number) {
 function getAllWorldComment() {
   queryParams.value.wid=wid.value;
     queryParams.value.source=1;
-   listComment(globalProperties.addDateRange(queryParams.value, dateRange.value)).then(response => {
+   listComment(queryParams.value).then(response => {
     //console.log("查询世界详细:"+JSON.stringify(response))
     commentList.value = response.data
   });
@@ -364,7 +364,7 @@ const elementList = ref([]);
 /** 查询元素 */
 function getElementList() {
   queryParams.value.wid=wid.value;
-  listElement(globalProperties.addDateRange(queryParams.value, dateRange.value)).then(response => {
+  listElement(queryParams.value).then(response => {
     elementList.value = response.data;
   });
 }
@@ -372,7 +372,7 @@ function getElementList() {
 const  storyList=ref([{}])
 function getStoryList() {
   queryParams.value.wid=wid.value;
-  listStory(globalProperties.addDateRange(queryParams.value, dateRange.value)).then(response => {
+  listStory(queryParams.value).then(response => {
     storyList.value = response.data;
   });
 }

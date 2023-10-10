@@ -280,7 +280,7 @@ function handStory() {
 function getAllStoryComment() {
   queryParams.value.wid=wid.value;
   queryParams.value.sid=sid.value;
-  listComment(globalProperties.addDateRange(queryParams.value, dateRange.value)).then(response => {
+  listComment(queryParams.value).then(response => {
     //console.log("查询世界详细:"+JSON.stringify(response))
     commentList.value = response.data
   });

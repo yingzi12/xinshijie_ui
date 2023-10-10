@@ -110,7 +110,7 @@ function getList(page: number) {
   window.scrollTo(0, 0); // 滚动到顶部
   queryParams.value.pageNum=page;
 
-  listFllow(globalProperties.addDateRange(queryParams.value, dateRange.value)).then(response => {
+  listFllow(queryParams.value).then(response => {
     fllowList.value = response.data;
     total.value = response.total;
   });

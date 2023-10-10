@@ -229,7 +229,7 @@ function handFind(){
   }else{
     queryParams.value.types=null
   }
-  listElement(globalProperties.addDateRange(queryParams.value, dateRange.value)).then(response => {
+  listElement(queryParams.value).then(response => {
     // loading.value = false;
     elementList.value = response.data;
     total.value = response.total;
@@ -249,7 +249,7 @@ function getList(page: number) {
   queryParams.value.pageNum=page;
 
   queryParams.value.wid=wid.value;
-  listElement(globalProperties.addDateRange(queryParams.value, dateRange.value)).then(response => {
+  listElement(queryParams.value).then(response => {
     elementList.value = response.data;
     total.value = response.total;
   });

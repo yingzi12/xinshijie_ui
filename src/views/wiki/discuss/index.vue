@@ -290,7 +290,7 @@ function getList(page: number) {
     queryParams.value.pageNum=page;
 
     queryParams.value.ranks=0
-    listDiscussComment(globalProperties.addDateRange(queryParams.value, dateRange.value)).then(response => {
+    listDiscussComment(queryParams.value).then(response => {
         loading.value = false;
         commentList.value = response.data;
         total.value = response.total;

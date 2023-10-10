@@ -146,7 +146,7 @@ function getList(page: number) {
   window.scrollTo(0, 0); // 滚动到顶部
   queryParams.value.pageNum=page;
 
-  listComment(globalProperties.addDateRange(queryParams.value, dateRange.value)).then(response => {
+  listComment(queryParams.value).then(response => {
     //console.log("查询世界详细:"+JSON.stringify(response))
     commentList.value = response.data
     total.value = response.total;

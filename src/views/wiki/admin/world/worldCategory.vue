@@ -6,7 +6,7 @@
              <el-col :span="20">
 <!--                 <el-tree-select v-model="queryParams.types" :data="dataStree" check-strictly :render-after-expand="false" clearable />-->
 <!--                 <el-input v-model="queryParams.title" placeholder="请输入元素名" class="input-with-select" style="width: 250px"/>-->
-<!--                 <el-button :icon="Search" circle @click="getList"/>-->
+<!--                 <el-button :icon="Search" circle @click="getList(1)"/>-->
              </el-col>
              <el-col :span="4" style="text-align: right;">
                  <div style="text-align: right; font-size: 12px" class="toolbar">
@@ -224,12 +224,13 @@ function submitForm(formEl: FormInstance | undefined) {   //
   form.value.wid=wid.value
   if (form.value.isUpdate){
     updateCategory(form.value).then(response => {
-
+      alert("添加成功")
       getList();
 
     })
   }else{
     addCategory(form.value).then(response => {
+      alert("添加成功")
       getList();
 
     })

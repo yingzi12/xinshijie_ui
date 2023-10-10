@@ -215,7 +215,7 @@ function getList(page: number) {
   window.scrollTo(0, 0); // 滚动到顶部
   queryParams.value.pageNum=page;
 
-  listStoryAdmin(globalProperties.addDateRange(queryParams.value, dateRange.value)).then(response => {
+  listStoryAdmin(queryParams.value).then(response => {
     loading.value = false;
     storyList.value = response.data;
     total.value = response.total;

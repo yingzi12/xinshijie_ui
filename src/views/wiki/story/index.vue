@@ -266,7 +266,7 @@ function handleList(){
 function getRedactList() {
   queryParams.value.pageSize=4
   queryParams.value.source="原创";
-  listWorld(globalProperties.addDateRange(queryParams.value, dateRange.value)).then(response => {
+  listWorld(queryParams.value).then(response => {
     loading.value = false;
     worldRedact.value = response.data;
     total.value = response.total;
@@ -275,7 +275,7 @@ function getRedactList() {
 }
 function getRandomList() {
   queryParams.value.pageSize=18
-  listWorld(globalProperties.addDateRange(queryParams.value, dateRange.value)).then(response => {
+  listWorld(queryParams.value).then(response => {
     loading.value = false;
     worldRandom.value = response.data;
     total.value = response.total;
@@ -283,7 +283,7 @@ function getRandomList() {
 }
 function getKeyList() {
   queryParams.value.pageSize=4
-  listWorld(globalProperties.addDateRange(queryParams.value, dateRange.value)).then(response => {
+  listWorld(queryParams.value).then(response => {
     loading.value = false;
     worldKey1.value = response.data[0];
     worldKey2.value = response.data[1];
@@ -294,7 +294,7 @@ function getKeyList() {
 }
 function getNewList() {
   queryParams.value.pageSize=9
-  listWorld(globalProperties.addDateRange(queryParams.value, dateRange.value)).then(response => {
+  listWorld(queryParams.value).then(response => {
     loading.value = false;
     worldNew.value = response.data;
     total.value = response.total;

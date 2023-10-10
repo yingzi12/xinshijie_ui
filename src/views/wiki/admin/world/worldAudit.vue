@@ -5,9 +5,9 @@
         <div style="background-color:#b0c4de;margin: auto;padding: 10px">
           <el-row>
             <el-col  :span="20">
-              <el-tree-select v-model="queryParams.types" :data="dataStree" check-strictly :render-after-expand="false" clearable />
+              <el-tree-select v-model="queryParams.typesName" :data="dataStree" check-strictly :render-after-expand="false" clearable />
               <el-input v-model="queryParams.title" placeholder="请输入元素名称" class="input-with-select" style="width: 250px"/>
-              <el-button :icon="Search" circle @click="getList"/>
+              <el-button :icon="Search" circle @click="getList(1)"/>
             </el-col >
             <el-col :span="4"  style="text-align: right;">
               <div style="text-align: right; font-size: 12px" class="toolbar">
@@ -134,6 +134,7 @@ const data = reactive({
     auditStatus:0,
     title: undefined,
     types: '',
+    typesName: '',
     wid:wid.value,
   },
   rules: {
@@ -150,9 +151,9 @@ function getList(page: number) {
   queryParams.value.pageNum=page;
 
   if(queryParams.value.types != undefined && queryParams.value.types != '' ){
-    queryParams.value.types=queryParams.value.types.split("$$")[0]
+    queryParams.value.types=queryParams.value.typesName.split("$$")[0]
   }
-  listAudit(globalProperties.addDateRange(queryParams.value, dateRange.value)).then(response => {
+  listAudit(queryParams.value).then(response => {
     loading.value = false;
     draftList.value = response.data;
     total.value = response.total;

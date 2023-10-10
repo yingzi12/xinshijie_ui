@@ -23,7 +23,7 @@
                 />
               </el-select>
               <el-input v-model="queryParams.title" placeholder="请输入主题" class="input-with-select" style="width: 250px"/>
-              <el-button :icon="Search" circle @click="getList"/>
+              <el-button :icon="Search" circle @click="getList(1)"/>
             </el-col >
             <el-col :span="4"  style="text-align: right;">
               <div style="text-align: right; font-size: 12px" class="toolbar">
@@ -185,7 +185,7 @@ function getList(page: number) {
   window.scrollTo(0, 0); // 滚动到顶部
   queryParams.value.pageNum=page;
 
-  listDiscussAdmin(globalProperties.addDateRange(queryParams.value, dateRange.value)).then(response => {
+  listDiscussAdmin(queryParams.value).then(response => {
     loading.value = false;
     discussList.value = response.data;
     total.value = response.total;

@@ -144,7 +144,7 @@ function handFind(types:number){
   }else{
     queryParams.value.name=null;
   }
-  listWorld(globalProperties.addDateRange(queryParams.value, dateRange.value)).then(response => {
+  listWorld(queryParams.value).then(response => {
     loading.value = false;
     worldList.value = response.data;
     total.value = response.total;
@@ -162,7 +162,7 @@ function getList(page: number) {
   window.scrollTo(0, 0); // 滚动到顶部
   queryParams.value.pageNum=page;
 
-  listWorld(globalProperties.addDateRange(queryParams.value, dateRange.value)).then(response => {
+  listWorld(queryParams.value).then(response => {
     loading.value = false;
     worldList.value = response.data;
     total.value = response.total;
