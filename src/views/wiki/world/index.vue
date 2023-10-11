@@ -22,7 +22,7 @@
         <el-card class="dddd" :body-style="{ padding: '0px',width:'100%' }">
           <el-image style="width:100%; height: 100px" :src="imgUrl+world.imgUrl" fit="fill" @click="handleSee(world.wid)"/>
           <div style="padding: 1px;margin: 0px;text-align: center">
-            <p class="biaoti" style="font-size:16px;margin: 0px" @click="handleSee(world.wid)"><span style="font-family:'PingFangSC-Semibold', 'PingFang SC Semibold', 'PingFang SC', sans-serif;font-weight:650;" >{{ world.wname }}<el-tag v-if="world.source=='原创'">原创</el-tag></span></p>
+            <a class="biaoti" style="font-size:16px;margin: 0px" :href='"/world/details?wid="+world.wid +"&wname="+world.wname'><span style="font-family:'PingFangSC-Semibold', 'PingFang SC Semibold', 'PingFang SC', sans-serif;font-weight:650;" >{{ world.wname }}<el-tag v-if="world.source=='原创'">原创</el-tag></span></a>
             <p class="shuoming" style="font-size:14px;margin: 0px;"><span style="font-family:'PingFangSC-Regular', 'PingFang SC', sans-serif;font-weight:400;color:#999999;font-size: x-small;">{{ world.intro }}</span></p>
           </div>
         </el-card>
@@ -39,7 +39,8 @@
           <el-button type="success"  round @click="handleList">最新</el-button>
         </el-col>
         <el-col :span="8">
-          <el-button type="success" round style="float:right;" @click="handleList">更多</el-button>
+          <div style="float:right;"> <a href="/world/list">更多</a> </div>
+          <!--            <el-button type="success" round style="float:right;" @click="handleList">更多</el-button>-->
         </el-col>
       </el-row>
     </div>
@@ -56,7 +57,7 @@
             </div>
             <div >
               <div id="u10366-1_text" class="text u10366_text" style="/* visibility: inherit; */">
-                <p class="biaoti" @click="handleSee(world.wid)" ><span class="head-title">{{ world.wname }}<el-tag v-if="world.source=='原创'">原创</el-tag></span></p>
+                <a class="biaoti" :href='"/world/details?wid="+world.wid +"&wname="+world.wname ' ><span class="head-title">{{ world.wname }}<el-tag v-if="world.source === '原创'">原创</el-tag></span></a>
                 <p class="shuoming"><span class="head-intro">{{ world.intro }}</span></p>
               </div>
             </div>
@@ -75,7 +76,7 @@
           <el-button type="success"  round @click="handleList">本月</el-button>
         </el-col>
         <el-col :span="8">
-          <el-button type="success" round style="float:right;" @click="handleList">更多</el-button>
+          <div style="float:right;"> <a href="/world/list">更多</a> </div>
         </el-col>
       </el-row>
     </div>
@@ -92,7 +93,10 @@
             </div>
             <div >
               <div id="u10366-1_text" class="text u10366_text" style="/* visibility: inherit; */">
-                <p class="biaoti" @click="handleSee(world.wid)" ><span class="head-title">{{ world.wname }}<el-tag v-if="world.source=='原创'">原创</el-tag></span></p>
+                <a class="biaoti" :href='"/world/details?wid="+world.wid+"&wname="+world.wname' >
+                  <span class="head-title">{{ world.wname }}
+                  <el-tag v-if="world.source=='原创'">原创</el-tag></span>
+                </a>
                 <p class="shuoming"><span class="head-intro">{{ world.intro }}</span></p>
               </div>
             </div>
@@ -110,7 +114,7 @@
           <el-button round>精品</el-button>
         </el-col>
         <el-col :span="8">
-          <el-button type="success" round style="float:right;"  @click="handleList">更多</el-button>
+          <div style="float:right;"> <a href="/world/list">更多</a> </div>
         </el-col>
       </el-row>
     </div>
@@ -130,7 +134,10 @@
               <div >
                 <div id="u10366-1_text" class="text u10366_text" style="/* visibility: inherit; */">
                   <div>
-                    <span class="head-title"  @click="handleSee(worldKey1.id)">{{ worldKey1.name }}<el-tag v-if="worldKey1.source=='原创'">原创</el-tag></span>
+                    <a class="biaoti" :href='"/world/details?wid="+worldKey1.wid+"&wname="+worldKey1.wname ' >
+                         <span class="head-title">{{ worldKey1.wname }}
+                          <el-tag v-if="worldKey1.source ==='原创'">原创</el-tag></span>
+                    </a>
                   </div>
                   <div class="head-intro-div">
                     <span class="text-multi-line-hidden head-intro"  >{{ worldKey1.intro }}</span>
@@ -152,7 +159,10 @@
               <div >
                 <div id="u10366-1_text" class="text u10366_text" style="/* visibility: inherit; */">
                   <div>
-                    <span class="head-title" @click="handleSee(worldKey2.id)">{{ worldKey2.name }}<el-tag v-if="worldKey2.source=='原创'">原创</el-tag></span>
+                    <a class="biaoti" :href='"/world/details?wid="+worldKey2.wid +"&wname="+worldKey2.wname' >
+                         <span class="head-title">{{ worldKey2.wname }}
+                          <el-tag v-if="worldKey2.source ==='原创'">原创</el-tag></span>
+                    </a>
                   </div>
                   <div class="head-intro-div">
                     <span class="text-multi-line-hidden  head-intro"  >{{ worldKey2.intro }}</span>
@@ -178,7 +188,12 @@
                     <el-image style="width: 66px; height: 88px" :src="imgUrl+world.imgUrl" fit="fill" @click="handleSee(world.wid)" />
                   </el-col>
                   <el-col :span="16">
-                    <h3 class="biaoti" @click="handleSee(world.wid)" >{{ world.wname }}<el-tag v-if="world.source=='原创'">原创</el-tag></h3>
+                    <div>
+                      <a class="biaoti" :href='"/world/details?wid="+world.wid +"&wname="+world.wname' >
+                         <span class="head-title">{{ world.wname }}
+                          <el-tag v-if="world.source ==='原创'">原创</el-tag></span>
+                      </a>
+                    </div>
                     <p class="zuozhe">{{ world.createTime }}</p>
                     <p class="zuozhe">{{ world.createName }}</p>
                   </el-col>
@@ -202,7 +217,10 @@
               <div >
                 <div id="u10366-1_text" class="text u10366_text" style="/* visibility: inherit; */">
                   <div>
-                    <span class="head-title"  @click="handleSee(worldKey3.id)">{{ worldKey3.name }}<el-tag v-if="worldKey3.source=='原创'">原创</el-tag></span>
+                    <a class="biaoti" :href='"/world/details?wid="+worldKey3.wid+"&wname="+worldKey3.wname ' >
+                         <span class="head-title">{{ worldKey3.wname }}
+                          <el-tag v-if="worldKey3.source ==='原创'">原创</el-tag></span>
+                    </a>
                   </div>
                   <div class="head-intro-div">
                     <span class="text-multi-line-hidden head-intro" style="font-family:'PingFangSC-Regular', 'PingFang SC', sans-serif;  color:#999999; font-size: x-small;" >{{ worldKey3.intro }}</span>
@@ -224,7 +242,10 @@
               <div>
                 <div id="u10366-1_text" class="text u10366_text" style="/* visibility: inherit; */">
                   <div>
-                    <span class="head-title" @click="handleSee(worldKey4.id)">{{ worldKey4.name }}<el-tag v-if="worldKey4.source=='原创'">原创</el-tag></span>
+                    <a class="biaoti" :href='"/world/details?wid="+worldKey4.wid+"&wname="+worldKey4.wname ' >
+                         <span class="head-title">{{ worldKey4.wname }}
+                          <el-tag v-if="worldKey4.source ==='原创'">原创</el-tag></span>
+                    </a>
                   </div>
                   <div class="head-intro-div">
                     <span  class="text-multi-line-hidden head-intro" style="font-family:'PingFangSC-Regular', 'PingFang SC', sans-serif;  color:#999999; font-size: x-small;" >{{ worldKey4.intro }}</span>
@@ -249,7 +270,6 @@ import { getRecommendWorld } from "@/api/wiki/recommendWorld";
 import { useRouter} from "vue-router";
 // import {getRecommendWorld} from "../api/wiki/recommendWorld";
 const router = useRouter()
-
 
 const imgUrl = inject("$imgUrl")
 
