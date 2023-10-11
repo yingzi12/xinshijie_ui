@@ -95,9 +95,8 @@ import AdminHead from './worldHead'
 import {  reactive, ref, toRefs} from 'vue'
 import {useRoute, useRouter} from "vue-router";
 import { listApplyManage ,auditApplyManage } from "@/api/admin/applyManage";
-import {getInfo } from "@/api/admin/manage";
 import {applyStatusMap } from "@/utils/constant";
-import {FormInstance} from "element-plus";
+import {ElMessage, FormInstance} from "element-plus";
 
 
 const fits = ['世界', '粉丝', '关注']
@@ -157,7 +156,7 @@ function handleOpenDialog(row) {
     auditForm.value.applyExplain=row.applyExplain;
 
     openAuditDialog.value=true
-};
+}
 function cancel(){
     openAuditDialog.value=false
 }
@@ -176,7 +175,7 @@ function submitForm(formEl: FormInstance | undefined) {
             return false
         }
     })
-};
+}
 
 /** 查询管理员列表 */
 function getList(page: number) {

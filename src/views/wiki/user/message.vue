@@ -31,9 +31,7 @@
 
 
 <script lang="ts" setup>
-import { reactive, ref } from 'vue'
-import type { FormInstance, FormRules } from 'element-plus'
-import { Menu as IconMenu, Message, Setting } from '@element-plus/icons-vue'
+import { ref } from 'vue'
 const fits = ['世界', '粉丝', '关注']
 const activeIndex = ref('1')
 

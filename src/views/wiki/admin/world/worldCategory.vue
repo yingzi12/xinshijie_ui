@@ -65,7 +65,6 @@ import { addCategory,updateCategory} from "@/api/admin/category";
 import { getTree} from "@/api/wiki/category";
 import {useRoute,useRouter} from "vue-router";
 import {FormInstance} from "element-plus";
-import {Search} from "@element-plus/icons-vue";
 const fits = ['世界', '粉丝', '关注']
 const activeIndex = ref('1')
 const circleUrl=ref('')
@@ -172,11 +171,11 @@ const append = ( data: Tree) => {
   reset();
   title.value="添加子类"
   dialogFormVisible.value=true;
-  var childlen=0
+  let childlen=0
   if(data.children !=null && data.children != undefined){
     childlen=data.children.length
   }
-  var cateCode=data.code*100+10+childlen
+  let cateCode=data.code*100+10+childlen
   const newChild = { id: 0,code:cateCode, label:'',  pcode:data.code,pid:data.id,tier:data.tier+1,wid:wid.value,children: [],isUpdate:false }
   if (!data.children) {
     data.children = []
@@ -199,7 +198,7 @@ const disForm=(dis:boolean)=>{
   reset();
   title.value="添加分类"
   dialogFormVisible.value=dis
-  var cateCode=dataSource.value.length+10;
+  let cateCode=dataSource.value.length+10;
   const newTree = { id: 0, code:cateCode,label: '', pid:0,pcode:0,tier:0,wid:wid.value,children: [],isUpdate:false }
   form.value=newTree
   //console.log("from 添加分类 "+JSON.stringify(form.value))

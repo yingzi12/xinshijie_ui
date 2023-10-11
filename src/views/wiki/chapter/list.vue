@@ -6,9 +6,9 @@
           <el-breadcrumb separator="/">
             <el-breadcrumb-item :to="{ path: '/world/index' }">首页</el-breadcrumb-item>
             <el-breadcrumb-item><a href="/world/list">世界树</a></el-breadcrumb-item>
-            <el-breadcrumb-item :to="{ path: '/world/details', query: {wid:story.wid} }">{{story.wname}}</el-breadcrumb-item>
-            <el-breadcrumb-item :to="{ path: '/story/list', query: {wid:story.wid,wname:story.wname} }">故事列表</el-breadcrumb-item>
-            <el-breadcrumb-item :to="{ path: '/story/detail', query: {wid:story.wid,wname:story.wname,sid:story.id,sname:story.name} }">{{ story.name }}</el-breadcrumb-item>
+            <el-breadcrumb-item :to="{ path: '/world/details', query: {wid:wid} }">{{wname}}</el-breadcrumb-item>
+            <el-breadcrumb-item :to="{ path: '/story/list', query: {wid:wid,wname:wname} }">故事列表</el-breadcrumb-item>
+            <el-breadcrumb-item :to="{ path: '/story/detail', query: {wid:wid,wname:wname,sid:sid,sname:sname} }">{{ sname }}</el-breadcrumb-item>
             <el-breadcrumb-item>章节目录</el-breadcrumb-item>
           </el-breadcrumb>
         </el-col>
@@ -66,8 +66,11 @@ import { useRoute, useRouter} from "vue-router";
 // 接收url里的参数
 const route = useRoute();
 const router = useRouter()
-const sid = ref(null);
-sid.value = route.query.sid;
+const sid = ref(route.query.sid);
+const sname = ref(route.query.sname);
+const wid = ref(route.query.wid);
+const wname = ref(route.query.wname);
+
 const data = reactive({
   form: {},
   queryParams: {
@@ -80,35 +83,44 @@ const data = reactive({
     sid:sid.value
   }
 });
+interface Story {
+  id: number,
+  name: string,
+  types: number,
+  intro: string,
+  wname:string,
+  wid:number
 
+}
+interface Reel {
+  id: number,
+  title: string,
+  pid: number,
+  intro: string,
+  chapterList:Reel[]
+}
 
 const { queryParams, form } = toRefs(data);
 
 const total = ref(0);
 const dateRange = ref([]);
+const story = ref<Story>(); // 使用 Story 类的实例作为初始值
 
 /**查看元素详细*/
-function handleSee(id:number,wid:number,softtype:number){
-  router.push("/element/details?eid="+id+"&wid="+wid+"&temType="+softtype);
-}
+// function handleSee(id:number,wid:number,softtype:number){
+//   router.push("/element/details?eid="+id+"&wid="+wid+"&temType="+softtype);
+// }
 
 //添加新元素,需要登录权限
 function handleAdd(){
-  router.push("/admin/storyChapterAdd?sid=" + sid.value +"&wid=" + wid.value);
+  router.push("/admin/storyChapterAdd?sid=" + story.value.id +"&wid=" + story.value.wid);
 }
 
-const story=ref('')
-const wname =ref("");
-const wid =ref(undefined);
-const sname=ref("")
 /** 查询世界详细 */
 function handStory() {
   getStory(sid.value).then(response => {
-    //console.log("查询世界详细:"+JSON.stringify(response))
     story.value = response.data
-    sname.value = story.value.name
-    wname.value = story.value.wname
-    wid.value =  story.value.wid
+    console.log(story.value.wid)
   });
 }
 
@@ -125,8 +137,7 @@ function getList(page: number) {
 }
 
 async function getChapterList(reelList) {
-  for (var reel = 0; reel < reelList.length; reel++) {
-    console.log("total1:" + total.value);
+  for (let reel = 0; reel < reelList.length; reel++) {
 
     queryParams.value.pid = reelList[reel].id;
     total.value = 0;
@@ -134,19 +145,21 @@ async function getChapterList(reelList) {
     const response = await listChapter(queryParams.value);
     reelList[reel].chapterList = response.data;
     total.value = response.total;
-    console.log("total2:" + total.value);
-    var pageNum = Math.ceil(total.value / queryParams.value.pageSize); // 使用 Math.ceil 向上取整
+    let pageNum = Math.ceil(total.value / queryParams.value.pageSize); // 使用 Math.ceil 向上取整
 
-    for (var i = 2; i <= pageNum; i++) { // 从第二页开始
+    for (let i = 2; i <= pageNum; i++) { // 从第二页开始
       queryParams.value.page = i;
       const chapterResponse = await listChapter(queryParams.value);
       reelList[reel].chapterList = reelList[reel].chapterList.concat(chapterResponse.data);
     }
   }
 }
+function  handleAddDialog(){
+
+}
+handStory();
 getList(queryParams.value.page);
 
-handStory();
 </script>
 
 <style scoped>

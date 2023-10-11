@@ -111,10 +111,9 @@ import AdminHead from './worldHead'
 
 import { reactive, ref, toRefs} from 'vue'
 import {useRoute, useRouter} from "vue-router";
-import { Menu as IconMenu,CirclePlus, Message, Setting } from '@element-plus/icons-vue'
+import {  Setting } from '@element-plus/icons-vue'
 import { Search } from '@element-plus/icons-vue'
 import { listDiscuss } from "@/api/admin/discuss";
-import {get} from "@vueuse/core";
 
 // 接收url里的参数
 const route = useRoute();

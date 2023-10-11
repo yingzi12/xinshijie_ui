@@ -58,7 +58,7 @@
 </template>
 
 <script  lang="ts" setup>
-import { reactive, ref } from 'vue'
+import {  ref } from 'vue'
 import {  getElementDetails } from "@/api/wiki/element";
 import {  getWorld } from "@/api/wiki/world";
 

@@ -59,8 +59,6 @@ const submitForm = async (formEl: FormInstance | undefined) => {
     if (valid) {
       sendEmail(ruleForm.email).then(response => {
         ElMessageBox.alert('发送验证邮件成功，请去邮箱查看，返回个人消息', '提示', {
-          // if you want to disable its autofocus
-          // autofocus: false,
           confirmButtonText: 'OK',
           callback: (action: Action) => {
             router.push("/user/index");

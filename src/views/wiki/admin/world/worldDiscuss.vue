@@ -109,7 +109,7 @@ import { reactive, ref, toRefs} from 'vue'
 import {useRoute, useRouter} from "vue-router";
 import { Search } from '@element-plus/icons-vue'
 import { listDiscussAdmin,updateStatusAdmin } from "@/api/admin/discuss";
-import {ElMessage, FormInstance, FormRules} from "element-plus";
+import {ElMessage, FormInstance} from "element-plus";
 
 // 接收url里的参数
 // 接收url里的参数

@@ -96,9 +96,6 @@ const sid = ref(null);
 const sname = ref('');
 sid.value = route.query.sid;
 sname.value = <string>route.query.sname;
-// story.value.id = route.query.sid;
-//console.log("世界id="+story.value.id);
-// const baseUrl = inject("$baseUrl")
 const imgUrl = inject("$imgUrl")
 
 const imageUrl=ref('')

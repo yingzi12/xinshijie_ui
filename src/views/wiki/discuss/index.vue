@@ -301,7 +301,7 @@ function getReplyList(comment,page: number) {
     queryReplyParams.value.pageNum=page;
 
     queryReplyParams.value.pid=comment.id
-    listDiscussComment(globalProperties.addDateRange(queryReplyParams.value, dateRange.value)).then(response => {
+    listDiscussComment(queryReplyParams.value).then(response => {
         loading.value = false;
         comment.replyList = response.data;
         total.value = response.total;

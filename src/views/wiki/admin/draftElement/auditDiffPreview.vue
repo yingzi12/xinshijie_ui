@@ -48,8 +48,7 @@
 </template>
 
 <script  lang="ts" setup>
-import {reactive, ref, shallowRef} from 'vue'
-import {FormInstance} from "element-plus";
+import {ref, shallowRef} from 'vue'
 import {getDraftDetails ,updatePush,getDiff} from "@/api/admin/draftElement";
 //接受参数
 import { useRoute ,useRouter}  from "vue-router";  // 引用vue-router
@@ -131,9 +130,9 @@ function handDiff(newId:number,oldId:number) {
 getDraft(wid.value,deid.value);
 
 const getHtml = function(desc){
-  // var temp=document.createElement("div");
+  // let temp=document.createElement("div");
   // temp.innerHTML=desc;
-  // var output=temp.innerText||temp.textContent;
+  // let output=temp.innerText||temp.textContent;
   // temp=null;
   return desc;
 }

@@ -199,7 +199,7 @@ function handleAddDialog(){
 }
 function handleElementAdd ()  {
   countCategory(wid.value).then(response => {
-    var count = response.data
+    let count = response.data
     if (count==0) {
       ElMessage.error("请先创建分类")
     }else {
@@ -225,7 +225,7 @@ function handleSelectionChange(selection) {
   ids.value = selection.map(item => item.userId);
   single.value = selection.length != 1;
   multiple.value = !selection.length;
-};
+}
 /** 查询元素 */
 function getList(page) {
   window.scrollTo(0, 0); // 滚动到顶部

@@ -67,9 +67,9 @@ export default {
     },
     // 设置子路由
     childrenMenus() {
-      var childrenMenus = [];
+      let childrenMenus = [];
       this.routers.map((router) => {
-        for (var item in router.children) {
+        for (let item in router.children) {
           if (router.children[item].parentPath === undefined) {
             if(router.path === "/") {
               router.children[item].path = "/" + router.children[item].path;
@@ -143,7 +143,7 @@ export default {
     },
     // 当前激活的路由
     activeRoutes(key) {
-      var routes = [];
+      let routes = [];
       if (this.childrenMenus && this.childrenMenus.length > 0) {
         this.childrenMenus.map((item) => {
           if (key == item.parentPath || (key == "index" && "" == item.path)) {

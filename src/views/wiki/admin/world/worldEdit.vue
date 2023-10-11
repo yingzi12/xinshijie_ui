@@ -78,7 +78,6 @@
 
 <script lang="ts" setup>
 import { inject, reactive, ref, toRefs} from 'vue'
-import { Menu as IconMenu, Message, Setting } from '@element-plus/icons-vue'
 import { useRoute,useRouter }  from "vue-router";  // 引用vue-router
 import {  updateWorld,getWorld } from "@/api/admin/world";
 import {ElMessage, FormInstance, UploadProps} from "element-plus";

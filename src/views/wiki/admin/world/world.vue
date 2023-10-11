@@ -215,7 +215,7 @@ function handleSelectionChange(selection) {
   ids.value = selection.map(item => item.userId);
   single.value = selection.length != 1;
   multiple.value = !selection.length;
-};
+}
 /**根据分类查询世界*/
 function findType(typeId:number) {
   queryParams.value.types=typeId;

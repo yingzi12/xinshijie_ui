@@ -349,7 +349,7 @@ function getAllWorldManage(id:number) {
       if(isNotEmpty(userStore.name)) {
           if (response.data.length > 0) {
               // 列表不为空，执行循环
-              for (var i = 0; i < response.data.length; i++) {
+              for (let i = 0; i < response.data.length; i++) {
                   if (userStore.userId == response.data[i].userId) {
                         isAdmin.value = 1;
                         break;

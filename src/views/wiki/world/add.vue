@@ -68,13 +68,12 @@
 
 <script lang="ts" setup>
 import {reactive, ref, toRefs} from 'vue'
-import type { FormInstance, FormRules } from 'element-plus'
+import type { FormInstance } from 'element-plus'
 import { ElMessage } from 'element-plus'
 import { Plus } from '@element-plus/icons-vue'
-import { addWorld,updateImageUrl } from "@/api/admin/world";
+import { addWorld } from "@/api/admin/world";
 import { useRouter} from "vue-router";
-import { getCurrentInstance ,inject} from "vue";
-const checkList = ref([])
+import {  inject} from "vue";
 const baseUrl = inject("$baseUrl")
 const imgUrl = inject("$imgUrl")
 

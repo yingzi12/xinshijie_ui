@@ -135,7 +135,7 @@ function handleDelete ( row){
 function handleAdd() {
   form.value.wid=wid.value;
      open.value=true;
-};
+}
 /** 提交按钮 */
 function submitForm() {
   // proxy.$refs["manageRef"].validate(valid => {
@@ -148,12 +148,12 @@ function submitForm() {
         });
   //   }
   // });
-};
+}
 /** 取消按钮 */
 function cancel() {
   open.value = false;
   reset();
-};
+}
 /** 重置操作表单 */
 function reset() {
   form.value = {
@@ -170,8 +170,8 @@ function reset() {
     postIds: [],
     roleIds: []
   };
-  globalProperties.resetForm("userRef");
-};
+  // resetForm("userRef");
+}
 /** 查询管理员列表 */
 function getList(page: number) {
   window.scrollTo(0, 0); // 滚动到顶部

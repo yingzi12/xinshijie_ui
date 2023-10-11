@@ -85,7 +85,7 @@
 <script lang="ts" setup>
 import AdminHead from './worldHead'
 import { reactive, ref, toRefs} from 'vue'
-import {useRoute, useRouter} from "vue-router";
+import {useRoute} from "vue-router";
 import { Search } from '@element-plus/icons-vue'
 import { listCommentAdmin} from "@/api/admin/comment";
 

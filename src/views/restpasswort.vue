@@ -70,7 +70,7 @@
 <script lang="ts" setup>
 import { reactive, ref} from 'vue'
 import {  sendPasswordEmail } from "@/api/wiki/user";
-import {Action, ElMessage, ElMessageBox, FormInstance, FormRules} from "element-plus";
+import { ElMessage, FormInstance, FormRules} from "element-plus";
 import {useRouter} from "vue-router";
 
 const ruleFormRef = ref<FormInstance>()

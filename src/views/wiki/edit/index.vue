@@ -78,8 +78,6 @@ import {inject, ref} from 'vue'
 import {ElMessage, FormInstance} from "element-plus";
 import  Editor  from 'ckeditor5-custom-build-free-all/build/ckeditor';
 
-//接受参数
-import { useRoute ,useRouter}  from "vue-router";  // 引用vue-router
 //基本信息
 interface WorldElement {
   id:number,

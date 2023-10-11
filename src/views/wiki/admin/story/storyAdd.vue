@@ -142,7 +142,7 @@ if(!isNaN(wid.value)){
 }
 const  intro=ref('')
 function handleWorldInfo(){
-  var n = Number(form.value.wid);
+  let n = Number(form.value.wid);
   if (isNaN(n))
   {
     ElMessage.error("请输入正确的编号");

@@ -114,9 +114,9 @@ getDraft(wid.value,deid.value);
 //console.log("状态:"+elementStatus.get(element.value.status))
 
 const getHtml = function(desc){
-  // var temp=document.createElement("div");
+  // let temp=document.createElement("div");
   // temp.innerHTML=desc;
-  // var output=temp.innerText||temp.textContent;
+  // let output=temp.innerText||temp.textContent;
   // temp=null;
   return desc;
 }

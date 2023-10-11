@@ -108,10 +108,9 @@
 <script lang="ts" setup>
 import { reactive, ref, toRefs} from 'vue'
 import {useRoute, useRouter} from "vue-router";
-import { Menu as IconMenu,CirclePlus, Message, Setting } from '@element-plus/icons-vue'
+import {  Setting } from '@element-plus/icons-vue'
 import { Search } from '@element-plus/icons-vue'
 import { listDiscuss } from "@/api/admin/discuss";
-import {get} from "@vueuse/core";
 import StoryHead from "./storyHead.vue";
 
 // 接收url里的参数

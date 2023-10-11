@@ -217,9 +217,9 @@ const addDomain = () => {
   })
 }
 function submit(){
-  var ok=true;
+  let ok=true;
   element.value.contentList=dynamicValidateForm.domains;
-  var ok=true;
+  ok = true;
   if(!element.value.title ){
     ok=false;
     ElMessage.error('名称不能为空!')
@@ -240,7 +240,7 @@ function submit(){
     ElMessage.error('内容小节数不能超过10个小于1个')
     return;
   }
-  for(var i=0;i<element.value.contentList.length;i++) {
+  for(let i=0; i<element.value.contentList.length; i++) {
     if(element.value.contentList[i].content.length>20000){
       ElMessage.error("标题<<"+element.value.contentList[i].title+">>内容长度为"+element.value.contentList[i].content.length+"，已超过最大许可值2万")
       return;
@@ -290,7 +290,6 @@ function handWorld() {
 /** 查询世界列表 */
 function getList(page: number) {
   window.scrollTo(0, 0); // 滚动到顶部
-  queryParams.value.pageNum=page;
 
   getTree(wid.value).then(response => {
     dataStree.value = response.data
@@ -303,8 +302,8 @@ function  show(val){
   //console.log("选中的对象value1"+categoryList.value)
   //console.log("选中的对象label"+JSON.stringify(treeRef.value))
 
-  sleValue.value=new Array();
-  dynamicTags.value=new Array();
+  sleValue.value=[];
+  dynamicTags.value=[];
   for(let i=0;i<=categoryList.value.length-1;i++){
     dynamicTags.value[i]=categoryList.value[i].split('$$')[1]
     sleValue.value[i]=categoryList.value[i].split('$$')[0]

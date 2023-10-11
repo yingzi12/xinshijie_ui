@@ -242,8 +242,6 @@ const sleValue=ref({})
 /** 查询世界列表 */
 function getList(page: number) {
   window.scrollTo(0, 0); // 滚动到顶部
-  queryParams.value.pageNum=page;
-
   getTree(wid.value).then(response => {
     dataStree.value = response.data
     // //console.log("树:"+JSON.stringify( dataStree.value))
@@ -263,8 +261,8 @@ function  show(val){
   // //console.log("选中的对象value1"+categoryList.value)
   // //console.log("选中的对象treeRef"+JSON.stringify(treeRef.value))
 
-  sleValue.value=new Array();
-  dynamicTags.value=new Array();
+  sleValue.value=[];
+  dynamicTags.value=[];
   for(let i=0;i<=categoryList.value.length-1;i++){
     dynamicTags.value[i]=categoryList.value[i].split('$$')[1]
     sleValue.value[i]=categoryList.value[i].split('$$')[0]
@@ -285,7 +283,7 @@ function getElement(wid:number,deid:number) {
     categoryList.value=[];
     dynamicTags.value=[];
     sleValue.value=[];
-    for(var i=0;i<element.value.categoryList.length;i++){
+    for(let i=0;i<element.value.categoryList.length;i++){
       categoryList.value[i]=element.value.categoryList[i].value
       dynamicTags.value[i]=element.value.categoryList[i].label
       sleValue.value[i]=element.value.categoryList[i].id
@@ -297,8 +295,8 @@ function getElement(wid:number,deid:number) {
 }
 
 function submit(){
-  var ok=true;
-  var ok=true;
+  let ok=true;
+  let ok=true;
   if(!element.value.title ){
     ok=false;
     ElMessage.error('名称不能为空!')
@@ -320,7 +318,7 @@ function submit(){
     ElMessage.error('内容小节数不能超过10个小于1个')
     return;
   }
-  for(var i=0;i<element.value.contentList.length;i++) {
+  for(let i=0;i<element.value.contentList.length;i++) {
     if(element.value.contentList[i].content.length>20000){
       ElMessage.error("标题<<"+element.value.contentList[i].title+">>内容长度为"+element.value.contentList[i].content.length+"，已超过最大许可值2万")
       return;

@@ -86,7 +86,6 @@ import AdminHead from './worldHead'
 
 import { reactive, ref, toRefs} from 'vue'
 import {useRoute, useRouter} from "vue-router";
-import { Menu as IconMenu,CirclePlus, Message, Setting } from '@element-plus/icons-vue'
 import { listAudit,auditDraft } from "@/api/admin/draftElement";
 import { getTree} from "@/api/wiki/category";
 const router = useRouter()
