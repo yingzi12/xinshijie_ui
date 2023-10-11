@@ -84,7 +84,9 @@
             <el-table-column prop="createTime" label="创建时间" width="150px" />
             <el-table-column prop="updateTime" label="更新时间" width="150px" />
           </el-table>
-          <el-button style="margin-top:10px" text  @click="handChapter">更多</el-button>
+          <div style="margin-top:10px">
+            <a :href='"/chapter/list?sid="+story.id+"&wid="+story.wid+"&sname="+story.name+"&wname="+story.wname'>更多</a>
+          </div>
         </el-tab-pane>
         <el-tab-pane label="作家" name="message">
           <el-table :data="authorList" stripe style="width: 100%">
@@ -199,10 +201,7 @@ import {ElMessage, ElMessageBox, FormInstance, FormRules} from "element-plus";
 import { isNotEmpty } from '@/utils/tools';
 import {ChatDotRound, Pointer} from "@element-plus/icons-vue"; // 根据你的项目路径调整引入路径
 
-
-
-const router = useRouter()
-
+const router = useRouter();
 // 接收url里的参数
 const route = useRoute();
 
