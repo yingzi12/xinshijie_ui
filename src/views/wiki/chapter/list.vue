@@ -41,7 +41,7 @@
               </div>
               <div   style="margin-left: 25px">
                 <el-row :gutter="24">
-                  <el-col :span="4" v-for="chap in reel.chapterList">
+                  <el-col :span="4" v-for="chap in reel.chapterList" style="margin: 3px">
                     <router-link  :to="{path:'/chapter/index', query: {sid:sid,scid:chap.id}}">{{chap.title}}</router-link>
                   </el-col>
                 </el-row>
