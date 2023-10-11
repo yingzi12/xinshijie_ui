@@ -26,14 +26,21 @@
     <el-divider />
     <!--功能-->
     <div class="center" style="height: 80px;">
-      <router-link v-if="chapter.previous" :to="{path:'/chapter/index', query: {sid:chapter.previous.sid,wid:chapter.previous.wid,sname:chapter.previous.sname,wname:wname,scid:chapter.previous.id}}">
-        <el-button text type="success" style="width: 100px;"> 上一章</el-button>
-      </router-link>
-      <router-link v-if="chapter.next" :to="{path:'/chapter/index', query: {sid:chapter.next.sid,wid:chapter.next.wid,sname:chapter.next.sname,wname:wname,scid:chapter.next.id}}">
-        <el-button  text type="success" style="width: 100px;">下一章</el-button>
-      </router-link>
-      <el-button @click="handleReturn()" text type="success" style="width: 100px;">返回</el-button>
-      <el-button @click="handleEdit()" text type="success" style="width: 100px;">编辑</el-button>
+      <a v-if="chapter.previous" :href='"/chapter/index?sid="+chapter.previous.sid+"&wid="+chapter.previous.wid+"&sname="+chapter.previous.sname+"&wname="+wname+"&scid="+chapter.previous.id'>
+        <el-text style="margin: 20px" class="mx-1" type="primary">上一章</el-text>
+      </a>
+      <a v-if="chapter.next" :href='"/chapter/index?sid="+chapter.next.sid+"&wid="+chapter.next.wid+"&sname="+chapter.next.sname+"&wname="+wname+"&scid="+chapter.next.id'>
+        <el-text style="margin: 20px" class="mx-1" type="primary">下一章</el-text>
+
+      </a>
+      <a>
+      <el-text style="margin: 20px" class="mx-1" type="primary" @click="handleReturn()">返回</el-text>
+      </a>
+<!--      <el-button @click="handleReturn()" text type="success" style="width: 100px;">返回</el-button>-->
+      <a  :href='"/admin/storyChapterEdit?sid="+ sid+"&scid=" +scid+"&sname=" +chapter.sname+"&wname=" +chapter.wname+"&wid=" +wid'>
+        <el-text style="margin: 20px" class="mx-1" type="primary">编辑</el-text>
+      </a>
+<!--      <el-button @click="handleEdit()" text type="success" style="width: 100px;">编辑</el-button>-->
     </div>
   </div>
 </template>
@@ -50,10 +57,8 @@ const router = useRouter()
 const route = useRoute();
 
 //世界信息
-const scid = ref(null);
-scid.value = route.query.scid;
-const sid = ref(null);
-sid.value = route.query.sid;
+const scid = ref(route.query.scid);
+const sid = ref(route.query.sid);
 
 const chapter=ref({})
 
@@ -66,9 +71,6 @@ function getInfo() {
   });
 }
 
-// function handleList(){
-//   router.push("/chapter/list?sid="+ sid.value+"&scid=" +scid.value+"&sname=" +chapter.value.sname+"&wname=" +chapter.value.wname+"&wid=" +wid.value)
-// }
 function handleEdit(){
   router.push("/admin/storyChapterEdit?sid="+ sid.value+"&scid=" +scid.value+"&sname=" +chapter.value.sname+"&wname=" +chapter.value.wname+"&wid=" +wid.value)
 }

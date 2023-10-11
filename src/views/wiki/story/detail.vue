@@ -195,7 +195,6 @@ import { addHarding,getInfoBySid } from "@/api/admin/harding";
 import {  listAuthor } from "@/api/wiki/author";
 import { listChapter } from "@/api/wiki/chapter";
 import { addApplyAuthor } from "@/api/admin/applyAuthor";
-
 import useUserStore from '@/store/modules/user'
 import {ElMessage, ElMessageBox, FormInstance, FormRules} from "element-plus";
 import { isNotEmpty } from '@/utils/tools';
@@ -250,7 +249,6 @@ const data = reactive({
 
 const { queryParams, commentForm, rules } = toRefs(data);
 
-//console.log("世界id="+story.value.id);
 const imgUrl = inject("$imgUrl")
 const imageUrl=ref('')
 
@@ -275,15 +273,7 @@ function handStory() {
     imageUrl.value=imgUrl+response.data.imgUrl;
   });
 }
-//评论信息
-function getAllStoryComment() {
-  queryParams.value.wid=wid.value;
-  queryParams.value.sid=sid.value;
-  listComment(queryParams.value).then(response => {
-    //console.log("查询世界详细:"+JSON.stringify(response))
-    commentList.value = response.data
-  });
-}
+
 
 //判断是否是作家
 const isAdmin=ref(2)
@@ -314,10 +304,7 @@ function handleChapterList() {
 
 
 const storyActive = ref('description')
-
 const commentActive = ref('allComm')
-
-
 
 //获取用户信息
 const userStore = useUserStore()
@@ -325,7 +312,6 @@ const circleUrl=ref('')
 const disabled=ref(false)
 
 const username=ref('')
-//console.log("世界id="+wid.value);
 if(userStore.name==''){
   username.value="未登录"
   disabled.value=true;
@@ -365,12 +351,18 @@ function onSubmit(){
     addComment(commentForm.value).then(response => {
       ElMessage.success("评论成功")
       commentForm.value.comment = ''
-      //console.log("评论成功")
       getAllStoryComment();
     })
   }
 }
-
+//评论信息
+function getAllStoryComment() {
+  queryParams.value.wid=wid.value;
+  queryParams.value.sid=sid.value;
+  listComment(queryParams.value).then(response => {
+    commentList.value = response.data
+  });
+}
 function handleComment(){
   router.push("/story/comment?sid="+story.value.id+"&wid="+story.value.wid+"&source="+2);
 }
