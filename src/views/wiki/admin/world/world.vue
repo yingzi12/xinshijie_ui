@@ -131,6 +131,7 @@
 import { inject, reactive, ref, toRefs} from 'vue'
 import { listMangeWorld as listWorld,delWorld,issue } from "@/api/admin/world";
 import { useRouter} from "vue-router";
+import {ElMessage, ElMessageBox} from "element-plus";
 const fits = ['世界', '粉丝', '关注']
 const activeIndex = ref('1')
 const baseUrl = inject("$baseUrl")
@@ -191,12 +192,12 @@ function handleAdd ()  {
 
 function handleDelete ( row){
   const worldId = row.id ;
-  globalProperties.$modal.confirm('是否确认删除世界名称为"' + row.name + '"的数据？').then(function () {
+  ElMessageBox.confirm('是否确认删除世界名称为"' + row.name + '"的数据？').then(function () {
     return delWorld(worldId);
   }).then(() => {
     getList(queryParams.value.pageNum);
 
-    globalProperties.$modal.msgSuccess("删除成功");
+    ElMessage.success("删除成功");
   }).catch(() => {});
 }
 

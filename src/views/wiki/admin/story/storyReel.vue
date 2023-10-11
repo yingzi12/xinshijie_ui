@@ -121,7 +121,7 @@ import {  reactive, ref, toRefs} from 'vue'
 import {  listChapter,delChapter,addChapter,updateChapterName } from "@/api/admin/chapter";
 import {useRoute, useRouter} from "vue-router";
 import {Search} from '@element-plus/icons-vue'
-import {FormInstance} from "element-plus";
+import {ElMessage, ElMessageBox, FormInstance} from "element-plus";
 import StoryHead from "./storyHead.vue";
 
 const chapterStatusMap = new Map([
@@ -229,12 +229,12 @@ const handleUpdateName = async (formEl: FormInstance | undefined) => {
   })
 }
 function handleDelete ( row){
-  globalProperties.$modal.confirm('是否确认删除章节名称为"' + row.title + '"的数据？').then(function () {
+  ElMessageBox.confirm('是否确认删除章节名称为"' + row.title + '"的数据？').then(function () {
     return delChapter(row.sid,row.id);
   }).then(() => {
     getList(queryParams.value.pageNum);
 
-    globalProperties.$modal.msgSuccess("删除成功");
+    ElMessage.success("删除成功");
   }).catch(() => {});
 }
 

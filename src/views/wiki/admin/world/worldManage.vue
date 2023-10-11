@@ -70,7 +70,7 @@ import {  reactive, ref, toRefs} from 'vue'
 import {useRoute, useRouter} from "vue-router";
 import { CirclePlus } from '@element-plus/icons-vue'
 import { getWorldManage ,delManage,addManage,getInfo } from "@/api/admin/manage";
-import {ElMessage} from "element-plus";
+import {ElMessage, ElMessageBox} from "element-plus";
 
 const fits = ['世界', '粉丝', '关注']
 const activeIndex = ref('1')
@@ -122,12 +122,12 @@ const multiple = ref(true);
 const search = ref('')
 function handleDelete ( row){
   const id = row.id ;
-  globalProperties.$modal.confirm('是否确认取消管理员名称为"' + row.userName + '"的权限？').then(function () {
+  ElMessageBox.confirm('是否确认取消管理员名称为"' + row.userName + '"的权限？').then(function () {
     return delManage(id,row.wid);
   }).then(() => {
     getList(queryParams.value.pageNum);
 
-    globalProperties.$modal.msgSuccess("删除成功");
+    ElMessage.success("删除成功");
   }).catch(() => {});
 }
 

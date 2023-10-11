@@ -167,7 +167,7 @@ function submitForm(formEl: FormInstance | undefined) {
     formEl.validate((valid) => {
         if (valid) {
             auditApplyManage(auditForm.value).then(response => {
-                globalProperties.$modal.msgSuccess("添加成功");
+                ElMessage.success("添加成功");
                 open.value = false;
                 getList(queryParams.value.pageNum);
 

@@ -92,6 +92,7 @@ import {  reactive, ref, toRefs} from 'vue'
 import {  listDraftChapter,delDraftChapter,issueClose } from "@/api/admin/draftChapter";
 import {useRoute, useRouter} from "vue-router";
 import { Menu as IconMenu, Search,Message, Setting } from '@element-plus/icons-vue'
+import {ElMessage, ElMessageBox} from "element-plus";
 const fits = ['世界', '粉丝', '关注']
 const activeIndex = ref('1')
 
@@ -137,12 +138,12 @@ const dateRange = ref([]);
 const search = ref('')
 
 function handleDelete ( row){
-  globalProperties.$modal.confirm('是否确认删除章节名称为"' + row.title + '"的草稿数据？').then(function () {
+  ElMessageBox.confirm('是否确认删除章节名称为"' + row.title + '"的草稿数据？').then(function () {
     return delDraftChapter(row.sid,row.id);
   }).then(() => {
     getList(queryParams.value.pageNum);
 
-    globalProperties.$modal.msgSuccess("删除成功");
+    ElMessage.success("删除成功");
   }).catch(() => {});
 }
 function handleSee(row){

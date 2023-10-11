@@ -130,6 +130,7 @@
 import { inject, reactive, ref, toRefs} from 'vue'
 import {  listStoryAdmin,delStory,issue } from "@/api/admin/story";
 import { useRouter} from "vue-router";
+import {ElMessage, ElMessageBox} from "element-plus";
 const activeIndex = ref('1')
 const baseUrl = inject("$baseUrl")
 
@@ -191,12 +192,12 @@ function handleAdd ()  {
 
 function handleDelete ( row){
   const storyId = row.id ;
-  globalProperties.$modal.confirm('是否确认删除故事名称为"' + row.name + '"的数据？').then(function () {
+  ElMessageBox.confirm('是否确认删除故事名称为"' + row.name + '"的数据？').then(function () {
     return delStory(storyId);
   }).then(() => {
     getList(queryParams.value.pageNum);
 
-    globalProperties.$modal.msgSuccess("删除成功");
+    ElMessage.success("删除成功");
   }).catch(() => {});
 }
 

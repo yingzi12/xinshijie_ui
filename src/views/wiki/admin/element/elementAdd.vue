@@ -196,9 +196,6 @@ function handWorld() {
 }
 /** 查询分类列表 */
 function getList(page: number) {
-  window.scrollTo(0, 0); // 滚动到顶部
-  queryParams.value.pageNum=page;
-
   getTree(wid.value).then(response => {
     dataStree.value = response.data
   });
@@ -206,7 +203,6 @@ function getList(page: number) {
 
 function  show(val){
   dynamicTags.value=categoryList.value
-
   sleValue.value=new Array();
   dynamicTags.value=new Array();
   for(let i=0;i<=categoryList.value.length-1;i++){

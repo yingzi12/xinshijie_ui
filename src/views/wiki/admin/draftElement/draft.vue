@@ -110,6 +110,7 @@ import {  listDraft,delDraft,issue } from "@/api/admin/draftElement";
 // import { getTree} from "@/api/wiki/category";
 import {useRoute, useRouter} from "vue-router";
 import { Menu as IconMenu, Search,Message, Setting } from '@element-plus/icons-vue'
+import {ElMessage, ElMessageBox} from "element-plus";
 const fits = ['世界', '粉丝', '关注']
 const activeIndex = ref('1')
 
@@ -160,12 +161,12 @@ const multiple = ref(true);
 const search = ref('')
 
 function handleDelete ( row){
-  globalProperties.$modal.confirm('是否确认删除元素名称为"' + row.title + '"的草稿数据？').then(function () {
+  ElMessageBox.confirm('是否确认删除元素名称为"' + row.title + '"的草稿数据？').then(function () {
     return delDraft(row.wid,row.id);
   }).then(() => {
     getList(queryParams.value.pageNum);
 
-    globalProperties.$modal.msgSuccess("删除成功");
+    ElMessage.success("删除成功");
   }).catch(() => {});
 }
 function handleUpdate (row)  {

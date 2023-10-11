@@ -115,7 +115,7 @@ import {  listElement,delElement } from "@/api/admin/element";
 import { getTree,countCategory} from "@/api/wiki/category";
 import {useRoute, useRouter} from "vue-router";
 import {Search} from '@element-plus/icons-vue'
-import {ElMessage} from "element-plus";
+import {ElMessage, ElMessageBox} from "element-plus";
 const elementStatusMap = new Map([
   [1, "正常"],
   [3, "待审核"],
@@ -209,7 +209,7 @@ function handleElementAdd ()  {
   })
 }
 function handleDelete ( row){
-  globalProperties.$modal.confirm('是否确认删除元素名称为"' + row.title + '"的数据？').then(function () {
+  ElMessageBox.confirm('是否确认删除元素名称为"' + row.title + '"的数据？').then(function () {
     return delElement(row.wid,row.id);
   }).then(() => {
     getList(queryParams.value.pageNum);

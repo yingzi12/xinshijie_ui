@@ -195,9 +195,6 @@ const sleValue=ref({})
 
 /** 查询世界列表 */
 function getList(page: number) {
-  window.scrollTo(0, 0); // 滚动到顶部
-  queryParams.value.pageNum=page;
-
   getTree(wid.value).then(response => {
     dataStree.value = response.data
   });

@@ -101,6 +101,7 @@ import {  reactive, ref, toRefs} from 'vue'
 import {  listDraftChapter,delDraftChapter,issue } from "@/api/admin/draftChapter";
 import {useRoute, useRouter} from "vue-router";
 import {  Search,Message } from '@element-plus/icons-vue'
+import {ElMessage, ElMessageBox} from "element-plus";
 
 
 // 接收url里的参数
@@ -144,12 +145,12 @@ const dateRange = ref([]);
 const search = ref('')
 
 function handleDelete ( row){
-  globalProperties.$modal.confirm('是否确认删除章节名称为"' + row.title + '"的草稿数据？').then(function () {
+  ElMessageBox.confirm('是否确认删除章节名称为"' + row.title + '"的草稿数据？').then(function () {
     return delDraftChapter(row.sid,row.id);
   }).then(() => {
     getList(queryParams.value.pageNum);
 
-    globalProperties.$modal.msgSuccess("删除成功");
+    ElMessage.success("删除成功");
   }).catch(() => {});
 }
 function handleUpdate (row)  {
