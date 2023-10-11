@@ -295,8 +295,7 @@ function getElement(wid:number,deid:number) {
 }
 
 function submit(){
-  let ok=true;
-  let ok=true;
+   let ok=true;
   if(!element.value.title ){
     ok=false;
     ElMessage.error('名称不能为空!')
