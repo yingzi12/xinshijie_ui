@@ -59,6 +59,7 @@
           </el-space>
         </div>
         <div style="margin: 0px;text-align: center;"> <p  style="margin: 0px;">Copyright © 2002-2022 www.xingshijie.com All Rights Reserved 版权所有 心世界信息科技有限公司</p></div>
+        <div style="margin: 0px;text-align: center;"> <p  style="margin: 0px;">世界观，背景，故事，设定，小说</p></div>
         <div style="margin: 0px;text-align: center;"><p style="margin: 0px;">本站所收录的作品、社区话题、用户评论、用户上传内容或图片等均属用户个人行为。如前述内容侵害您的权益，欢迎举报投诉，一经核实，立即删除，本站不承担任何责任</p></div>
       </el-col>
       <el-col :span="2"></el-col>
