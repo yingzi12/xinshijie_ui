@@ -1,3 +1,4 @@
+
 <template>
   <!--        标题-->
     <AdminHead :head-type="6" :wid="wid" :wname="wname"></AdminHead>
@@ -9,14 +10,6 @@
         <el-select v-model="queryParams.types" clearable  placeholder="请选择">
           <el-option
               v-for="item in storyTypes"
-              :key="item.id"
-              :label="item.name"
-              :value="item.id">
-          </el-option>
-        </el-select>
-        <el-select v-model="queryParams.status" clearable placeholder="请选择">
-          <el-option
-              v-for="item in storyStatus"
               :key="item.id"
               :label="item.name"
               :value="item.id">
@@ -153,7 +146,8 @@ const storyTypesMap=new Map([
 ])
 const storyTypes=reactive([{id:6,name:"科学"},{id:1,name:"武侠"},{id:2,name:"仙侠"},{id:3,name:"魔幻"},{id:4,name:"奇幻"},{id:5,name:"其他"}])
 const storyStatus=reactive([
-  {id:3,name:"正常"},
+  {id:2,name:"待审核"},
+  {id:3,name:"审核通过正常"},
   {id:4,name:"删除"},
   {id:5,name:"审核不通过"},
   {id:6,name:"隐藏"},
@@ -197,8 +191,8 @@ const data = reactive({
   form: {},
   queryParams: {
     pageNum: 1,
-    status:3,
-    auditStatus:0,
+    status: 2,
+    auditStatus:2,
     title: undefined,
     types: '',
     wid:wid.value,
@@ -251,7 +245,7 @@ function handleSee(row){
 function getList(page: number) {
   window.scrollTo(0, 0); // 滚动到顶部
   queryParams.value.pageNum=page;
-
+    queryParams.value.status=2;
   listStoryAdmin(queryParams.value).then(response => {
     loading.value = false;
     storyList.value = response.data;

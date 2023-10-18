@@ -92,10 +92,8 @@ const storyStatus = new Map([
 ]);
 //世界信息
 const story=ref({})
-const sid = ref(null);
-const sname = ref('');
-sid.value = route.query.sid;
-sname.value = <string>route.query.sname;
+const sid = ref(route.query.sid);
+const sname = ref(route.query.sname);
 const imgUrl = inject("$imgUrl")
 
 const imageUrl=ref('')

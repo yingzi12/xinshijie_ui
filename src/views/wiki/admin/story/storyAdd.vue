@@ -181,7 +181,7 @@ const submitForm = async (formEl: FormInstance | undefined) => {
       form.value.imgUrl=tem.value.imageUrlPath
       addStory(form.value).then(response => {
         console.log("添加成功:"+    JSON.stringify(response))
-        router.push("/admin/storyInfo?sid="+response.data.id+"&sname"+response.data.name);
+        router.push("/admin/storyInfo?sid="+response.data.id+"&sname="+response.data.name);
       })
     } else {
       //console.log('error submit!', fields)
