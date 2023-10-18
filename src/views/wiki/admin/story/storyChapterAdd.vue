@@ -1,5 +1,5 @@
 <template>
-    <StoryHead :head-type="3" second-type="3" :sid="sid"></StoryHead>
+    <StoryHead :head-type="3" second-type="3" :sid="sid"  :sname="sname":reel-name="reelName"></StoryHead>
     <div style="background-color:#b0c4de;margin: auto;padding: 10px">
         <el-row>
             <el-col :span="20">
@@ -13,7 +13,7 @@
         </el-row>
     </div>
   <!--        表格-->
-        <div style="background-color:#b0c4de;margin: auto;padding: 10px">
+        <div style="margin: auto;padding: 10px">
           <el-form
               ref="ruleFormRef"
               :model="form"
@@ -60,6 +60,7 @@ const sid = ref(null);
 sid.value = route.query.sid;
 const scid = ref(null);
 scid.value = route.query.scid;
+const reelName = ref(route.query.scname);
 const scname = ref('');
 scname.value = <string>route.query.scname;
 const sname = ref('');
@@ -105,7 +106,8 @@ const handleReelAdd = async (formEl: FormInstance | undefined) => {
     if (valid) {
       addDraftChapter(form.value).then(response => {
         // console.log("添加成功:"+JSON.stringify(response))
-        router.push("/admin/storyChapter?sid="+sid.value+"&sname="+sname.value+"&scid="+scid.value+"&scname="+scname.value);
+          ElMessage.success("添加新章节成功！")
+        router.push("/admin/draftChapter?sid="+sid.value+"&sname="+sname.value+"&scid="+scid.value+"&scname="+scname.value);
 
       })
     } else {

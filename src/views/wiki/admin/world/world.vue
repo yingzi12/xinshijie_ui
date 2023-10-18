@@ -20,10 +20,11 @@
         <!--        统计-->
         <div style="background-color:#b0c4de;margin: auto;padding: 10px">
           <el-row>
-            <el-col  :span="4">
-              合计({{ total }})
+            <el-col  :span="20">
+                <el-input v-model="queryParams.name" placeholder="请输入世界名称" class="input-with-select" style="width: 250px"/>
+                <el-button :icon="Search" circle @click="getList(1)"/>
             </el-col >
-            <el-col :span="20"  style="text-align: right;">
+            <el-col :span="4"  style="text-align: right;">
               <div style="text-align: right; font-size: 12px" class="toolbar">
                 <el-button text @click="handleAdd">创建世界</el-button>
               </div>
@@ -132,6 +133,7 @@ import { inject, reactive, ref, toRefs} from 'vue'
 import { listMangeWorld as listWorld,delWorld,issue } from "@/api/admin/world";
 import { useRouter} from "vue-router";
 import {ElMessage, ElMessageBox} from "element-plus";
+import {Search} from "@element-plus/icons-vue";
 const fits = ['世界', '粉丝', '关注']
 const activeIndex = ref('1')
 const baseUrl = inject("$baseUrl")

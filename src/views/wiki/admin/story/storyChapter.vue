@@ -1,5 +1,5 @@
 <template>
-    <StoryHead :head-type="3" second-type="2" :sid="sid"></StoryHead>
+    <StoryHead :head-type="3" second-type="2" :sid="sid"  :sname="sname" :reel-name="reelName"></StoryHead>
 
   <!--        统计-->
         <div style="background-color:#b0c4de;margin: auto;padding: 10px">
@@ -10,7 +10,9 @@
             </el-col>
             <el-col :span="4" style="text-align: right;">
               <div style="text-align: right; font-size: 12px" class="toolbar">
-                <el-button text @click="handleAdd">新增章节</el-button>
+                  <a :href='"/admin/storyChapterAdd?sid="+sid+"&sname="+sname+"&scid="+scid+"&scname="+scname'>
+                <el-text text >新增章节</el-text>
+                  </a>
               </div>
             </el-col>
           </el-row>
@@ -24,9 +26,11 @@
                   {{ scope.$index + 1 + (queryParams.pageNum - 1) * 20 }}
                 </template>
               </el-table-column>
-              <el-table-column label="元素" align="center" key="title" prop="title" :show-overflow-tooltip="true">
+              <el-table-column label="章节名称" align="center" key="title" prop="title" :show-overflow-tooltip="true">
                 <template #default="scope">
-                  <router-link  :to="{path:'/story/detail', query: {sid:scope.row.sid,scid:scope.row.id,sname:scope.row.sname}}">{{scope.row.title}}</router-link>
+                  <a :href='"/chapter/index?sid="+scope.row.sid+"&scid="+scope.row.id+"&sname="+scope.row.sname'>
+                      <el-text>{{scope.row.title}}</el-text>
+                  </a>
                 </template>
               </el-table-column>
               <el-table-column label="状态" align="center"  >
@@ -98,14 +102,11 @@ const temType = ref(1)
 // 接收url里的参数
 const route = useRoute();
 const router = useRouter()
-const sid = ref(null);
-sid.value = route.query.sid;
-const scid = ref(null);
-scid.value = route.query.scid;
-const scname = ref('');
-scname.value = <string>route.query.scname;
-const sname = ref('');
-sname.value = <string>route.query.sname;
+const sid = ref(route.query.sid);
+const scid = ref(route.query.scid);
+const reelName = ref(route.query.scname);
+const sname = ref(route.query.sname);
+const scname = ref(route.query.scname);
 //console.log("世界id="+wid.value);
 
 
@@ -144,7 +145,7 @@ const multiple = ref(true);
 const search = ref('')
 //添加新元素,需要登录权限
 function handleAdd(){
-  router.push("/admin/storyChapterAdd?sid="+sid.value+"&sname="+sname.value+"&scid="+scid.value+"&scname="+scname.value);
+  router.push();
 }
 
 function handleDelete ( row){

@@ -1,6 +1,6 @@
 <template>
   <!--        标题-->
-    <AdminHead :head-type="10" :wid="wid" :secondType="2" ></AdminHead>
+    <AdminHead :head-type="10" :wid="wid" :secondType="2" :wname="wname" ></AdminHead>
 
   <!--        统计-->
     <div style="background-color:#b0c4de;margin: auto;padding: 10px">

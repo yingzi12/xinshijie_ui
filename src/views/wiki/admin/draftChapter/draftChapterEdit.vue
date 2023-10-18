@@ -98,9 +98,7 @@ const handleReelAdd = async (formEl: FormInstance | undefined) => {
   await formEl.validate((valid, fields) => {
     if (valid) {
       updateDraftChapter(form.value).then(response => {
-        console.log("添加成功:"+JSON.stringify(response))
-        router.push("/admin/storyChapter?sid="+sid.value+"&sname="+sname.value+"&scid="+scid.value+"&scname="+scname.value);
-
+        router.push("/admin/draftChapter?sid="+sid.value+"&sname="+sname.value);
       })
     } else {
       //console.log('error submit!', fields)

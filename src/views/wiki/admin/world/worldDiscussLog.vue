@@ -1,20 +1,20 @@
 <template>
         <!--        标题-->
-    <AdminHead :head-type="9" :wid="wid"></AdminHead>
+    <AdminHead :head-type="9" :wid="wid" :wname="wname"></AdminHead>
 
   <!--        统计-->
         <div style="background-color:#b0c4de;margin: auto;padding: 10px">
           <el-row>
             <el-col  :span="20">
-              <el-select v-model="value" placeholder="类型" clearable>
-                <el-option
-                    v-for="item in options"
-                    :key="item.value"
-                    :label="item.label"
-                    :value="item.value"
-                    :disabled="item.disabled"
-                />
-              </el-select>
+<!--              <el-select v-model="value" placeholder="类型" clearable>-->
+<!--                <el-option-->
+<!--                    v-for="item in discussTypesMap"-->
+<!--                    :key="item.value"-->
+<!--                    :label="item.label"-->
+<!--                    :value="item.value"-->
+<!--                    :disabled="item.disabled"-->
+<!--                />-->
+<!--              </el-select>-->
               <el-select placeholder="处理状态" clearable>
                 <el-option label="已处理" value="已处理"/>
                 <el-option label="讨论中" value="讨论中"/>
@@ -114,6 +114,7 @@ import {useRoute, useRouter} from "vue-router";
 import {  Setting } from '@element-plus/icons-vue'
 import { Search } from '@element-plus/icons-vue'
 import { listDiscuss } from "@/api/admin/discuss";
+import {options} from "axios";
 
 // 接收url里的参数
 const route = useRoute();

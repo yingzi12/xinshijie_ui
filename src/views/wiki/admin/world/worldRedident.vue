@@ -1,5 +1,5 @@
 <template>
-    <AdminHead :head-type="7" :wid="wid"></AdminHead>
+    <AdminHead :head-type="7" :wid="wid" :wname="wname"></AdminHead>
 
   <!--        统计-->
         <div style="background-color:#b0c4de;margin: auto;padding: 10px">

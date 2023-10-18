@@ -1,5 +1,5 @@
 <template>
-    <StoryHead :head-type="3" second-type="5" :sid="sid"></StoryHead>
+    <StoryHead :head-type="3" second-type="5" :sid="sid" :sname="sname" :reel-name="reelName"></StoryHead>
     <div style="background-color:#b0c4de;margin: auto;padding: 10px">
         <el-row>
             <el-col :span="20">
@@ -43,6 +43,8 @@ sid.value = route.query.sid;
 const dscid = ref(null);
 dscid.value = route.query.dscid;
 const scname = ref('');
+const reelName = ref(route.query.scname);
+
 scname.value = <string>route.query.scname;
 const sname = ref('');
 sname.value = <string>route.query.sname;

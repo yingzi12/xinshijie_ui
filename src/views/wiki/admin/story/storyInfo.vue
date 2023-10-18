@@ -1,5 +1,5 @@
 <template>
-    <StoryHead :head-type="1" :sid="sid"></StoryHead>
+    <StoryHead :head-type="1" :sid="sid" :sname="sname"></StoryHead>
   <!--   内容区-->
   <div style="  border-style: solid; border-width: 1px;border-color:#CFD3DC">
     <div  style="margin: 15px">

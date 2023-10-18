@@ -6,16 +6,16 @@ storyChapterEdit.vue<template>
         mode="horizontal"
         style="margin:0px;pardding:0px"
     >
-      <el-menu-item index="1">{{sname}} -{{scname}}-章节目录</el-menu-item>
+      <el-menu-item index="1">{{draftChapter.sname}} -{{draftChapter.pname}}-章节目录</el-menu-item>
     </el-menu>
   </div>
   <!--        表格-->
   <div>
-    <h1>所属分卷 --  {{scname}}</h1>
+    <h1>所属分卷 --  {{draftChapter.pname}}</h1>
 
       <div>
-        <h3>{{ story.title }}</h3>
-         <div v-html="story.content"></div>
+        <h3>{{ draftChapter.title }}</h3>
+         <div v-html="draftChapter.content"></div>
 
       </div>
       <div>
@@ -39,16 +39,15 @@ const sid = ref(null);
 sid.value = route.query.sid;
 const dscid = ref(null);
 dscid.value = route.query.dscid;
-const scname = ref('');
+const scname = ref(route.query.scname);
 scname.value = <string>route.query.scname;
-const sname = ref('');
-sname.value = <string>route.query.sname;
+const sname = ref(route.query.sname);
 
-const story=ref({})
+const draftChapter=ref({})
 
 function handleInfo(){
   getDraftChapter(sid.value,dscid.value).then(response => {
-    story.value=response.data
+      draftChapter.value=response.data
   });
 }
 function handleReturn(){

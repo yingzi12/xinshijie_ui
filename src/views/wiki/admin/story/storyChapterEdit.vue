@@ -1,5 +1,5 @@
 <template>
-    <StoryHead :head-type="3" second-type="4" :sid="sid"></StoryHead>
+    <StoryHead :head-type="3" second-type="4" :sid="sid" :sname="sname" :reel-name="reelName"></StoryHead>
     <div style="background-color:#b0c4de;margin: auto;padding: 10px">
         <el-row>
             <el-col :span="20">
@@ -13,7 +13,7 @@
         </el-row>
     </div>
   <!--        表格-->
-  <div style="background-color:#b0c4de;margin: auto;padding: 10px">
+  <div style="margin: auto;padding: 10px">
     <el-form
         ref="ruleFormRef"
         :model="form"
@@ -61,9 +61,9 @@ sid.value = route.query.sid;
 const scid = ref(null);
 scid.value = route.query.scid;
 const scname = ref('');
+const reelName = ref(route.query.scname);
 scname.value = <string>route.query.scname;
-const sname = ref('');
-sname.value = <string>route.query.sname;
+const sname = ref(route.query.sname);
 //console.log("世界id="+wid.value);
 
 
@@ -90,6 +90,7 @@ const data = reactive({
 });
 const ruleFormRef = ref<FormInstance>()
 const { queryParams, form, rules } = toRefs(data);
+const chapter=ref({})
 
 const handleReelAdd = async (formEl: FormInstance | undefined) => {
   if (!formEl) return
@@ -98,14 +99,16 @@ const handleReelAdd = async (formEl: FormInstance | undefined) => {
     ElMessage.error("非法操作")
     return
   }
-  form.value.sid=sid.value
-  form.value.pid=scid.value
+  form.value.sid=chapter.value.sid
+  form.value.pid=chapter.value.pid
+  form.value.sname=chapter.value.sname
+  form.value.pname=chapter.value.pname
   form.value.isNew=2
   await formEl.validate((valid, fields) => {
     if (valid) {
       addDraftChapter(form.value).then(response => {
         console.log("添加成功:"+JSON.stringify(response))
-        router.push("/admin/storyChapter?sid="+sid.value+"&sname="+sname.value+"&scid="+scid.value+"&scname="+scname.value);
+        router.push("/admin/draftChapter?sid="+chapter.value.sid+"&sname="+chapter.value.value+"&scid="+chapter.value.pid+"&scname="+chapter.value.pname);
 
       })
     } else {
@@ -115,7 +118,9 @@ const handleReelAdd = async (formEl: FormInstance | undefined) => {
 }
 function handleInfo(){
   getChapter(sid.value,scid.value).then(response => {
-    form.value=response.data
+      chapter.value=response.data
+      form.value.title=chapter.value.title
+      form.value.content=chapter.value.content
   });
 }
 function handleReturn(){

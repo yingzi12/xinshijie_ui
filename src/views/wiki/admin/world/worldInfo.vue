@@ -1,5 +1,5 @@
 <template>
-        <AdminHead :head-type="1" :wid="wid"></AdminHead>
+        <AdminHead :head-type="1" :wid="wid" :wname="wname"></AdminHead>
         <!--   内容区-->
         <div style="  border-style: solid; border-width: 1px;border-color:#CFD3DC">
           <div  style="margin: 15px">
@@ -94,8 +94,9 @@ const worldStatus = new Map([
 ]);
 //世界信息
 const world=ref({})
-const wid = ref(null);
-wid.value = route.query.wid;
+const wid = ref(route.query.wid);
+const wname = ref(route.query.wname);
+
 world.value.id = route.query.wid;
 const baseUrl = inject("$baseUrl")
 const imgUrl = inject("$imgUrl")

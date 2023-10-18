@@ -36,8 +36,21 @@
           </template>
         </el-table-column>
         <el-table-column label="名称" align="center" key="title" prop="title" :show-overflow-tooltip="true"/>
-        <el-table-column label="故事" align="center" key="sname" prop="sname" :show-overflow-tooltip="true"/>
-        <el-table-column label="分卷" align="center" key="pname" prop="pname" :show-overflow-tooltip="true"/>
+        <el-table-column label="故事" align="center" key="sname" prop="sname" :show-overflow-tooltip="true">
+            <template #default="scope">
+                <a :href='"/admin/storyInfo?sid="+scope.row.sid+"&sname="+scope.row.sname'>
+                    <el-text>{{scope.row.sname}}</el-text>
+                </a>
+            </template>
+
+        </el-table-column>
+        <el-table-column label="分卷" align="center" key="pname" prop="pname" :show-overflow-tooltip="true">
+            <template #default="scope">
+                <a :href='"/admin/storyChapter?sid="+scope.row.sid+"&sname="+scope.row.sname+"&pname="+scope.row.pname+"&pid="+scope.row.pid'>
+                    <el-text>{{scope.row.pname}}</el-text>
+                </a>
+            </template>
+        </el-table-column>
         <el-table-column label="状态" align="center"  >
           <template #default="scope">
             <span>{{elementStatus.get(scope.row.status)}}</span>

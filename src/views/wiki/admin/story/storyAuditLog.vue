@@ -1,5 +1,5 @@
 <template>
-    <StoryHead :head-type="4" :sid="sid"></StoryHead>
+    <StoryHead :head-type="4" :sid="sid" :sname="sname"></StoryHead>
 
         <!--        统计-->
         <div style="background-color:#b0c4de;margin: auto;padding: 10px">
