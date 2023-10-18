@@ -1,5 +1,5 @@
 <template>
-    <StoryHead :head-type="3" second-type="3" :sid="sid"  :sname="sname":reel-name="reelName"></StoryHead>
+    <StoryHead :head-type="3" second-type="3" :sid="sid"  :sname="sname" :reel-name="reelName"></StoryHead>
     <div style="background-color:#b0c4de;margin: auto;padding: 10px">
         <el-row>
             <el-col :span="20">
@@ -28,7 +28,7 @@
 
             </div>
             <div>
-              <el-button @click="handleReturn">返回</el-button>
+              <el-button @click="handleReturn()">返回</el-button>
               <el-button type="primary" @click="handleReelAdd(ruleFormRef)">确定</el-button>
             </div>
           </el-form>
@@ -61,17 +61,16 @@ sid.value = route.query.sid;
 const scid = ref(null);
 scid.value = route.query.scid;
 const reelName = ref(route.query.scname);
-const scname = ref('');
-scname.value = <string>route.query.scname;
-const sname = ref('');
-sname.value = <string>route.query.sname;
+const scname = ref(route.query.scname);
+const sname = ref(route.query.sname);
+
 //console.log("世界id="+wid.value);
 
 
 class Story {
   id: number
   name: string
-  types: string
+  types: number
   intro: string
   createTime:string
 }
