@@ -20,6 +20,7 @@ storyChapterEdit.vue<template>
       <el-form-item label="章节名称" prop="title">
         <el-input v-model="form.title" />
       </el-form-item>
+
       <div>
         <h3>章节内容</h3>
         <ckeditor    :editorDisabled="true"  :editor="editor" v-model="form.content" :config="editorConfig"></ckeditor>

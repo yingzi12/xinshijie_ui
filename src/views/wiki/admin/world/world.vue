@@ -198,7 +198,6 @@ function handleDelete ( row){
     return delWorld(worldId);
   }).then(() => {
     getList(queryParams.value.pageNum);
-
     ElMessage.success("删除成功");
   }).catch(() => {});
 }
@@ -207,6 +206,7 @@ function handleSee(row){
   router.push("/admin/worldInfo?wid="+row.id);
 }
 function handleIssue(row){
+
   issue(row.id).then(response => {
     getList(queryParams.value.pageNum);
 

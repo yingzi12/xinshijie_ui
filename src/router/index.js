@@ -298,10 +298,16 @@ export const constantRoutes = [
         meta: { title: '故事管理', icon: 'wiki' }
       },
       {
+        path: 'worldStoryAudit',
+        component: () => import('@/views/wiki/admin/world/worldStoryAudit'),
+        name: 'worldStoryAudit',
+        meta: { title: '故事审核', icon: 'wiki' }
+      },
+      {
         path: 'worldApplyManage',
         component: () => import('@/views/wiki/admin/world/worldApplyManage'),
         name: 'worldApplyManage',
-        meta: { title: '故事管理', icon: 'wiki' }
+        meta: { title: '回复管理', icon: 'wiki' }
       },
       {
         path: 'worldApplyManageLog',

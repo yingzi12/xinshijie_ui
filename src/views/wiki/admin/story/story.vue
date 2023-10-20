@@ -35,7 +35,7 @@
       <el-col :span="4"  style="text-align: right;">
 
         <div style="text-align: right; font-size: 12px" class="toolbar">
-            <a href="/story/add">
+            <a href="/admin/storyAdd">
                <el-text text>创建故事</el-text>
             </a>
         </div>

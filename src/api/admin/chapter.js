@@ -8,7 +8,13 @@ export function listChapter(query) {
     params: query
   })
 }
-
+export function updateSerialNumber(data) {
+  return request({
+    url: '/admin/chapter/updateSerialNumber',
+    method: 'post',
+    data: data
+  })
+}
 // 查询元素详细
 export function getChapter(sid,scid) {
   return request({

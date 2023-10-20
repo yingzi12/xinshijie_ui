@@ -84,6 +84,14 @@ export function audit(data) {
     data: data
   })
 }
+export function updateSerialNumber(data) {
+  return request({
+    url: '/admin/draftChapter/updateSerialNumber',
+    method: 'post',
+    data: data
+  })
+}
+
 export function issueClose(sid,dscid) {
   return request({
     url: '/admin/draftChapter/issueClose?sid=' + sid+'&dscid='+dscid,

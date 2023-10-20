@@ -33,6 +33,7 @@
                   </a>
                 </template>
               </el-table-column>
+                <el-table-column label="编号" align="center" key="serialNumber" prop="serialNumber"  ></el-table-column>
               <el-table-column label="状态" align="center"  >
                 <template #default="scope">
                   <span>{{chapterStatusMap.get(scope.row.status)}}</span>
@@ -58,6 +59,13 @@
                         @click="handleUpdateChapter(scope.row)"
                     ></el-button>
                   </el-tooltip>
+                    <el-tooltip content="修改章节编码" placement="top">
+                        <el-button
+                                type="text"
+                                icon="Edit"
+                                @click="handleOpdateDig(scope.row.id,scope.row.sid,scope.row.title,scope.row.serialNumber)"
+                        ></el-button>
+                    </el-tooltip>
                   <el-tooltip content="删除" placement="top">
                     <el-button
                         type="text"
@@ -81,12 +89,34 @@
               :page-size=20
               @current-change="getList"/>
         </div>
-
+    <el-dialog v-model="openDiagonNumber" title="修改章节编号">
+        <el-form :model="updateForm">
+            <el-form-item label="名称" >
+                <el-text>{{updateForm.title}}</el-text>
+            </el-form-item>
+            <el-form-item label="编号" >
+                <el-input-number
+                        v-model="updateForm.serialNumber"
+                        :min="1"
+                        controls-position="right"
+                        size="large"
+                />
+            </el-form-item>
+        </el-form>
+        <template #footer>
+      <span class="dialog-footer">
+        <el-button @click="openDiagonNumber = false">取消</el-button>
+        <el-button type="primary" @click="handleUpdateNumber()">
+          修改
+        </el-button>
+      </span>
+        </template>
+    </el-dialog>
 </template>
 
 <script lang="ts" setup>
 import {  reactive, ref, toRefs} from 'vue'
-import { listChapter,delChapter } from "@/api/admin/chapter";
+import { listChapter,delChapter,updateSerialNumber } from "@/api/admin/chapter";
 import {useRoute, useRouter} from "vue-router";
 import {Search} from '@element-plus/icons-vue'
 import {ElMessage, ElMessageBox, FormInstance} from "element-plus";
@@ -175,6 +205,31 @@ function getList(page: number) {
     total.value = response.total;
   });
 }
+const updateForm = reactive({
+    id: undefined,
+    sid: undefined,
+    title: '',
+    serialNumber: undefined,
+})
+const openDiagonNumber=ref(false);
+
+function handleOpdateDig(id,sid,title,serialNumber){
+    updateForm.id=id;
+    updateForm.title=title;
+    updateForm.sid=sid;
+    updateForm.serialNumber=serialNumber;
+    openDiagonNumber.value=true;
+
+}
+function handleUpdateNumber(){
+    updateSerialNumber(updateForm).then(response => {
+        ElMessage.success("修改成功");
+        openDiagonNumber.value=false;
+        getList(queryParams.value.pageNum);
+    });
+
+}
+
 getList(queryParams.value.pageNum);
 
 </script>
