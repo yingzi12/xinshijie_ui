@@ -132,16 +132,13 @@ const disabled=ref(true)
 const username=ref('')
 //console.log("userStore name:"+(userStore.name==''))
 
-const did = ref(null);
-const wid = ref(null);
-const sid = ref(null);
 const dcid = ref(null);
-const source = ref(undefined);
-did.value = route.query.did;
-wid.value = route.query.wid;
+
+const did = ref(route.query.did);
+const wid = ref(route.query.wid);
 dcid.value = route.query.dcid;
-sid.value = route.query.sid;
-source.value = parseInt(<string>route.query.source);
+const sid = ref(route.query.sid);
+const source = ref(route.query.source);
 
 if(userStore.name==''){
   username.value="未登录"

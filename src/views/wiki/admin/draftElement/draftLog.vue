@@ -100,8 +100,8 @@ const elementStatus = new Map([
 // 接收url里的参数
 const route = useRoute();
 const router = useRouter()
-// const wid = ref(null);
-// wid.value = route.query.wid;
+//
+// const wid = ref(route.query.wid);
 // //console.log("世界id="+wid.value);
 
 

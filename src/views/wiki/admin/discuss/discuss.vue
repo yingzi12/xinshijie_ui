@@ -102,10 +102,10 @@ import {ElMessage, ElMessageBox} from "element-plus";
 const route = useRoute()
 const router = useRouter()
 //console.log(route.query.wid,"参数");
-const wid = ref(null);
-const wname = ref('');
-wname.value = <string>route.query.wname;
-wid.value = route.query.wid;
+
+
+const wname = ref(route.query.wname);
+const wid = ref(route.query.wid);
 const sourceTypesMap = new Map([
   [1, "世界"],
   [2, "故事"],

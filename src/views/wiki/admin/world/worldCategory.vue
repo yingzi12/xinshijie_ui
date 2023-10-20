@@ -92,10 +92,10 @@ const title = ref("");
 // 接收url里的参数
 const route = useRoute();
 //console.log(route.query.wid,"参数");
-const wid = ref(null);
-const wname = ref('');
-wname.value = <string>route.query.wname;
-wid.value = route.query.wid;
+
+
+const wname = ref(route.query.wname);
+const wid = ref(route.query.wid);
 //console.log("世界id="+wid.value);
 //世界信息
 const world=ref({})

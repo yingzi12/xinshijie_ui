@@ -91,10 +91,10 @@ import StoryHead from "./storyHead.vue";
 // 接收url里的参数
 const route = useRoute();
 //console.log(route.query.sid,"参数");
-const sid = ref(null);
-const sname = ref('');
-sname.value = <string>route.query.sname;
-sid.value = route.query.sid;
+
+
+const sname = ref(route.query.sname);
+const sid = ref(route.query.sid);
 //个人消息
 const fits = ['世界', '粉丝', '关注']
 const activeIndex = ref('1')

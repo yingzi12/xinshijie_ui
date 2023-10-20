@@ -54,14 +54,14 @@ import {ElMessage, FormInstance} from "element-plus";
 // 接收url里的参数
 const route = useRoute();
 const router = useRouter()
-const sid = ref(null);
-sid.value = route.query.sid;
+
+const sid = ref(route.query.sid);
 const dscid = ref(null);
 dscid.value = route.query.dscid;
 const scname = ref('');
 scname.value = <string>route.query.scname;
-const sname = ref('');
-sname.value = <string>route.query.sname;
+
+const sname = ref(route.query.sname);
 //console.log("世界id="+wid.value);
 
 

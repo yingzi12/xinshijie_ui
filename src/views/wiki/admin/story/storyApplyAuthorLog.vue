@@ -66,10 +66,10 @@ const route = useRoute();
 
 const wid = ref();
 wid.value =route.query.wid;
-const sid = ref(null);
-sid.value = route.query.sid;
-const wname = ref('');
-wname.value = <string>route.query.wname;
+
+const sid = ref(route.query.sid);
+
+const wname = ref(route.query.wname);
 
 
 

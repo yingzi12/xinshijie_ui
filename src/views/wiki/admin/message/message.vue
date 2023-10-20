@@ -98,8 +98,8 @@ import { Search } from '@element-plus/icons-vue'
 // 接收url里的参数
 const route = useRoute();
 //console.log(route.query.wid,"参数");
-const wid = ref(null);
-wid.value = route.query.wid;
+
+const wid = ref(route.query.wid);
 //个人消息
 const fits = ['世界', '粉丝', '关注']
 const activeIndex = ref('1')

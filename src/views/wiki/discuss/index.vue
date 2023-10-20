@@ -156,16 +156,13 @@ const disabled=ref(true)
 
 const username=ref('')
 
-const eid = ref(null);
-const did = ref(null);
-const wid = ref(null);
-const sid = ref(null);
-const source = ref(undefined);
-eid.value = route.query.eid;
-did.value = route.query.did;
-wid.value = route.query.wid;
-sid.value = route.query.sid;
-source.value = parseInt(<string>route.query.source);
+
+
+const eid = ref(route.query.eid);
+const did = ref(route.query.did);
+const wid = ref(route.query.wid);
+const sid = ref(route.query.sid);
+const source = ref(route.query.source);
 const sname = ref(undefined);
 const wname = ref(undefined);
 

@@ -87,10 +87,10 @@ const  temPage=temTypesMap.get(parseInt(temType.value))
 const worldElement=ref({})
 
 //世界信息
-const deid = ref(null);
-const wid = ref(null);
-deid.value = route.query.deid;
-wid.value = route.query.wid;
+
+
+const deid = ref(route.query.deid);
+const wid = ref(route.query.wid);
 
 const dialogTableVisible = ref(false)
 

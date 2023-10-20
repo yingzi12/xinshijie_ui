@@ -384,8 +384,8 @@ const disabled=ref(false)
 const username=ref('')
 //console.log("userStore name:"+(userStore.name==''))
 
-const wid = ref(null);
-wid.value = route.query.wid;
+
+const wid = ref(route.query.wid);
 //console.log("世界id="+wid.value);
 if(userStore.name==''){
   username.value="未登录"

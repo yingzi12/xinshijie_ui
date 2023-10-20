@@ -115,10 +115,10 @@ import {ElMessage, FormInstance} from "element-plus";
 // 接收url里的参数
 const route = useRoute()
 const router = useRouter()
-const wid = ref(null);
-const wname = ref('');
-wname.value = <string>route.query.wname;
-wid.value = route.query.wid;
+
+
+const wname = ref(route.query.wname);
+const wid = ref(route.query.wid);
 const discussTypesMap = new Map([
     [0, "全部"],
   [1, "自由讨论"],

@@ -105,10 +105,10 @@ const temElement=ref()
 
 
 //世界信息
-const eid = ref(null);
-const wid = ref(null);
-eid.value = route.query.eid;
-wid.value = route.query.wid;
+
+
+const eid = ref(route.query.eid);
+const wid = ref(route.query.wid);
 //console.log("元素id="+eid.value);
 //console.log("世界id="+wid.value);
 //多选框

@@ -74,10 +74,10 @@ const router = useRouter()
 // 接收url里的参数
 const route = useRoute();
 //世界信息
-const deid = ref(null);
-const wid = ref(null);
-deid.value = route.query.deid;
-wid.value = route.query.wid;
+
+
+const deid = ref(route.query.deid);
+const wid = ref(route.query.wid);
 //console.log("元素deid="+deid.value);
 //console.log("世界id="+wid.value);
 

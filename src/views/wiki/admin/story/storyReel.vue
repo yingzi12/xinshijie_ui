@@ -138,10 +138,10 @@ const temType = ref(1)
 // 接收url里的参数
 const route = useRoute();
 const router = useRouter()
-const sid = ref(null);
-sid.value = route.query.sid;
-const sname = ref('');
-sname.value = <string>route.query.sname;
+
+const sid = ref(route.query.sid);
+
+const sname = ref(route.query.sname);
 //console.log("世界id="+wid.value);
 
 

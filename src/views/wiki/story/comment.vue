@@ -89,7 +89,6 @@ import {useRoute} from "vue-router";
 import {  getStory } from "@/api/wiki/story";
 
 
-
 // 接收url里的参数
 const route = useRoute();
 //获取用户信息
@@ -100,15 +99,11 @@ const disabled=ref(false)
 const username=ref('')
 //console.log("userStore name:"+(userStore.name==''))
 
-const eid = ref(null);
-const wid = ref(null);
-const source = ref(null);
-const sid = ref(null);
 
-eid.value = route.query.eid;
-wid.value = route.query.wid;
-source.value = route.query.source;
-sid.value = route.query.sid;
+const eid = ref(route.query.eid);
+const wid = ref(route.query.wid);
+const source = ref(route.query.source);
+const sid = ref(route.query.sid);
 const imgUrl = inject("$imgUrl")
 
 //console.log("元素id="+eid.value);

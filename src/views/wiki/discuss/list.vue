@@ -129,16 +129,12 @@ const username=ref('')
 //console.log("userStore name:"+(userStore.name==''))
 const imgUrl = inject("$imgUrl")
 
-const eid = ref(null);
-const wid = ref(null);
-const sid = ref(null);
 const wname = ref(undefined);
 const sname = ref(undefined);
-const source = ref(undefined);
-source.value = parseInt(<string>route.query.source);
-eid.value = route.query.eid;
-wid.value = route.query.wid;
-sid.value = route.query.sid;
+const source = ref(route.query.source);
+const eid = ref(route.query.eid);
+const wid = ref(route.query.wid);
+const sid = ref(route.query.sid);
 
 //console.log("元素id="+eid.value);
 //console.log("世界id="+wid.value);

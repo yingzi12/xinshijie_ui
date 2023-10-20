@@ -118,8 +118,8 @@ const activeIndex = ref('1')
 // 接收url里的参数
 const route = useRoute();
 const router = useRouter()
-const wid = ref(null);
-wid.value = route.query.wid;
+
+const wid = ref(route.query.wid);
 
 const data = reactive({
   form: {},

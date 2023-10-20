@@ -96,8 +96,6 @@ import { isNotEmpty } from '@/utils/tools'; // 根据你的项目路径调整引
 const router = useRouter()
 const route = useRoute()
 
-
-
 class World {
   id: number
   name: string
@@ -110,8 +108,8 @@ const wid = route.query.wid; // 获取查询参数param1的值
 const wname = route.query.wname; // 获取查询参数param2的值
 
 
-// const wid = ref(null);
-// wid.value = route.query.wid;
+//
+// const wid = ref(route.query.wid);
 // const wname = ref(null);
 // wname.value = route.query.wname;
 const wtypes=ref(null);

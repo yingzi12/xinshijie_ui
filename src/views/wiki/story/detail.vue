@@ -204,13 +204,28 @@ const router = useRouter();
 // 接收url里的参数
 const route = useRoute();
 
-const sid = ref(null);
-sid.value = route.query.sid;
+const sid = ref(route.query.sid);
+const wid = ref(route.query.wid);
 
-const wid = ref(null);
-wid.value = route.query.wid;
-const wname = ref('');
-
+//获取用户信息
+const userStore = useUserStore()
+const circleUrl=ref('')
+const disabled=ref(false)
+const  isLogin=ref(false)
+if(isNotEmpty(userStore.name)){
+    isLogin.value=true
+}else{
+    isLogin.value=false
+}
+const username=ref('')
+if(userStore.name==''){
+    username.value="未登录"
+    disabled.value=true;
+}else{
+    username.value=userStore.name;
+    circleUrl.value=userStore.avatar;
+    disabled.value=false;
+}
 const storyTypesMap=new Map([
   [6,"科学"],
   [1,"武侠"],
@@ -259,7 +274,11 @@ function handleDiscuss(){
   router.push("/discuss/list?sid="+sid.value+"&wid="+wid.value+"&source="+2);
 }
 function handleHarding(){
-  addHarding(sid.value).then(response => {
+    if(!isLogin.value){
+        ElMessage.warning("请先登录");
+        return;
+    }
+    addHarding(sid.value).then(response => {
     ElMessage.success("关注成功");
   });
 }
@@ -297,6 +316,7 @@ function handleAuthor() {
 function handleChapterList() {
   queryParams.value.wid=wid.value;
   queryParams.value.size=10
+  queryParams.value.level=1
   listChapter(queryParams.value).then(response => {
     chapterList.value = response.data;
   });
@@ -306,20 +326,7 @@ function handleChapterList() {
 const storyActive = ref('description')
 const commentActive = ref('allComm')
 
-//获取用户信息
-const userStore = useUserStore()
-const circleUrl=ref('')
-const disabled=ref(false)
 
-const username=ref('')
-if(userStore.name==''){
-  username.value="未登录"
-  disabled.value=true;
-}else{
-  username.value=userStore.name;
-  circleUrl.value=userStore.avatar;
-  disabled.value=false;
-}
 
 function onSubmit(){
   if(!commentForm.value.comment){
@@ -368,12 +375,12 @@ function handleComment(){
 }
 
 //判断是否已经关注
-const isFllow=ref(false)
+const isFllow=ref(true)
 function handleIsFllow(){
   if(userStore.name!=''){
     getInfoBySid(sid.value).then(response => {
       if (!response.data) {
-        isFllow.value = true
+        isFllow.value = false
       }
     });
   }

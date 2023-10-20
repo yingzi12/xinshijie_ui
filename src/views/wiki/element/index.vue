@@ -75,10 +75,10 @@ const  temPage=temTypesMap.get(parseInt(temType.value))
 const worldElement=ref({})
 
 //世界信息
-const eid = ref(null);
-const wid = ref(null);
-eid.value = route.query.eid;
-wid.value = route.query.wid;
+
+
+const eid = ref(route.query.eid);
+const wid = ref(route.query.wid);
 
 /** 查询元素详细 */
 function getElement() {

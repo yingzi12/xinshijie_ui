@@ -78,8 +78,8 @@ const route = useRoute();
 
 const sid = ref();
  sid.value =route.query.sid;
-const sname = ref('');
-sname.value = <string>route.query.sname;
+
+const sname = ref(route.query.sname);
 //console.log("世界id="+wid.value);
 
 

@@ -68,8 +68,8 @@ const username=ref('')
 // 接收url里的参数
 const route = useRoute();
 //console.log(route.query.wid,"参数");
-const wid = ref(null);
-wid.value = route.query.wid;
+
+const wid = ref(route.query.wid);
 //弹出框内容
 const comment = {
   circleUrl:'',

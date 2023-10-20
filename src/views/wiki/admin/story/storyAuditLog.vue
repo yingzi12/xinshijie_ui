@@ -81,10 +81,10 @@ const router = useRouter()
 // 接收url里的参数
 const route = useRoute();
 //console.log(route.query.wid,"参数");
-const sid = ref(null);
-const sname = ref('');
-sname.value = <string>route.query.sname;
-sid.value = route.query.sid;
+
+
+const sname = ref(route.query.sname);
+const sid = ref(route.query.sid);
 
 const storyStatus = new Map([
   [1, "草稿"],

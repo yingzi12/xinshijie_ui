@@ -96,8 +96,8 @@ const router = useRouter()
 // 接收url里的参数
 const route = useRoute();
 //console.log(route.query.wid,"参数");
-const sid = ref(null);
-sid.value = route.query.sid;
+
+const sid = ref(route.query.sid);
 
 
 

@@ -108,8 +108,8 @@ const route = useRoute();
 
 const wid = ref();
 wid.value =route.query.wid;
-const wname = ref('');
-wname.value = <string>route.query.wname;
+
+const wname = ref(route.query.wname);
 
 
 

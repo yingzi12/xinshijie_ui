@@ -56,8 +56,8 @@ import StoryHead from "./storyHead.vue";
 // 接收url里的参数
 const route = useRoute();
 const router = useRouter()
-const sid = ref(null);
-sid.value = route.query.sid;
+
+const sid = ref(route.query.sid);
 const scid = ref(null);
 scid.value = route.query.scid;
 const scname = ref('');

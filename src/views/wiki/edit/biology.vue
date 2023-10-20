@@ -123,8 +123,8 @@ const route = useRoute();
 const router = useRouter()
 
 //console.log(route.query.wid,"参数");
-const wid = ref(null);
-wid.value = route.query.wid;
+
+const wid = ref(route.query.wid);
 //console.log("世界id="+wid);
 const editor = Editor
 const baseUrl = inject("$baseUrl")

@@ -115,13 +115,13 @@ import StoryHead from "./storyHead.vue";
 
 // 接收url里的参数
 const route = useRoute();
-const sid = ref(null);
-const wid = ref(null);
 
-const sname = ref('');
-sname.value = <string>route.query.sname;
-sid.value = route.query.sid;
-wid.value = route.query.wid;
+
+
+
+const sname = ref(route.query.sname);
+const sid = ref(route.query.sid);
+const wid = ref(route.query.wid);
 
 const discussTypesMap = new Map([
   [1, "自由讨论"],

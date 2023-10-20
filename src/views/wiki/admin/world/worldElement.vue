@@ -154,10 +154,10 @@ const options = [
 // 接收url里的参数
 const route = useRoute();
 const router = useRouter()
-const wid = ref(null);
-wid.value = route.query.wid;
-const wname = ref('');
-wname.value = <string>route.query.wname;
+
+const wid = ref(route.query.wid);
+
+const wname = ref(route.query.wname);
 //console.log("世界id="+wid.value);
 
 

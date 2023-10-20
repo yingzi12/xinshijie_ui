@@ -73,10 +73,10 @@ const router = useRouter()
 
 // 接收url里的参数
 const route = useRoute();
-const wid = ref(null);
-wid.value = route.query.wid;
-const wname = ref('');
-wname.value = <string>route.query.wname;
+
+const wid = ref(route.query.wid);
+
+const wname = ref(route.query.wname);
 const elementStatus = new Map([
   [0, "草稿"],
   [1, "待审核"],

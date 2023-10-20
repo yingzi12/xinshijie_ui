@@ -83,12 +83,12 @@ if(!route.query.temType || isNaN(route.query.temType)){
 const  temPage=temTypesMap.get(parseInt(temType.value))
 const worldElement=ref({})
 //世界信息
-const deid = ref(null);
-const wid = ref(null);
+
+
 const wname = ref(null);
 
-deid.value = route.query.deid;
-wid.value = route.query.wid;
+const deid = ref(route.query.deid);
+const wid = ref(route.query.wid);
 wname.value = route.query.wname;
 //console.log("元素deid="+deid.value);
 //console.log("世界id="+wid.value);

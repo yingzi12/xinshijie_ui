@@ -83,8 +83,8 @@ if(!route.query.temType || isNaN(route.query.temType)){
 const  temPage=temTypesMap.get(temType.value)
 const temElement=ref()
 
-const wid = ref(null);
-wid.value = route.query.wid;
+
+const wid = ref(route.query.wid);
 
 
 

@@ -119,10 +119,10 @@ import {options} from "axios";
 // 接收url里的参数
 const route = useRoute();
 //console.log(route.query.wid,"参数");
-const wid = ref(null);
-const wname = ref('');
-wname.value = <string>route.query.wname;
-wid.value = route.query.wid;
+
+
+const wname = ref(route.query.wname);
+const wid = ref(route.query.wid);
 const router = useRouter()
 const discussTypesMap = new Map([
   [1, "自由讨论"],

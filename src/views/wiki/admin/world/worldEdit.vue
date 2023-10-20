@@ -87,11 +87,11 @@ import AdminHead from "./worldHead.vue";
 const router = useRouter()
 // 接收url里的参数
 const route = useRoute();
-const wid = ref(null);
+
 
 //世界信息
 const world=ref({})
-wid.value = route.query.wid;
+const wid = ref(route.query.wid);
 world.value.id = wid.value
 //console.log("世界id="+world.value.id);
 const baseUrl = inject("$baseUrl")
