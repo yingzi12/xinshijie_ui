@@ -4,8 +4,7 @@
       <el-breadcrumb separator="/">
         <el-breadcrumb-item :to="{ path: '/index' }">首页</el-breadcrumb-item>
         <el-breadcrumb-item><a href="/world/list">世界</a></el-breadcrumb-item>
-        <el-breadcrumb-item :to="{ path: '/world/details', query: {wid:wid} }">{{wname}}</el-breadcrumb-item>
-        <el-breadcrumb-item :to="{ path: '/story/list', query: {wid:wid,wname:wname} }">故事列表</el-breadcrumb-item>
+        <el-breadcrumb-item>故事列表</el-breadcrumb-item>
       </el-breadcrumb>
     </div>
     <div >
@@ -42,6 +41,13 @@
                   </router-link>
                 </template>
               </el-table-column>
+              <el-table-column label="世界" align="center" key="wname" prop="wname"  :show-overflow-tooltip="true">
+                <template #default="scope">
+                  <router-link :to="{path:'/world/details', query: {wid:scope.row.wid,wname:scope.row.wname}}">
+                  <span>{{scope.row.wname}}</span>
+                  </router-link>
+                </template>
+              </el-table-column>
               <el-table-column label="等级" align="center" key="ranks" prop="ranks"  width="50" />
               <el-table-column label="类型" align="center" :show-overflow-tooltip="true" width="80" >
                 <template #default="scope">
@@ -57,6 +63,7 @@
               </el-table-column>
               <el-table-column label="操作" align="center" width="150" class-name="small-padding fixed-width">
                 <template #header>
+                  <el-input v-model="queryParams.wname" size="small" placeholder="请输入世界名称" @change="handFind(stypes)"/>
                   <el-input v-model="queryParams.name" size="small" placeholder="请输入故事名称" @change="handFind(stypes)"/>
                 </template>
                 <template #default="scope">
@@ -96,24 +103,6 @@ import { isNotEmpty } from '@/utils/tools'; // 根据你的项目路径调整引
 const router = useRouter()
 const route = useRoute()
 
-
-
-class World {
-  id: number
-  name: string
-  types: string
-  intro: string
-  createTime:string
-}
-
-const wid = route.query.wid; // 获取查询参数param1的值
-const wname = route.query.wname; // 获取查询参数param2的值
-
-
-// const wid = ref(null);
-// wid.value = route.query.wid;
-// const wname = ref(null);
-// wname.value = route.query.wname;
 const stypes=ref(null);
 const loading = ref(true);
 const storyList = ref([]);
@@ -125,6 +114,7 @@ const data = reactive({
 
     wid: undefined,
     name: undefined,
+    wname: undefined,
     types: null,
   },
   rules: {
@@ -145,11 +135,6 @@ function handFind(types: number) {
   } else {
     queryParams.value.types = types;
   }
-  if (isNotEmpty(wid)) {
-    queryParams.value.wid = wid;
-  } else {
-    queryParams.value.wid = null;
-  }
 
   // 获取并更新故事列表
   listStory(queryParams.value).then((response) => {
@@ -161,22 +146,22 @@ function handFind(types: number) {
 
 function handleAdd() {
   // 跳转到创建故事页面，并带上 wid 和 wname 参数
-  router.push(`/admin/storyAdd?wid=${wid}&wname=${wname}`);
+  router.push(`/admin/storyAdd`);
 }
 
 function handleSee(row) {
   // 跳转到故事的详细视图
-  router.push(`/story/details?sid=${row.id}`);
+  router.push(`/story/details?sid=${row.id}&sname=${row.name} `);
 }
 
 function getList(page: number) {
   window.scrollTo(0, 0); // 滚动到顶部
   queryParams.value.pageNum=page;
-  if (isNotEmpty(wid)) {
-    queryParams.value.wid = wid;
-  } else {
-    queryParams.value.wid = null;
-  }
+  // if (isNotEmpty(wid)) {
+  //   queryParams.value.wid = wid;
+  // } else {
+  //   queryParams.value.wid = null;
+  // }
   // 获取初始故事列表
   listStory(queryParams.value).then((response) => {
     loading.value = false;

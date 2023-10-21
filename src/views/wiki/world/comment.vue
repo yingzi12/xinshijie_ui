@@ -3,7 +3,7 @@
     <div>
       <el-breadcrumb separator="/">
         <el-breadcrumb-item :to="{ path: '/' }">首页</el-breadcrumb-item>
-        <el-breadcrumb-item :to="{ path: '/world/list' }">世界树</el-breadcrumb-item>
+        <el-breadcrumb-item :to="{ path: '/world/list' }">世界</el-breadcrumb-item>
         <el-breadcrumb-item :to="{ path: '/world/details', query: {wid:wid} }">{{world.name}}</el-breadcrumb-item>
         <el-breadcrumb-item>评论列表</el-breadcrumb-item>
       </el-breadcrumb>

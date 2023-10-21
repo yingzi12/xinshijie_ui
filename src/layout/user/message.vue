@@ -104,5 +104,23 @@ handleUser();
   align-items: center;
 }
 
+.user-count .block {
+  padding: 0px 0;
+  text-align: center;
+  border-right: solid 1px var(--el-border-color);
+  display: inline-block;
+  width: 33%;
+  box-sizing: border-box;
+  vertical-align: top;
+}
+.user-count .block:last-child {
+  border-right: none;
+}
+.user-count .stration {
+  display: block;
+  color: var(--el-text-color-secondary);
+  font-size: 9px;
+  margin-bottom: 0px;
+}
 
 </style>

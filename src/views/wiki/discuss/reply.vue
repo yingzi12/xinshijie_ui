@@ -3,9 +3,9 @@
     <div>
         <el-breadcrumb separator="/">
             <el-breadcrumb-item :to="{ path: '/world/index' }">首页</el-breadcrumb-item>
-            <el-breadcrumb-item><a href="/world/list">世界树</a></el-breadcrumb-item>
+            <el-breadcrumb-item><a href="/world/list">世界</a></el-breadcrumb-item>
             <el-breadcrumb-item  :to="{ path: '/world/details', query: {wid:discussComment.wid} }">{{discussComment.wname}}</el-breadcrumb-item>
-            <el-breadcrumb-item  v-if="source == 2" :to="{ path: '/story/detail', query: {wid:wid,sid:sid} }">{{discussComment.sname}}</el-breadcrumb-item>
+            <el-breadcrumb-item  v-if="source == 2" :to="{ path: '/story/details', query: {wid:wid,sid:sid} }">{{discussComment.sname}}</el-breadcrumb-item>
             <el-breadcrumb-item  :to="{ path: '/discuss/list', query: {wid:wid,sid:sid,source:source} }">讨论</el-breadcrumb-item>
             <el-breadcrumb-item :to="{path:'/discuss/index',query: {wid:wid,wname:discussComment.wname,did:discussComment.did,source:source,sid:sid}}">{{ discussComment.title }}</el-breadcrumb-item>
             <el-breadcrumb-item >回复列表</el-breadcrumb-item>

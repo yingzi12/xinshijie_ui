@@ -5,7 +5,7 @@
       <div>
         <el-breadcrumb separator="/">
           <el-breadcrumb-item :to="{ path: '/world/index' }">首页</el-breadcrumb-item>
-          <el-breadcrumb-item><a href="/world/list">世界树</a></el-breadcrumb-item>
+          <el-breadcrumb-item><a href="/world/list">世界</a></el-breadcrumb-item>
           <el-breadcrumb-item :to=" { path: '/world/details', query: {wid:wid} }">{{world.name}}</el-breadcrumb-item>
           <el-breadcrumb-item>详细</el-breadcrumb-item>
         </el-breadcrumb>
@@ -20,7 +20,7 @@
               <div>
                 <el-badge :value="world.ranks" class="item">
                   <h1 style="margin: 2px" class="title">{{ world.name }}</h1>
-                </el-badge>
+                </el-badge><el-tag  class="ml-2" type="info">id:{{world.id}}</el-tag>
                 <!--                <h1 style="margin: 0px" class="title">{{ world.name }}</h1>-->
               </div>
               <div style="margin-top: 5px" >
@@ -93,7 +93,7 @@
           <el-table :data="storyList" stripe style="width: 100%">
             <el-table-column prop="title" label="故事" width="180" >
               <template #default="scope">
-                <router-link :to="{path:'/story/detail', query: {sid:scope.row.id,wid:scope.row.wid}}">{{ scope.row.name }}</router-link>
+                <router-link :to="{path:'/story/details', query: {sid:scope.row.id,wid:scope.row.wid}}">{{ scope.row.name }}</router-link>
               </template>
             </el-table-column>
             <el-table-column label="分类" width="180"  :show-overflow-tooltip="true">

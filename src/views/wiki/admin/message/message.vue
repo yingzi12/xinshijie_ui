@@ -107,7 +107,7 @@ const activeIndex = ref('1')
 //表格内容
 const item = {
   wname: '战国崛起',
-  etitle: '世界树',
+  etitle: '世界',
   title: 'No. 189, Grove St, Los Angeles',
   ename:'世界数',
   createName: 'Tom',

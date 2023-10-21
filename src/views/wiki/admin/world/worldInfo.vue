@@ -12,7 +12,7 @@
                   <div>
                     <el-badge :value="world.ranks" class="item">
                       <h1 style="margin: 2px">{{ world.name }}</h1>
-                    </el-badge>
+                    </el-badge><el-tag  class="ml-2" type="info">id:{{world.id}}</el-tag>
                   </div>
                   <div style="margin-top: 5px" >
                     <el-space wrap>

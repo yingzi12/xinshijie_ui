@@ -36,7 +36,7 @@
         </el-table-column>
         <el-table-column label="故事名" align="center" key="name" prop="name" :show-overflow-tooltip="true">
           <template #default="scope">
-            <router-link  :to="{path:'/story/detail', query: {sid:scope.row.id,sname:scope.row.name,wid:scope.row.wid,wname:scope.row.wname}}"><el-tag v-if="scope.row.source=='原创'">原创</el-tag>{{scope.row.name}}</router-link>
+            <router-link  :to="{path:'/story/details', query: {sid:scope.row.id,sname:scope.row.name,wid:scope.row.wid,wname:scope.row.wname}}"><el-tag v-if="scope.row.source=='原创'">原创</el-tag>{{scope.row.name}}</router-link>
           </template>
         </el-table-column>
         <el-table-column label="状态" align="center"  >
@@ -211,7 +211,7 @@ function handleAdd()  {
 }
 
 function handleSee(row){
-  router.push("/story/detail?wid="+row.wid+"&sid="+row.id);
+  router.push("/story/details?wid="+row.wid+"&sid="+row.id);
 }
 
 /** 查询元素 */

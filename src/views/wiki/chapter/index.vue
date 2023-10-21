@@ -3,10 +3,10 @@
     <div>
       <el-breadcrumb separator="/">
         <el-breadcrumb-item :to="{ path: '/world/index' }">首页</el-breadcrumb-item>
-        <el-breadcrumb-item><a href="/world/list">世界树</a></el-breadcrumb-item>
+        <el-breadcrumb-item><a href="/world/list">世界</a></el-breadcrumb-item>
         <el-breadcrumb-item :to="{ path: '/world/details', query: {wid:story.wid} }">{{story.wname}}</el-breadcrumb-item>
         <el-breadcrumb-item :to="{ path: '/story/list', query: {wid:story.wid} }">故事列表</el-breadcrumb-item>
-        <el-breadcrumb-item :to="{ path: '/story/detail', query: {wid:story.wid,wname:story.wname,sid:story.id,sname:story.name} }">{{ story.name }}</el-breadcrumb-item>
+        <el-breadcrumb-item :to="{ path: '/story/details', query: {wid:story.wid,wname:story.wname,sid:story.id,sname:story.name} }">{{ story.name }}</el-breadcrumb-item>
         <el-breadcrumb-item :to="{ path: '/chapter/list', query: {wid:story.wid,wname:story.wname,sid:story.id,sname:story.name} }">章节目录</el-breadcrumb-item>
         <el-breadcrumb-item>章节详情</el-breadcrumb-item>
       </el-breadcrumb>

@@ -126,11 +126,4 @@ function goBack() {
 <style scoped>
 
 
-.center {
-  display: flex;
-  justify-content: center;
-  align-items: center;
-}
-
-
 </style>

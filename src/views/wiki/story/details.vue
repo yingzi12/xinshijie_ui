@@ -5,9 +5,9 @@
       <div>
         <el-breadcrumb separator="/">
           <el-breadcrumb-item :to="{ path: '/world/index' }">首页</el-breadcrumb-item>
-          <el-breadcrumb-item><a href="/world/list">世界树</a></el-breadcrumb-item>
+          <el-breadcrumb-item><a href="/world/list">世界</a></el-breadcrumb-item>
           <el-breadcrumb-item :to="{ path: '/world/details', query: {wid:wid} }">{{story.wname}}</el-breadcrumb-item>
-          <el-breadcrumb-item :to="{ path: '/story/list', query: {wid:wid,wname:wname} }">故事列表</el-breadcrumb-item>
+          <el-breadcrumb-item :to="{ path: '/story/list', query: {wid:wid,wname:story.wname} }">故事列表</el-breadcrumb-item>
           <el-breadcrumb-item>详细</el-breadcrumb-item>
         </el-breadcrumb>
       </div>
@@ -206,6 +206,7 @@ const route = useRoute();
 
 const sid = ref(route.query.sid);
 const wid = ref(route.query.wid);
+const sname = ref(route.query.sname);
 
 //获取用户信息
 const userStore = useUserStore()
