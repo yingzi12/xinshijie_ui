@@ -104,7 +104,7 @@
 
 <script lang="ts" setup>
 import AdminHead from './worldHead'
-
+import { discussTypesMap,discussStatusMap,discussTypes,discussStatus } from "@/utils/constant";
 import { reactive, ref, toRefs} from 'vue'
 import {useRoute, useRouter} from "vue-router";
 import { Search } from '@element-plus/icons-vue'
@@ -119,37 +119,6 @@ const router = useRouter()
 
 const wname = ref(route.query.wname);
 const wid = ref(route.query.wid);
-const discussTypesMap = new Map([
-    [0, "全部"],
-  [1, "自由讨论"],
-  [2, "建议"],
-  [3, "内容错误"],
-  [4, "内容缺失"],
-  [5, "过多重复"],
-  [6, "内容不相关"],
-  [7, "其他"],
-
-]);
-const discussStatusMap = new Map([
-  [1, "待处理"],
-  [2, "已处理"],
-  [3, "关闭"],
-])
-const discussTypes = ref([
-  {id:1,name:"自由讨论"},
-  {id:2,name:"建议"},
-  {id:3,name:"内容错误"},
-  {id:4,name:"内容缺失"},
-  {id:5,name:"过多重复"},
-  {id:6,name:"内容不相关"},
-  {id:7,name:"其他"},
-]);
-const discussStatus =ref([
-      {id:1, name:"待处理"},
-    {id:2, name:"已处理"},
-{id:3, name:"关闭"},
-])
-
 
 //分页
 const dateRange = ref([]);

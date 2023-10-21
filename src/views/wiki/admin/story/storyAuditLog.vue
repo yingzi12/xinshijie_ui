@@ -30,7 +30,7 @@
         <el-table-column label="分卷" align="center" key="pname" prop="pname" :show-overflow-tooltip="true"/>
         <el-table-column label="状态" align="center"  >
           <template #default="scope">
-            <span>{{storyStatus.get(scope.row.status)}}</span>
+            <span>{{storyStatusMap.get(scope.row.status)}}</span>
           </template>
         </el-table-column>
         <el-table-column label="创建时间" align="center" prop="updateTime" width="160" :show-overflow-tooltip="true">
@@ -74,39 +74,25 @@
 <script lang="ts" setup>
 import { reactive, ref, toRefs} from 'vue'
 import {useRoute, useRouter} from "vue-router";
-import { Menu as IconMenu,CirclePlus, Message, Setting } from '@element-plus/icons-vue'
+import {storyStatusMap } from "@/utils/constant";
 import { listDraftChapterAdmin } from "@/api/admin/draftChapter";
+//搜索框
+import { Search } from '@element-plus/icons-vue'
+import StoryHead from "./storyHead.vue";
 const router = useRouter()
 
 // 接收url里的参数
 const route = useRoute();
-//console.log(route.query.wid,"参数");
-
 
 const sname = ref(route.query.sname);
 const sid = ref(route.query.sid);
 
-const storyStatus = new Map([
-  [1, "草稿"],
-  [2, "待审核"],
-  [3, "正常"],
-  [5, "审核不通过"],
-  [4, "删除"],
-  [6, "隐藏"],
-  [7, "锁定"],
-]);
 const activeIndex = ref('1')
 //弹出框
 const dialogFormVisible = ref(false)
 const formLabelWidth = '140px'
 
-//搜索框
-import { Search } from '@element-plus/icons-vue'
-import {ElMessage, FormInstance} from "element-plus";
-import StoryHead from "./storyHead.vue";
 const input3 = ref('')
-
-
 
 //分页
 const dateRange = ref([]);

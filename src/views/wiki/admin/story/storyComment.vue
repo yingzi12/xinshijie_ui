@@ -90,9 +90,6 @@ import StoryHead from "./storyHead.vue";
 
 // 接收url里的参数
 const route = useRoute();
-//console.log(route.query.sid,"参数");
-
-
 const sname = ref(route.query.sname);
 const sid = ref(route.query.sid);
 //个人消息

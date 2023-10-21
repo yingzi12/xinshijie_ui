@@ -189,13 +189,20 @@
                   </el-col>
                   <el-col :span="16">
                     <div>
+                      <div>
                       <a class="biaoti" :href='"/world/details?wid="+world.wid +"&wname="+world.wname' >
                          <span class="head-title">{{ world.wname }}
                           <el-tag v-if="world.source ==='原创'">原创</el-tag></span>
                       </a>
+                      </div>
+                      <div>
+                        <el-text class="mx-1" type="info" >
+                          {{ world.createName }}
+                        </el-text>
+                      </div>
                     </div>
-                    <p class="zuozhe">{{ world.createTime }}</p>
-                    <p class="zuozhe">{{ world.createName }}</p>
+<!--                    <p class="zuozhe">{{ world.createTime }}</p>-->
+<!--                    <p class="zuozhe">{{ world.createName }}</p>-->
                   </el-col>
                 </el-row>
                 <p class="shuoming" @click="handleSee(world.wid)">{{world.intro}}</p>

@@ -132,11 +132,10 @@ const disabled=ref(true)
 const username=ref('')
 //console.log("userStore name:"+(userStore.name==''))
 
-const dcid = ref(null);
+const dcid = ref(route.query.dcid);
 
 const did = ref(route.query.did);
 const wid = ref(route.query.wid);
-dcid.value = route.query.dcid;
 const sid = ref(route.query.sid);
 const source = ref(route.query.source);
 

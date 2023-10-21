@@ -191,7 +191,5 @@ getList(queryParams.value.pageNum);
 </script>
 
 <style >
-.pagination-container{
-  margin: 0px;
-}
+
 </style>

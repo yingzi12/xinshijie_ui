@@ -113,6 +113,7 @@ import { getStory } from "@/api/wiki/story";
 import { useRoute, useRouter } from "vue-router";
 import { ElMessage } from "element-plus";
 import useUserStore from '@/store/modules/user'
+import { discussTypesMap,discussStatusMap,discussTypes,discussStatus } from "@/utils/constant";
 
 // 接收url里的参数
 const route = useRoute();
@@ -129,8 +130,8 @@ const username=ref('')
 //console.log("userStore name:"+(userStore.name==''))
 const imgUrl = inject("$imgUrl")
 
-const wname = ref(undefined);
-const sname = ref(undefined);
+const wname = ref(route.query.wname);
+const sname = ref(route.query.sname);
 const source = ref(route.query.source);
 const eid = ref(route.query.eid);
 const wid = ref(route.query.wid);
@@ -148,21 +149,6 @@ if(userStore.name==''){
   disabled.value=false;
 }
 
-const discussTypesMap = new Map([
-  [1, "自由讨论"],
-  [2, "建议"],
-  [3, "内容错误"],
-  [4, "内容缺失"],
-  [5, "过多重复"],
-  [6, "内容不相关"],
-  [7, "其他"],
-
-]);
-const discussStatusMap = new Map([
-  [1, "待处理"],
-  [2, "已处理"],
-  [3, "关闭"],
-])
 //分页
 const dateRange = ref([]);
 //分类选项

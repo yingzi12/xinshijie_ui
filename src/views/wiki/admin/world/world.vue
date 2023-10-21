@@ -76,7 +76,7 @@
               <el-table-column label="简介" align="center" key="intro" prop="intro"  :show-overflow-tooltip="true" />
               <el-table-column label="状态" align="center"  width="80" >
                 <template #default="scope">
-                  <span>{{worldStatus.get(scope.row.status)}}</span>
+                  <span>{{worldStatusMap.get(scope.row.status)}}</span>
                 </template>
               </el-table-column>
               <el-table-column label="操作" align="center" width="150" class-name="small-padding fixed-width">
@@ -134,6 +134,8 @@ import { listMangeWorld as listWorld,delWorld,issue } from "@/api/admin/world";
 import { useRouter} from "vue-router";
 import {ElMessage, ElMessageBox} from "element-plus";
 import {Search} from "@element-plus/icons-vue";
+import { worldStatusMap,worldTypesMap } from "@/utils/constant";
+
 const fits = ['世界', '粉丝', '关注']
 const activeIndex = ref('1')
 const baseUrl = inject("$baseUrl")
@@ -148,21 +150,8 @@ class World {
   intro: string
   createTime:string
 }
-const worldStatus = new Map([
-  [5, "正常"],
-  [1, "待发布"],
-  [2, "锁定"],
-  [3, "隐藏"],
-  [4, "删除"]
-]);
-const worldTypesMap=new Map([
-  [6,"科学"],
-  [1,"武侠"],
-  [2,"仙侠"],
-  [3,"魔幻"],
-  [4,"奇幻"],
-  [5,"其他"]
-])
+
+
 const loading = ref(true);
 const worldList = ref([]);
 const total = ref(0);
@@ -186,7 +175,7 @@ const single = ref(true);
 const multiple = ref(true);
 const search = ref('')
 function handleUpdate (row)  {
-  router.push("/admin/worldEdit?wid="+row.id);
+  router.push("/admin/worldEdit?wid="+row.id+"&wname="+row.name);
 }
 function handleAdd ()  {
   router.push("/world/add");
@@ -243,45 +232,12 @@ getList(queryParams.value.pageNum);
 </script>
 
 <style scoped>
-.layout-container-demo .el-aside {
-  color: var(--el-text-color-primary);
-  background: var(--el-color-primary-light-8);
-}
-.layout-container-demo .el-menu {
-  border-right: none;
-}
-.layout-container-demo .el-main {
-  padding: 0;
-}
-.layout-container-demo .toolbar {
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-  height: 100%;
-  right: 20px;
-}
+
 .center {
   display: flex;
   justify-content: center;
   align-items: center;
 }
 
-.demo-count .block {
-  padding: 0px 0;
-  text-align: center;
-  border-right: solid 1px var(--el-border-color);
-  display: inline-block;
-  width: 33%;
-  box-sizing: border-box;
-  vertical-align: top;
-}
-.demo-count .block:last-child {
-  border-right: none;
-}
-.demo-count .demonstration {
-  display: block;
-  color: var(--el-text-color-secondary);
-  font-size: 9px;
-  margin-bottom: 0px;
-}
+
 </style>

@@ -50,7 +50,7 @@
               <el-table-column prop="wname" label="世界" width="140" />
               <el-table-column label="审核" align="center"  >
                 <template #default="scope">
-                  <span>{{elementStatus.get(scope.row.status)}}</span>
+                  <span>{{elementStatusMap.get(scope.row.status)}}</span>
                 </template>
               </el-table-column>
               <el-table-column label="审核说明" align="center" key="auditContent" prop="auditContent" :show-overflow-tooltip="true"/>
@@ -102,17 +102,10 @@
 import { reactive, ref, toRefs} from 'vue'
 import {useRoute, useRouter} from "vue-router";
 import { listDraft } from "@/api/admin/draftElement";
-const router = useRouter()
-const elementStatus = new Map([
-  [0, "草稿"],
-  [1, "发布"],
-  [3, "不通过"],
-  [2, "通过"],
-  [4, "删除"],
-  [5, "超时发布自动拒绝"],
-  [6, "超时审核自动通过"],
+import { elementStatusMap } from "@/utils/constant";
 
-]);
+const router = useRouter()
+
 // 接收url里的参数
 const route = useRoute();
 //console.log(route.query.wid,"参数");
@@ -186,45 +179,12 @@ getList(queryParams.value.pageNum);
 </script>
 
 <style scoped>
-.layout-container-demo .el-aside {
-  color: var(--el-text-color-primary);
-  background: var(--el-color-primary-light-8);
-}
-.layout-container-demo .el-menu {
-  border-right: none;
-}
-.layout-container-demo .el-main {
-  padding: 0;
-}
-.layout-container-demo .toolbar {
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-  height: 100%;
-  right: 20px;
-}
+
 .center {
   display: flex;
   justify-content: center;
   align-items: center;
 }
 
-.demo-count .block {
-  padding: 0px 0;
-  text-align: center;
-  border-right: solid 1px var(--el-border-color);
-  display: inline-block;
-  width: 33%;
-  box-sizing: border-box;
-  vertical-align: top;
-}
-.demo-count .block:last-child {
-  border-right: none;
-}
-.demo-count .demonstration {
-  display: block;
-  color: var(--el-text-color-secondary);
-  font-size: 9px;
-  margin-bottom: 0px;
-}
+
 </style>

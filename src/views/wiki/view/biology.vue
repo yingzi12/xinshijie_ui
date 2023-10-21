@@ -62,24 +62,7 @@ const element = defineProps<WorldElement>()
 </script>
 
 <style scoped>
-.center2 {
-  top: 50%;
-  width: 100%;
-  text-align: center;
-  font-size: 18px;
-}
-.center {
-  top: 50%;
-  width: 100%;
-  text-align: center;
-  font-size: 18px;
-}
-.lessen {
-  color: #a6a6a6;
-  font: 12px/20px PingFangSC-Regular,-apple-system,Simsun;
-  height: 20px;
-  overflow: hidden;
-}
+
 .smallTitle{
   background: inherit;
   background-color: rgba(249, 249, 249, 1);
@@ -97,11 +80,5 @@ const element = defineProps<WorldElement>()
   font-weight: 650;
   font-size: 18px;
 }
-.title{
-  font-family: 'PingFangSC-Semibold', 'PingFang SC Semibold', 'PingFang SC', sans-serif;
-  font-weight: 650;
-  /* font-style: normal; */
-  font-size: 24px;
-  text-align: left;
-}
+
 </style>

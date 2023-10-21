@@ -90,11 +90,13 @@
 import {  reactive, ref, toRefs } from 'vue';
 import { listStory } from '@/api/wiki/story';
 import { useRoute, useRouter } from 'vue-router';
-import { storyTypesMap,storyTypes } from '@/utils/constants'; // 根据你的项目路径调整引入路径
+import { storyTypesMap,storyTypes } from '@/utils/constant'; // 根据你的项目路径调整引入路径
 import { isNotEmpty } from '@/utils/tools'; // 根据你的项目路径调整引入路径
 
 const router = useRouter()
 const route = useRoute()
+
+
 
 class World {
   id: number
@@ -108,8 +110,8 @@ const wid = route.query.wid; // 获取查询参数param1的值
 const wname = route.query.wname; // 获取查询参数param2的值
 
 
-//
-// const wid = ref(route.query.wid);
+// const wid = ref(null);
+// wid.value = route.query.wid;
 // const wname = ref(null);
 // wname.value = route.query.wname;
 const wtypes=ref(null);

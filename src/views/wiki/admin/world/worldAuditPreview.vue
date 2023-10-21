@@ -91,18 +91,7 @@ getDraft(wid.value,deid.value);
 </script>
 
 <style scoped>
-.center2 {
-  top: 50%;
-  width: 100%;
-  text-align: center;
-  font-size: 18px;
-}
-.my-label {
-  background: var(--el-color-success-light-9);
-}
-.my-content {
-  background: var(--el-color-danger-light-9);
-}
+
 .center {
   top: 50%;
   width: 100%;

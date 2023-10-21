@@ -84,7 +84,7 @@ import { listComment} from "@/api/wiki/comment";
 import {ElMessage} from "element-plus";
 import useUserStore from '@/store/modules/user'
 import {useRoute} from "vue-router";
-import {  getWorld } from "@/api/wiki/world";
+import { getWorld } from "@/api/wiki/world";
 
 
 

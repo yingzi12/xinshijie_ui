@@ -74,7 +74,7 @@
         </el-table-column>
         <el-table-column label="世界" align="center" key="name" prop="name"  :show-overflow-tooltip="true">
           <template #default="scope">
-            <router-link  :to="{path:'/admin/worldInfo', query: {wid:scope.row.wid,wname:scope.row.wname}}">{{scope.row.wname}}</router-link>
+            <router-link  :to="{path:'/world/details', query: {wid:scope.row.wid,wname:scope.row.wname}}">{{scope.row.wname}}</router-link>
           </template>
         </el-table-column>
         <el-table-column label="等级" align="center" key="ranks" prop="ranks"   width="50"/>
@@ -151,7 +151,6 @@ const baseUrl = inject("$baseUrl")
 
 const router = useRouter()
 
-
 class Story {
   id: number
   name: string
@@ -183,7 +182,7 @@ const single = ref(true);
 const multiple = ref(true);
 const search = ref('')
 function handleUpdate (row)  {
-  router.push("/admin/storyEdit?sid="+row.id);
+  router.push("/admin/storyEdit?sid="+row.id+"&sname="+row.name+"&wid="+row.wid+"&wname="+row.wname);
 }
 // function handleAdd ()  {
 //   router.push("/story/add");

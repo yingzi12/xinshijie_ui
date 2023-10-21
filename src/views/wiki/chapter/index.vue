@@ -14,8 +14,22 @@
     <div >
       <!--  元素名称-->
       <div >
-        <h1 class="title">{{ chapter.title }}</h1>
-        <div class="lessen"><span>更新时间:</span><el-tag size="small">{{chapter.updateTime}}</el-tag></div>
+        <el-row>
+          <el-col :span="12">
+            <div class="grid-content ep-bg-purple" />
+            <h1 class="title">{{ chapter.title }}</h1>
+            <div class="lessen"><span>更新时间:</span><el-tag size="small">{{chapter.updateTime}}</el-tag></div>
+          </el-col>
+          <el-col :span="12">
+            <div class="grid-content ep-bg-purple-light" >
+              <div class="align-right">
+<!--                <el-text class="mx-1" type="primary">章节内容错误</el-text>-->
+              </div>
+            </div>
+
+          </el-col>
+        </el-row>
+
       </div>
       <el-divider />
       <div   style="margin-left: 25px">
@@ -36,11 +50,12 @@
       <a>
       <el-text style="margin: 20px" class="mx-1" type="primary" @click="handleReturn()">返回</el-text>
       </a>
-<!--      <el-button @click="handleReturn()" text type="success" style="width: 100px;">返回</el-button>-->
       <a  :href='"/admin/storyChapterEdit?sid="+ sid+"&scid=" +scid+"&sname=" +chapter.sname+"&wname=" +chapter.wname+"&wid=" +wid'>
         <el-text style="margin: 20px" class="mx-1" type="primary">编辑</el-text>
       </a>
-<!--      <el-button @click="handleEdit()" text type="success" style="width: 100px;">编辑</el-button>-->
+<!--      <a  :href='"/story/comment?sid="+story.value.id+"&wid="+story.value.wid+"&source="+2'>-->
+<!--        <el-text style="margin: 20px" class="mx-1" type="primary">评论</el-text>-->
+<!--      </a>-->
     </div>
   </div>
 </template>
@@ -84,7 +99,6 @@ const wid =ref(undefined);
 const sname=ref("")
 function handStory() {
   getStory(sid.value).then(response => {
-    //console.log("查询世界详细:"+JSON.stringify(response))
     story.value = response.data
     sname.value = story.value.name
     wname.value = story.value.wname
@@ -97,12 +111,6 @@ getInfo();
 </script>
 
 <style scoped>
-.center2 {
-  top: 50%;
-  width: 100%;
-  text-align: center;
-  font-size: 18px;
-}
 .center {
   top: 50%;
   width: 100%;
@@ -115,17 +123,9 @@ getInfo();
   height: 20px;
   overflow: hidden;
 }
-.smallTitle{
-  background: inherit;
-  background-color: rgba(249, 249, 249, 1);
-  box-sizing: border-box;
-  border-width: 1px;
-  border-style: solid;
-  border-color: rgba(233, 233, 233, 1);
-  border-radius: 0px;
-  -moz-box-shadow: none;
-  -webkit-box-shadow: none;
-  box-shadow: none;
+.align-right {
+  text-align: right;
+  margin: 10px;
 }
 .smallTitle h3{
   font-family: 'PingFangSC-Semibold', 'PingFang SC Semibold', 'PingFang SC', sans-serif;

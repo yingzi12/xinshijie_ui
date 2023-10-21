@@ -40,7 +40,7 @@
         <el-table-column label="分卷" align="center" key="pname" prop="pname" :show-overflow-tooltip="true"/>
         <el-table-column label="状态" align="center"  >
           <template #default="scope">
-            <span>{{elementStatus.get(scope.row.status)}}</span>
+            <span>{{elementStatusMap.get(scope.row.status)}}</span>
           </template>
         </el-table-column>
         <el-table-column label="创建时间" align="center" prop="updateTime" width="160" :show-overflow-tooltip="true">
@@ -83,9 +83,11 @@
 
 <script lang="ts" setup>
 import {  reactive, ref, toRefs} from 'vue'
-import {  listDraftChapter,delDraftChapter,issue } from "@/api/admin/draftChapter";
+import {  listDraftChapter } from "@/api/admin/draftChapter";
 import {useRoute, useRouter} from "vue-router";
-import { Menu as IconMenu, Search,Message, Setting } from '@element-plus/icons-vue'
+import {  Search } from '@element-plus/icons-vue'
+import { elementStatusMap } from "@/utils/constant";
+
 const fits = ['世界', '粉丝', '关注']
 const activeIndex = ref('1')
 
@@ -101,13 +103,6 @@ class World {
   intro: string
   createTime:string
 }
-const elementStatus = new Map([
-  [7, "草稿"],
-  [1, "代审"],
-  [3, "审核不通过"],
-  [2, "通过审核"],
-  [4, "删除"]
-]);
 
 const loading = ref(true);
 const chapterList = ref([]);
@@ -149,26 +144,7 @@ getList(queryParams.value.pageNum);
 </script>
 
 <style scoped>
-.layout-container-demo .el-aside {
-  color: var(--el-text-color-primary);
-  background: var(--el-color-primary-light-8);
-}
 
-.layout-container-demo .el-menu {
-  border-right: none;
-}
-
-.layout-container-demo .el-main {
-  padding: 0;
-}
-
-.layout-container-demo .toolbar {
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-  height: 100%;
-  right: 20px;
-}
 
 .center {
   display: flex;
@@ -176,24 +152,5 @@ getList(queryParams.value.pageNum);
   align-items: center;
 }
 
-.demo-count .block {
-  padding: 0px 0;
-  text-align: center;
-  border-right: solid 1px var(--el-border-color);
-  display: inline-block;
-  width: 33%;
-  box-sizing: border-box;
-  vertical-align: top;
-}
 
-.demo-count .block:last-child {
-  border-right: none;
-}
-
-.demo-count .demonstration {
-  display: block;
-  color: var(--el-text-color-secondary);
-  font-size: 9px;
-  margin-bottom: 0px;
-}
 </style>

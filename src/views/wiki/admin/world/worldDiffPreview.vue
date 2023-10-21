@@ -12,7 +12,7 @@
     </div>
     <!--  世界名称-->
     <div >
-        <h1>{{ worldElement.title }}<el-tag size="small">{{elementStatus.get(worldElement.status)}}</el-tag></h1>
+        <h1>{{ worldElement.title }}<el-tag size="small">{{elementStatusMap.get(worldElement.status)}}</el-tag></h1>
       <span>更新时间:</span><el-tag>{{worldElement.updateTime}}</el-tag>
         <span>分类:</span> <el-tag v-for="category in worldElement.categoryList">
         {{category.label}}
@@ -51,6 +51,7 @@ import { ref, shallowRef} from 'vue'
 import {getDraftDetailsAdmin ,getDiff} from "@/api/admin/draftElement";
 //接受参数
 import { useRoute ,useRouter}  from "vue-router";  // 引用vue-router
+import { elementStatusMap } from "@/utils/constant";
 
 import biologly from '../../diffpreview/biology.vue'
 import goods from '../../diffpreview/goods.vue'
@@ -85,20 +86,11 @@ const worldElement=ref({})
 //世界信息
 
 
-const wname = ref(null);
+const wname = ref(route.query.wname);
 
 const deid = ref(route.query.deid);
 const wid = ref(route.query.wid);
-wname.value = route.query.wname;
-//console.log("元素deid="+deid.value);
-//console.log("世界id="+wid.value);
-const elementStatus = new Map([
-  [0, "草稿"],
-  [1, "待审核"],
-  [3, "审核不通过"],
-  [2, "通过审核"],
-  [4, "删除"]
-]);
+
 const dialogTableVisible = ref(false)
 
 /** 查询草稿详细 */
@@ -134,18 +126,7 @@ const getHtml = function(desc){
 </script>
 
 <style scoped>
-.center2 {
-  top: 50%;
-  width: 100%;
-  text-align: center;
-  font-size: 18px;
-}
-.my-label {
-  background: var(--el-color-success-light-9);
-}
-.my-content {
-  background: var(--el-color-danger-light-9);
-}
+
 .center {
   top: 50%;
   width: 100%;

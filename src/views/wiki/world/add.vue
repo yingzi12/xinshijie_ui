@@ -74,6 +74,8 @@ import { Plus } from '@element-plus/icons-vue'
 import { addWorld } from "@/api/admin/world";
 import { useRouter} from "vue-router";
 import {  inject} from "vue";
+import {worldTypes } from "@/utils/constant";
+
 const baseUrl = inject("$baseUrl")
 const imgUrl = inject("$imgUrl")
 
@@ -116,8 +118,6 @@ const data = reactive({
 
 const {  ruleForm, rules } = toRefs(data);
 
-const worldTypes=reactive([{id:6,name:"科学"},{id:1,name:"武侠"},{id:2,name:"仙侠"},{id:3,name:"魔幻"},{id:4,name:"奇幻"},{id:5,name:"其他"}])
-const worldSource=reactive([{id:1,name:"原创"},{id:2,name:"电影"},{id:3,name:"小说"},{id:4,name:"游戏"},{id:5,name:"动漫"},{id:5,name:"电视剧"},{id:6,name:"其他"}])
 
 const submitForm = async (formEl: FormInstance | undefined) => {
   if (!formEl) return

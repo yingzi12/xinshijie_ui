@@ -79,9 +79,7 @@ const router = useRouter()
 // 接收url里的参数
 const route = useRoute();
 
-const wid = ref();
- wid.value =route.query.wid;
-
+const wid = ref(route.query.wid);
 const wname = ref(route.query.wname);
 //console.log("世界id="+wid.value);
 
@@ -113,7 +111,6 @@ const data = reactive({
     userName: [{ required: true, message: "用户名称不能为空", trigger: "blur" }, { min: 2, max: 20, message: "用户名称长度必须介于 2 和 20 之间", trigger: "blur" }],
   }
 });
-const worldTypes=reactive([{id:6,name:"科学"},{id:1,name:"武侠"},{id:2,name:"仙侠"},{id:3,name:"魔幻"},{id:4,name:"奇幻"},{id:5,name:"其他"}])
 const { queryParams, form, rules } = toRefs(data);
 const dateRange = ref([]);
 const ids = ref([]);
@@ -198,45 +195,12 @@ getList(queryParams.value.pageNum);
 </script>
 
 <style scoped>
-.layout-container-demo .el-aside {
-  color: var(--el-text-color-primary);
-  background: var(--el-color-primary-light-8);
-}
-.layout-container-demo .el-menu {
-  border-right: none;
-}
-.layout-container-demo .el-main {
-  padding: 0;
-}
-.layout-container-demo .toolbar {
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-  height: 100%;
-  right: 20px;
-}
+
 .center {
   display: flex;
   justify-content: center;
   align-items: center;
 }
 
-.demo-count .block {
-  padding: 0px 0;
-  text-align: center;
-  border-right: solid 1px var(--el-border-color);
-  display: inline-block;
-  width: 33%;
-  box-sizing: border-box;
-  vertical-align: top;
-}
-.demo-count .block:last-child {
-  border-right: none;
-}
-.demo-count .demonstration {
-  display: block;
-  color: var(--el-text-color-secondary);
-  font-size: 9px;
-  margin-bottom: 0px;
-}
+
 </style>

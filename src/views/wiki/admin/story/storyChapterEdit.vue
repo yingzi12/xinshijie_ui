@@ -58,13 +58,10 @@ const route = useRoute();
 const router = useRouter()
 
 const sid = ref(route.query.sid);
-const scid = ref(null);
-scid.value = route.query.scid;
-const scname = ref('');
+const scid = ref(route.query.scid);
+const scname = ref(route.query.scname);
 const reelName = ref(route.query.scname);
-scname.value = <string>route.query.scname;
 const sname = ref(route.query.sname);
-//console.log("世界id="+wid.value);
 
 
 class Story {

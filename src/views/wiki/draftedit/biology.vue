@@ -101,12 +101,7 @@ getElement(wid.value,eid.value);
 </script>
 
 <style scoped>
-.center2 {
-  top: 50%;
-  width: 100%;
-  text-align: center;
-  font-size: 18px;
-}
+
 .center {
   top: 50%;
   width: 100%;

@@ -267,7 +267,5 @@ handWorld();
 </script>
 
 <style>
-.pagination-container .el-pagination{
-  position: unset;
-}
+
 </style>
