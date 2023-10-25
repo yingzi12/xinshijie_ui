@@ -125,6 +125,12 @@ export const constantRoutes = [
     hidden: true,
     children: [
       {
+        path: '',
+        component: () => import('@/views/wiki/story/index'),
+        name: 'storyPage',
+        meta: { title: '个人中心', icon: 'wiki' }
+      },
+      {
         path: 'index',
         component: () => import('@/views/wiki/story/index'),
         name: 'storyIndex',
@@ -161,6 +167,12 @@ export const constantRoutes = [
     component: LayoutWiki,
     hidden: true,
     children: [
+      {
+        path: '',
+        component: () => import('@/views/wiki/world/index'),
+        name: 'WorldPage',
+        meta: { title: '世界列表', icon: 'world' }
+      },
       {
         path: 'index',
         component: () => import('@/views/wiki/world/index'),
