@@ -90,8 +90,6 @@ const editorConfig ={
   },
 }
 
-
-
 //基础信息
 const element = reactive<InstanceType<Element>>({
   title:'',

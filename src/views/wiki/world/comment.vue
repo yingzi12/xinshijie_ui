@@ -3,7 +3,7 @@
     <div>
       <el-breadcrumb separator="/">
         <el-breadcrumb-item :to="{ path: '/' }">首页</el-breadcrumb-item>
-        <el-breadcrumb-item :to="{ path: '/world/list' }">世界树</el-breadcrumb-item>
+        <el-breadcrumb-item :to="{ path: '/world/list' }">世界</el-breadcrumb-item>
         <el-breadcrumb-item :to="{ path: '/world/details', query: {wid:wid} }">{{world.name}}</el-breadcrumb-item>
         <el-breadcrumb-item>评论列表</el-breadcrumb-item>
       </el-breadcrumb>
@@ -84,7 +84,7 @@ import { listComment} from "@/api/wiki/comment";
 import {ElMessage} from "element-plus";
 import useUserStore from '@/store/modules/user'
 import {useRoute} from "vue-router";
-import {  getWorld } from "@/api/wiki/world";
+import { getWorld } from "@/api/wiki/world";
 
 
 

@@ -192,12 +192,7 @@ defineExpose({  element,basic})
 </script>
 
 <style scoped>
-.center2 {
-  top: 50%;
-  width: 100%;
-  text-align: center;
-  font-size: 18px;
-}
+
 .center {
   display: flex;
   justify-content: center;

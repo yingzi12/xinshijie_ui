@@ -12,11 +12,11 @@
                   <div>
                     <el-badge :value="world.ranks" class="item">
                       <h1 style="margin: 2px">{{ world.name }}</h1>
-                    </el-badge>
+                    </el-badge><el-tag  class="ml-2" type="info">id:{{world.id}}</el-tag>
                   </div>
                   <div style="margin-top: 5px" >
                     <el-space wrap>
-                      <el-tag size="small" type="success">{{ worldStatus.get(world.status) }}</el-tag>
+                      <el-tag size="small" type="success">{{ worldStatusMap.get(world.status) }}</el-tag>
                       <el-tag size="small" type="success">{{ world.typeName }}</el-tag>
                       <div v-if="world.tags != null " v-for="tag in world.tags.split(';')" :key="i">
                         <el-tag size="small" type="success">{{tag}}</el-tag>
@@ -81,17 +81,12 @@ import AdminHead from './worldHead'
 import {  getWorld } from "@/api/admin/world";
 //接受参数
 import { useRoute,useRouter }  from "vue-router";  // 引用vue-router
+import { worldStatusMap } from "@/utils/constant";
+
 const router = useRouter()
 // 接收url里的参数
 const route = useRoute();
-//console.log(route.query.id,"参数");
-const worldStatus = new Map([
-  [1, "待发布"],
-  [2, "锁定"],
-  [3, "隐藏"],
-  [4, "删除"],
-      [5, "正常"]
-]);
+
 //世界信息
 const world=ref({})
 const wid = ref(route.query.wid);
@@ -106,7 +101,7 @@ const activeIndex = ref('1')
 const fits = ['世界', '粉丝', '关注']
 //编辑世界
 function handleEdit(){
-  router.push("/admin/worldEdit?wid="+world.value.id);
+  router.push("/admin/worldEdit?wid="+world.value.id+"&wname="+world.value.name);
 }
 /** 查询世界详细 */
 function handleWorld(id:number) {
@@ -126,45 +121,12 @@ handleWorld(world.value.id);
 </script>
 
 <style scoped>
-.layout-container-demo .el-aside {
-  color: var(--el-text-color-primary);
-  background: var(--el-color-primary-light-8);
-}
-.layout-container-demo .el-menu {
-  border-right: none;
-}
-.layout-container-demo .el-main {
-  padding: 0;
-}
-.layout-container-demo .toolbar {
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-  height: 100%;
-  right: 20px;
-}
+
 .center {
   display: flex;
   justify-content: center;
   align-items: center;
 }
 
-.demo-count .block {
-  padding: 0px 0;
-  text-align: center;
-  border-right: solid 1px var(--el-border-color);
-  display: inline-block;
-  width: 33%;
-  box-sizing: border-box;
-  vertical-align: top;
-}
-.demo-count .block:last-child {
-  border-right: none;
-}
-.demo-count .demonstration {
-  display: block;
-  color: var(--el-text-color-secondary);
-  font-size: 9px;
-  margin-bottom: 0px;
-}
+
 </style>

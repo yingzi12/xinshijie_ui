@@ -82,16 +82,17 @@ import { useRoute,useRouter }  from "vue-router";  // 引用vue-router
 import {  updateWorld,getWorld } from "@/api/admin/world";
 import {ElMessage, FormInstance, UploadProps} from "element-plus";
 import AdminHead from "./worldHead.vue";
+import {worldTypes } from "@/utils/constant";
 
 
 const router = useRouter()
 // 接收url里的参数
 const route = useRoute();
 
-
 //世界信息
 const world=ref({})
 const wid = ref(route.query.wid);
+const wname = ref(route.query.wname);
 world.value.id = wid.value
 //console.log("世界id="+world.value.id);
 const baseUrl = inject("$baseUrl")
@@ -103,15 +104,7 @@ const imageUrlPath = ref('')
 const formSize = ref('default')
 const ruleFormRef = ref<FormInstance>()
 const activeIndex = ref('1')
-const worldTypes=reactive([{id:6,name:"科学"},{id:1,name:"武侠"},{id:2,name:"仙侠"},{id:3,name:"魔幻"},{id:4,name:"奇幻"},{id:5,name:"其他"}])
-const worldTypesMap=new Map([
-  [6,"科学"],
-  [1,"武侠"],
-  [2,"仙侠"],
-  [3,"魔幻"],
-  [4,"奇幻"],
-  [5,"其他"],
-])
+
 const data = reactive({
   form: {
   },
@@ -145,7 +138,6 @@ const {  form, rules } = toRefs(data);
 /** 查询世界详细 */
 function handleWorld(id:number) {
   getWorld(id).then(response => {
-    //console.log("查询世界详细:"+JSON.stringify(response))
     form.value = response.data;
     form.value.checkList=form.value.source.split(';')
     handleSurce();
@@ -176,8 +168,6 @@ const submitForm = async (formEl: FormInstance | undefined) => {
 const reset = () => {
   router.push("/admin/worldInfo?wid="+wid.value);
 }
-
-
 
 const handleAvatarSuccess: UploadProps['onSuccess'] = (
     response,
@@ -218,47 +208,14 @@ handleWorld(wid.value);
 </script>
 
 <style scoped>
-.layout-container-demo .el-aside {
-  color: var(--el-text-color-primary);
-  background: var(--el-color-primary-light-8);
-}
-.layout-container-demo .el-menu {
-  border-right: none;
-}
-.layout-container-demo .el-main {
-  padding: 0;
-}
-.layout-container-demo .toolbar {
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-  height: 100%;
-  right: 20px;
-}
+
 .center {
   display: flex;
   justify-content: center;
   align-items: center;
 }
 
-.demo-count .block {
-  padding: 0px 0;
-  text-align: center;
-  border-right: solid 1px var(--el-border-color);
-  display: inline-block;
-  width: 33%;
-  box-sizing: border-box;
-  vertical-align: top;
-}
-.demo-count .block:last-child {
-  border-right: none;
-}
-.demo-count .demonstration {
-  display: block;
-  color: var(--el-text-color-secondary);
-  font-size: 9px;
-  margin-bottom: 0px;
-}
+
 .avatar-uploader .avatar {
   width: 178px;
   height: 178px;

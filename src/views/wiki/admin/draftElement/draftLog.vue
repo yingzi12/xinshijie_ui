@@ -46,7 +46,7 @@
               </el-table-column>
               <el-table-column label="状态" align="center"  :show-overflow-tooltip="true" >
                 <template #default="scope">
-                  <span>{{elementStatus.get(scope.row.status)}}</span>
+                  <span>{{elementStatusMap.get(scope.row.status)}}</span>
                 </template>
               </el-table-column>
               <el-table-column label="简介" align="center" key="intro" prop="intro" :show-overflow-tooltip="true"/>
@@ -83,27 +83,18 @@
 </template>
 
 <script lang="ts" setup>
-import {  reactive, ref, toRefs} from 'vue'
-import {  listDraft } from "@/api/admin/draftElement";
-import {useRoute, useRouter} from "vue-router";
-import { Menu as IconMenu, Message, Setting ,Search} from '@element-plus/icons-vue'
+import { reactive, ref, toRefs} from 'vue'
+import { listDraft } from "@/api/admin/draftElement";
+import { useRoute, useRouter} from "vue-router";
+import { Search} from '@element-plus/icons-vue'
+import { elementStatusMap } from "@/utils/constant";
 
 const fits = ['世界', '粉丝', '关注']
 const activeIndex = ref('1')
-const elementStatus = new Map([
-  [7, "草稿"],
-  [1, "待审核"],
-  [3, "不通过"],
-  [2, "通过"],
-  [4, "删除"]
-]);
+
 // 接收url里的参数
 const route = useRoute();
 const router = useRouter()
-//
-// const wid = ref(route.query.wid);
-// //console.log("世界id="+wid.value);
-
 
 class World {
   id: number
@@ -162,26 +153,7 @@ const dialogFormVisible = ref(false)
 </script>
 
 <style scoped>
-.layout-container-demo .el-aside {
-  color: var(--el-text-color-primary);
-  background: var(--el-color-primary-light-8);
-}
 
-.layout-container-demo .el-menu {
-  border-right: none;
-}
-
-.layout-container-demo .el-main {
-  padding: 0;
-}
-
-.layout-container-demo .toolbar {
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-  height: 100%;
-  right: 20px;
-}
 
 .center {
   display: flex;
@@ -189,24 +161,5 @@ const dialogFormVisible = ref(false)
   align-items: center;
 }
 
-.demo-count .block {
-  padding: 0px 0;
-  text-align: center;
-  border-right: solid 1px var(--el-border-color);
-  display: inline-block;
-  width: 33%;
-  box-sizing: border-box;
-  vertical-align: top;
-}
 
-.demo-count .block:last-child {
-  border-right: none;
-}
-
-.demo-count .demonstration {
-  display: block;
-  color: var(--el-text-color-secondary);
-  font-size: 9px;
-  margin-bottom: 0px;
-}
 </style>

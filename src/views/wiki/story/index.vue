@@ -1,4 +1,7 @@
 <template>
+  <div style="margin: 20px">
+    <a href=""></a>
+  </div>
   <!--  轮播图-->
   <div style="margin-bottom: 10px">
     <el-carousel :interval="5000" arrow="always">
@@ -8,32 +11,19 @@
       </el-carousel-item>
     </el-carousel>
   </div>
-  <!--  原创推荐-->
+  <!--  广告-->
   <div style="margin-bottom: 10px">
-    <div style="margin:10px;margin-top:15px;">
-      <el-row :gutter="24">
-        <el-col :span="16">
-          <el-button round>原创推荐</el-button>
-          <el-button type="primary" round @click="handleList">原创精品</el-button>
-          <el-button type="success"  round @click="handleList">原创最新</el-button>
-        </el-col>
-        <el-col :span="8">
-          <el-button type="success" round style="float:right;" @click="handleList">更多</el-button>
-        </el-col>
-      </el-row>
-    </div>
-
     <el-row :gutter="20">
       <el-col
-          v-for="(world, index) in worldRedact"
-          :key="world"
-          :span="4"
+          v-for="(story, index) in storyEditList"
+          :key="story"
+          :span="6"
       >
         <el-card class="dddd" :body-style="{ padding: '0px',width:'100%' }">
-          <el-image style="width:100%; height: 100px" :src="imgUrl+world.imgUrl" fit="fill" @click="handleSee(world.id)"/>
+          <el-image style="width:100%; height: 100px" :src="imgUrl+story.imgUrl" fit="fill" @click="handleSee(story.wid)"/>
           <div style="padding: 1px;margin: 0px;text-align: center">
-            <p class="biaoti" style="font-size:16px;margin: 0px" @click="handleSee(world.id)"><span style="font-family:'PingFangSC-Semibold', 'PingFang SC Semibold', 'PingFang SC', sans-serif;font-weight:650;" >{{ world.name }}<el-tag v-if="world.source=='原创'">原创</el-tag></span></p>
-            <p class="shuoming" style="font-size:14px;margin: 0px;"><span style="font-family:'PingFangSC-Regular', 'PingFang SC', sans-serif;font-weight:400;color:#999999;font-size: x-small;">{{ world.intro }}</span></p>
+            <a class="biaoti" style="font-size:16px;margin: 0px" :href='"/story/details?wid="+story.wid +"&wname="+story.wname+"&sid="+story.id+"&sname="+story.sname'><span style="font-family:'PingFangSC-Semibold', 'PingFang SC Semibold', 'PingFang SC', sans-serif;font-weight:650;" >{{ story.sname }}<el-tag v-if="story.source=='原创'">原创</el-tag></span></a>
+            <p class="shuoming" style="font-size:14px;margin: 0px;"><span style="font-family:'PingFangSC-Regular', 'PingFang SC', sans-serif;font-weight:400;color:#999999;font-size: x-small;">{{ story.intro }}</span></p>
           </div>
         </el-card>
       </el-col>
@@ -49,25 +39,65 @@
           <el-button type="success"  round @click="handleList">最新</el-button>
         </el-col>
         <el-col :span="8">
-          <el-button type="success" round style="float:right;" @click="handleList">更多</el-button>
+          <div style="float:right;"> <a href="/story/listAll">更多</a> </div>
+          <!--            <el-button type="success" round style="float:right;" @click="handleList">更多</el-button>-->
         </el-col>
       </el-row>
     </div>
     <div>
       <el-row :gutter="20" class="el-row" type="flex" >
-        <el-col :span="4" v-for = "world in worldRandom" :key="world.id" class="el-col" style="text-align: center">
+        <el-col :span="4" v-for = "story in storyNewList" :key="story.wid" class="el-col" style="text-align: center">
           <el-card :body-style="{ padding: '10px' }"  class="demo-image">
             <div style="display: inline-block">
               <el-image style="width: 100px; height: 100px;text-align: center;" fit="fill"
-                        @click="handleSee(world.id)"
-                        :src="imgUrl+world.imgUrl"
+                        @click="handleSee(story.wid)"
+                        :src="imgUrl+story.imgUrl"
                         class="image"
               />
             </div>
             <div >
               <div id="u10366-1_text" class="text u10366_text" style="/* visibility: inherit; */">
-                <p class="biaoti" @click="handleSee(world.id)" ><span style="font-family:'PingFangSC-Regular', 'PingFang SC', sans-serif;color:#333333;">{{ world.name }}<el-tag v-if="world.source=='原创'">原创</el-tag></span></p>
-                <p class="shuoming"><span style="font-family:'PingFangSC-Regular', 'PingFang SC', sans-serif;  color:#999999; font-size: x-small;">{{ world.intro }}</span></p>
+                <a class="biaoti" :href='"/story/details?wid="+story.wid +"&wname="+story.wname+"&sid="+story.id+"&sname="+story.sname ' ><span class="head-title">{{ story.sname }}<el-tag v-if="story.source === '原创'">原创</el-tag></span></a>
+                <p class="shuoming"><span class="head-intro">{{ story.intro }}</span></p>
+              </div>
+            </div>
+          </el-card>
+        </el-col>
+      </el-row>
+    </div>
+  </div>
+  <!--  活跃-->
+  <div>
+    <div style="margin:10px;margin-top:15px;">
+      <el-row :gutter="24">
+        <el-col :span="16">
+          <el-button round>活跃</el-button>
+          <el-button type="primary" round @click="handleList">本周</el-button>
+          <el-button type="success"  round @click="handleList">本月</el-button>
+        </el-col>
+        <el-col :span="8">
+          <div style="float:right;"> <a href="/story/listAll">更多</a> </div>
+        </el-col>
+      </el-row>
+    </div>
+    <div>
+      <el-row :gutter="20" class="el-row" type="flex" >
+        <el-col :span="4" v-for = "story in activeList" :key="story.wid" class="el-col" style="text-align: center">
+          <el-card :body-style="{ padding: '10px' }"  class="demo-image">
+            <div style="display: inline-block">
+              <el-image style="width: 100px; height: 100px;text-align: center;" fit="fill"
+                        @click="handleSee(story.wid)"
+                        :src="imgUrl+story.imgUrl"
+                        class="image"
+              />
+            </div>
+            <div >
+              <div id="u10366-1_text" class="text u10366_text" style="/* visibility: inherit; */">
+                <a class="biaoti" :href='"/story/details?wid="+story.wid+"&wname="+story.wname+"&sid="+story.id+"&sname="+story.sname' >
+                  <span class="head-title">{{ story.sname }}
+                  <el-tag v-if="story.source=='原创'">原创</el-tag></span>
+                </a>
+                <p class="shuoming"><span class="head-intro">{{ story.intro }}</span></p>
               </div>
             </div>
           </el-card>
@@ -84,7 +114,7 @@
           <el-button round>精品</el-button>
         </el-col>
         <el-col :span="8">
-          <el-button type="success" round style="float:right;"  @click="handleList">更多</el-button>
+          <div style="float:right;"> <a href="/story/listAll">更多</a> </div>
         </el-col>
       </el-row>
     </div>
@@ -96,36 +126,50 @@
             <el-card :body-style="{ padding: '10px' }">
               <div style="display: inline-block">
                 <el-image style="width: 100px; height: 130px" fit="fill"
-                          @click="handleSee(worldKey1.id)"
-                          :src="imgUrl+worldKey1.imgUrl"
+                          @click="handleSee(storyKey1.id)"
+                          :src="imgUrl+storyKey1.imgUrl"
                           class="image"
                 />
               </div>
               <div >
                 <div id="u10366-1_text" class="text u10366_text" style="/* visibility: inherit; */">
-                  <p><span style="font-family:'PingFangSC-Regular', 'PingFang SC', sans-serif;color:#333333;"  @click="handleSee(worldKey1.id)">{{ worldKey1.name }}</span></p>
-                  <p><span style="font-family:'PingFangSC-Regular', 'PingFang SC', sans-serif;  color:#999999; font-size: x-small;"  @click="handleSee(worldKey1.id)">{{ worldKey1.intro }}</span></p>
+                  <div>
+                    <a class="biaoti" :href='"/story/details?wid="+storyKey1.wid+"&wname="+storyKey1.wname+"&sid="+storyKey1.id+"&sname="+storyKey1.sname ' >
+                         <span class="head-title">{{ storyKey1.sname }}
+                          <el-tag v-if="storyKey1.source ==='原创'">原创</el-tag></span>
+                    </a>
+                  </div>
+                  <div class="head-intro-div">
+                    <span class="text-multi-line-hidden head-intro"  >{{ storyKey1.intro }}</span>
+                  </div>
                 </div>
               </div>
-              <el-button text @click="handleSee(worldKey1.id)">详细</el-button>
+              <el-button size="small" @click="handleSee(storyKey1.id)">详细</el-button>
             </el-card>
           </div>
           <div style="padding: 1px;margin: 0px;text-align: center">
             <el-card :body-style="{ padding: '10px' }">
               <div style="display: inline-block">
                 <el-image style="width: 100px; height: 130px" fit="fill"
-                          @click="handleSee(worldKey2.id)"
-                          :src="imgUrl+worldKey2.imgUrl"
+                          @click="handleSee(storyKey2.id)"
+                          :src="imgUrl+storyKey2.imgUrl"
                           class="image"
                 />
               </div>
               <div >
                 <div id="u10366-1_text" class="text u10366_text" style="/* visibility: inherit; */">
-                  <p><span style="font-family:'PingFangSC-Regular', 'PingFang SC', sans-serif;color:#333333;"  @click="handleSee(worldKey2.id)">{{ worldKey2.name }}</span></p>
-                  <p><span style="font-family:'PingFangSC-Regular', 'PingFang SC', sans-serif;  color:#999999; font-size: x-small;"  @click="handleSee(worldKey2.id)">{{ worldKey2.intro }}</span></p>
+                  <div>
+                    <a class="biaoti" :href='"/story/details?wid="+storyKey2.wid +"&wname="+storyKey2.wname+"&sid="+storyKey2.id+"&sname="+storyKey2.sname' >
+                         <span class="head-title">{{ storyKey2.sname }}
+                          <el-tag v-if="storyKey2.source ==='原创'">原创</el-tag></span>
+                    </a>
+                  </div>
+                  <div class="head-intro-div">
+                    <span class="text-multi-line-hidden  head-intro"  >{{ storyKey2.intro }}</span>
+                  </div>
                 </div>
               </div>
-              <el-button text @click="handleSee(worldKey2.id)">详细</el-button>
+              <el-button size="small" @click="handleSee(storyKey2.id)">详细</el-button>
             </el-card>
           </div>
         </el-col >
@@ -134,22 +178,27 @@
           <el-row>
             <el-col
                 style="margin-bottom: 10px"
-                v-for="(world, index) in worldNew"
-                :key="world.id"
+                v-for="(story, index) in boutiqueList"
+                :key="story.wid"
                 :span="8"
             >
               <el-card :body-style="{ margin: '0px' }">
                 <el-row>
                   <el-col :span="8">
-                    <el-image style="width: 66px; height: 88px" :src="imgUrl+world.imgUrl" fit="fill" @click="handleSee(world.id)" />
+                    <el-image style="width: 66px; height: 88px" :src="imgUrl+story.imgUrl" fit="fill" @click="handleSee(story.wid)" />
                   </el-col>
                   <el-col :span="16">
-                    <h3 class="biaoti" @click="handleSee(world.id)" >{{ world.name }}<el-tag v-if="world.source=='原创'">原创</el-tag></h3>
-                    <p class="zuozhe">{{ world.createTime }}</p>
-                    <p class="zuozhe">{{ world.createName }}</p>
+                    <div>
+                      <a class="biaoti" :href='"/story/details?wid="+story.wid +"&wname="+story.wname+"&sid="+story.id+"&sname="+story.sname' >
+                         <span class="head-title">{{ story.sname }}
+                          <el-tag v-if="story.source ==='原创'">原创</el-tag></span>
+                      </a>
+                    </div>
+                    <p class="zuozhe">{{ story.createTime }}</p>
+                    <p class="zuozhe">{{ story.createName }}</p>
                   </el-col>
                 </el-row>
-                <p class="shuoming" @click="handleSee(world.id)">{{world.intro}}</p>
+                <p class="shuoming" @click="handleSee(story.wid)">{{story.intro}}</p>
               </el-card>
             </el-col>
           </el-row>
@@ -160,36 +209,50 @@
             <el-card :body-style="{ padding: '10px' }">
               <div style="display: inline-block">
                 <el-image style="width: 100px; height: 130px" fit="fill"
-                          @click="handleSee(worldKey3.id)"
-                          :src="imgUrl+worldKey3.imgUrl"
+                          @click="handleSee(storyKey3.id)"
+                          :src="imgUrl+storyKey3.imgUrl"
                           class="image"
                 />
               </div>
               <div >
                 <div id="u10366-1_text" class="text u10366_text" style="/* visibility: inherit; */">
-                  <p><span style="font-family:'PingFangSC-Regular', 'PingFang SC', sans-serif;color:#333333;"  @click="handleSee(worldKey3.id)">{{ worldKey3.name }}</span></p>
-                  <p><span style="font-family:'PingFangSC-Regular', 'PingFang SC', sans-serif;  color:#999999; font-size: x-small;"  @click="handleSee(worldKey3.id)">{{ worldKey3.intro }}</span></p>
+                  <div>
+                    <a class="biaoti" :href='"/story/details?wid="+storyKey3.wid+"&wname="+storyKey3.wname+"&sid="+storyKey3.id+"&sname="+storyKey3.sname ' >
+                         <span class="head-title">{{ storyKey3.sname }}
+                          <el-tag v-if="storyKey3.source ==='原创'">原创</el-tag></span>
+                    </a>
+                  </div>
+                  <div class="head-intro-div">
+                    <span class="text-multi-line-hidden head-intro" style="font-family:'PingFangSC-Regular', 'PingFang SC', sans-serif;  color:#999999; font-size: x-small;" >{{ storyKey3.intro }}</span>
+                  </div>
                 </div>
               </div>
-              <el-button text @click="handleSee(worldKey3.id)">详细</el-button>
+              <el-button size="small" @click="handleSee(storyKey3.id)">详细</el-button>
             </el-card>
           </div>
           <div >
             <el-card :body-style="{ padding: '10px' }">
               <div style="display: inline-block">
                 <el-image style="width: 100px; height: 130px" fit="fill"
-                          @click="handleSee(worldKey4.id)"
-                          :src="imgUrl+worldKey4.imgUrl"
+                          @click="handleSee(storyKey4.id)"
+                          :src="imgUrl+storyKey4.imgUrl"
                           class="image"
                 />
               </div>
-              <div >
+              <div>
                 <div id="u10366-1_text" class="text u10366_text" style="/* visibility: inherit; */">
-                  <p><span style="font-family:'PingFangSC-Regular', 'PingFang SC', sans-serif;color:#333333;"  @click="handleSee(worldKey4.id)">{{ worldKey4.name }}</span></p>
-                  <p><span style="font-family:'PingFangSC-Regular', 'PingFang SC', sans-serif;  color:#999999; font-size: x-small;"  @click="handleSee(worldKey4.id)">{{ worldKey4.intro }}</span></p>
+                  <div>
+                    <a class="biaoti" :href='"/story/details?wid="+storyKey4.wid+"&wname="+storyKey4.wname +"&sid="+storyKey4.id+"&sname="+storyKey4.sname' >
+                         <span class="head-title">{{ storyKey4.sname }}
+                          <el-tag v-if="storyKey4.source ==='原创'">原创</el-tag></span>
+                    </a>
+                  </div>
+                  <div class="head-intro-div">
+                    <span  class="text-multi-line-hidden head-intro" style="font-family:'PingFangSC-Regular', 'PingFang SC', sans-serif;  color:#999999; font-size: x-small;" >{{ storyKey4.intro }}</span>
+                  </div>
                 </div>
               </div>
-              <el-button text @click="handleSee(worldKey4.id)">详细</el-button>
+              <el-button size="small" @click="handleSee(storyKey4.id)">详细</el-button>
             </el-card>
           </div>
         </el-col >
@@ -203,38 +266,24 @@
 <script setup>
 import {  reactive,inject, ref, toRefs} from 'vue'
 import test from '@/assets/images/test.png'
-import { listWorld } from "@/api/wiki/world";
+import { getRecommendStory } from "@/api/wiki/recommendStory";
 import { useRouter} from "vue-router";
 const router = useRouter()
 
-
 const imgUrl = inject("$imgUrl")
 
-const url =
-    'https://fuss10.elemecdn.com/e/5d/4a731a90594a4af544c0c25941171jpeg.jpeg'
-const worldTypesMap=new Map([
-  [6,"科学"],
-  [1,"武侠"],
-  [2,"仙侠"],
-  [3,"魔幻"],
-  [4,"奇幻"],
-  [5,"其他"]
-])
-const worldTypes=reactive([{id:6,name:"科学"},{id:1,name:"武侠"},{id:2,name:"仙侠"},{id:3,name:"魔幻"},{id:4,name:"奇幻"},{id:5,name:"其他"}])
-const wname=ref('');
+// const url =
+//     'https://fuss10.elemecdn.com/e/5d/4a731a90594a4af544c0c25941171jpeg.jpeg'
 const loading = ref(true);
-//编辑推荐 6个
-const worldRedact = ref([]);
-//随机推荐 18个
-const worldRandom = ref([]);
-//重要推荐 4个
-const worldKey1 = ref({});
-const worldKey2 = ref({});
-const worldKey3 = ref({});
-const worldKey4 = ref({});
 
-//新的推荐 9个
-const worldNew = ref([]);
+
+//重要推荐 4个
+const storyKey1 = ref({});
+const storyKey2 = ref({});
+const storyKey3 = ref({});
+const storyKey4 = ref({});
+
+
 const total = ref(0);
 const data = reactive({
   form: {},
@@ -256,55 +305,66 @@ const multiple = ref(true);
 const search = ref('')
 //查看详细
 function handleSee(id){
-  router.push("/world/details?wid="+id);
+  router.push("/story/details?wid="+id);
 }
 
 function handleList(){
-  router.push("/world/list");
+  router.push("/story/listAll");
 }
-/** 查询世界列表 */
-function getRedactList() {
-  queryParams.value.pageSize=4
-  queryParams.value.source="原创";
-  listWorld(queryParams.value).then(response => {
+//编辑推荐 4个
+const storyEditList = ref([]);
+function getEditList() {
+  getRecommendStory(2).then(response => {
     loading.value = false;
-    worldRedact.value = response.data;
-    total.value = response.total;
-  });
-  queryParams.value=ref({})
-}
-function getRandomList() {
-  queryParams.value.pageSize=18
-  listWorld(queryParams.value).then(response => {
-    loading.value = false;
-    worldRandom.value = response.data;
+    storyEditList.value = response.data;
     total.value = response.total;
   });
 }
-function getKeyList() {
-  queryParams.value.pageSize=4
-  listWorld(queryParams.value).then(response => {
-    loading.value = false;
-    worldKey1.value = response.data[0];
-    worldKey2.value = response.data[1];
-    worldKey3.value = response.data[2];
-    worldKey4.value = response.data[3];
-    total.value = response.total;
-  });
-}
+//最新
+//随机推荐 18个
+const storyNewList = ref([]);
 function getNewList() {
-  queryParams.value.pageSize=9
-  listWorld(queryParams.value).then(response => {
+  getRecommendStory(5).then(response => {
     loading.value = false;
-    worldNew.value = response.data;
+    storyNewList.value = response.data;
     total.value = response.total;
   });
 }
-getRedactList();
-getRandomList();
-getKeyList();
-getNewList();
 
+//随机推荐4个
+function getRandomList() {
+  getRecommendStory(8).then(response => {
+    loading.value = false;
+    storyKey1.value = response.data[0];
+    storyKey2.value = response.data[1];
+    storyKey3.value = response.data[2];
+    storyKey4.value = response.data[3];
+    total.value = response.total;
+  });
+}
+//精品 9个
+const boutiqueList = ref([]);
+function getBoutiqueList() {
+  getRecommendStory(17).then(response => {
+    loading.value = false;
+    boutiqueList.value = response.data;
+    total.value = response.total;
+  });
+}
+
+const activeList = ref([]);
+function getActiveList() {
+  getRecommendStory(11).then(response => {
+    loading.value = false;
+    activeList.value = response.data;
+    total.value = response.total;
+  });
+}
+getNewList();
+getEditList();
+getRandomList();
+getBoutiqueList();
+getActiveList();
 </script>
 
 <style scoped>
@@ -351,5 +411,12 @@ h3{
 .zuozhe{
   font-family: PingFangSC-Regular,-apple-system,Simsun;
   font-size: 12px;
+}
+
+.text-multi-line-hidden{
+  display: -webkit-box;
+  -webkit-line-clamp: 5;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
 }
 </style>

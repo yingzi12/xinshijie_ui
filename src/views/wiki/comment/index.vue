@@ -201,15 +201,6 @@ const handleClick = (tab: TabsPaneContext, event: Event) => {
   align-items: center;
 }
 
-.el-button--text {
-  margin-right: 15px;
-}
-.el-select {
-  width: 300px;
-}
-.el-input {
-  width: 300px;
-}
 .dialog-footer button:first-child {
   margin-right: 10px;
 }

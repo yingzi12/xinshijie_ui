@@ -40,13 +40,9 @@ const route = useRoute();
 const router = useRouter()
 
 const sid = ref(route.query.sid);
-const dscid = ref(null);
-dscid.value = route.query.dscid;
-const scname = ref('');
+const dscid = ref(route.query.dscid);
+const scname = ref(route.query.scname);
 const reelName = ref(route.query.scname);
-
-scname.value = <string>route.query.scname;
-
 const sname = ref(route.query.sname);
 
 const story=ref({})
@@ -66,26 +62,7 @@ handleInfo()
 </script>
 
 <style scoped>
-.layout-container-demo .el-aside {
-  color: var(--el-text-color-primary);
-  background: var(--el-color-primary-light-8);
-}
 
-.layout-container-demo .el-menu {
-  border-right: none;
-}
-
-.layout-container-demo .el-main {
-  padding: 0;
-}
-
-.layout-container-demo .toolbar {
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-  height: 100%;
-  right: 20px;
-}
 
 .center {
   display: flex;
@@ -93,24 +70,5 @@ handleInfo()
   align-items: center;
 }
 
-.demo-count .block {
-  padding: 0px 0;
-  text-align: center;
-  border-right: solid 1px var(--el-border-color);
-  display: inline-block;
-  width: 33%;
-  box-sizing: border-box;
-  vertical-align: top;
-}
 
-.demo-count .block:last-child {
-  border-right: none;
-}
-
-.demo-count .demonstration {
-  display: block;
-  color: var(--el-text-color-secondary);
-  font-size: 9px;
-  margin-bottom: 0px;
-}
 </style>

@@ -40,6 +40,25 @@
             />
           </el-select>
         </el-form-item>
+        <el-space fill>
+          <el-alert type="info" show-icon :closable="false">
+            <p>主线：必须符合世界观规定，并且会影响到世界发展走势</p>
+            <p>支线：必须符合世界观规定，不会影响到到世界发展走势，记录主线之外发生的事</p>
+            <p>杂谈：在世界观的基础，进行戏说，可以不完全符合世界观，不会对世界产生影响</p>
+            <p>异想：无需符合世界规定，跟世界线无关，不会对世界产生影响</p>
+          </el-alert>
+          <el-form-item label="类 型" prop="types">
+            <el-select v-model="form.kind" placeholder="请选择故事类型">
+              <el-option
+                  v-for="item in storyKind"
+                  :key="item.id"
+                  :label="item.name"
+                  :value="item.id"
+              />
+            </el-select>
+          </el-form-item>
+        </el-space>
+
         <el-form-item label="来 源" prop="checkList">
           <el-checkbox-group v-model="form.checkList" @change="handleSurce">
             <el-checkbox label="原创" v-if="ischeck==0 || ischeck==1" />
@@ -72,6 +91,7 @@ import {   getWorld } from "@/api/wiki/world";
 import {useRoute, useRouter} from "vue-router";
 import {ElMessage, FormInstance} from "element-plus";
 import index from "../../image/add.vue";
+import {storyKind,storyTypes } from "@/utils/constant";
 const  temPage=markRaw(index)
 const tem=ref()
 
@@ -93,21 +113,6 @@ class Story {
   intro: string
   createTime:string
 }
-const storyStatus = new Map([
-  [0, "正常"],
-  [1, "待发布"],
-  [2, "锁定"],
-  [3, "删除"]
-]);
-const storyTypesMap=new Map([
-  [6,"科学"],
-  [1,"武侠"],
-  [2,"仙侠"],
-  [3,"魔幻"],
-  [4,"奇幻"],
-  [5,"其他"]
-])
-const storyTypes=reactive([{id:6,name:"科学"},{id:1,name:"武侠"},{id:2,name:"仙侠"},{id:3,name:"魔幻"},{id:4,name:"奇幻"},{id:5,name:"其他"}])
 
 const ruleFormRef = ref<FormInstance>()
 

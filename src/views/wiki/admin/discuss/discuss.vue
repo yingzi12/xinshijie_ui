@@ -96,6 +96,7 @@ import {useRoute, useRouter} from "vue-router";
 import { Search } from '@element-plus/icons-vue'
 import { listDiscuss,updateStatus } from "@/api/admin/discuss";
 import {ElMessage, ElMessageBox} from "element-plus";
+import { discussTypesMap,discussStatusMap,discussTypes,discussStatus } from "@/utils/constant";
 
 // 接收url里的参数
 // 接收url里的参数
@@ -110,36 +111,6 @@ const sourceTypesMap = new Map([
   [1, "世界"],
   [2, "故事"],
 ])
-const discussTypesMap = new Map([
-  [1, "自由讨论"],
-  [2, "建议"],
-  [3, "内容错误"],
-  [4, "内容缺失"],
-  [5, "过多重复"],
-  [6, "内容不相关"],
-  [7, "其他"],
-
-]);
-const discussStatusMap = new Map([
-  [1, "待处理"],
-  [2, "已处理"],
-  [3, "关闭"],
-])
-const discussTypes = ref([
-  {id:1,name:"自由讨论"},
-  {id:2,name:"建议"},
-  {id:3,name:"内容错误"},
-  {id:4,name:"内容缺失"},
-  {id:5,name:"过多重复"},
-  {id:6,name:"内容不相关"},
-  {id:7,name:"其他"},
-]);
-const discussStatus =ref([
-  {id:1, name:"待处理"},
-  {id:2, name:"已处理"},
-  {id:3, name:"关闭"},
-])
-
 
 //分页
 const dateRange = ref([]);
@@ -207,45 +178,12 @@ getList(1)
 </script>
 
 <style scoped>
-.layout-container-demo .el-aside {
-  color: var(--el-text-color-primary);
-  background: var(--el-color-primary-light-8);
-}
-.layout-container-demo .el-menu {
-  border-right: none;
-}
-.layout-container-demo .el-main {
-  padding: 0;
-}
-.layout-container-demo .toolbar {
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-  height: 100%;
-  right: 20px;
-}
+
 .center {
   display: flex;
   justify-content: center;
   align-items: center;
 }
 
-.demo-count .block {
-  padding: 0px 0;
-  text-align: center;
-  border-right: solid 1px var(--el-border-color);
-  display: inline-block;
-  width: 33%;
-  box-sizing: border-box;
-  vertical-align: top;
-}
-.demo-count .block:last-child {
-  border-right: none;
-}
-.demo-count .demonstration {
-  display: block;
-  color: var(--el-text-color-secondary);
-  font-size: 9px;
-  margin-bottom: 0px;
-}
+
 </style>

@@ -36,7 +36,7 @@
         </el-table-column>
         <el-table-column label="故事名" align="center" key="name" prop="name" :show-overflow-tooltip="true">
           <template #default="scope">
-            <router-link  :to="{path:'/story/detail', query: {sid:scope.row.id,sname:scope.row.name,wid:scope.row.wid,wname:scope.row.wname}}"><el-tag v-if="scope.row.source=='原创'">原创</el-tag>{{scope.row.name}}</router-link>
+            <router-link  :to="{path:'/story/details', query: {sid:scope.row.id,sname:scope.row.name,wid:scope.row.wid,wname:scope.row.wname}}"><el-tag v-if="scope.row.source=='原创'">原创</el-tag>{{scope.row.name}}</router-link>
           </template>
         </el-table-column>
         <el-table-column label="状态" align="center"  >
@@ -124,37 +124,10 @@ import { listStoryAdmin,audit } from "@/api/admin/story";
 import { useRoute, useRouter } from "vue-router";
 import {Search} from '@element-plus/icons-vue'
 import {ElMessage, FormInstance} from "element-plus";
+import {storyStatusMap,storyTypesMap,storyTypes } from "@/utils/constant";
+
 const fits = ['世界', '粉丝', '关注']
 const activeIndex = ref('1')
-const storyStatusMap = new Map([
-  [1, "草稿"],
-  [2, "待审核"],
-  [3, "正常"],
-  [4, "删除"],
-  [5, "审核不通过"],
-  [6, "隐藏"],
-  [7, "锁定"],
-]);
-
-const storyTypesMap=new Map([
-  [6,"科学"],
-  [1,"武侠"],
-  [2,"仙侠"],
-  [3,"魔幻"],
-  [4,"奇幻"],
-  [5,"其他"]
-])
-const storyTypes=reactive([{id:6,name:"科学"},{id:1,name:"武侠"},{id:2,name:"仙侠"},{id:3,name:"魔幻"},{id:4,name:"奇幻"},{id:5,name:"其他"}])
-const storyStatus=reactive([
-  {id:2,name:"待审核"},
-  {id:3,name:"审核通过正常"},
-  {id:4,name:"删除"},
-  {id:5,name:"审核不通过"},
-  {id:6,name:"隐藏"},
-  {id:7,name:"锁定"}
-
-])
-
 
 const temType = ref(1)
 // 接收url里的参数
@@ -238,14 +211,14 @@ function handleAdd()  {
 }
 
 function handleSee(row){
-  router.push("/story/detail?wid="+row.wid+"&sid="+row.id);
+  router.push("/story/details?wid="+row.wid+"&sid="+row.id);
 }
 
 /** 查询元素 */
 function getList(page: number) {
   window.scrollTo(0, 0); // 滚动到顶部
   queryParams.value.pageNum=page;
-    queryParams.value.status=2;
+  queryParams.value.status=2;
   listStoryAdmin(queryParams.value).then(response => {
     loading.value = false;
     storyList.value = response.data;
@@ -258,51 +231,5 @@ const value = ref()
 </script>
 
 <style scoped>
-.layout-container-demo .el-aside {
-  color: var(--el-text-color-primary);
-  background: var(--el-color-primary-light-8);
-}
 
-.layout-container-demo .el-menu {
-  border-right: none;
-}
-
-.layout-container-demo .el-main {
-  padding: 0;
-}
-
-.layout-container-demo .toolbar {
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-  height: 100%;
-  right: 20px;
-}
-
-.center {
-  display: flex;
-  justify-content: center;
-  align-items: center;
-}
-
-.demo-count .block {
-  padding: 0px 0;
-  text-align: center;
-  border-right: solid 1px var(--el-border-color);
-  display: inline-block;
-  width: 33%;
-  box-sizing: border-box;
-  vertical-align: top;
-}
-
-.demo-count .block:last-child {
-  border-right: none;
-}
-
-.demo-count .demonstration {
-  display: block;
-  color: var(--el-text-color-secondary);
-  font-size: 9px;
-  margin-bottom: 0px;
-}
 </style>

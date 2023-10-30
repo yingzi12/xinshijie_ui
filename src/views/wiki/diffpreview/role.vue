@@ -12,7 +12,7 @@
     <div >
       <!--  世界名称-->
       <div >
-        <span style="margin-bottom: 5px;font-size: 25px">{{ element.title }}</span><el-tag size="small">{{elementStatus.get(element.status)}}</el-tag>
+        <span style="margin-bottom: 5px;font-size: 25px">{{ element.title }}</span><el-tag size="small">{{elementStatusMap.get(element.status)}}</el-tag>
         <div class="lessen"><span>分类:</span> <el-tag size="small" v-for="category in element.categoryList">
           {{category.label}}
         </el-tag></div>
@@ -66,8 +66,9 @@
 
 <script  lang="ts" setup>
 import { reactive, ref } from 'vue'
-import {FormInstance} from "element-plus";
 import {  getDraftDetails ,issue} from "@/api/admin/draftElement";
+import { elementStatusMap } from "@/utils/constant";
+
 //接受参数
 import { useRoute ,useRouter}  from "vue-router";  // 引用vue-router
 const router = useRouter()
@@ -81,23 +82,13 @@ const wid = ref(route.query.wid);
 //console.log("元素deid="+deid.value);
 //console.log("世界id="+wid.value);
 
-const elementStatus = new Map([
-  [0, "草稿"],
-  [1, "待审核"],
-  [3, "审核不通过"],
-  [2, "通过审核"],
-  [4, "删除"]
-]);
 
 
 const element=ref({})
 /** 查询世界详细 */
 function getDraft(wid:number,deid:number) {
   getDraftDetails(wid,deid,0).then(response => {
-    //console.log("查询世界详细:"+JSON.stringify(response))
     element.value = response.data
-    //console.log("状态:"+element.value.status)
-    //console.log("状态:"+elementStatus.get(element.value.status))
   });
 }
 
@@ -139,11 +130,5 @@ function getDraft(wid:number,deid:number) {
   font-weight: 650;
   font-size: 18px;
 }
-.title{
-  font-family: 'PingFangSC-Semibold', 'PingFang SC Semibold', 'PingFang SC', sans-serif;
-  font-weight: 650;
-  /* font-style: normal; */
-  font-size: 24px;
-  text-align: left;
-}
+
 </style>

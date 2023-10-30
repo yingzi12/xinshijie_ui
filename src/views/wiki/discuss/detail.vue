@@ -4,9 +4,9 @@
         <div>
             <el-breadcrumb separator="/">
                 <el-breadcrumb-item :to="{ path: '/world/index' }">首页</el-breadcrumb-item>
-                <el-breadcrumb-item><a href="/world/list">世界树</a></el-breadcrumb-item>
+                <el-breadcrumb-item><a href="/world/list">世界</a></el-breadcrumb-item>
                 <el-breadcrumb-item  :to="{ path: '/world/details', query: {wid:wid} }">{{wname}}</el-breadcrumb-item>
-                <el-breadcrumb-item v-if="source == 2" :to="{ path: '/story/detail', query: {wid:wid,sid:sid} }">{{sname}}</el-breadcrumb-item>
+                <el-breadcrumb-item v-if="source == 2" :to="{ path: '/story/details', query: {wid:wid,sid:sid} }">{{sname}}</el-breadcrumb-item>
                 <el-breadcrumb-item  :to="{ path: '/discuss/list', query: {wid:wid,sid:sid,source:source} }">讨论</el-breadcrumb-item>
                 <el-breadcrumb-item>{{ discuss.title }}</el-breadcrumb-item>
             </el-breadcrumb>
@@ -136,9 +136,9 @@
 import { inject, reactive, ref, toRefs} from 'vue'
 import { listDiscussComment } from "@/api/wiki/discussComment";
 import { getDiscuss } from "@/api/wiki/discuss";
-import { addDiscussComment,replyDiscussComment } from "@/api/admin/discussComment";
-import { getWorld } from "@/api/wiki/world";
-import { getStory } from "@/api/wiki/story";
+import { addDiscussComment } from "@/api/admin/discussComment";
+import { discussTypesMap,discussStatusMap } from "@/utils/constant";
+
 import { useRoute, useRouter } from "vue-router";
 import { ElMessage } from "element-plus";
 import useUserStore from '@/store/modules/user'
@@ -162,8 +162,8 @@ const eid = ref(route.query.eid);
 const did = ref(route.query.did);
 const wid = ref(route.query.wid);
 const sid = ref(route.query.sid);
-const sname = ref(undefined);
-const wname = ref(undefined);
+const sname = ref(route.query.sname);
+const wname = ref(route.query.wname);
 
 //评论列表
 const commentActive = ref('allComm')
@@ -178,22 +178,6 @@ if(userStore.name==''){
     circleUrl.value=userStore.avatar;
     disabled.value=false;
 }
-
-const discussTypesMap = new Map([
-    [1, "自由讨论"],
-    [2, "建议"],
-    [3, "内容错误"],
-    [4, "内容缺失"],
-    [5, "过多重复"],
-    [6, "内容不相关"],
-    [7, "其他"],
-
-]);
-const discussStatusMap = new Map([
-    [1, "待处理"],
-    [2, "已处理"],
-    [3, "关闭"],
-])
 
 //讨论信息
 const discuss=ref({})

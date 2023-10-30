@@ -125,21 +125,33 @@ export const constantRoutes = [
     hidden: true,
     children: [
       {
+        path: '',
+        component: () => import('@/views/wiki/story/index'),
+        name: 'storyPage',
+        meta: { title: '个人中心', icon: 'wiki' }
+      },
+      {
         path: 'index',
         component: () => import('@/views/wiki/story/index'),
         name: 'storyIndex',
         meta: { title: '个人中心', icon: 'wiki' }
       },
       {
-        path: 'detail',
-        component: () => import('@/views/wiki/story/detail'),
-        name: 'storyDetail',
+        path: 'details',
+        component: () => import('@/views/wiki/story/details'),
+        name: 'storyDetails',
         meta: { title: '个人中心', icon: 'wiki' }
       },
       {
         path: 'list',
         component: () => import('@/views/wiki/story/list'),
         name: 'storyList',
+        meta: { title: '个人中心', icon: 'wiki' }
+      },
+      {
+        path: 'listAll',
+        component: () => import('@/views/wiki/story/listAll'),
+        name: 'storyListAll',
         meta: { title: '个人中心', icon: 'wiki' }
       },
       {
@@ -155,6 +167,12 @@ export const constantRoutes = [
     component: LayoutWiki,
     hidden: true,
     children: [
+      {
+        path: '',
+        component: () => import('@/views/wiki/world/index'),
+        name: 'WorldPage',
+        meta: { title: '世界列表', icon: 'world' }
+      },
       {
         path: 'index',
         component: () => import('@/views/wiki/world/index'),
