@@ -5,9 +5,21 @@
   <!--  轮播图-->
   <div style="margin-bottom: 10px">
     <el-carousel :interval="5000" arrow="always">
-      <el-carousel-item v-for="item in 4" :key="item">
-        <el-image style="width: 100%;height: 300px" :src="test" fit="fill"></el-image>
-        <h3 text="2xl" justify="center">这是一个测试 这是一个测试这是一个测试这是一个测试</h3>
+      <el-carousel-item >
+        <el-image style="width: 100%;height: 300px" :src="image4" fit="fill"></el-image>
+        <h3 text="2xl" justify="center">宝石之国</h3>
+      </el-carousel-item>
+      <el-carousel-item >
+        <el-image style="width: 100%;height: 300px" :src="image1" fit="fill"></el-image>
+        <h3 text="2xl" justify="center">银河之心</h3>
+      </el-carousel-item>
+      <el-carousel-item >
+        <el-image style="width: 100%;height: 300px" :src="image2" fit="fill"></el-image>
+        <h3 text="2xl" justify="center">黑暗荣耀</h3>
+      </el-carousel-item>
+      <el-carousel-item >
+        <el-image style="width: 100%;height: 300px" :src="image9" fit="fill"></el-image>
+        <h3 text="2xl" justify="center">生存还是毁灭</h3>
       </el-carousel-item>
     </el-carousel>
   </div>
