@@ -277,7 +277,11 @@
 
 <script setup>
 import {  reactive,inject, ref, toRefs} from 'vue'
-import test from '@/assets/images/test.png'
+import image6 from '@/assets/images/6.jpeg'
+import image7 from '@/assets/images/7.jpeg'
+import image8 from '@/assets/images/8.jpeg'
+import image9 from '@/assets/images/9.jpeg'
+import image5 from '@/assets/images/5.jpeg'
 import { getRecommendWorld } from "@/api/wiki/recommendWorld";
 import { useRouter} from "vue-router";
 const router = useRouter()

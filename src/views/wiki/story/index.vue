@@ -6,7 +6,7 @@
   <div style="margin-bottom: 10px">
     <el-carousel :interval="5000" arrow="always">
       <el-carousel-item >
-        <el-image style="width: 100%;height: 300px" :src="image4" fit="fill"></el-image>
+        <el-image style="width: 100%;height: 300px" :src="image11" fit="fill"></el-image>
         <h3 text="2xl" justify="center">宝石之国</h3>
       </el-carousel-item>
       <el-carousel-item >
@@ -18,7 +18,7 @@
         <h3 text="2xl" justify="center">黑暗荣耀</h3>
       </el-carousel-item>
       <el-carousel-item >
-        <el-image style="width: 100%;height: 300px" :src="image9" fit="fill"></el-image>
+        <el-image style="width: 100%;height: 300px" :src="image12" fit="fill"></el-image>
         <h3 text="2xl" justify="center">生存还是毁灭</h3>
       </el-carousel-item>
     </el-carousel>
@@ -277,7 +277,10 @@
 
 <script setup>
 import {  reactive,inject, ref, toRefs} from 'vue'
-import test from '@/assets/images/test.png'
+import image1 from '@/assets/images/1.jpeg'
+import image2 from '@/assets/images/2.jpeg'
+import image11 from '@/assets/images/11.jpeg'
+import image12 from '@/assets/images/12.jpeg'
 import { getRecommendStory } from "@/api/wiki/recommendStory";
 import { useRouter} from "vue-router";
 const router = useRouter()
