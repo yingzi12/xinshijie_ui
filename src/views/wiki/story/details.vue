@@ -14,7 +14,7 @@
       <div  style="margin: 15px 0px 15px 0px">
         <el-row>
           <el-col :span="3">
-            <el-image  style="width: 150px; height: 200px;  display: block;margin: 0 auto;" :src="imageUrl" :fit="fit" />
+            <el-image  style="width: 150px; height: 200px;  display: block;margin: 0 auto;" :src="imgUrl+story.imgUrl" :fit="fit" />
           </el-col>
           <el-col :span="16"  class="mb-4">
             <div style="margin-left: 5px">
@@ -206,6 +206,7 @@ const route = useRoute();
 
 const sid = ref(route.query.sid);
 const wid = ref(route.query.wid);
+const wname = ref(route.query.wname);
 const sname = ref(route.query.sname);
 
 //获取用户信息
@@ -286,7 +287,6 @@ function handleHarding(){
 
 function handStory() {
   getStory(sid.value).then(response => {
-    //console.log("查询世界详细:"+JSON.stringify(response))
     story.value = response.data
     wid.value = response.data.wid;
     wname.value = response.data.wname;

@@ -55,7 +55,7 @@ app.config.globalProperties.addDateRange = addDateRange
 app.config.globalProperties.$baseUrl= "http://localhost/dev-api"
 // app.provide("$baseUrl","http://localhost/dev-api")
 //阿里云路径
-app.provide("$imgUrl","https://shadow-xinshijie.oss-cn-hongkong.aliyuncs.com")
+app.provide("$imgUrl","https://image.aiavrw.com")
 //服务器理解
 app.provide("$baseUrl","https://www.aiavr.com:8080")
 // 全局组件挂载
