@@ -40,7 +40,8 @@ let message = computed(() => {
 }
 .wscn-http404 {
   position: relative;
-  width: 1200px;
+  width: 100%;
+  max-width: 1258px;
   padding: 0 50px;
   overflow: hidden;
   .pic-404 {

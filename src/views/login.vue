@@ -1,5 +1,5 @@
 <template>
-  <div style="margin:0 auto; width:1248px;">
+  <div style="margin:0 auto; width:1258px;">
     <el-menu
         :default-active="activeIndex"
         class="el-menu-demo"

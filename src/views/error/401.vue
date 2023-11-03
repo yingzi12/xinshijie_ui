@@ -42,8 +42,8 @@ function back() {
 
 <style lang="scss" scoped>
 .errPage-container {
-  width: 800px;
-  max-width: 100%;
+  width: 100%;
+  max-width: 1258px;
   margin: 100px auto;
   .pan-back-btn {
     background: #008489;

@@ -1,5 +1,5 @@
 <template>
-  <div style="margin:0 auto; width:1248px;">
+  <div style="margin:0 auto; width:100%;max-width: 1258px;">
     <el-menu
         :default-active="activeIndex"
         class="el-menu-demo"
@@ -25,7 +25,7 @@
     </el-menu>
   </div>
   <el-divider  style="margin:0px"/>
-  <section class="app-main" style="width: 1250px">
+  <section class="app-main" style="width: 100%">
     <el-alert title="系统测试中" type="warning" effect="dark" />
     <router-view v-slot="{ Component, route }">
     </router-view>
@@ -93,7 +93,7 @@ function handleRegister(){
 </script>
 
 <style scoped>
-.app-main{ margin:0 auto; width:1250px;}
+.app-main{ margin:0 auto; width:100%;max-width: 1258px;}
 .flex-grow {
   flex-grow: 1;
 }
