@@ -26,7 +26,7 @@
               <div style="margin-top: 5px" >
                 <el-space wrap>
                   <el-tag style="width: 70px;" size="default">{{ world.typeName }}</el-tag>
-                  <el-tag v-if="world.source != null " v-for="tag in world.source.split(';')"  style="width: 70px;" size="default" type="success">{{tag}}</el-tag>
+<!--                  <el-tag v-if="world.source != null " v-for="tag in world.source.split(';')"  style="width: 70px;" size="default" type="success">{{tag}}</el-tag>-->
                   <el-tag v-if="world.tags != null "  v-for="tag in world.tags.split(';')"  style="width: 70px;" size="default" type="danger">{{tag}}</el-tag>
                 </el-space>
               </div>

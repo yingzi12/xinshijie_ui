@@ -31,7 +31,7 @@
               <div style="margin-top: 5px" >
                 <el-space wrap>
                   <el-tag style="width: 70px;" size="default">{{ storyTypesMap.get(story.types) }}</el-tag>
-                  <el-tag v-if="story.source != null " v-for="tag in story.source.split(';')"  style="width: 70px;" size="default" type="success">{{tag}}</el-tag>
+<!--                  <el-tag v-if="story.source != null " v-for="tag in story.source.split(';')"  style="width: 70px;" size="default" type="success">{{tag}}</el-tag>-->
                   <el-tag v-if="story.tags != null "  v-for="tag in story.tags.split(';')"  style="width: 70px;" size="default" type="danger">{{tag}}</el-tag>
                 </el-space>
               </div>
