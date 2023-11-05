@@ -55,6 +55,12 @@
           />
         </el-select>
       </el-form-item>
+      <el-form-item label="是否公开">
+        <el-radio-group v-model="form.isPrivate">
+          <el-radio :label="1" >公开</el-radio>
+          <el-radio :label="2">不公开</el-radio>
+        </el-radio-group>
+      </el-form-item>
       <el-space fill>
         <el-alert type="info" show-icon :closable="false">
           <p>主线：必须符合世界观规定，并且会影响到世界发展走势</p>
@@ -87,8 +93,8 @@
       <el-form-item label="简 介" prop="intro">
         <el-input v-model="form.intro" type="textarea" placeholder="请输入故事简介"/>
       </el-form-item>
-      <el-form-item label="描 述" prop="description">
-        <el-input v-model="form.description" type="textarea" rows="10"  placeholder="请输入故事描述"/>
+      <el-form-item label="描 述" prop="descriptionZip">
+        <el-input v-model="form.descriptionZip" type="textarea" rows="10"  placeholder="请输入故事描述"/>
       </el-form-item>
       <el-form-item>
         <el-button type="primary" @click="submitForm(ruleFormRef)">修改</el-button>
@@ -143,7 +149,7 @@ const data = reactive({
     types: [{ required: true, message: "必须选择分类", trigger: "blur" }],
     checkList: [{ required: true, message: "必须选择分类", trigger: "blur" }],
     intro: [{ required: true, message: "故事简介不能为空", trigger: "blur" }, { min: 10, max: 300, message: "故事简介长度必须介于 10 和 300 之间", trigger: "blur" }],
-    description: [{ required: true, message: "故事描述不能为空", trigger: "blur" }, { min: 10, max:1000, message: "故事描述长度必须介于 10 和 1000 之间", trigger: "blur" }],
+    descriptionZip: [{ required: true, message: "故事描述不能为空", trigger: "blur" }, { min: 10, max:1000, message: "故事描述长度必须介于 10 和 1000 之间", trigger: "blur" }],
 
   }
 });

@@ -1,10 +1,12 @@
 <template>
   <admin-head :username="userStore.name"/>
-  <section class="app-main" style="max-width: 1258px;width: 100px;">
+  <div style="">
+  <section class="app-main" style="width: 100px;min-width: 1258px">
     <el-alert title="系统测试中" type="warning" effect="dark" />
     <admin-message></admin-message>
   </section>
   <admin-footer/>
+  </div>
 </template>
 
 <script setup name="LayoutAdmin">

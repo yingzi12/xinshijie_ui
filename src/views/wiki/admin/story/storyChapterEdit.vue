@@ -3,7 +3,7 @@
     <div style="background-color:#b0c4de;margin: auto;padding: 10px">
         <el-row>
             <el-col :span="20">
-                <h1>所属分卷 --  {{scname}}</h1>
+                <h1>所属分卷 --  {{reelName}}</h1>
             </el-col>
             <el-col :span="4" style="text-align: right;">
                 <div style="text-align: right; font-size: 12px" class="toolbar">
@@ -24,7 +24,7 @@
       </el-form-item>
       <div>
         <h3>章节内容</h3>
-        <ckeditor    :editorDisabled="true"  :editor="editor" v-model="form.content" :config="editorConfig"></ckeditor>
+        <ckeditor    :editorDisabled="true"  :editor="editor" v-model="form.contentZip" :config="editorConfig"></ckeditor>
       </div>
       <div>
         <el-button @click="handleReturn">返回</el-button>
@@ -104,7 +104,7 @@ const handleReelAdd = async (formEl: FormInstance | undefined) => {
   await formEl.validate((valid, fields) => {
     if (valid) {
       addDraftChapter(form.value).then(response => {
-        console.log("添加成功:"+JSON.stringify(response))
+        // console.log("添加成功:"+JSON.stringify(response))
         router.push("/admin/draftChapter?sid="+chapter.value.sid+"&sname="+chapter.value.value+"&scid="+chapter.value.pid+"&scname="+chapter.value.pname);
 
       })
@@ -116,8 +116,12 @@ const handleReelAdd = async (formEl: FormInstance | undefined) => {
 function handleInfo(){
   getChapter(sid.value,scid.value).then(response => {
       chapter.value=response.data
-      form.value.title=chapter.value.title
-      form.value.content=chapter.value.content
+    form.value.id=chapter.value.id
+    form.value.sid=chapter.value.sid
+    form.value.wid=chapter.value.wid
+    form.value.title=chapter.value.title
+      form.value.contentZip=chapter.value.contentZip
+    reelName.value=chapter.value.pname
   });
 }
 function handleReturn(){

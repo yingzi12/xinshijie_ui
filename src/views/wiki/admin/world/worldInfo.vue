@@ -44,7 +44,7 @@
           </div>
 
           <div style=" padding: 10px;margin: 0px;white-space:pre; word-break:break-all;word-wrap:break-word;" >
-            <p style="white-space: pre-wrap">{{world.description}}</p>
+            <p style="white-space: pre-wrap">{{world.descriptionZip}}</p>
           </div>
           <!--    简介区-->
           <div style="background-color: #E5EAF3">

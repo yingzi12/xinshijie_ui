@@ -64,7 +64,7 @@
             </el-row>
           </div>
           <div>
-            <ckeditor :editor="editor"  @input="onEditorInput(content)" v-model="content.content" :config="editorConfig"></ckeditor>
+            <ckeditor :editor="editor"  @input="onEditorInput(content)" v-model="content.contentZip" :config="editorConfig"></ckeditor>
           </div>
         </el-form>
       </div>
@@ -101,7 +101,7 @@ const element = reactive<InstanceType<Element>>({
       title:'标题',
       status: 0,
       isUpdate: 0,
-      content: '',
+      contentZip: '',
     },
   ]
 })
@@ -114,7 +114,7 @@ interface Content {
   title: string
   status: number,
   isUpdate: number,
-  content: string,
+  contentZip: string,
 }
 //基本信息
 interface Element {
@@ -127,8 +127,8 @@ interface Element {
 }
 
 function onEditorInput(content: Content){
-  if(content.content.length>20000){
-    ElMessage.error("内容长度为"+content.content.length+"，已超过最大许可值2万")
+  if(content.contentZip.length>20000){
+    ElMessage.error("内容长度为"+content.contentZip.length+"，已超过最大许可值2万")
   }
 }
 const removeContent = (item: Content) => {
@@ -144,7 +144,7 @@ const addContent = () => {
     title: '标题',
     status: 0,
     isUpdate: 1,
-    content: '',
+    contentZip: '',
   })
 }
 // 传递参数到index

@@ -21,7 +21,6 @@
                 <el-badge :value="world.ranks" class="item">
                   <h1 style="margin: 2px" class="title">{{ world.name }}</h1>
                 </el-badge><el-tag  class="ml-2" type="info">id:{{world.id}}</el-tag>
-                <!--                <h1 style="margin: 0px" class="title">{{ world.name }}</h1>-->
               </div>
               <div style="margin-top: 5px" >
                 <el-space wrap>
@@ -68,7 +67,7 @@
     <div>
       <el-tabs v-model="worldActive" class="world-tabs" @tab-click="handleClick">
         <el-tab-pane label="描述" name="description">
-          <p style="white-space: pre-wrap;">{{world.description}}</p>
+          <p style="white-space: pre-wrap;">{{world.descriptionZip}}</p>
         </el-tab-pane>
         <el-tab-pane label="元素" name="element">
           <el-table :data="elementList" stripe style="width: 100%">

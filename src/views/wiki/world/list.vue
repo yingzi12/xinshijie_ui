@@ -89,7 +89,7 @@
 import { reactive, ref, toRefs} from 'vue'
 import { listWorld } from "@/api/wiki/world";
 import { useRouter} from "vue-router";
-import {worldTypesMap } from "@/utils/constant";
+import {worldTypesMap ,worldTypes} from "@/utils/constant";
 
 const router = useRouter()
 

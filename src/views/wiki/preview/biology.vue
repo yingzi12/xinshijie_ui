@@ -43,7 +43,7 @@
             <h3><el-icon><Tickets /></el-icon>{{domain.title  }}</h3>
           </div>
           <div style="margin-left: 25px">
-            <div v-html="domain.content"> </div>
+            <div v-html="domain.contentZip"> </div>
           </div>
         </div>
       </div>

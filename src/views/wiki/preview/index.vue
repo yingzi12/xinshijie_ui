@@ -20,20 +20,13 @@
         </el-row>
       </div>
       <div   style="margin-left: 25px">
-        <div v-html="domain.content"> </div>
+        <div v-html="domain.contentZip"> </div>
       </div>
     </div>
   </div>
 </template>
 
 <script  lang="ts" setup>
-import { reactive, ref } from 'vue'
-//接受参数
-import { useRoute ,useRouter}  from "vue-router";  // 引用vue-router
-
-//console.log("元素deid="+deid.value);
-//console.log("世界id="+wid.value);
-
 const elementStatus = new Map([
   [0, "草稿"],
   [1, "待审核"],

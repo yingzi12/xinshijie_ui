@@ -23,7 +23,7 @@ storyChapterEdit.vue<template>
 
       <div>
         <h3>章节内容</h3>
-        <ckeditor    :editorDisabled="true"  :editor="editor" v-model="form.content" :config="editorConfig"></ckeditor>
+        <ckeditor    :editorDisabled="true"  :editor="editor" v-model="form.contentZip" :config="editorConfig"></ckeditor>
 
       </div>
       <div>

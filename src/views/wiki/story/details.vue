@@ -71,7 +71,7 @@
     <div>
       <el-tabs v-model="storyActive" class="world-tabs" @tab-click="handleClick">
         <el-tab-pane label="描述" name="description">
-          <p style="white-space: pre-wrap;">{{story.description}}</p>
+          <p style="white-space: pre-wrap;">{{story.descriptionZip}}</p>
         </el-tab-pane>
         <el-tab-pane label="章节" name="element">
           <el-table :data="chapterList" stripe style="width: 100%">

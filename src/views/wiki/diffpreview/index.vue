@@ -41,7 +41,7 @@
         </el-row>
       </div>
       <div>
-        <div v-html="draft.content"> </div>
+        <div v-html="draft.contentZip"> </div>
       </div>
     </div>
   </div>

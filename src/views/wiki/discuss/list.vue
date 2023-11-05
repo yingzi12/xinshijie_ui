@@ -73,7 +73,7 @@
                     <el-tag>{{ discussTypesMap.get(discuss.types) }}</el-tag>
                     <el-tag>{{ discussStatusMap.get(discuss.status) }}</el-tag>
                   </div>
-                  <div v-html="discuss.comment">
+                  <div v-html="discuss.commentZip">
                   </div>
                   <div style="color:#A3A6AD">
                     <span>{{ discuss.createTime }}</span>

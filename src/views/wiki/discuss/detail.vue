@@ -29,7 +29,7 @@
                             <el-tag>{{ discussStatusMap.get(discuss.status)}}</el-tag>
                         </div>
                         <div>
-                            <p>{{discuss.comment}}</p>
+                            <p>{{discuss.commentZip}}</p>
                         </div>
                         <div style="color:#A3A6AD">
                             <span>{{ discuss.createTime }}</span>

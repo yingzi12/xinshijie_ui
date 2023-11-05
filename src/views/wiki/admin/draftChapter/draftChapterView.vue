@@ -15,7 +15,7 @@ storyChapterEdit.vue<template>
 
       <div>
         <h3>{{ draftChapter.title }}</h3>
-         <div v-html="draftChapter.content"></div>
+         <div v-html="draftChapter.contentZip"></div>
 
       </div>
       <div>

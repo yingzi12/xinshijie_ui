@@ -97,7 +97,7 @@
             </el-row>
           </div>
           <div>
-            <ckeditor    :editorDisabled="true" @input="onEditorInput(content)" :editor="editor" v-model="content.content" :config="editorConfig"></ckeditor>
+            <ckeditor    :editorDisabled="true" @input="onEditorInput(content)" :editor="editor" v-model="content.contentZip" :config="editorConfig"></ckeditor>
           </div>
         </el-form>
 

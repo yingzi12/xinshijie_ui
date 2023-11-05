@@ -33,7 +33,7 @@
       </div>
       <el-divider />
       <div   style="margin-left: 25px">
-        <div v-html="chapter.content"> </div>
+        <div v-html="chapter.contentZip"> </div>
       </div>
     </div>
     <!-- 元素内容 -->

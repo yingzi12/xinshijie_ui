@@ -20,7 +20,7 @@
         </el-row>
       </div>
       <div   style="margin-left: 25px">
-        <div v-html="content.content"> </div>
+        <div v-html="content.contentZip"> </div>
       </div>
     </div>
   </div>

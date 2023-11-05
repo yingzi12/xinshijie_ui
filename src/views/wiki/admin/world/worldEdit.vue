@@ -50,6 +50,12 @@
                   />
                 </el-select>
               </el-form-item>
+              <el-form-item label="是否公开">
+                <el-radio-group v-model="form.isPrivate">
+                  <el-radio :label="1" >公开</el-radio>
+                  <el-radio :label="2">不公开</el-radio>
+                </el-radio-group>
+              </el-form-item>
               <el-form-item label="来 源" prop="checkList">
                 <el-checkbox-group v-model="form.checkList" @change="handleSurce">
                   <el-checkbox label="原创" v-if="ischeck==0 || ischeck==1" />
@@ -64,8 +70,8 @@
               <el-form-item label="简 介" prop="intro">
                 <el-input v-model="form.intro" type="textarea" placeholder="请选择世界简介"/>
               </el-form-item>
-              <el-form-item label="描 述" prop="description">
-                <el-input v-model="form.description" type="textarea" rows="10"  placeholder="请输入世界说明"/>
+              <el-form-item label="描 述" prop="descriptionZip">
+                <el-input v-model="form.descriptionZip" type="textarea" rows="10"  placeholder="请输入世界说明"/>
               </el-form-item>
               <el-form-item>
                 <el-button type="primary" @click="submitForm(ruleFormRef)">修改</el-button>
@@ -107,6 +113,7 @@ const activeIndex = ref('1')
 
 const data = reactive({
   form: {
+
   },
   rules: {
     name: [{ required: true, message: '请输入世界名字', trigger: 'blur' },
@@ -126,7 +133,7 @@ const data = reactive({
     ],
     intro: [ { required: true, message: '请输入世界简介', trigger: 'blur' },
       { min: 10, max: 255, message: 'Length should be 10 to 255', trigger: 'blur' }],
-    description: [ { required: true, message: '请输入世界描述', trigger: 'blur' },
+    descriptionZip: [ { required: true, message: '请输入世界描述', trigger: 'blur' },
       { min: 10, max: 1000, message: 'Length should be 10 to 1000', trigger: 'blur' }],
   }
 });
