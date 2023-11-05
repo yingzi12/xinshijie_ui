@@ -52,8 +52,8 @@
               </el-form-item>
               <el-form-item label="是否公开">
                 <el-radio-group v-model="form.isPrivate">
-                  <el-radio :label="1" >公开</el-radio>
-                  <el-radio :label="2">不公开</el-radio>
+                  <el-radio :label="2" >公开</el-radio>
+                  <el-radio :label="1">私有</el-radio>
                 </el-radio-group>
               </el-form-item>
               <el-form-item label="来 源" prop="checkList">

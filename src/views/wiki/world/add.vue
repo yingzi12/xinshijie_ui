@@ -42,8 +42,8 @@
         </el-form-item>
         <el-form-item label="是否公开">
           <el-radio-group v-model="form.isPrivate">
-            <el-radio :label="1" >公开</el-radio>
-            <el-radio :label="2">不公开</el-radio>
+            <el-radio :label="2" >公开</el-radio>
+            <el-radio :label="1">私有</el-radio>
           </el-radio-group>
         </el-form-item>
         <el-form-item label="来 源" prop="checkList">
@@ -98,7 +98,7 @@ const ruleFormRef = ref<FormInstance>()
 
 const data = reactive({
   ruleForm: {
-    isPrivate:1,
+    isPrivate:2,
   },
   rules: {
     name: [{ required: true, message: '请输入世界名字', trigger: 'blur' },
