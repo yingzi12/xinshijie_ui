@@ -71,7 +71,7 @@ export const constantRoutes = [
       {
         path: '',
         component: () => import('@/views/wiki/chapter/index'),
-        name: 'chapterindex',
+        name: 'chapterPage',
         meta: { title: '个人中心', icon: 'wiki' }
       },
       {
