@@ -315,17 +315,21 @@ function handleFllowClose(){
 /** 查询世界详细 */
 function handWorld(wname:string) {
   getWorldByName(wname).then(response => {
-    //console.log("查询世界详细:"+JSON.stringify(response))
-    world.value = response.data
-    imageUrl.value=imgUrl+response.data.imgUrl;
-    handleIsFllow();
+    if(response.code !=200){
+      ElMessage.success("该世界还未创建或者未公开！")
+    }else {
+      //console.log("查询世界详细:"+JSON.stringify(response))
+      world.value = response.data
+      imageUrl.value = imgUrl + response.data.imgUrl;
+      handleIsFllow();
 
-     //管理员信息
-    getAllWorldManage(world.value.id)
-    //评论功能
-    getAllWorldComment()
-    getElementList()
-    getStoryList();
+      //管理员信息
+      getAllWorldManage(world.value.id)
+      //评论功能
+      getAllWorldComment()
+      getElementList()
+      getStoryList();
+    }
   });
 }
 //评论信息
