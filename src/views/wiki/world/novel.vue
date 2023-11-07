@@ -221,11 +221,15 @@ import { addApplyManage } from "@/api/admin/applyManage";
 import useUserStore from '@/store/modules/user';
 import { isNotEmpty } from '@/utils/tools'; // 根据你的项目路径调整引入路径
 import {worldTypesMap } from "@/utils/constant";
-const wname = ref(route.query.wname);
 
 import {ElMessage, ElMessageBox, FormInstance, FormRules} from "element-plus";
 
 const userStore = useUserStore()
+const router = useRouter()
+
+// 接收url里的参数
+const route = useRoute();
+const wname = ref(route.query.wname);
 
 
 const  isLogin=ref(false)
@@ -235,12 +239,6 @@ if(isNotEmpty(userStore.name)){
   isLogin.value=false
 }
 
-
-const router = useRouter()
-
-// 接收url里的参数
-const route = useRoute();
-//console.log(route.query.id,"参数");
 //世界信息
 const world=ref({})
 //评论信息
@@ -304,14 +302,7 @@ function handleFllowClose(){
     ElMessage.success("取消成功");
   });
 }
-// function handleHideReply(comment){
-//     if(comment.replyHide) {
-//         comment.replyHide = false;
-//     }else {
-//         comment.replyHide = true;
-//     }
-//     getReplyList(comment,1)
-// }
+
 /** 查询世界详细 */
 function handWorld(wname:string) {
   getWorldByName(wname).then(response => {

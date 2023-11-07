@@ -16,5 +16,11 @@ export function getWorld(id) {
     method: 'get'
   })
 }
+export function getWorldByName(name) {
+  return request({
+    url: '/wiki/world/getInfoByName/' + name,
+    method: 'get'
+  })
+}
 
 
