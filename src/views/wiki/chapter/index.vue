@@ -40,10 +40,10 @@
     <el-divider />
     <!--功能-->
     <div class="center" style="height: 80px;">
-      <a v-if="chapter.previous" :href='"/chapter/index?sid="+chapter.previous.sid+"&wid="+chapter.previous.wid+"&sname="+chapter.previous.sname+"&wname="+wname+"&scid="+chapter.previous.id'>
+      <a v-if="chapter.previous" :href='"/chapter/detail?sid="+chapter.previous.sid+"&wid="+chapter.previous.wid+"&sname="+chapter.previous.sname+"&wname="+wname+"&scid="+chapter.previous.id'>
         <el-text style="margin: 20px" class="mx-1" type="primary">上一章</el-text>
       </a>
-      <a v-if="chapter.next" :href='"/chapter/index?sid="+chapter.next.sid+"&wid="+chapter.next.wid+"&sname="+chapter.next.sname+"&wname="+wname+"&scid="+chapter.next.id'>
+      <a v-if="chapter.next" :href='"/chapter/detail?sid="+chapter.next.sid+"&wid="+chapter.next.wid+"&sname="+chapter.next.sname+"&wname="+wname+"&scid="+chapter.next.id'>
         <el-text style="margin: 20px" class="mx-1" type="primary">下一章</el-text>
 
       </a>

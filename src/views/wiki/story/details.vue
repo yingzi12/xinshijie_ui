@@ -77,7 +77,7 @@
           <el-table :data="chapterList" stripe style="width: 100%">
             <el-table-column prop="title" label="章节名"  >
               <template #default="scope">
-                <router-link :to="{path:'/chapter/index', query: {sid:story.id,scid:scope.row.id,wid:scope.row.wid,wname:scope.row.wname,sname:scope.row.sname}}">{{ scope.row.title }}</router-link>
+                <router-link :to="{path:'/chapter/detail', query: {sid:story.id,scid:scope.row.id,wid:scope.row.wid,wname:scope.row.wname,sname:scope.row.sname}}">{{ scope.row.title }}</router-link>
               </template>
             </el-table-column>
             <el-table-column prop="createName" label="创建人" width="150px" />

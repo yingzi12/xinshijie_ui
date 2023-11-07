@@ -28,7 +28,7 @@
               </el-table-column>
               <el-table-column label="章节名称" align="center" key="title" prop="title" :show-overflow-tooltip="true">
                 <template #default="scope">
-                  <a :href='"/chapter/index?sid="+scope.row.sid+"&scid="+scope.row.id+"&sname="+scope.row.sname'>
+                  <a :href='"/chapter/detail?sid="+scope.row.sid+"&scid="+scope.row.id+"&sname="+scope.row.sname'>
                       <el-text>{{scope.row.title}}</el-text>
                   </a>
                 </template>
@@ -189,7 +189,7 @@ function handleDelete ( row){
 }
 
 function handleSeeChapter(row){
-  router.push("/chapter/index?sid="+row.sid+"&sname="+sname.value+"&scid="+row.id+"&scname="+scname.value);
+  router.push("/chapter/detail?sid="+row.sid+"&sname="+sname.value+"&scid="+row.id+"&scname="+scname.value);
 }
 function handleUpdateChapter(row){
   router.push("/admin/storyChapterEdit?sid="+row.sid+"&sname="+sname.value+"&scid="+row.id+"&scname="+scname.value);

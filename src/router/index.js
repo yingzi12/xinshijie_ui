@@ -69,9 +69,9 @@ export const constantRoutes = [
     hidden: true,
     children: [
       {
-        path: '',
+        path: 'detail',
         component: () => import('@/views/wiki/chapter/index'),
-        name: 'chapterPage',
+        name: 'chapterDetail',
         meta: { title: '个人中心', icon: 'wiki' }
       },
       {
