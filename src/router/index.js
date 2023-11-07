@@ -174,6 +174,11 @@ export const constantRoutes = [
         component: () => import('@/views/wiki/world/list'),
         name: 'ListWorld',
         meta: { title: '世界列表', icon: 'world' }
+      },{
+        path: 'novel',
+        component: () => import('@/views/wiki/world/novel'),
+        name: 'novelWorld',
+        meta: { title: '世界列表', icon: 'world' }
       }
     ]
   },

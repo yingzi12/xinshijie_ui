@@ -17,6 +17,12 @@ export function getWorld(id) {
   })
 }
 
+export function getWorldByName(name) {
+  return request({
+    url: '/admin/world/getInfoByName/' + name,
+    method: 'get'
+  })
+}
 // 新增世界
 export function addWorld(data) {
   return request({
