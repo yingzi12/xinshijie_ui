@@ -79,46 +79,14 @@ export const constantRoutes = [
         component: () => import('@/views/wiki/chapter/list'),
         name: 'chapterlist',
         meta: { title: '个人中心', icon: 'wiki' }
-      }
+      },{
+        path: '',
+        component: () => import('@/views/wiki/chapter/index'),
+        name: 'chapterindex',
+        meta: { title: '个人中心', icon: 'wiki' }
+      },
     ]
   },
-  // {
-  //   path: '/test',
-  //   component: LayoutWiki,
-  //   hidden: true,
-  //   children: [
-  //     {
-  //       path: 'quill',
-  //       component: () => import('@/views/test/quill'),
-  //       name: 'quillTest',
-  //       meta: { title: '世界首页', icon: 'world' }
-  //     },
-  //     {
-  //       path: 'tiptap',
-  //       component: () => import('@/views/test/tiptap'),
-  //       name: 'tiptapTest',
-  //       meta: { title: '世界首页', icon: 'world' }
-  //     },
-  //     {
-  //       path: 'tiptapIndex',
-  //       component: () => import('@/views/test/tiptapIndex'),
-  //       name: 'tiptapIndexTest',
-  //       meta: { title: '世界首页', icon: 'world' }
-  //     },
-  //     {
-  //       path: 'tiptapHead',
-  //       component: () => import('@/views/test/tiptap/head/index'),
-  //       name: 'tiptapHeadTest',
-  //       meta: { title: '世界首页', icon: 'world' }
-  //     },
-  //     {
-  //       path: 'tiptapEditor',
-  //       component: () => import('@/views/test/tiptapEditor'),
-  //       name: 'tiptapEditorTest',
-  //       meta: { title: '世界首页', icon: 'world' }
-  //     }
-  //   ]
-  // },
   {
     path: '/story',
     component: LayoutWiki,
