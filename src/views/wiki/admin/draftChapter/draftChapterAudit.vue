@@ -53,7 +53,7 @@
         </el-table-column>
         <el-table-column label="状态" align="center"  >
           <template #default="scope">
-            <span>{{elementStatusMap.get(scope.row.status)}}</span>
+            <span>{{draftdraftElementStatusMap.get(scope.row.status)}}</span>
           </template>
         </el-table-column>
         <el-table-column label="创建时间" align="center" prop="updateTime" width="160" :show-overflow-tooltip="true">
@@ -106,7 +106,7 @@ import {  listDraftChapter,delDraftChapter,issueClose } from "@/api/admin/draftC
 import {useRoute, useRouter} from "vue-router";
 import {  Search } from '@element-plus/icons-vue'
 import {ElMessage, ElMessageBox} from "element-plus";
-import { elementStatusMap } from "@/utils/constant";
+import { draftdraftElementStatusMap } from "@/utils/constant";
 
 const fits = ['世界', '粉丝', '关注']
 const activeIndex = ref('1')

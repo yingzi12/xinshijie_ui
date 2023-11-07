@@ -87,7 +87,7 @@ const wid = ref(route.query.wid);
 //console.log("元素deid="+deid.value);
 //console.log("世界id="+wid.value);
 
-const elementStatus = new Map([
+const draftElementStatus = new Map([
   [0, "草稿"],
   [1, "待审核"],
   [3, "审核不通过"],
@@ -101,7 +101,7 @@ function getDraft(wid:number,deid:number) {
     //console.log("查询世界详细:"+JSON.stringify(response))
     worldElement.value = response.data
     //console.log("状态:"+element.value.status)
-    //console.log("状态:"+elementStatus.get(element.value.status))
+    //console.log("状态:"+draftElementStatus.get(element.value.status))
   });
 }
 function submitPush(){

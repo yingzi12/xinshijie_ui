@@ -57,7 +57,7 @@ import { useRoute ,useRouter}  from "vue-router";  // 引用vue-router
 import {getDiff} from "@/api/admin/draftElement";
 import {ref} from "vue";
 
-const elementStatus = new Map([
+const draftElementStatus = new Map([
   [0, "草稿"],
   [1, "待审核"],
   [3, "审核不通过"],

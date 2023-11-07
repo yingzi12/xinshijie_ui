@@ -30,8 +30,25 @@
       <el-divider />
       <!--功能-->
       <div class="center" style="height: 80px;">
-        <el-button @click="handleReturn()" text type="success" style="width: 100px;">返回</el-button>
-        <el-button @click="handleEdit()" text type="success" style="width: 100px;">编辑</el-button>
+        <a v-if="worldElement.previousElement" :href='"/element/details?eid="+worldElement.previousId+"&wid="+worldElement.wid+"&wname="+worldElement.wname'>
+          <el-text style="margin: 20px" class="mx-1" type="primary">{{ worldElement.previousElement }}</el-text>
+        </a>
+        <a v-if="worldElement.nextElement" :href='"/element/details?eid="+worldElement.nextId+"&wid="+worldElement.wid+"&wname="+worldElement.wname'>
+          <el-text style="margin: 20px" class="mx-1" type="primary">{{ worldElement.nextElement }}</el-text>
+
+        </a>
+        <a>
+          <el-text style="margin: 20px" class="mx-1" type="primary" @click="handleReturn()">返回</el-text>
+        </a>
+        <a  :href='"/admin/elementEdit?wid="+ wid.value+"&eid=" +eid.value+"&temType="+temType'>
+          <el-text style="margin: 20px" class="mx-1" type="primary">编辑</el-text>
+        </a>
+
+<!--        <el-button @click="handleReturn()" text type="success" style="width: 100px;">返回</el-button>-->
+<!--        <el-button @click="handleReturn()" text type="success" style="width: 100px;">返回</el-button>-->
+
+<!--        <el-button @click="handleReturn()" text type="success" style="width: 100px;">返回</el-button>-->
+<!--        <el-button @click="handleEdit()" text type="success" style="width: 100px;">编辑</el-button>-->
       </div>
     </div>
   </div>

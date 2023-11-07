@@ -48,7 +48,7 @@
               <el-table-column prop="wname" label="世界" width="140" />
               <el-table-column label="状态" align="center"  >
                 <template #default="scope">
-                  <span>{{elementStatusMap.get(scope.row.status)}}</span>
+                  <span>{{draftdraftElementStatusMap.get(scope.row.status)}}</span>
                 </template>
               </el-table-column>
               <el-table-column prop="createTime" label="修改时间" :show-overflow-tooltip="true" />
@@ -113,7 +113,7 @@ const activeIndex = ref('1')
 //弹出框
 const dialogFormVisible = ref(false)
 const formLabelWidth = '140px'
-const elementStatus = new Map([
+const draftElementStatus = new Map([
   [0, "草稿"],
   [1, "待审核"],
   [3, "审核不通过"],

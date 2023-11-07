@@ -27,7 +27,7 @@
 </template>
 
 <script  lang="ts" setup>
-const elementStatus = new Map([
+const draftElementStatus = new Map([
   [0, "草稿"],
   [1, "待审核"],
   [3, "审核不通过"],

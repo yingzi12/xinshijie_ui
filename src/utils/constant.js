@@ -105,7 +105,7 @@ export const discussStatus =ref([
     {id:2, name:"已处理"},
     {id:3, name:"关闭"},
 ])
-export const elementStatusMap = new Map([
+export const draftElementStatusMap = new Map([
     [7, "草稿"],
     [1, "待审核"],
     [3, "不通过"],
@@ -115,7 +115,7 @@ export const elementStatusMap = new Map([
     [6, "超时审核自动通过"],
 ]);
 
-export const elementStatus =reactive([
+export const draftElementStatus =reactive([
     {id:7,name: "草稿"},
     {id:1, name:"待审核"},
     {id:3,name: "不通过"},
@@ -123,4 +123,16 @@ export const elementStatus =reactive([
     {id:4, name:"删除"},
     {id:5, name:"超时发布自动拒绝"},
     {id:6,name: "超时审核自动通过"},
+]);
+export const elementStatusMap = new Map([
+    [1, "正常"],
+    [3, "待审核"],
+    [2, "锁定"],
+    [4, "删除"],
+]);
+export const elementStatus =reactive([
+    {id:1, name:"正常"},
+    {id:3,name: "待审核"},
+    {id:2,name: "锁定"},
+    {id:4, name:"删除"},
 ]);

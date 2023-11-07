@@ -125,7 +125,7 @@ const editorConfig ={
     uploadUrl: uploadImgUrl.value,
   },
 }
-const elementStatus = new Map([
+const draftElementStatus = new Map([
   [0, "草稿"],
   [1, "发布"],
   [3, "审核不通过"],

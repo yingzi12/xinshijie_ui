@@ -29,7 +29,7 @@
 <script  lang="ts" setup>
 //接受参数
 
-const elementStatus = new Map([
+const draftElementStatus = new Map([
   [0, "草稿"],
   [1, "待审核"],
   [3, "审核不通过"],

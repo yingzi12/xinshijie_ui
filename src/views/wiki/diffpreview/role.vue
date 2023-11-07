@@ -12,7 +12,7 @@
     <div >
       <!--  世界名称-->
       <div >
-        <span style="margin-bottom: 5px;font-size: 25px">{{ element.title }}</span><el-tag size="small">{{elementStatusMap.get(element.status)}}</el-tag>
+        <span style="margin-bottom: 5px;font-size: 25px">{{ element.title }}</span><el-tag size="small">{{draftdraftElementStatusMap.get(element.status)}}</el-tag>
         <div class="lessen"><span>分类:</span> <el-tag size="small" v-for="category in element.categoryList">
           {{category.label}}
         </el-tag></div>
@@ -67,7 +67,7 @@
 <script  lang="ts" setup>
 import { reactive, ref } from 'vue'
 import {  getDraftDetails ,issue} from "@/api/admin/draftElement";
-import { elementStatusMap } from "@/utils/constant";
+import { draftdraftElementStatusMap } from "@/utils/constant";
 
 //接受参数
 import { useRoute ,useRouter}  from "vue-router";  // 引用vue-router

@@ -46,7 +46,7 @@
               </el-table-column>
               <el-table-column label="状态" align="center"  :show-overflow-tooltip="true" >
                 <template #default="scope">
-                  <span>{{elementStatusMap.get(scope.row.status)}}</span>
+                  <span>{{draftdraftElementStatusMap.get(scope.row.status)}}</span>
                 </template>
               </el-table-column>
               <el-table-column label="简介" align="center" key="intro" prop="intro" :show-overflow-tooltip="true"/>
@@ -87,7 +87,7 @@ import { reactive, ref, toRefs} from 'vue'
 import { listDraft } from "@/api/admin/draftElement";
 import { useRoute, useRouter} from "vue-router";
 import { Search} from '@element-plus/icons-vue'
-import { elementStatusMap } from "@/utils/constant";
+import { draftdraftElementStatusMap } from "@/utils/constant";
 
 const fits = ['世界', '粉丝', '关注']
 const activeIndex = ref('1')
