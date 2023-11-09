@@ -50,7 +50,7 @@
               <el-table-column prop="wname" label="世界" width="140" />
               <el-table-column label="审核" align="center"  >
                 <template #default="scope">
-                  <span>{{draftdraftElementStatusMap.get(scope.row.status)}}</span>
+                  <span>{{draftElementStatusMap.get(scope.row.status)}}</span>
                 </template>
               </el-table-column>
               <el-table-column label="审核说明" align="center" key="auditContent" prop="auditContent" :show-overflow-tooltip="true"/>
@@ -102,7 +102,7 @@
 import { reactive, ref, toRefs} from 'vue'
 import {useRoute, useRouter} from "vue-router";
 import { listDraft } from "@/api/admin/draftElement";
-import { draftdraftElementStatusMap } from "@/utils/constant";
+import { draftElementStatusMap } from "@/utils/constant";
 
 const router = useRouter()
 

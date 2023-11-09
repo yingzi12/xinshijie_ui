@@ -12,7 +12,7 @@
     </div>
     <!--  世界名称-->
     <div >
-        <h1>{{ worldElement.title }}<el-tag size="small">{{draftdraftElementStatusMap.get(worldElement.status)}}</el-tag></h1>
+        <h1>{{ worldElement.title }}<el-tag size="small">{{draftElementStatusMap.get(worldElement.status)}}</el-tag></h1>
       <span>更新时间:</span><el-tag>{{worldElement.updateTime}}</el-tag>
         <span>分类:</span> <el-tag v-for="category in worldElement.categoryList">
         {{category.label}}
@@ -51,7 +51,7 @@ import { ref, shallowRef} from 'vue'
 import {getDraftDetailsAdmin ,getDiff} from "@/api/admin/draftElement";
 //接受参数
 import { useRoute ,useRouter}  from "vue-router";  // 引用vue-router
-import { draftdraftElementStatusMap } from "@/utils/constant";
+import { draftElementStatusMap } from "@/utils/constant";
 
 import biologly from '../../diffpreview/biology.vue'
 import goods from '../../diffpreview/goods.vue'
