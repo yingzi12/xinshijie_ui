@@ -12,7 +12,7 @@
     <div style="border-style:solid;">
     <!--  基本信息-->
     <div >
-        <h1>{{ worldElement.title }}<el-tag size="small">{{draftdraftElementStatusMap.get(worldElement.status)}}</el-tag></h1>
+        <h1>{{ worldElement.title }}<el-tag size="small">{{draftElementStatusMap.get(worldElement.status)}}</el-tag></h1>
       <span>创建时间:</span><el-tag>{{worldElement.createTime}}</el-tag>
         <span>分类:</span> <el-tag v-for="category in worldElement.categoryList">
         {{category.label}}
@@ -49,7 +49,7 @@ import goods from '../../diffpreview/goods.vue'
 import index from '../../diffpreview/index.vue'
 import race from '../../diffpreview/race.vue'
 import role from '../../diffpreview/role.vue'
-import { draftdraftElementStatusMap } from "@/utils/constant";
+import { draftElementStatusMap } from "@/utils/constant";
 
 const temTypesMap=new Map([
   [1,shallowRef(index)],

@@ -28,7 +28,7 @@
               <el-table-column prop="title" label="元素" width="140" :show-overflow-tooltip="true" />
               <el-table-column label="状态" align="center"  >
                 <template #default="scope">
-                  <span>{{draftdraftElementStatusMap.get(scope.row.status)}}</span>
+                  <span>{{draftElementStatusMap.get(scope.row.status)}}</span>
                 </template>
               </el-table-column>
               <el-table-column prop="createTime" label="修改时间" :show-overflow-tooltip="true" />
@@ -83,7 +83,7 @@
 
 <script lang="ts" setup>
 import AdminHead from './worldHead'
-import { draftdraftElementStatusMap } from "@/utils/constant";
+import { draftElementStatusMap } from "@/utils/constant";
 import { reactive, ref, toRefs} from 'vue'
 import {useRoute, useRouter} from "vue-router";
 import { listAudit,auditDraft } from "@/api/admin/draftElement";
