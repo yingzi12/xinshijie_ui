@@ -16,11 +16,20 @@
       <el-menu-item index="/wiki/help" ><span style="font-size: 30px;font-weight:bold;">帮助</span></el-menu-item>
       <div class="flex-grow" />
       <div>
-      <el-button v-if="!isLogin" text style="margin-top: 10px" @click="handleLogin">登录</el-button>
-      <el-button v-if="!isLogin"  text style="margin-top: 10px" @click="handleRegister">注册</el-button>
+      <el-button v-if="!isLogin" text style="margin-top: 10px" @click="handleLogin">{{  t('navUtil.login')  }}</el-button>
+      <el-button v-if="!isLogin"  text style="margin-top: 10px" @click="handleRegister">{{  t('navUtil.register')  }}</el-button>
       <el-button v-if="isLogin" link  style="margin-top: 10px" @click="handleUserMessage">{{ userStore.name }}</el-button>
-      <el-button v-if="isLogin" link  style="margin-top: 10px" @click="handleWorldMessage">管理中心</el-button>
-      <el-button v-if="isLogin" text style="margin-top: 10px" @click="logout()">退出</el-button>
+      <el-button v-if="isLogin" link  style="margin-top: 10px" @click="handleWorldMessage">{{ t('navUtil.managementCenter') }}</el-button>
+      <el-button v-if="isLogin" text style="margin-top: 10px" @click="logout()">{{  t('navUtil.loginOut')  }}</el-button>
+        <el-button  text style="margin-top: 10px" ><el-switch
+            v-model="lang"
+            inline-prompt
+            style="--el-switch-on-color: #13ce66; --el-switch-off-color: #97a0ff"
+            active-text="中"
+            inactive-text="英"
+            @change="languageChange"
+        /></el-button>
+
       </div>
     </el-menu>
   </div>
@@ -44,6 +53,19 @@ import {ref} from "vue";
 const userStore = useUserStore()
 const router = useRouter()
 
+import { useI18n } from "vue-i18n";
+
+const { t } = useI18n();
+const lang = ref(true);  // 开关，语言状态切换
+
+/* getCurrentInstance()可以用来获取当前组件实例 */
+let current = getCurrentInstance()?.appContext.config.globalProperties as any;
+
+// 根据状态，切换国际化
+const languageChange = (val : boolean) => {
+  // false英 true中，此处的zh-US就是lang -> index.ts -> messages对象的键名
+  val ? current.$i18n.locale = 'zh-US' : current.$i18n.locale = 'en-US'
+}
 
 const  isLogin=ref(false)
 if(!userStore.name){
