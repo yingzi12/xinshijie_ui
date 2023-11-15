@@ -1,14 +1,12 @@
 <template>
   <div style="margin:0 auto; width:1024px;">
     <el-menu
-        :default-active="activeIndex"
         class="el-menu-demo"
         mode="horizontal"
         :ellipsis="false"
         :router="true"
-        @select="handleSelect"
     >
-      <el-menu-item disabled><el-image style="width: 100%;height:55px" :src="logo2" fit="fill"></el-image></el-menu-item>
+      <el-menu-item ><el-image style="width: 100%;height:55px" :src="logo" fit="fill"></el-image></el-menu-item>
       <el-menu-item index="/index" ><span style="font-size: 30px;font-weight:bold;">首页</span></el-menu-item>
       <el-menu-item index="/world/index" ><span style="font-size: 30px;font-weight:bold;">世界</span></el-menu-item>
       <el-menu-item index="/story/index" ><span style="font-size: 30px;font-weight:bold;">故事</span></el-menu-item>
@@ -120,6 +118,7 @@
 <script setup>
 import { ElMessageBox } from "element-plus";
 import { getCodeImg, register } from "@/api/login";
+import logo from '@/assets/logo/logo.png'
 
 const router = useRouter();
 
