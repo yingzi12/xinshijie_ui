@@ -293,6 +293,7 @@ import image2 from '@/assets/images/2.jpeg'
 import image3 from '@/assets/images/3.jpeg'
 import image4 from '@/assets/images/4.jpeg'
 import image5 from '@/assets/images/5.jpeg'
+import logo from '@/assets/logo/logo.png'
 
 import { getRecommendWorld } from "@/api/wiki/recommendWorld";
 import { useRouter} from "vue-router";

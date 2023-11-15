@@ -48,7 +48,7 @@ import { useWindowSize } from '@vueuse/core'
 import {ElMessageBox} from "element-plus";
 import {useRoute, useRouter} from "vue-router";
 import useUserStore from '@/store/modules/user'
-import logo2 from '@/assets/logo/logo2.png'
+import logo from '@/assets/logo/logo.png'
 import {ref} from "vue";
 const userStore = useUserStore()
 const router = useRouter()
