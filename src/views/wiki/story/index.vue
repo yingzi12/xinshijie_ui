@@ -33,6 +33,7 @@
       >
         <el-card class="dddd" :body-style="{ padding: '0px',width:'100%' }">
           <img
+              style="height:150px"
               @click="handleSee(story.wid)"
               class="image"
               :src="imgUrl+story.imgUrl || empty" @error.once="e => { e.target.src = empty }"

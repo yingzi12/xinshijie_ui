@@ -37,6 +37,7 @@
       >
         <el-card class="dddd" :body-style="{ padding: '0px',width:'100%' }">
           <img
+              style="height:150px"
               @click="handleSee(world.wid)"
               class="image"
               :src="imgUrl+world.imgUrl || empty" @error.once="e => { e.target.src = empty }"
