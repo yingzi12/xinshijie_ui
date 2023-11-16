@@ -5,7 +5,11 @@
     <div  style="margin: 15px">
       <el-row>
         <el-col :span="4" class="center">
-          <el-image  style="width: 105px; height: 128px;  display: block;margin: 0 auto;" :src="imageUrl" :fit="fit" />
+<!--          <el-image  style="width: 105px; height: 128px;  display: block;margin: 0 auto;" :src="imageUrl" :fit="fit" />-->
+          <img
+              class="image"
+              :src="imgUrl+story.imgUrl || empty" @error.once="e => { e.target.src = empty }"
+          />
         </el-col>
         <el-col :span="12">
           <div>
@@ -76,6 +80,7 @@ import {  getStoryAdmin } from "@/api/admin/story";
 //接受参数
 import { useRoute,useRouter }  from "vue-router";
 import {storyStatusMap } from "@/utils/constant";
+import empty from '@/assets/images/empty.webp'
 
 
 const router = useRouter()
@@ -112,7 +117,12 @@ handleStory();
 </script>
 
 <style scoped>
-
+.image {
+  width: 100%;
+  display: block;
+  object-fit: fill;
+  text-align: center;
+}
 .center {
   display: flex;
   justify-content: center;

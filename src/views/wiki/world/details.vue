@@ -13,7 +13,11 @@
       <div  style="margin: 15px 0px 15px 0px">
         <el-row>
           <el-col :span="3">
-            <el-image  style="width: 150px; height: 200px;  display: block;margin: 0 auto;" :src="imageUrl" :fit="fit" />
+<!--            <el-image  style="width: 150px; height: 200px;  display: block;margin: 0 auto;" :src="imageUrl" :fit="fit" />-->
+            <img
+                class="image"
+                :src="imgUrl+world.imgUrl || empty" @error.once="e => { e.target.src = empty }"
+            />
           </el-col>
           <el-col :span="16"  class="mb-4">
             <div style="margin-left: 5px">
@@ -223,6 +227,7 @@ import { isNotEmpty } from '@/utils/tools'; // 根据你的项目路径调整引
 import {worldTypesMap } from "@/utils/constant";
 
 import {ElMessage, ElMessageBox, FormInstance, FormRules} from "element-plus";
+import empty from '@/assets/images/empty.webp'
 
 const userStore = useUserStore()
 
@@ -486,6 +491,12 @@ getStoryList();
 </script>
 
 <style>
+.image {
+  width: 100%;
+  display: block;
+  object-fit: fill;
+  text-align: center;
+}
 /**{*/
 /*  margin: 0px;*/
 /*  margin-top: 5px;*/

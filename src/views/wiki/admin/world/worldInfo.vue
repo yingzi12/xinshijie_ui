@@ -5,7 +5,11 @@
           <div  style="margin: 15px">
             <el-row>
               <el-col :span="4" class="center">
-                <el-image  style="width: 105px; height: 128px;  display: block;margin: 0 auto;" :src="imageUrl" :fit="fit" />
+<!--                <el-image  style="width: 105px; height: 128px;  display: block;margin: 0 auto;" :src="imageUrl" :fit="fit" />-->
+                <img
+                    class="image"
+                    :src="imgUrl+world.imgUrl || empty" @error.once="e => { e.target.src = empty }"
+                />
               </el-col>
               <el-col :span="12">
                 <div>
@@ -82,6 +86,7 @@ import {  getWorld } from "@/api/admin/world";
 //接受参数
 import { useRoute,useRouter }  from "vue-router";  // 引用vue-router
 import { worldStatusMap } from "@/utils/constant";
+import empty from '@/assets/images/empty.webp'
 
 const router = useRouter()
 // 接收url里的参数
@@ -121,7 +126,12 @@ handleWorld(world.value.id);
 </script>
 
 <style scoped>
-
+.image {
+  width: 100%;
+  display: block;
+  object-fit: fill;
+  text-align: center;
+}
 .center {
   display: flex;
   justify-content: center;

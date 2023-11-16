@@ -32,7 +32,11 @@
           :span="6"
       >
         <el-card class="dddd" :body-style="{ padding: '0px',width:'100%' }">
-          <el-image style="width:100%; height: 100px" :src="imgUrl+story.imgUrl" fit="fill" @click="handleSee(story.wid)"/>
+          <img
+              @click="handleSee(story.wid)"
+              class="image"
+              :src="imgUrl+story.imgUrl || empty" @error.once="e => { e.target.src = empty }"
+          />
           <div style="padding: 1px;margin: 0px;text-align: center">
             <a class="biaoti" style="font-size:16px;margin: 0px" :href='"/story/details?wid="+story.wid +"&wname="+story.wname+"&sid="+story.id+"&sname="+story.sname'><span style="font-family:'PingFangSC-Semibold', 'PingFang SC Semibold', 'PingFang SC', sans-serif;font-weight:650;" >{{ story.sname }}<el-tag v-if="story.source=='原创'">原创</el-tag></span></a>
             <p class="shuoming" style="font-size:14px;margin: 0px;"><span style="font-family:'PingFangSC-Regular', 'PingFang SC', sans-serif;font-weight:400;color:#999999;font-size: x-small;">{{ story.intro }}</span></p>
@@ -61,10 +65,10 @@
         <el-col :span="4" v-for = "story in storyNewList" :key="story.wid" class="el-col" style="text-align: center">
           <el-card :body-style="{ padding: '10px' }"  class="demo-image">
             <div style="display: inline-block">
-              <el-image style="width: 100px; height: 100px;text-align: center;" fit="fill"
-                        @click="handleSee(story.wid)"
-                        :src="imgUrl+story.imgUrl"
-                        class="image"
+              <img
+                  @click="handleSee(story.wid)"
+                  class="image"
+                  :src="imgUrl+story.imgUrl || empty" @error.once="e => { e.target.src = empty }"
               />
             </div>
             <div >
@@ -97,10 +101,10 @@
         <el-col :span="4" v-for = "story in activeList" :key="story.wid" class="el-col" style="text-align: center">
           <el-card :body-style="{ padding: '10px' }"  class="demo-image">
             <div style="display: inline-block">
-              <el-image style="width: 100px; height: 100px;text-align: center;" fit="fill"
-                        @click="handleSee(story.wid)"
-                        :src="imgUrl+story.imgUrl"
-                        class="image"
+              <img
+                  @click="handleSee(story.wid)"
+                  class="image"
+                  :src="imgUrl+story.imgUrl || empty" @error.once="e => { e.target.src = empty }"
               />
             </div>
             <div >
@@ -137,10 +141,10 @@
           <div style="padding: 1px;margin: 0px;text-align: center">
             <el-card :body-style="{ padding: '10px' }">
               <div style="display: inline-block">
-                <el-image style="width: 100px; height: 130px" fit="fill"
-                          @click="handleSee(storyKey1.id)"
-                          :src="imgUrl+storyKey1.imgUrl"
-                          class="image"
+                <img
+                    @click="handleSee(storyKey1.wid)"
+                    class="image"
+                    :src="imgUrl+storyKey1.imgUrl || empty" @error.once="e => { e.target.src = empty }"
                 />
               </div>
               <div >
@@ -162,10 +166,11 @@
           <div style="padding: 1px;margin: 0px;text-align: center">
             <el-card :body-style="{ padding: '10px' }">
               <div style="display: inline-block">
-                <el-image style="width: 100px; height: 130px" fit="fill"
-                          @click="handleSee(storyKey2.id)"
-                          :src="imgUrl+storyKey2.imgUrl"
-                          class="image"
+
+                <img
+                    @click="handleSee(storyKey2.wid)"
+                    class="image"
+                    :src="imgUrl+storyKey2.imgUrl || empty" @error.once="e => { e.target.src = empty }"
                 />
               </div>
               <div >
@@ -197,7 +202,11 @@
               <el-card :body-style="{ margin: '0px' }">
                 <el-row>
                   <el-col :span="8">
-                    <el-image style="width: 66px; height: 88px" :src="imgUrl+story.imgUrl" fit="fill" @click="handleSee(story.wid)" />
+                    <img
+                        @click="handleSee(story.wid)"
+                        class="image"
+                        :src="imgUrl+story.imgUrl || empty" @error.once="e => { e.target.src = empty }"
+                    />
                   </el-col>
                   <el-col :span="16">
                     <div>
@@ -220,10 +229,11 @@
           <div style="padding: 1px;margin: 0px;text-align: center">
             <el-card :body-style="{ padding: '10px' }">
               <div style="display: inline-block">
-                <el-image style="width: 100px; height: 130px" fit="fill"
-                          @click="handleSee(storyKey3.id)"
-                          :src="imgUrl+storyKey3.imgUrl"
-                          class="image"
+
+                <img
+                    @click="handleSee(storyKey3.wid)"
+                    class="image"
+                    :src="imgUrl+storyKey3.imgUrl || empty" @error.once="e => { e.target.src = empty }"
                 />
               </div>
               <div >
@@ -245,10 +255,10 @@
           <div >
             <el-card :body-style="{ padding: '10px' }">
               <div style="display: inline-block">
-                <el-image style="width: 100px; height: 130px" fit="fill"
-                          @click="handleSee(storyKey4.id)"
-                          :src="imgUrl+storyKey4.imgUrl"
-                          class="image"
+                <img
+                    @click="handleSee(storyKey4.wid)"
+                    class="image"
+                    :src="imgUrl+storyKey4.imgUrl || empty" @error.once="e => { e.target.src = empty }"
                 />
               </div>
               <div>
@@ -283,6 +293,8 @@ import image11 from '@/assets/images/11.jpeg'
 import image12 from '@/assets/images/12.jpeg'
 import { getRecommendStory } from "@/api/wiki/recommendStory";
 import { useRouter} from "vue-router";
+import empty from "@/assets/images/empty.webp";
+
 const router = useRouter()
 
 const imgUrl = inject("$imgUrl")
@@ -383,6 +395,12 @@ getActiveList();
 </script>
 
 <style scoped>
+.image {
+  width: 100%;
+  display: block;
+  object-fit: fill;
+  text-align: center;
+}
 .el-carousel__item h3 {
   color: #475669;
   opacity: 0.75;
@@ -416,6 +434,7 @@ p{
   overflow: hidden;
   white-space: nowrap;
 }
+
 h3{
   font: 16px/21px PingFangSC-Regular,HelveticaNeue-Light,Helvetica Neue Light,Microsoft YaHei,"sans-serif";
   height: 21px;

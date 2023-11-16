@@ -36,7 +36,11 @@
           :span="6"
       >
         <el-card class="dddd" :body-style="{ padding: '0px',width:'100%' }">
-          <el-image style="width:100%; height: 100px" :src="imgUrl+world.imgUrl" fit="fill" @click="handleSee(world.wid)"/>
+          <img
+              @click="handleSee(world.wid)"
+              class="image"
+              :src="imgUrl+world.imgUrl || empty" @error.once="e => { e.target.src = empty }"
+          />
           <div style="padding: 1px;margin: 0px;text-align: center">
             <a class="biaoti" style="font-size:16px;margin: 0px" :href='"/world/details?wid="+world.wid +"&wname="+world.wname'><span style="font-family:'PingFangSC-Semibold', 'PingFang SC Semibold', 'PingFang SC', sans-serif;font-weight:650;" >{{ world.wname }}<el-tag v-if="world.source=='原创'">原创</el-tag></span></a>
             <p class="shuoming" style="font-size:14px;margin: 0px;"><span style="font-family:'PingFangSC-Regular', 'PingFang SC', sans-serif;font-weight:400;color:#999999;font-size: x-small;">{{ world.intro }}</span></p>
@@ -65,10 +69,10 @@
         <el-col :span="4" v-for = "world in worldNewList" :key="world.wid" class="el-col" style="text-align: center">
           <el-card :body-style="{ padding: '10px' }"  class="demo-image">
             <div style="display: inline-block">
-              <el-image style="width: 100px; height: 100px;text-align: center;" fit="fill"
+              <img
                         @click="handleSee(world.wid)"
-                        :src="imgUrl+world.imgUrl"
                         class="image"
+                        :src="imgUrl+world.imgUrl || empty" @error.once="e => { e.target.src = empty }"
               />
             </div>
             <div >
@@ -101,10 +105,10 @@
         <el-col :span="4" v-for = "world in activeList" :key="world.wid" class="el-col" style="text-align: center">
           <el-card :body-style="{ padding: '10px' }"  class="demo-image">
             <div style="display: inline-block">
-              <el-image style="width: 100px; height: 100px;text-align: center;" fit="fill"
-                        @click="handleSee(world.wid)"
-                        :src="imgUrl+world.imgUrl"
-                        class="image"
+              <img
+                  @click="handleSee(world.wid)"
+                  class="image"
+                  :src="imgUrl+world.imgUrl || empty" @error.once="e => { e.target.src = empty }"
               />
             </div>
             <div >
@@ -141,10 +145,11 @@
           <div style="padding: 1px;margin: 0px;text-align: center">
             <el-card :body-style="{ padding: '10px' }">
               <div style="display: inline-block">
-                <el-image style="width: 100px; height: 130px" fit="fill"
-                          @click="handleSee(worldKey1.id)"
-                          :src="imgUrl+worldKey1.imgUrl"
-                          class="image"
+
+                <img
+                    @click="handleSee(worldKey1.wid)"
+                    class="image"
+                    :src="imgUrl+worldKey1.imgUrl || empty" @error.once="e => { e.target.src = empty }"
                 />
               </div>
               <div >
@@ -166,10 +171,11 @@
           <div style="padding: 1px;margin: 0px;text-align: center">
             <el-card :body-style="{ padding: '10px' }">
               <div style="display: inline-block">
-                <el-image style="width: 100px; height: 130px" fit="fill"
-                          @click="handleSee(worldKey2.id)"
-                          :src="imgUrl+worldKey2.imgUrl"
-                          class="image"
+
+                <img
+                    @click="handleSee(worldKey2.wid)"
+                    class="image"
+                    :src="imgUrl+worldKey2.imgUrl || empty" @error.once="e => { e.target.src = empty }"
                 />
               </div>
               <div >
@@ -201,7 +207,11 @@
               <el-card :body-style="{ margin: '0px' }">
                 <el-row>
                   <el-col :span="8">
-                    <el-image style="width: 66px; height: 88px" :src="imgUrl+world.imgUrl" fit="fill" @click="handleSee(world.wid)" />
+                    <img
+                        @click="handleSee(world.wid)"
+                        class="image"
+                        :src="imgUrl+world.imgUrl || empty" @error.once="e => { e.target.src = empty }"
+                    />
                   </el-col>
                   <el-col :span="16">
                     <div>
@@ -231,10 +241,10 @@
           <div style="padding: 1px;margin: 0px;text-align: center">
             <el-card :body-style="{ padding: '10px' }">
               <div style="display: inline-block">
-                <el-image style="width: 100px; height: 130px" fit="fill"
-                          @click="handleSee(worldKey3.id)"
-                          :src="imgUrl+worldKey3.imgUrl"
-                          class="image"
+                <img
+                    @click="handleSee(worldKey3.wid)"
+                    class="image"
+                    :src="imgUrl+worldKey3.imgUrl || empty" @error.once="e => { e.target.src = empty }"
                 />
               </div>
               <div >
@@ -256,9 +266,9 @@
           <div >
             <el-card :body-style="{ padding: '10px' }">
               <div style="display: inline-block">
-                <el-image style="width: 100px; height: 130px" fit="fill"
-                          @click="handleSee(worldKey4.id)"
-                          :src="imgUrl+worldKey4.imgUrl"
+                <img
+                     :src="imgUrl+worldKey4.imgUrl || empty" @error.once="e => { e.target.src = empty }"
+                       @click="handleSee(worldKey4.id)"
                           class="image"
                 />
               </div>
@@ -293,7 +303,7 @@ import image2 from '@/assets/images/2.jpeg'
 import image3 from '@/assets/images/3.jpeg'
 import image4 from '@/assets/images/4.jpeg'
 import image5 from '@/assets/images/5.jpeg'
-import logo from '@/assets/logo/logo.png'
+import empty from '@/assets/images/empty.webp'
 
 import { getRecommendWorld } from "@/api/wiki/recommendWorld";
 import { useRouter} from "vue-router";
@@ -350,6 +360,7 @@ function getEditList() {
     total.value = response.total;
   });
 }
+
 //最新
 //随机推荐 18个
 const worldNewList = ref([]);
@@ -409,6 +420,8 @@ getActiveList();
 .image {
   width: 100%;
   display: block;
+  object-fit: fill;
+  text-align: center;
 }
 
 .dddd {

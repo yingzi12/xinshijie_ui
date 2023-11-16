@@ -14,7 +14,11 @@
       <div  style="margin: 15px 0px 15px 0px">
         <el-row>
           <el-col :span="3">
-            <el-image  style="width: 150px; height: 200px;  display: block;margin: 0 auto;" :src="imgUrl+story.imgUrl" :fit="fit" />
+<!--            <el-image  style="width: 150px; height: 200px;  display: block;margin: 0 auto;" :src="imgUrl+story.imgUrl" :fit="fit" />-->
+            <img
+                class="image"
+                :src="imgUrl+story.imgUrl || empty" @error.once="e => { e.target.src = empty }"
+            />
           </el-col>
           <el-col :span="16"  class="mb-4">
             <div style="margin-left: 5px">
@@ -199,6 +203,7 @@ import useUserStore from '@/store/modules/user'
 import {ElMessage, ElMessageBox, FormInstance, FormRules} from "element-plus";
 import { isNotEmpty } from '@/utils/tools';
 import {ChatDotRound, Pointer} from "@element-plus/icons-vue"; // 根据你的项目路径调整引入路径
+import empty from '@/assets/images/empty.webp'
 
 const router = useRouter();
 // 接收url里的参数
@@ -435,7 +440,12 @@ handleChapterList()
 </script>
 
 <style>
-
+.image {
+  width: 100%;
+  display: block;
+  object-fit: fill;
+  text-align: center;
+}
 .center {
   display: flex;
   justify-content: center;
