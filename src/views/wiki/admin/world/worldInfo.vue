@@ -86,7 +86,7 @@ import {  getWorld } from "@/api/admin/world";
 //接受参数
 import { useRoute,useRouter }  from "vue-router";  // 引用vue-router
 import { worldStatusMap } from "@/utils/constant";
-import empty from '@/assets/images/empty.webp'
+import empty from '@/assets/images/empty.png'
 
 const router = useRouter()
 // 接收url里的参数

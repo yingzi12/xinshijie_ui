@@ -203,7 +203,7 @@ import useUserStore from '@/store/modules/user'
 import {ElMessage, ElMessageBox, FormInstance, FormRules} from "element-plus";
 import { isNotEmpty } from '@/utils/tools';
 import {ChatDotRound, Pointer} from "@element-plus/icons-vue"; // 根据你的项目路径调整引入路径
-import empty from '@/assets/images/empty.webp'
+import empty from '@/assets/images/empty.png'
 
 const router = useRouter();
 // 接收url里的参数

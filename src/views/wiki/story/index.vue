@@ -294,7 +294,7 @@ import image11 from '@/assets/images/11.jpeg'
 import image12 from '@/assets/images/12.jpeg'
 import { getRecommendStory } from "@/api/wiki/recommendStory";
 import { useRouter} from "vue-router";
-import empty from "@/assets/images/empty.webp";
+import empty from "@/assets/images/empty.png";
 
 const router = useRouter()
 

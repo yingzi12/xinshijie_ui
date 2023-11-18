@@ -227,7 +227,7 @@ import { isNotEmpty } from '@/utils/tools'; // 根据你的项目路径调整引
 import {worldTypesMap } from "@/utils/constant";
 
 import {ElMessage, ElMessageBox, FormInstance, FormRules} from "element-plus";
-import empty from '@/assets/images/empty.webp'
+import empty from '@/assets/images/empty.png'
 
 const userStore = useUserStore()
 

@@ -80,7 +80,7 @@ import {  getStoryAdmin } from "@/api/admin/story";
 //接受参数
 import { useRoute,useRouter }  from "vue-router";
 import {storyStatusMap } from "@/utils/constant";
-import empty from '@/assets/images/empty.webp'
+import empty from '@/assets/images/empty.png'
 
 
 const router = useRouter()

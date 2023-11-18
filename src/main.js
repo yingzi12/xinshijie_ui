@@ -27,7 +27,7 @@ import SvgIcon from '@/components/SvgIcon'
 import elementIcons from '@/components/SvgIcon/svgicon'
 import './permission' // permission control
 import "@/assets/styles/cheditor.styles.css"
-import empty from "@/assets/images/empty.webp"
+import empty from "@/assets/images/empty.png"
 
 import { parseTime, resetForm, addDateRange, handleTree, selectDictLabel, selectDictLabels } from '@/utils/ruoyi'
 
