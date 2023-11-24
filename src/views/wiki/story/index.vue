@@ -39,7 +39,7 @@
               :src="imgUrl+story.imgUrl || empty" @error.once="e => { e.target.src = empty }"
           />
           <div style="padding: 1px;margin: 0px;text-align: center">
-            <a class="biaoti" style="font-size:16px;margin: 0px" :href='"/story/details?wid="+story.wid +"&wname="+story.wname+"&sid="+story.id+"&sname="+story.sname'><span style="font-family:'PingFangSC-Semibold', 'PingFang SC Semibold', 'PingFang SC', sans-serif;font-weight:650;" >{{ story.sname }}<el-tag v-if="story.source=='原创'">原创</el-tag></span></a>
+            <a class="biaoti" style="font-size:16px;margin: 0px" :href='"/story/details?wid="+story.wid +"&wname="+story.wname+"&sid="+story.sid+"&sname="+story.sname'><span style="font-family:'PingFangSC-Semibold', 'PingFang SC Semibold', 'PingFang SC', sans-serif;font-weight:650;" >{{ story.sname }}<el-tag v-if="story.source=='原创'">原创</el-tag></span></a>
             <p class="shuoming" style="font-size:14px;margin: 0px;"><span style="font-family:'PingFangSC-Regular', 'PingFang SC', sans-serif;font-weight:400;color:#999999;font-size: x-small;">{{ story.intro }}</span></p>
           </div>
         </el-card>
@@ -74,7 +74,7 @@
             </div>
             <div >
               <div id="u10366-1_text" class="text u10366_text" style="/* visibility: inherit; */">
-                <a class="biaoti" :href='"/story/details?wid="+story.wid +"&wname="+story.wname+"&sid="+story.id+"&sname="+story.sname ' ><span class="head-title">{{ story.sname }}<el-tag v-if="story.source === '原创'">原创</el-tag></span></a>
+                <a class="biaoti" :href='"/story/details?wid="+story.wid +"&wname="+story.wname+"&sid="+story.sid+"&sname="+story.sname ' ><span class="head-title">{{ story.sname }}<el-tag v-if="story.source === '原创'">原创</el-tag></span></a>
                 <p class="shuoming"><span class="head-intro">{{ story.intro }}</span></p>
               </div>
             </div>
@@ -110,7 +110,7 @@
             </div>
             <div >
               <div id="u10366-1_text" class="text u10366_text" style="/* visibility: inherit; */">
-                <a class="biaoti" :href='"/story/details?wid="+story.wid+"&wname="+story.wname+"&sid="+story.id+"&sname="+story.sname' >
+                <a class="biaoti" :href='"/story/details?wid="+story.wid+"&wname="+story.wname+"&sid="+story.sid+"&sname="+story.sname' >
                   <span class="head-title">{{ story.sname }}
                   <el-tag v-if="story.source=='原创'">原创</el-tag></span>
                 </a>
@@ -151,7 +151,7 @@
               <div >
                 <div id="u10366-1_text" class="text u10366_text" style="/* visibility: inherit; */">
                   <div>
-                    <a class="biaoti" :href='"/story/details?wid="+storyKey1.wid+"&wname="+storyKey1.wname+"&sid="+storyKey1.id+"&sname="+storyKey1.sname ' >
+                    <a class="biaoti" :href='"/story/details?wid="+storyKey1.wid+"&wname="+storyKey1.wname+"&sid="+storyKey1.sid+"&sname="+storyKey1.sname ' >
                          <span class="head-title">{{ storyKey1.sname }}
                           <el-tag v-if="storyKey1.source ==='原创'">原创</el-tag></span>
                     </a>
@@ -177,7 +177,7 @@
               <div >
                 <div id="u10366-1_text" class="text u10366_text" style="/* visibility: inherit; */">
                   <div>
-                    <a class="biaoti" :href='"/story/details?wid="+storyKey2.wid +"&wname="+storyKey2.wname+"&sid="+storyKey2.id+"&sname="+storyKey2.sname' >
+                    <a class="biaoti" :href='"/story/details?wid="+storyKey2.wid +"&wname="+storyKey2.wname+"&sid="+storyKey2.sid+"&sname="+storyKey2.sname' >
                          <span class="head-title">{{ storyKey2.sname }}
                           <el-tag v-if="storyKey2.source ==='原创'">原创</el-tag></span>
                     </a>
@@ -211,7 +211,7 @@
                   </el-col>
                   <el-col :span="16">
                     <div>
-                      <a class="biaoti" :href='"/story/details?wid="+story.wid +"&wname="+story.wname+"&sid="+story.id+"&sname="+story.sname' >
+                      <a class="biaoti" :href='"/story/details?wid="+story.wid +"&wname="+story.wname+"&sid="+story.sid+"&sname="+story.sname' >
                          <span class="head-title">{{ story.sname }}
                           <el-tag v-if="story.source ==='原创'">原创</el-tag></span>
                       </a>
@@ -240,7 +240,7 @@
               <div >
                 <div id="u10366-1_text" class="text u10366_text" style="/* visibility: inherit; */">
                   <div>
-                    <a class="biaoti" :href='"/story/details?wid="+storyKey3.wid+"&wname="+storyKey3.wname+"&sid="+storyKey3.id+"&sname="+storyKey3.sname ' >
+                    <a class="biaoti" :href='"/story/details?wid="+storyKey3.wid+"&wname="+storyKey3.wname+"&sid="+storyKey3.sid+"&sname="+storyKey3.sname ' >
                          <span class="head-title">{{ storyKey3.sname }}
                           <el-tag v-if="storyKey3.source ==='原创'">原创</el-tag></span>
                     </a>
@@ -265,7 +265,7 @@
               <div>
                 <div id="u10366-1_text" class="text u10366_text" style="/* visibility: inherit; */">
                   <div>
-                    <a class="biaoti" :href='"/story/details?wid="+storyKey4.wid+"&wname="+storyKey4.wname +"&sid="+storyKey4.id+"&sname="+storyKey4.sname' >
+                    <a class="biaoti" :href='"/story/details?wid="+storyKey4.wid+"&wname="+storyKey4.wname +"&sid="+storyKey4.sid+"&sname="+storyKey4.sname' >
                          <span class="head-title">{{ storyKey4.sname }}
                           <el-tag v-if="storyKey4.source ==='原创'">原创</el-tag></span>
                     </a>
