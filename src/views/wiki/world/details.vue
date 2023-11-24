@@ -14,10 +14,12 @@
         <el-row>
           <el-col :span="3">
 <!--            <el-image  style="width: 150px; height: 200px;  display: block;margin: 0 auto;" :src="imageUrl" :fit="fit" />-->
-            <img
-                class="image"
-                :src="imgUrl+world.imgUrl || empty" @error.once="e => { e.target.src = empty }"
-            />
+<!--            <img-->
+<!--                class="image"-->
+<!--                :src="imgUrl+world.imgUrl || empty" @error.once="e => { e.target.src = empty }"-->
+<!--            />-->
+            <img class="image" :src="getImageUrl()" @error.once="handleImageError" />
+
           </el-col>
           <el-col :span="16"  class="mb-4">
             <div style="margin-left: 5px">
@@ -479,6 +481,15 @@ function handSumitApply(formEl: FormInstance | undefined){
         ElMessage.success("申请成功")
     });
 }
+
+function  getImageUrl() {
+  // 如果 world.imgUrl 为 null 或空字符串，返回默认图片
+  return world.value.imgUrl!=null && world.value.imgUrl!=undefined && world.value.imgUrl.length>0 ? imgUrl.value + world.value.imgUrl : this.empty;
+}
+function handleImageError(e) {
+  e.target.src = this.empty;
+}
+
 handleIsFllow();
 //世界信息
 handWorld(world.value.id);

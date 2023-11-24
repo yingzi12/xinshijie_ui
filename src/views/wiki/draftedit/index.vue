@@ -107,7 +107,7 @@ interface Content {
   title: string
   status: number
   isUpdate: number
-  content: string,
+  contentZip: string,
   isNew: number
 }
 const props = defineProps<WorldElement>()
@@ -164,8 +164,8 @@ function onEditorInput(content: Content){
   //出生了修改,需要更新
   content.status = 3
   //console.log('onEditorInput!')
-  if(content.content.length>20000){
-    ElMessage.error("内容长度为"+content.content.length+"，已超过最大许可值2万")
+  if(content.contentZip.length>20000){
+    ElMessage.error("内容长度为"+content.contentZip.length+"，已超过最大许可值2万")
   }
 }
 const handEdit = (content: Content) => {

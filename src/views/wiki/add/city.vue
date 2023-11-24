@@ -128,7 +128,7 @@
           </el-row>
         </div>
         <div>
-          <ckeditor :editor="editor"  @input="onEditorInput(content)" v-model="content.content" :config="editorConfig"></ckeditor>
+          <ckeditor :editor="editor"  @input="onEditorInput(content)" v-model="content.contentZip" :config="editorConfig"></ckeditor>
         </div>
       </el-form>
     </div>
@@ -229,8 +229,8 @@ interface Element {
 }
 
 function onEditorInput(content: Content){
-  if(content.content.length>20000){
-    ElMessage.error("内容长度为"+content.content.length+"，已超过最大许可值2万")
+  if(content.contentZip.length>20000){
+    ElMessage.error("内容长度为"+content.contentZip.length+"，已超过最大许可值2万")
   }
 }
 const removeContent = (item: Content) => {

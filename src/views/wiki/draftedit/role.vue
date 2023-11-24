@@ -202,8 +202,8 @@ function onEditorInput(content: Content){
   //出生了修改,需要更新
   content.status = 3
   //console.log('onEditorInput!')
-  if(content.content.length>20000){
-    ElMessage.error("内容长度为"+content.content.length+"，已超过最大许可值2万")
+  if(content.contentZip.length>20000){
+    ElMessage.error("内容长度为"+content.contentZip.length+"，已超过最大许可值2万")
   }
 }
 const handEdit = (content: Content) => {
@@ -316,8 +316,8 @@ function submit(){
     return;
   }
   for(let i=0;i<element.value.contentList.length;i++) {
-    if(element.value.contentList[i].content.length>20000){
-      ElMessage.error("标题<<"+element.value.contentList[i].title+">>内容长度为"+element.value.contentList[i].content.length+"，已超过最大许可值2万")
+    if(element.value.contentList[i].contentZip.length>20000){
+      ElMessage.error("标题<<"+element.value.contentList[i].title+">>内容长度为"+element.value.contentList[i].contentZip.length+"，已超过最大许可值2万")
       return;
     }
   }
